@@ -1,0 +1,189 @@
+{
+    "_lang": "es_AR",
+    "public": {
+        "components": {
+            "commons": {
+                "button": {
+                    "ok": "Aceptar",
+                    "cancel": "Cancelar",
+                    "login": "Ingresar",
+                    "skyp": "Saltar",
+                    "back": "Atras",
+                    "next": "Siguiente",
+                    "restart": "Reintentar"
+                }
+            },
+            "registerCard": {
+                "mainTitle": "Registro",
+                "titles": [
+                    "Información",
+                    "Dirección",
+                    "Otros",
+                    "Adjuntar",
+                    "Prevista"
+                ]
+            },
+            "footer": {
+                "address": "Calle falsa 123",
+                "phone": "+11 2222-333333",
+                "email": "esto-es-un-email@dominio-creible.com"
+            },
+            "loginCard": {
+                "title": "Iniciar sesión",
+                "textFieldLabels": {
+                    "user": "CUIL",
+                    "password": "Contraseña"
+                },
+                "links": {
+                    "labels": {
+                        "password": "¿Olvidaste tu contraseña?",
+                        "account": "¿No tienes cuenta?"
+                    }
+                },
+                "buttons": {
+                    "success": "Ingresar",
+                    "cancel": "Salir"
+                },
+                "alerts": {
+                    "success": {
+                        "title": "Éxito",
+                        "body": "Has iniciado sesión con éxito en tu cuenta -",
+                        "strong": "¡Bienvenido!"
+                    },
+                    "fail": {
+                        "title": "Error",
+                        "body": "Oops, algo salió mal -",
+                        "strong": "Parece que ha habido un problema al intentar iniciar sesión"
+                    }
+                }
+            },
+            "topbar": {
+                "opctions": [
+                    "Perfil",
+                    "Renovar",
+                    "Historial",
+                    "Dar de Baja"
+                ]
+            },
+            "renewalcard": {
+                "mainTitle": "Renovación",
+                "info": {
+                    "title": "Actualización de Datos",
+                    "body": [
+                        "Por favor, para actualizar su exclusión debemos verificar sus datos",
+                        "En los siguientes campos podra actualizar de ser necesario sus datos persoanles",
+                        ""
+                    ]
+                },
+                "dialogAdv": {
+                    "title": "Advertencia",
+                    "body": "Al tratarse de una renovación la normativa dicta un periodo de exclusión de 12 meses sin cancelación, ¿Desea continuar?"
+                }
+            }
+        },
+        "fragments": {
+            "successae": {
+                "title1": "¡Felicidades, tu registro está completo!",
+                "title2": "¡Felicidades, tu renovación está completa!",
+                "body": [
+                    "Tu autoexclusión comienza el ",
+                    "Puedes darte de baja desde ",
+                    " hasta ",
+                    "De lo contrario, la exclusión durará hasta ",
+                    "Durará hasta "
+                ],
+                "alert": {
+                    "body": [
+                        "Recibirás un correo electrónico en cuanto confirmemos tus datos.",
+                        "Descarga una copia del acta de exclusión."
+                    ]
+                }
+            },
+            "errorae": {
+                "title": "¡Ups! Algo salió mal",
+                "body": "Hubo un error al procesar la solicitud.",
+                "alert": {
+                    "body": [
+                        "Por favor, inténtalo de nuevo más tarde.",
+                        "Si el problema persiste, contacta al soporte."
+                    ]
+                }
+            },
+            "dateplanae": {
+                "title": "¡Atención!",
+                "body": [
+                    "Tu autoexclusión comienzaria el ",
+                    "Podría darte de baja desde ",
+                    " hasta ",
+                    "De lo contrario, la exclusión durará hasta ",
+                    "Y durará hasta ",
+                    "¿Esta seguro que desea continuar?"
+                ]
+            },
+            "fileUploadSection": {
+                "label": "Imágenes del DNI (*)",
+                "selected_label": "Archivos seleccionados:",
+                "selected_delete": "Eliminar"
+            },
+            "form": {
+                "infodatacard": {
+                    "name": "Nombre",
+                    "lastname": "Apellido",
+                    "cuil": "CUIL",
+                    "birthdate": "Fecha de nacimiento",
+                    "gender": "Género"
+                },
+                "addressdatacard": {
+                    "street": "Domicilio",
+                    "floor": "Piso",
+                    "apartment": "Departamento",
+                    "province": "Provincia",
+                    "city": "Localidad",
+                    "postalCode": "Código Postal"
+                },
+                "extradatacard": {
+                    "phone": "Teléfono",
+                    "email": "Email",
+                    "occupation": "Ocupación",
+                    "capacity": "Capacidad"
+                },
+                "fileattachcard": {
+                    "info_title": "Subir Imágenes del DNI",
+                    "info_body": [
+                        "Por favor, sube imágenes claras del frente y el reverso de tu DNI.",
+                        "Asegúrate de que ambos lados sean visibles y legibles.",
+                        "Puedes subir hasta dos archivos en total."
+                    ]
+                }
+            }
+        }
+    },
+    "assets": {
+        "components": {
+            "footer": {
+                "imgProv": {
+                    "href": "",
+                    "src": "images/logo_prov.png"
+                },
+                "imgLotes": {
+                    "href": "",
+                    "src": "images/logo_lote2.png"
+                }
+            },
+            "loginCard": {
+                "links": {
+                    "hrefs": {
+                        "password": "#LINK",
+                        "account": "#LINK"
+                    }
+                }
+            },
+            "topbar": {
+                "logo": {
+                    "href": "#LINMK",
+                    "src": "images/logo.png"
+                }
+            }
+        }
+    }
+}
