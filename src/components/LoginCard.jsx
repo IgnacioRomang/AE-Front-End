@@ -39,7 +39,7 @@ const Login = () => {
     const handleClose = () => {
         setOpen(false);
         let proces = true;
-        if (proces == true) {
+        if (proces === true) {
             setLoginSuccess(true);
             // hacer
         } else {

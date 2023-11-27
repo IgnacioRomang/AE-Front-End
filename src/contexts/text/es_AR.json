@@ -155,6 +155,12 @@
                         "Puedes subir hasta dos archivos en total."
                     ]
                 }
+            },
+            "userbadge": {
+                "status": [
+                    "Excluido",
+                    "Finalizada"
+                ]
             }
         }
     },

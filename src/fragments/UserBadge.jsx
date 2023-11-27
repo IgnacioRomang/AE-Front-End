@@ -1,29 +1,27 @@
-import { Box } from '@mui/material';
-import Avatar from '@mui/material/Avatar';
-import Badge from '@mui/material/Badge';
-import React from 'react';
+import React from "react";
+import Badge from "@mui/material/Badge";
+import Avatar from "@mui/material/Avatar";
+import { Box } from "@mui/material";
+import { stringAvatar } from "../utiles";
+import { useUserBadgeString } from "../contexts/TextProvider";
+import { badgeUserAnchorStyle, boxUserbadgeStyle } from "../theme";
 
 function UserBadge({ username, isActive }) {
-    const statusColor = isActive ? "success" : "secondary";
-    const statusText = isActive ? 'Activo' : 'Inactivo';
+  const statusColor = isActive ? "success" : "secondary";
+  const badgeString = useUserBadgeString();
+  const statusText = isActive ? badgeString.status[0] : badgeString.status[1];
 
-    // Obtener las iniciales del nombre de usuario
-    const initials = username
-        .split(' ')
-        .map((name) => name[0])
-        .join('');
-
-    return (
-        <Box sx={{
-            display: 'flex',
-            alignItems: 'center',
-            paddingTop: 5
-        }}>
-            <Badge badgeContent={statusText} color={statusColor}>
-                <Avatar >{initials}</Avatar>
-            </Badge>
-        </Box>
-    );
+  return (
+    <Box sx={boxUserbadgeStyle}>
+      <Badge
+        anchorOrigin={badgeUserAnchorStyle}
+        badgeContent={statusText}
+        color={statusColor}
+      >
+        <Avatar {...stringAvatar(username)} variant="rounded"></Avatar>
+      </Badge>
+    </Box>
+  );
 }
 
 export default UserBadge;

@@ -18,112 +18,102 @@ import IconUserMenu from "../fragments/IconUserMenu.jsx";
 
 import { useTopBarString } from "../contexts/TextProvider.jsx";
 import {
-    boxSMmenu,
-    boxXLmenu,
-    buttonTopStyle,
-    iconButtonTopStyle,
-    logoTopStyle,
-    menuStyles,
+  boxSMmenu,
+  boxXLmenu,
+  buttonTopStyle,
+  iconButtonTopStyle,
+  logoTopStyle,
+  menuStyles,
 } from "../theme.jsx";
 
 const TopBar = (props) => {
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
-    const [labels, assets] = useTopBarString();
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [labels, assets] = useTopBarString();
 
-    const pages = [
-        { label: labels.opctions[0], icon: <PersonIcon /> },
-        { label: labels.opctions[1], icon: <RefreshIcon /> },
-        { label: labels.opctions[2], icon: <HistoryIcon /> },
-        { label: labels.opctions[3], icon: <BlockIcon /> },
-    ];
+  const pages = [
+    { label: labels.opctions[0], icon: <PersonIcon /> },
+    { label: labels.opctions[1], icon: <RefreshIcon /> },
+    { label: labels.opctions[2], icon: <HistoryIcon /> },
+    { label: labels.opctions[3], icon: <BlockIcon /> },
+  ];
 
-    const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget);
-    };
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
 
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
-    };
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
 
-    return (
-        <AppBar position="static">
-            <Container
-                sx={{
-                    maxWidth: "xl",
-                }}
-            >
-                <Toolbar disableGutters>
-                    <Box sx={boxXLmenu}>
-                        <img
-                            src={assets.logo.src}
-                            loading="lazy"
-                            href={assets.logo.href}
-                            style={logoTopStyle}
-                        />
-                        {props.userAuth &&
-                            pages.map((page) => (
-                                <Button
-                                    key={page.label}
-                                    onClick={handleCloseNavMenu}
-                                    sx={buttonTopStyle}
-                                    startIcon={page.icon}
-                                >
-                                    {page.label}
-                                </Button>
-                            ))}
-                    </Box>
+  return (
+    <AppBar position="static">
+      <Container
+        sx={{
+          maxWidth: "xl",
+        }}
+      >
+        <Toolbar disableGutters>
+          <Box sx={boxXLmenu}>
+            <img
+              src={assets.logo.src}
+              loading="lazy"
+              alt="" //todo alt
+              href={assets.logo.href}
+              style={logoTopStyle}
+            />
+            {props.userAuth &&
+              pages.map((page) => (
+                <Button
+                  key={page.label}
+                  onClick={handleCloseNavMenu}
+                  sx={buttonTopStyle}
+                  startIcon={page.icon}
+                >
+                  {page.label}
+                </Button>
+              ))}
+          </Box>
 
-                    <Box sx={boxSMmenu}>
-                        {props.userAuth && (
-                            <>
-                                <IconButton
-                                    {...iconButtonTopStyle}
-                                    onClick={handleOpenNavMenu}
-                                >
-                                    <MenuIcon />
-                                </IconButton>
-                                <Menu
-                                    id="menu-appbar"
-                                    anchorEl={anchorElNav}
-                                    {...menuStyles}
-                                    open={Boolean(anchorElNav)}
-                                    onClose={handleCloseNavMenu}
-                                >
-                                    {pages.map((page) => (
-                                        <MenuItem
-                                            key={page.label}
-                                            onClick={handleCloseNavMenu}
-                                        >
-                                            {page.icon}
-                                            <Typography
-                                                textAlign="center"
-                                                paddingBlockStart={"5px"}
-                                            >
-                                                {page.label}
-                                            </Typography>
-                                        </MenuItem>
-                                    ))}
-                                </Menu>
-                            </>
-                        )}
-                        <img
-                            src={assets.logo.src}
-                            loading="lazy"
-                            href={assets.logo.href}
-                            style={logoTopStyle}
-                        />
-                    </Box>
+          <Box sx={boxSMmenu}>
+            {props.userAuth && (
+              <>
+                <IconButton {...iconButtonTopStyle} onClick={handleOpenNavMenu}>
+                  <MenuIcon />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorElNav}
+                  {...menuStyles}
+                  open={Boolean(anchorElNav)}
+                  onClose={handleCloseNavMenu}
+                >
+                  {pages.map((page) => (
+                    <MenuItem key={page.label} onClick={handleCloseNavMenu}>
+                      {page.icon}
+                      <Typography textAlign="center" paddingBlockStart={"5px"}>
+                        {page.label}
+                      </Typography>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </>
+            )}
+            <img
+              src={assets.logo.src}
+              loading="lazy"
+              alt="" //todo alt
+              href={assets.logo.href}
+              style={logoTopStyle}
+            />
+          </Box>
 
-                    <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ flexGrow: 1 }} />
 
-                    <IconUserMenu
-                        userAuth={props.userAuth}
-                        userName="Ignacio Romang"
-                    />
-                </Toolbar>
-            </Container>
-        </AppBar>
-    );
+          <IconUserMenu userAuth={props.userAuth} userName="Ignacio Romang" />
+        </Toolbar>
+      </Container>
+    </AppBar>
+  );
 };
 
 export default TopBar;
