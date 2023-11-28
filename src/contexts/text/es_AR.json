@@ -79,9 +79,24 @@
                     "title": "Advertencia",
                     "body": "Al tratarse de una renovación la normativa dicta un periodo de exclusión de 12 meses sin cancelación, ¿Desea continuar?"
                 }
+            },
+            "unregistercard":{
+                "mainTitle": "Dar de baja auto-exclusión",
+                "warning": {
+                    "title": "¡Importante!",
+                    "body": [
+                        "Solo se permite una vez el proceso de finalización de autoexclusión, específicamente durante la primera autoexclusión.",
+                        "Después de completarlo, tendrás libre acceso a los casinos. Si decides autoexcluirte nuevamente, por favor, dirígete a la sección de renovación disponible después de finalizar este procedimiento inicial.",
+                        ""
+                    ]
+                }
             }
         },
         "fragments": {
+            "unregistersuccess":{
+                "title": "¡Baja de auto-exclusión completada!",
+                "body": "La solicitud se realizo correctamente. \n Recuerda si necesitas asistencia, no dudes en comunicarte +89 3427 515151"
+            },
             "successae": {
                 "title1": "¡Felicidades, tu registro está completo!",
                 "title2": "¡Felicidades, tu renovación está completa!",

@@ -80,32 +80,10 @@ const ProfileData = () => {
       paddingLeft={2}
       paddingTop={4}
       paddingBottom={2}
+      paddingRight={2}
       display={"flex"}
-      spacing={1}
+      spacing={2}
     >
-      <Grid item xs={12} md={6}>
-        <TextField
-          InputProps={{
-            readOnly: true,
-          }}
-          id="standard-disabled"
-          label="Nombre"
-          defaultValue={iuser.name}
-          variant="standard"
-        />
-      </Grid>
-      <Grid item xs={12} md={6}>
-        <TextField
-          InputProps={{
-            readOnly: true,
-          }}
-          id="standard-disabled"
-          label="Apellido"
-          defaultValue={iuser.lastname}
-          variant="standard"
-        />
-      </Grid>
-
       <Grid item xs={12} md={6}>
         <TextField
           InputProps={{

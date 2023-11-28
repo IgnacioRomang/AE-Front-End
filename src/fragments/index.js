@@ -1,6 +1,6 @@
 // fragments/index.js
 
-export { default as DatePlanAE } from "./DatePlanAE";
-export { default as ErrorAE } from "./ErrorAE";
-export { default as FileUploadSection } from "./FileUploadSection";
-export { default as SuccessAE } from "./SuccessAE";
+export { default as DatePlanAE } from "./DatePlanFragment";
+export { default as ErrorAE } from "./ErrorFragment";
+export { default as FileUploadSection } from "./FileUploadFragment";
+export { default as SuccessAE } from "./SuccessFragment";

@@ -11,11 +11,12 @@ import RenewalCard from "./components/RenewalCard.jsx";
 import TopBar from "./components/TopBar.jsx";
 import ScrollableComponent from "./fragments/ScrollableComponent.jsx";
 import ProfileData from "./fragments/ProfileData";
+import UnRegisterCard from "./components/UnRegisterCard";
 
 function App() {
   const [userAuth, setUserAuth] = useState(false);
   return (
-    <div className="App">
+    <div className="App app-container">
       <TopBar userAuth={userAuth} />
       <ScrollableComponent
         styles={{
@@ -27,6 +28,7 @@ function App() {
         }}
       >
         <Stack spacing={2}>
+          <UnRegisterCard />
           <Profile />
           <RenewalCard />
           <RegisterCard />

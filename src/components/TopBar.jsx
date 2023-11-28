@@ -14,7 +14,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { Box } from "@mui/system";
 import React from "react";
-import IconUserMenu from "../fragments/IconUserMenu.jsx";
+import IconUserMenu from "../fragments/IconUserMenuFragment.jsx";
 
 import { useTopBarString } from "../contexts/TextProvider.jsx";
 import {

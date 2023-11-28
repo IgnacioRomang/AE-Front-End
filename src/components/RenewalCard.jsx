@@ -20,8 +20,8 @@ import {
   useRegisterCardString,
   useRenewalCardString,
 } from "../contexts/TextProvider.jsx";
-import ErrorAE from "../fragments/ErrorAE.jsx";
-import SuccessAE from "../fragments/SuccessAE.jsx";
+import ErrorAE from "../fragments/ErrorFragment.jsx";
+import SuccessAE from "../fragments/SuccessFragment.jsx";
 import {
   AddressDataCard,
   ExtraDataCard,
@@ -30,6 +30,7 @@ import {
 } from "../fragments/form";
 
 import { cardRegisterStyle, centerBottonsStyle } from "../theme.jsx";
+import AlertFragment from "../fragments/AlertFragmet.jsx";
 
 const RenewalCard = () => {
   const [registerSend, setRegisterSend] = useState(false);
@@ -65,13 +66,11 @@ const RenewalCard = () => {
             <>{!error ? <SuccessAE first={false} /> : <ErrorAE />}</>
           ) : (
             <>
-              <Alert severity="info">
-                <AlertTitle>{renewalstring.info.title}</AlertTitle>
-                <Typography>{renewalstring.info.body[0]}</Typography>
-                <Typography>{renewalstring.info.body[1]}</Typography>
-                <Typography>{renewalstring.info.body[2]}</Typography>
-              </Alert>
-
+              <AlertFragment
+                type={"info"}
+                title={renewalstring.info.title}
+                body={renewalstring.info.body}
+              />
               <Accordion
                 expanded={expanded === "panel1"}
                 onChange={handleChange("panel1")}

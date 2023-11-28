@@ -15,8 +15,14 @@ export function useRegisterCardString() {
 export function useRenewalCardString() {
   return useContext(baseTextContext).public.components.renewalcard;
 }
+export function useUnRegisterCardString() {
+  return useContext(baseTextContext).public.components.unregistercard;
+}
 export function useSuccessAEString() {
   return useContext(baseTextContext).public.fragments.successae;
+}
+export function useUnRegisterSuccessString() {
+  return useContext(baseTextContext).public.fragments.unregistersuccess;
 }
 export function useErrorAEString() {
   return useContext(baseTextContext).public.fragments.errorae;
@@ -87,4 +93,6 @@ export default {
   useExtraDataCardString,
   useFileAttachCardString,
   useUserBadgeString,
+  useUnRegisterCardString,
+  useUnRegisterSuccessString,
 };

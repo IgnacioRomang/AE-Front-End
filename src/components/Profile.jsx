@@ -1,4 +1,4 @@
-import { Box, Divider, Paper } from "@mui/material";
+import { Box, Divider, Stack, Paper } from "@mui/material";
 import React from "react";
 import ProfileAEdata from "../fragments/ProfileIconData";
 import ProfileData from "../fragments/ProfileData";
@@ -22,19 +22,21 @@ const Profile = () => {
 
     "@media (min-width: 1281px) and (max-width: 1920px)": {
       // pantalla 1080
-      width: "45vw", // Altura para tamaños extra grandes de pantalla (lg)
+      width: "65vw", // Altura para tamaños extra grandes de pantalla (lg)
     },
 
     "@media (min-width: 1921px)": {
-      width: "35vw", // Altura para tamaños muy grandes de pantalla (xl)
+      width: "55vw", // Altura para tamaños muy grandes de pantalla (xl)
     },
   };
   return (
     <Box>
       <Paper sx={sx} component="section">
-        <ProfileAEdata />
-        <Divider></Divider>
-        <ProfileData />
+        <Stack direction="row">
+          <ProfileAEdata paddingRitgh />
+          <Divider orientation="vertical" flexItem />
+          <ProfileData />
+        </Stack>
       </Paper>
     </Box>
   );
