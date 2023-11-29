@@ -55,7 +55,7 @@ function generateRandomName() {
 const randomName = generateRandomName();
 
 const ProfileIconData = () => {
-  const [ae, setAe] = React.useState(false);
+  const [ae, setAe] = React.useState(true);
 
   const handleDownload = () => {
     // Lógica para descargar el PDF
@@ -67,38 +67,35 @@ const ProfileIconData = () => {
     console.log("Visualizando el PDF");
   };
   return (
-    <>
-      <Box sx={{ ...centeringStyles, paddingLeft: "4px", paddingRight: "4px" }}>
-        <Stack sx={centeringStyles}>
-          <UserBadge username={randomName} isActive={ae} />
-          <Typography variant="body1" paddingRight={17} fontSize={10}>
-            CUIL
-          </Typography>
-          <Typography variant="h5">{iuser.cuil}</Typography>
-          <Typography variant="body1">
-            {iuser.lastname + ", " + iuser.name}
-          </Typography>
-          {/** ingresar botones de ojito y descarga*/}
-        </Stack>
-        {ae && (
-          <>
-            <Divider />
-            <Stack direction={"row"} sx={centeringStyles}>
-              <Typography variant="body1" fontSize={14}>
-                Comprobante
-              </Typography>
-              <IconButton onClick={handleDownload} aria-label="Descargar PDF">
-                <GetApp />
-              </IconButton>
-              <IconButton onClick={handleView} aria-label="Visualizar PDF">
-                <Visibility />
-              </IconButton>
-              city
-            </Stack>
-          </>
-        )}
-      </Box>
-    </>
+    <Box sx={{ ...centeringStyles, paddingLeft: "4px", paddingRight: "4px" }}>
+      <Stack sx={centeringStyles}>
+        <UserBadge username={randomName} isActive={ae} />
+        <Typography variant="body1" paddingRight={17} fontSize={10}>
+          CUIL
+        </Typography>
+        <Typography variant="h5">{iuser.cuil}</Typography>
+        <Typography variant="body1">
+          {iuser.lastname + ", " + iuser.name}
+        </Typography>
+        {/** ingresar botones de ojito y descarga*/}
+      </Stack>
+      {ae && (
+        <>
+          <Divider />
+          <Stack direction={"row"} sx={centeringStyles}>
+            <Typography variant="body1" fontSize={14}>
+              Comprobante
+            </Typography>
+            <IconButton onClick={handleDownload} aria-label="Descargar PDF">
+              <GetApp />
+            </IconButton>
+            <IconButton onClick={handleView} aria-label="Visualizar PDF">
+              <Visibility />
+            </IconButton>
+          </Stack>
+        </>
+      )}
+    </Box>
   );
 };
 

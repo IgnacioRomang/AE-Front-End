@@ -1,7 +1,9 @@
-import { Box, Divider, Stack, Paper } from "@mui/material";
+import { Box, Divider, Stack, Paper, Grid } from "@mui/material";
 import React from "react";
 import ProfileAEdata from "../fragments/ProfileIconData";
 import ProfileData from "../fragments/ProfileData";
+import Calendar from "../fragments/calendar/Calendar";
+import { getDates } from "../utiles";
 
 const Profile = () => {
   const sx = {
@@ -17,7 +19,7 @@ const Profile = () => {
     },
 
     "@media (min-width: 961px) and (max-width: 1280px)": {
-      width: "50vw", // Altura para tamaños grandes de pantalla (md)
+      width: "90vw", // Altura para tamaños grandes de pantalla (md)
     },
 
     "@media (min-width: 1281px) and (max-width: 1920px)": {
@@ -29,16 +31,60 @@ const Profile = () => {
       width: "55vw", // Altura para tamaños muy grandes de pantalla (xl)
     },
   };
+  const { startDay, fthMonth, sixMonth, lastMonth } = getDates();
   return (
-    <Box>
-      <Paper sx={sx} component="section">
-        <Stack direction="row">
-          <ProfileAEdata paddingRitgh />
-          <Divider orientation="vertical" flexItem />
+    <Paper>
+      <Grid
+        container
+        spacing={2}
+        padding={2}
+        sx={sx}
+        justifyContent="center"
+        alignItems="center"
+      >
+        <Grid item xs={12} sm={3}>
+          <ProfileAEdata />
+        </Grid>
+        <Grid item xs={12} sm={6}>
           <ProfileData />
-        </Stack>
-      </Paper>
-    </Box>
+        </Grid>
+        <Grid item>
+          <Divider flexItem />
+          <Grid container paddingTop={2} spacing={2}>
+            <Grid item xs={12} sm={6} md={3}>
+              <Calendar
+                intStart={startDay}
+                intEnd={startDay}
+                msg={"Inicio de AE"}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <Calendar
+                intStart={fthMonth}
+                intEnd={sixMonth}
+                msg={"PUede Baja AE"}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <Calendar
+                intStart={
+                  new Date(sixMonth.getFullYear(), sixMonth.getMonth(), 1)
+                }
+                intEnd={sixMonth}
+                msg={"Puede Baja AE"}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <Calendar
+                intStart={lastMonth}
+                intEnd={lastMonth}
+                msg={"Fin AE"}
+              />
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Paper>
   );
 };
 

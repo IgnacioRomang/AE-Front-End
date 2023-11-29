@@ -17,6 +17,10 @@ export const shortFileName = (file_name) => {
   return file_name;
 };
 
+export const getHSL = (h, s, l) => {
+  return "hsl(" + h + "," + s + "%," + l + "%)";
+};
+
 export const getDates = () => {
   let startDay = new Date();
   let fthMonth = new Date(startDay);
@@ -114,4 +118,5 @@ export default {
   shortFileName,
   getDates,
   stringAvatar,
+  getHSL,
 };
