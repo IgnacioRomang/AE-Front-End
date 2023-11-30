@@ -13,6 +13,9 @@
                     "restart": "Reintentar"
                 }
             },
+            "profile":{
+                "msg":["Inicio de autoexclusión","Periodo de Baja","Fin de autoexclusión"]
+            },
             "registerCard": {
                 "mainTitle": "Registro",
                 "titles": [
@@ -62,7 +65,7 @@
                     "Perfil",
                     "Renovar",
                     "Historial",
-                    "Dar de Baja"
+                    "finalización"
                 ]
             },
             "renewalcard": {
@@ -93,6 +96,10 @@
             }
         },
         "fragments": {
+            "profileicondata":{
+                "cuil": "CUIL",
+                "PDF": "Comprobante"
+            },
             "unregistersuccess":{
                 "title": "¡Baja de auto-exclusión completada!",
                 "body": "La solicitud se realizo correctamente. \n Recuerda si necesitas asistencia, no dudes en comunicarte +89 3427 515151"
@@ -160,7 +167,7 @@
                     "phone": "Teléfono",
                     "email": "Email",
                     "occupation": "Ocupación",
-                    "capacity": "Capacidad"
+                    "capacity": "Estudios"
                 },
                 "fileattachcard": {
                     "info_title": "Subir Imágenes del DNI",
@@ -183,11 +190,9 @@
         "components": {
             "footer": {
                 "imgProv": {
-                    "href": "",
                     "src": "images/logo_prov.png"
                 },
                 "imgLotes": {
-                    "href": "",
                     "src": "images/logo_lote2.png"
                 }
             },
@@ -201,7 +206,7 @@
             },
             "topbar": {
                 "logo": {
-                    "href": "#LINMK",
+
                     "src": "images/logo.png"
                 }
             }

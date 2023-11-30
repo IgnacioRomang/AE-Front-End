@@ -76,6 +76,12 @@ export function useFileAttachCardString() {
 export function useUserBadgeString() {
   return useContext(baseTextContext).public.fragments.userbadge;
 }
+export function useProfileString() {
+  return useContext(baseTextContext).public.components.profile;
+}
+export function useProfileIconDataString() {
+  return useContext(baseTextContext).public.fragments.profileicondata;
+}
 
 export default {
   useRegisterCardString,
@@ -95,4 +101,5 @@ export default {
   useUserBadgeString,
   useUnRegisterCardString,
   useUnRegisterSuccessString,
+  useProfileString,
 };

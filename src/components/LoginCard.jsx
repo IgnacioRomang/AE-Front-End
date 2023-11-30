@@ -19,6 +19,7 @@ import * as React from "react";
 import { useCommonsString, useLoginString } from "../contexts/TextProvider.jsx";
 import {
   backdropLoginStyle,
+  boxLoginSyle,
   cardLoginStyle,
   centerBottonsStyle,
   linksStyle,
@@ -75,7 +76,7 @@ const Login = () => {
         avatar={<LockOpenIcon />}
         title={labels.title}
       />
-      <CardContent>
+      <CardContent sx={boxLoginSyle}>
         <LoginFragment />
         <Stack paddingTop={4} spacing={2}>
           {/* links */}

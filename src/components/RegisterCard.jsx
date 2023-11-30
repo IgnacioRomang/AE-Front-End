@@ -23,14 +23,19 @@ import {
 } from "../contexts/TextProvider.jsx";
 
 // Fragments
-import { DatePlanAE, ErrorAE, SuccessAE } from "../fragments";
-import { FileAttachCard, InfoDataCard } from "../fragments/form";
+import { ErrorAE, SuccessAE } from "../fragments";
+import {
+  DatePlanAE,
+  AddressDataCard,
+  ExtraDataCard,
+  FileAttachCard,
+  InfoDataCard,
+} from "../fragments/form";
 // Styles
-import AddressDataCard from "../fragments/form/AddressDataCard.jsx";
-import ExtraDataCard from "../fragments/form/ExtraDataCard.jsx";
 import {
   boxbottonsSteppStyle,
   cardRegisterStyle,
+  centeringStyles,
   finalboxStyle,
   stepStyle,
 } from "../theme.jsx";
@@ -136,10 +141,7 @@ const RegisterCard = () => {
             ref={stepperRef}
             activeStep={activeStep}
             alternativeLabel
-            sx={{
-              justifyContent: "center",
-              alignContent: "center",
-            }}
+            sx={centeringStyles}
           >
             {!errors[5] &&
               steps.map((label, index) => {

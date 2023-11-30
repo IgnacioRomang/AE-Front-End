@@ -44,6 +44,7 @@ const Calendar = ({ intStart, intEnd, msg }) => {
       // estoy en marcado de un dia
     } else {
       //tengo que colorar rango
+      //TODO MEJORAR ESATA LOGICA
       if (intStart.getMonth() < intEnd.getMonth()) {
         //es exclusion de un mes o de PRIMER cal
         if (day != null && day >= intStart.getDate()) {

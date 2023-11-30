@@ -3,19 +3,12 @@ import { Alert, Box, IconButton, Typography } from "@mui/material";
 import React from "react";
 import { useSuccessAEString } from "../contexts/TextProvider.jsx";
 import { getDates } from "../utiles.js";
+import { superCenter } from "../theme.jsx";
 const SuccessAE = ({ first }) => {
   const { startDay, fthMonth, sixMonth, lastMonth } = getDates();
   const labels = useSuccessAEString();
   return (
-    <Box
-      container="true"
-      sx={{ paddingBottom: 5 }}
-      textAlign="center"
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-    >
+    <Box container="true" sx={{ ...superCenter, paddingBottom: 5 }}>
       {/* Your component content */}
 
       <Typography variant="h4" color="success.main" gutterBottom>

@@ -1,26 +1,26 @@
 import BlockIcon from "@mui/icons-material/Block";
 import {
-  Alert,
-  AlertTitle,
-  Button,
   Box,
+  Button,
   Card,
   CardActions,
   CardContent,
   CardHeader,
-  Typography,
 } from "@mui/material";
 import React, { useState } from "react";
 import {
   useCommonsString,
   useUnRegisterCardString,
 } from "../contexts/TextProvider.jsx";
+import AlertFragment from "../fragments/AlertFragmet.jsx";
 import ErrorAE from "../fragments/ErrorFragment.jsx";
 import LoginFragment from "../fragments/LoginFragment.jsx";
-import SuccessAE from "../fragments/SuccessFragment.jsx";
-import { cardRegisterStyle, centerBottonsStyle } from "../theme.jsx";
-import AlertFragment from "../fragments/AlertFragmet.jsx";
 import UnRegisterSuccessFragment from "../fragments/UnRegisterSuccessFragment.jsx";
+import {
+  boxUnRegisterLogSyle,
+  cardRegisterStyle,
+  centerBottonsStyle,
+} from "../theme.jsx";
 
 const UnRegisterCard = () => {
   const commonlabels = useCommonsString();
@@ -56,15 +56,8 @@ const UnRegisterCard = () => {
                 title={renewalstring.warning.title}
                 body={renewalstring.warning.body}
               />
-              <Box
-                container={true}
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
+              <Box container={true} sx={boxUnRegisterLogSyle}>
+                {/* Box succes tambien es estilo en otro lado cuidado*/}
                 <LoginFragment></LoginFragment>
               </Box>
             </>

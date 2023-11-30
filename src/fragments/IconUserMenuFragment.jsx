@@ -14,49 +14,24 @@ import HowToRegIcon from "@mui/icons-material/HowToReg";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import PersonIcon from "@mui/icons-material/Person";
 import SettingsIcon from "@mui/icons-material/Settings";
+import { stringAvatar } from "../utiles";
 
-function stringToColor(string) {
-  let hash = 0;
-  let i;
-
-  /* eslint-disable no-bitwise */
-  for (i = 0; i < string.length; i += 1) {
-    hash = string.charCodeAt(i) + ((hash << 5) - hash);
-  }
-
-  let color = "#";
-
-  for (i = 0; i < 3; i += 1) {
-    const value = (hash >> (i * 8)) & 0xff;
-    color += `00${value.toString(16)}`.slice(-2);
-  }
-  /* eslint-enable no-bitwise */
-
-  return color;
-}
-
-function stringAvatar(name) {
-  return {
-    sx: {
-      bgcolor: stringToColor(name),
-    },
-    children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
-  };
-}
+import { useNavigate } from "react-router-dom";
 
 const settings = [
-  { label: "Perfil", icon: <PersonIcon /> },
-  { label: "Ajustes", icon: <SettingsIcon /> },
-  { label: "Cerrar sesión", icon: <ExitToAppIcon /> },
+  { label: "Perfil", icon: <PersonIcon />, id: 3 },
+  { label: "Ajustes", icon: <SettingsIcon />, id: 4 },
+  { label: "Cerrar sesión", icon: <ExitToAppIcon />, id: 5 },
 ];
 
 const settings_login = [
-  { label: "Acceso", icon: <LockOpenIcon /> },
-  { label: "Registrarse", icon: <HowToRegIcon /> },
+  { label: "Acceso", icon: <LockOpenIcon />, id: 1 },
+  { label: "Registrarse", icon: <HowToRegIcon />, id: 2 },
 ];
 
 const IconUserMenu = (props) => {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const navigate = useNavigate();
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -64,6 +39,19 @@ const IconUserMenu = (props) => {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+  const onClickMenu = (e, id) => {
+    console.log("key : " + e.key);
+    switch (id) {
+      case settings_login[0].id:
+        navigate("login");
+        break;
+      case settings_login[1].id:
+        navigate("register");
+        break;
+      default:
+        navigate("error");
+    }
   };
 
   return (
@@ -73,9 +61,17 @@ const IconUserMenu = (props) => {
           <Tooltip title="Open settings">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
               {props.userAuth ? (
-                <Avatar {...stringAvatar(props.userName)} variant="rounded" />
+                <Avatar
+                  {...stringAvatar(props.userName)}
+                  sx={{ width: 40, height: 40 }}
+                  variant="rounded"
+                />
               ) : (
-                <Avatar src={PersonIcon} variant="rounded" />
+                <Avatar
+                  src={PersonIcon}
+                  sx={{ width: 40, height: 40 }}
+                  variant="rounded"
+                />
               )}
             </IconButton>
           </Tooltip>
@@ -97,7 +93,10 @@ const IconUserMenu = (props) => {
             onClose={handleCloseUserMenu}
           >
             {(props.userAuth ? settings : settings_login).map((setting) => (
-              <MenuItem key={setting.label} onClick={handleCloseUserMenu}>
+              <MenuItem
+                key={setting.id}
+                onClick={(e) => onClickMenu(e, setting.id)}
+              >
                 {setting.icon}
                 <Typography textAlign="center" paddingBlockStart={"5px"}>
                   {setting.label}

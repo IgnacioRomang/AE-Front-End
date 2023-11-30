@@ -4,8 +4,6 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Alert,
-  AlertTitle,
   Button,
   Card,
   CardActions,
@@ -29,8 +27,8 @@ import {
   InfoDataCard,
 } from "../fragments/form";
 
-import { cardRegisterStyle, centerBottonsStyle } from "../theme.jsx";
 import AlertFragment from "../fragments/AlertFragmet.jsx";
+import { cardRegisterStyle, centerBottonsStyle } from "../theme.jsx";
 
 const RenewalCard = () => {
   const [registerSend, setRegisterSend] = useState(false);

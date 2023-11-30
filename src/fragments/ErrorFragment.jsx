@@ -1,18 +1,12 @@
 import { Alert, Box, Typography } from "@mui/material";
 import React from "react";
 import { useErrorAEString } from "../contexts/TextProvider.jsx";
+import { boxErrorAESyle } from "../theme.jsx";
 
 const ErrorAE = () => {
   const labels = useErrorAEString();
   return (
-    <Box
-      paddingbottom={5}
-      textAlign="center"
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-    >
+    <Box sx={boxErrorAESyle}>
       <Typography variant="h4" color="error" gutterBottom>
         {labels.title}
       </Typography>
@@ -26,4 +20,5 @@ const ErrorAE = () => {
     </Box>
   );
 };
+
 export default ErrorAE;

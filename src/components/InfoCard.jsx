@@ -28,6 +28,7 @@ const high_res = {
         lg: "flex",
     },
 };
+
 //TODO: agregar info_noticias y loading state a un props
 
 const InfoCard = () => {

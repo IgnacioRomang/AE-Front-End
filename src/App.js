@@ -13,11 +13,43 @@ import ScrollableComponent from "./fragments/ScrollableComponent.jsx";
 import ProfileData from "./fragments/ProfileData";
 import UnRegisterCard from "./components/UnRegisterCard";
 
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Root from "./routes/root";
+import ErrorPage from "./routes/error-page";
+import Login from "./components/LoginCard.jsx";
+import News from "./routes/news";
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Root />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "news",
+        element: <News />,
+      },
+      {
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path: "register",
+        element: <RegisterCard />,
+      },
+    ],
+  },
+]);
+
 function App() {
   const [userAuth, setUserAuth] = useState(false);
   return (
     <div className="App app-container">
-      <TopBar userAuth={userAuth} />
+      <RouterProvider router={router} />
+    </div>
+  );
+}
+
+/*      <TopBar userAuth={userAuth} />
       <ScrollableComponent
         styles={{
           display: "flex",
@@ -36,9 +68,5 @@ function App() {
           <InfoCard />
         </Stack>
         <Footer></Footer>
-      </ScrollableComponent>
-    </div>
-  );
-}
-
+      </ScrollableComponent> */
 export default App;

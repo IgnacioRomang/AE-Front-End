@@ -16,6 +16,7 @@ import { Box } from "@mui/system";
 import React from "react";
 import IconUserMenu from "../fragments/IconUserMenuFragment.jsx";
 
+import { Link, useNavigate } from "react-router-dom";
 import { useTopBarString } from "../contexts/TextProvider.jsx";
 import {
   boxSMmenu,
@@ -29,6 +30,8 @@ import {
 const TopBar = (props) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [labels, assets] = useTopBarString();
+
+  const navigate = useNavigate();
 
   const pages = [
     { label: labels.opctions[0], icon: <PersonIcon /> },
@@ -45,6 +48,9 @@ const TopBar = (props) => {
     setAnchorElNav(null);
   };
 
+  const handleLogoClick = () => {
+    navigate("/news");
+  };
   return (
     <AppBar position="static">
       <Container
@@ -58,16 +64,16 @@ const TopBar = (props) => {
               src={assets.logo.src}
               loading="lazy"
               alt="" //todo alt
-              href={assets.logo.href}
+              onClick={handleLogoClick}
               style={logoTopStyle}
             />
+
             {props.userAuth &&
               pages.map((page) => (
                 <Button
                   key={page.label}
                   onClick={handleCloseNavMenu}
                   sx={buttonTopStyle}
-                  startIcon={page.icon}
                 >
                   {page.label}
                 </Button>
@@ -102,13 +108,11 @@ const TopBar = (props) => {
               src={assets.logo.src}
               loading="lazy"
               alt="" //todo alt
-              href={assets.logo.href}
+              onClick={handleLogoClick}
               style={logoTopStyle}
             />
           </Box>
-
           <Box sx={{ flexGrow: 1 }} />
-
           <IconUserMenu userAuth={props.userAuth} userName="Ignacio Romang" />
         </Toolbar>
       </Container>

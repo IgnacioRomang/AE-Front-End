@@ -4,49 +4,82 @@ import ProfileAEdata from "../fragments/ProfileIconData";
 import ProfileData from "../fragments/ProfileData";
 import Calendar from "../fragments/calendar/Calendar";
 import { getDates } from "../utiles";
+import { gridProfileStyle } from "../theme";
+import { useProfileString } from "../contexts/TextProvider";
+
+const iuser = {
+  name: "Ignacio",
+  cuil: "11-37425457-8",
+  lastname: "Romang",
+  email: "ignacioromang@outlook.com",
+  address: {
+    street: "calle falsa",
+    city: "ciudad falsa",
+    state: "Inunda Fe",
+  },
+  phone: "+(12) 3214-645123",
+  ae: true,
+};
+
+function generateRandomName() {
+  const adjectives = [
+    "Red",
+    "Blue",
+    "Green",
+    "Happy",
+    "Sunny",
+    "Brilliant",
+    "Gentle",
+    "Clever",
+    "Kind",
+  ];
+  const nouns = [
+    "Cat",
+    "Dog",
+    "Mountain",
+    "Ocean",
+    "Tree",
+    "Sun",
+    "Moon",
+    "Star",
+    "River",
+  ];
+
+  const randomAdjective =
+    adjectives[Math.floor(Math.random() * adjectives.length)];
+  const randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
+
+  return `${randomAdjective} ${randomNoun}`;
+}
+
+const randomName = generateRandomName();
 
 const Profile = () => {
-  const sx = {
-    width: "50vw", // Altura por defecto
-
-    // Ajusta la altura para tamaños de pantalla específicos
-    "@media (max-width: 600px)": {
-      width: "90vw", // Altura para tamaños pequeños de pantalla (xs)
+  const names = generateRandomName().split(" ");
+  const iuser = {
+    name: names[0],
+    cuil: "11-37425457-8",
+    lastname: names[1],
+    email: "ignacioromang@outlook.com",
+    address: {
+      street: "calle falsa",
+      city: "ciudad falsa",
+      state: "Inunda Fe",
     },
-
-    "@media (min-width: 601px) and (max-width: 960px)": {
-      width: "90vw", // Altura para tamaños medianos de pantalla (sm)
-    },
-
-    "@media (min-width: 961px) and (max-width: 1280px)": {
-      width: "90vw", // Altura para tamaños grandes de pantalla (md)
-    },
-
-    "@media (min-width: 1281px) and (max-width: 1920px)": {
-      // pantalla 1080
-      width: "65vw", // Altura para tamaños extra grandes de pantalla (lg)
-    },
-
-    "@media (min-width: 1921px)": {
-      width: "55vw", // Altura para tamaños muy grandes de pantalla (xl)
-    },
+    phone: "+(12) 3214-645123",
+    ae: true,
   };
+
   const { startDay, fthMonth, sixMonth, lastMonth } = getDates();
+  const labels = useProfileString();
   return (
     <Paper>
-      <Grid
-        container
-        spacing={2}
-        padding={2}
-        sx={sx}
-        justifyContent="center"
-        alignItems="center"
-      >
+      <Grid container sx={gridProfileStyle}>
         <Grid item xs={12} sm={3}>
-          <ProfileAEdata />
+          <ProfileAEdata iuser={iuser} />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <ProfileData />
+          <ProfileData iuser={iuser} />
         </Grid>
         <Grid item>
           <Divider flexItem />
@@ -55,14 +88,14 @@ const Profile = () => {
               <Calendar
                 intStart={startDay}
                 intEnd={startDay}
-                msg={"Inicio de AE"}
+                msg={labels.msg[0]}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
               <Calendar
                 intStart={fthMonth}
                 intEnd={sixMonth}
-                msg={"PUede Baja AE"}
+                msg={labels.msg[1]}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
@@ -71,14 +104,14 @@ const Profile = () => {
                   new Date(sixMonth.getFullYear(), sixMonth.getMonth(), 1)
                 }
                 intEnd={sixMonth}
-                msg={"Puede Baja AE"}
+                msg={labels.msg[1]}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
               <Calendar
                 intStart={lastMonth}
                 intEnd={lastMonth}
-                msg={"Fin AE"}
+                msg={labels.msg[2]}
               />
             </Grid>
           </Grid>
