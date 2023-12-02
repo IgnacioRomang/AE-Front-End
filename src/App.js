@@ -36,12 +36,24 @@ const router = createBrowserRouter([
         path: "register",
         element: <RegisterCard />,
       },
+      {
+        path: "renewal",
+        element: <RenewalCard />,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
+      },
+      {
+        path: "end",
+        element: <UnRegisterCard />,
+      },
     ],
   },
 ]);
 
 function App() {
-  const [userAuth, setUserAuth] = useState(false);
+  const [userAuth, setUserAuth] = useState(true);
   return (
     <div className="App app-container">
       <RouterProvider router={router} />

@@ -10,7 +10,7 @@ export default function Root() {
     <>
       <TopBar userAuth={true} />
       <ScrollableComponent>
-        <div id="detail">
+        <div id="detail" style={{ padding: 15 }}>
           <Outlet />
         </div>
       </ScrollableComponent>

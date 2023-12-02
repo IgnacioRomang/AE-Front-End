@@ -26,7 +26,7 @@ const UnRegisterCard = () => {
   const commonlabels = useCommonsString();
   const renewalstring = useUnRegisterCardString();
   const [open, setOpen] = useState(false);
-  const [error, setError] = useState(true);
+  const [error, setError] = useState(false);
 
   const handleSend = () => {
     if (error) {

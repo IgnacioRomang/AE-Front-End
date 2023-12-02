@@ -16,12 +16,12 @@ export default function News() {
         spacing={3}
       >
         <Grid item xs={4}>
-          <InfoCard />
+          <InfoCard state={false} />
         </Grid>
         <Grid item xs={4}>
-          <InfoCard />
+          <InfoCard state={true} />
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={4} state={true}>
           <InfoCard />
         </Grid>
       </Grid>

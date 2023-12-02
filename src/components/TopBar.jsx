@@ -34,12 +34,30 @@ const TopBar = (props) => {
   const navigate = useNavigate();
 
   const pages = [
-    { label: labels.opctions[0], icon: <PersonIcon /> },
-    { label: labels.opctions[1], icon: <RefreshIcon /> },
-    { label: labels.opctions[2], icon: <HistoryIcon /> },
-    { label: labels.opctions[3], icon: <BlockIcon /> },
+    { label: labels.opctions[0], icon: <PersonIcon />, id: 0 },
+    { label: labels.opctions[1], icon: <RefreshIcon />, id: 1 },
+    { label: labels.opctions[2], icon: <HistoryIcon />, id: 2 },
+    { label: labels.opctions[3], icon: <BlockIcon />, id: 3 },
   ];
+  const handleoOnClickMenu = (e, id) => {
+    switch (id) {
+      case pages[0].id:
+        navigate("profile");
+        break;
+      case pages[1].id:
+        navigate("renewal");
+        break;
+      case pages[2].id:
+        //navigate("renewal");
+        break;
+      case pages[3].id:
+        navigate("end");
+        break;
 
+      default:
+        navigate("error");
+    }
+  };
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -72,7 +90,7 @@ const TopBar = (props) => {
               pages.map((page) => (
                 <Button
                   key={page.label}
-                  onClick={handleCloseNavMenu}
+                  onClick={(e) => handleoOnClickMenu(e, page.id)}
                   sx={buttonTopStyle}
                 >
                   {page.label}
@@ -94,7 +112,10 @@ const TopBar = (props) => {
                   onClose={handleCloseNavMenu}
                 >
                   {pages.map((page) => (
-                    <MenuItem key={page.label} onClick={handleCloseNavMenu}>
+                    <MenuItem
+                      key={page.label}
+                      onClick={(e) => handleoOnClickMenu(e, page.id)}
+                    >
                       {page.icon}
                       <Typography textAlign="center" paddingBlockStart={"5px"}>
                         {page.label}
