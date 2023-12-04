@@ -8,7 +8,7 @@ const DatePlanAE = ({ first }) => {
   const labels = useDatePlanAEString();
   return (
     <Box
-      paddingBottom={5}
+      paddingBottom={3}
       textAlign="center"
       s
       display="flex"

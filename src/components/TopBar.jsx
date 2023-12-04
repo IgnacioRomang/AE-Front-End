@@ -34,10 +34,20 @@ const TopBar = (props) => {
   const navigate = useNavigate();
 
   const pages = [
-    { label: labels.opctions[0], icon: <PersonIcon />, id: 0 },
-    { label: labels.opctions[1], icon: <RefreshIcon />, id: 1 },
-    { label: labels.opctions[2], icon: <HistoryIcon />, id: 2 },
-    { label: labels.opctions[3], icon: <BlockIcon />, id: 3 },
+    { label: labels.opctions[0], icon: <PersonIcon />, id: 0, disabled: false },
+    {
+      label: labels.opctions[1],
+      icon: <RefreshIcon />,
+      id: 1,
+      disabled: false,
+    },
+    {
+      label: labels.opctions[2],
+      icon: <HistoryIcon />,
+      id: 2,
+      disabled: true,
+    },
+    { label: labels.opctions[3], icon: <BlockIcon />, id: 3, disabled: false },
   ];
   const handleoOnClickMenu = (e, id) => {
     switch (id) {
@@ -90,6 +100,7 @@ const TopBar = (props) => {
               pages.map((page) => (
                 <Button
                   key={page.label}
+                  disabled={page.disabled}
                   onClick={(e) => handleoOnClickMenu(e, page.id)}
                   sx={buttonTopStyle}
                 >
@@ -114,6 +125,7 @@ const TopBar = (props) => {
                   {pages.map((page) => (
                     <MenuItem
                       key={page.label}
+                      disabled={page.disabled}
                       onClick={(e) => handleoOnClickMenu(e, page.id)}
                     >
                       {page.icon}

@@ -12,7 +12,7 @@ const AddressDataCard = () => {
 
   return (
     <CardContent>
-      <Grid container spacing={3} padding={5}>
+      <Grid container spacing={3} padding={3}>
         <Grid item xs={12} sm={4}>
           <TextField
             id="address"

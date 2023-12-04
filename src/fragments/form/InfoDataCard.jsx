@@ -22,7 +22,7 @@ const InfoDataCard = () => {
     <CardContent>
       <Grid
         container
-        padding={5}
+        padding={3}
         direction={{ xs: "row", sm: "row" }}
         spacing={{ xs: 1, sm: 2 }}
       >

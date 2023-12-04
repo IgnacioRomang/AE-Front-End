@@ -37,8 +37,14 @@
   }
 }
 .app-container {
-   /* Color gris claro */
-  background-color: #c6c6c6;
+  /* Color gris claro */
+  background: rgb(84, 84, 152);
+  background: linear-gradient(
+    90deg,
+    rgba(199, 136, 136, 1) 0%,
+    rgba(232, 227, 232, 1) 51%,
+    rgba(84, 84, 152, 1) 100%
+  );
   min-height: 100vh; /* Asegura que el fondo se extienda al menos al 100% de la altura de la ventana */
   display: flex;
   flex-direction: column;

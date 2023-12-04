@@ -257,7 +257,7 @@ export const superCenter = {
   ...centeringStyles,
 };
 export const boxSuccessAESyle = {
-  padding: 3,
+  padding: 2,
   ...superCenter,
 };
 // errorAE
@@ -266,8 +266,6 @@ export const boxUnRegisterLogSyle = boxSuccessAESyle;
 export const boxLoginSyle = superCenter;
 // Profile
 export const gridProfileStyle = {
-  padding: 2,
-  gap: 2,
   ...centeringStyles,
   width: "50vw", // Altura por defecto
 

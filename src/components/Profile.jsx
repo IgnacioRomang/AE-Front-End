@@ -4,7 +4,7 @@ import ProfileAEdata from "../fragments/ProfileIconData";
 import ProfileData from "../fragments/ProfileData";
 import Calendar from "../fragments/calendar/Calendar";
 import { getDates } from "../utiles";
-import { gridProfileStyle } from "../theme";
+import { centeringStyles, gridProfileStyle } from "../theme";
 import { useProfileString } from "../contexts/TextProvider";
 
 const iuser = {
@@ -74,12 +74,16 @@ const Profile = () => {
   const labels = useProfileString();
   return (
     <Paper>
-      <Grid container sx={gridProfileStyle}>
-        <Grid item xs={12} sm={3}>
-          <ProfileAEdata iuser={iuser} />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <ProfileData iuser={iuser} />
+      <Grid spacing={2} container sx={gridProfileStyle}>
+        <Grid item xs={12} sm={12}>
+          <Grid container spacing={4} sx={centeringStyles}>
+            <Grid item xs={12} sm={4}>
+              <ProfileAEdata iuser={iuser} />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <ProfileData iuser={iuser} />
+            </Grid>
+          </Grid>
         </Grid>
         <Grid item>
           <Divider flexItem />

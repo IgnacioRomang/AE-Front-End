@@ -28,7 +28,7 @@ const ExtraDataCard = () => {
   const labels = useExtraDataCardString();
   return (
     <CardContent>
-      <Grid container padding={5} spacing={3}>
+      <Grid container padding={3} spacing={3}>
         <Grid item xs={12} sm={4}>
           <FormControl fullWidth>
             <InputLabel htmlFor="occupation">{labels.occupation}</InputLabel>
