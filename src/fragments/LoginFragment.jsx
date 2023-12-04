@@ -3,6 +3,7 @@ import React from "react";
 import { useLoginString } from "../contexts/TextProvider.jsx";
 import { boxLoginSyle } from "../theme.jsx";
 import { useState } from "react";
+import { doformatCUIL } from "../utiles.js";
 
 //TODO QUITAR TEMAS
 const LoginFragment = () => {
@@ -15,17 +16,7 @@ const LoginFragment = () => {
 
   const handleInputChange = (event) => {
     const inputValue = event.target.value;
-    const sanitizedValue = inputValue.replace(/\D/g, "");
-    const truncatedValue = sanitizedValue.slice(0, 11);
-
-    // Formatear según tu criterio: XX-XXXXXXXX-X
-    let formatted = truncatedValue;
-
-    if (truncatedValue.length > 2) {
-      formatted = truncatedValue
-        .replace(/^(\d{2})/, "$1-")
-        .replace(/(\d{8})(\d{1,2})/, "$1-$2");
-    }
+    let formatted = doformatCUIL(inputValue);
 
     setFormattedCUIL(formatted);
   };

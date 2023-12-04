@@ -85,7 +85,7 @@ const Profile = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item>
+        <Grid item paddingBottom={2}>
           <Divider flexItem />
           <Grid container paddingTop={2} spacing={2}>
             <Grid item xs={12} sm={6} md={3}>

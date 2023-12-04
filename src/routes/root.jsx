@@ -8,7 +8,7 @@ import { Grid } from "@mui/material";
 export default function Root() {
   return (
     <>
-      <TopBar userAuth={true} />
+      <TopBar userAuth={false} />
       <ScrollableComponent>
         <div id="detail" style={{ padding: 52 }}>
           <Outlet />

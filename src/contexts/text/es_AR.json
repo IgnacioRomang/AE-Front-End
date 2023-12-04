@@ -153,7 +153,14 @@
                     "lastname": "Apellido",
                     "cuil": "CUIL",
                     "birthdate": "Fecha de nacimiento",
-                    "gender": "Género"
+                    "gender": "Género",
+                    "helpertext": {
+                        "name": "Ingrese su nombre",
+                        "lastname": "Ingrese su Apellido",
+                        "cuil": "Ingrese su CUIL",
+                        "birthdate": ["Dato obligatirio", "Debe ser mayor de 18 años"],
+                        "gender": "Seleccione un genero"
+                    }
                 },
                 "addressdatacard": {
                     "street": "Domicilio",

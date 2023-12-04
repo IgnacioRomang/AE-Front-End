@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 
 // Material-UI Components
 import {
@@ -25,8 +25,8 @@ import {
 // Fragments
 import { ErrorAE, SuccessAE } from "../fragments";
 import {
-  DatePlanAE,
   AddressDataCard,
+  DatePlanAE,
   ExtraDataCard,
   FileAttachCard,
   InfoDataCard,
@@ -57,18 +57,19 @@ const RegisterCard = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set());
   const stepperRef = useRef(null);
-  const er = 5;
+
+  const childRef = useRef([null, null, null, null]);
 
   const getStepperStage = (viewid, labels) => {
     switch (viewid) {
       case 0:
-        return <InfoDataCard />;
+        return <InfoDataCard ref={(ref) => (childRef.current[0] = ref)} />;
       case 1:
-        return <AddressDataCard />;
+        return <AddressDataCard ref={childRef[1]} />;
       case 2:
-        return <ExtraDataCard />;
+        return <ExtraDataCard ref={childRef[2]} />;
       case 3:
-        return <FileAttachCard />;
+        return <FileAttachCard ref={childRef[3]} />;
       case 4:
         return <DatePlanAE first={true} />;
       case 5:
@@ -80,8 +81,11 @@ const RegisterCard = () => {
       default:
         return <></>;
     }
-    return null;
   };
+  useEffect(() => {
+    console.log("---------childRef.current:", childRef.current);
+  }, [activeStep]);
+
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
@@ -99,10 +103,9 @@ const RegisterCard = () => {
   const handleNext = () => {
     let newSkipped = skipped;
     //evaluar eerrores
-
-    if (activeStep === er) {
-      updateErrorAtIndex(er, true);
-    } else {
+    console.log(typeof detectErrors);
+    let error = childRef.current[0].handleErrors();
+    if (!error) {
       if (isStepSkipped(activeStep)) {
         newSkipped = new Set(newSkipped.values());
         newSkipped.delete(activeStep);

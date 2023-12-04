@@ -102,6 +102,23 @@ function stringToColor(string) {
   return color;
 }
 
+export const datecontrol = (selectedDate) => {
+  let today = new Date();
+  if (selectedDate >= today) {
+    return false;
+  } else {
+    let yearsAgo_18 = new Date(
+      today.getFullYear() - 18,
+      today.getMonth(),
+      today.getDate()
+    );
+    if (yearsAgo_18 < selectedDate) {
+      return false;
+    }
+  }
+  return true;
+};
+
 export const stringAvatar = (name) => {
   return {
     sx: {
@@ -113,10 +130,27 @@ export const stringAvatar = (name) => {
   };
 };
 
+export const doformatCUIL = (inputValue) => {
+  const sanitizedValue = inputValue.replace(/\D/g, "");
+  const truncatedValue = sanitizedValue.slice(0, 11);
+
+  // Formatear según tu criterio: XX-XXXXXXXX-X
+  let formatted = truncatedValue;
+
+  if (truncatedValue.length > 2) {
+    formatted = truncatedValue
+      .replace(/^(\d{2})/, "$1-")
+      .replace(/(\d{8})(\d{1,2})/, "$1-$2");
+  }
+  return formatted;
+};
+
 export default {
   isNum,
   shortFileName,
   getDates,
   stringAvatar,
+  doformatCUIL,
   getHSL,
+  datecontrol,
 };

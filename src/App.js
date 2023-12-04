@@ -60,25 +60,4 @@ function App() {
     </div>
   );
 }
-
-/*      <TopBar userAuth={userAuth} />
-      <ScrollableComponent
-        styles={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          flexGrow: 1,
-        }}
-      >
-        <Stack spacing={2}>
-          <UnRegisterCard />
-          <Profile />
-          <RenewalCard />
-          <RegisterCard />
-          <LoginCard />
-          <InfoCard />
-        </Stack>
-        <Footer></Footer>
-      </ScrollableComponent> */
 export default App;
