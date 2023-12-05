@@ -58,18 +58,67 @@ const RegisterCard = () => {
   const [skipped, setSkipped] = useState(new Set());
   const stepperRef = useRef(null);
 
-  const childRef = useRef([null, null, null, null]);
+  const dataRef = useRef(null);
+
+  const [stepData, setStepData] = useState([
+    {
+      name: "",
+      lastName: "",
+      formattedCUIL: "",
+      selectedBirthdate: "",
+      selectedGender: "Ninguno",
+    },
+    {
+      address: "",
+      floor: "0",
+      apartment: "0",
+      province: "",
+      city: "",
+      postalCode: "",
+    },
+    { occupation: "Otro", study: "No contesta", phone: "", email: "" },
+    {},
+    {},
+    {},
+  ]);
 
   const getStepperStage = (viewid, labels) => {
     switch (viewid) {
       case 0:
-        return <InfoDataCard ref={(ref) => (childRef.current[0] = ref)} />;
+        return (
+          <InfoDataCard
+            name={stepData[0].name}
+            lastName={stepData[0].lastName}
+            cuil={stepData[0].formattedCUIL}
+            birthdate={stepData[0].selectedBirthdate}
+            gender={stepData[0].selectedGender}
+            ref={dataRef}
+          />
+        );
       case 1:
-        return <AddressDataCard ref={childRef[1]} />;
+        return (
+          <AddressDataCard
+            address={stepData[1].address}
+            floor={stepData[1].floor}
+            apartment={stepData[1].apartment}
+            province={stepData[1].province}
+            city={stepData[1].city}
+            postalCode={stepData[1].postalCode}
+            ref={dataRef}
+          />
+        );
       case 2:
-        return <ExtraDataCard ref={childRef[2]} />;
+        return (
+          <ExtraDataCard
+            occupation={stepData[2].occupation}
+            study={stepData[2].study}
+            phone={stepData[2].phone}
+            email={stepData[2].email}
+            ref={dataRef}
+          />
+        );
       case 3:
-        return <FileAttachCard ref={childRef[3]} />;
+        return <FileAttachCard ref={dataRef} />;
       case 4:
         return <DatePlanAE first={true} />;
       case 5:
@@ -82,9 +131,6 @@ const RegisterCard = () => {
         return <></>;
     }
   };
-  useEffect(() => {
-    console.log("---------childRef.current:", childRef.current);
-  }, [activeStep]);
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -103,9 +149,23 @@ const RegisterCard = () => {
   const handleNext = () => {
     let newSkipped = skipped;
     //evaluar eerrores
-    console.log(typeof detectErrors);
-    let error = childRef.current[0].handleErrors();
-    if (!error) {
+    let error = false;
+    if (dataRef.current && typeof dataRef.current.handleErrors === "function") {
+      error = dataRef.current.handleErrors();
+    }
+    if (error) {
+      updateErrorAtIndex(activeStep, true);
+    } else {
+      updateErrorAtIndex(activeStep, false);
+      if (activeStep <= 3) {
+        let receivedData = dataRef.current.getData();
+        setStepData((prevStepData) => {
+          const newStepData = [...prevStepData];
+          newStepData[activeStep] = { ...receivedData };
+          return newStepData;
+        });
+      }
+
       if (isStepSkipped(activeStep)) {
         newSkipped = new Set(newSkipped.values());
         newSkipped.delete(activeStep);

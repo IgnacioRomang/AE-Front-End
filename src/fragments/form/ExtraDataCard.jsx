@@ -6,7 +6,7 @@ import {
   NativeSelect,
   TextField,
 } from "@mui/material";
-import React from "react";
+import React, { useState, useCallback, useImperativeHandle } from "react";
 import { useExtraDataCardString } from "../../contexts/TextProvider";
 
 const occupations = [
@@ -24,8 +24,47 @@ const capacitys = [
   { label: "No contesta", id: 26 },
 ];
 
-const ExtraDataCard = () => {
+const ExtraDataCard = React.forwardRef((props, ref) => {
   const labels = useExtraDataCardString();
+  const [userData, setUserData] = useState({
+    occupation: props.occupation,
+    study: props.study,
+    phone: props.phone,
+    email: props.email,
+  });
+
+  const [errors, setErrors] = useState({
+    phone: false,
+    email: false,
+  });
+  const handleChange = (event, field, formatter) => {
+    const { value } = event.target;
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      [field]: formatter(value),
+    }));
+  };
+  const handleErrors = useCallback(() => {
+    const { phone, email } = userData;
+
+    const errors = {
+      phone: !phone.trim(),
+      email: !email.trim(),
+    };
+
+    setErrors(errors);
+
+    return Object.values(errors).some(Boolean);
+  }, [userData]);
+
+  const getData = () => {
+    return userData;
+  };
+
+  useImperativeHandle(ref, () => ({
+    handleErrors,
+    getData,
+  }));
   return (
     <CardContent>
       <Grid container padding={3} spacing={3}>
@@ -68,8 +107,8 @@ const ExtraDataCard = () => {
             id="phone"
             label={labels.phone}
             disabled={false}
-            error={false}
-            onChange={null}
+            error={errors.phone}
+            onChange={(event) => handleChange(event, "phone")}
             variant="standard"
           />
         </Grid>
@@ -78,8 +117,8 @@ const ExtraDataCard = () => {
             id="email"
             label={labels.email}
             required
-            disabled={false}
-            error={false}
+            disabled={(event) => handleChange(event, "email")}
+            error={errors.email}
             onChange={null}
             variant="standard"
           />
@@ -87,5 +126,5 @@ const ExtraDataCard = () => {
       </Grid>
     </CardContent>
   );
-};
+});
 export default ExtraDataCard;

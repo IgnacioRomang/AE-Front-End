@@ -8,7 +8,13 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import React, { createContext, useCallback, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from "react";
 import { useInfoDataCardString } from "../../contexts/TextProvider.jsx";
 import { datecontrol, doformatCUIL } from "../../utiles.js";
 
@@ -19,102 +25,89 @@ const genders = [
   { label: "Ninguno", id: 4 },
 ];
 
-const DataContext = createContext();
-
 const InfoDataCard = React.forwardRef((props, ref) => {
   const labels = useInfoDataCardString();
 
-  const [formattedCUIL, setFormattedCUIL] = useState("");
-  const [errorCUIL, setCUILError] = useState(false);
+  const [userData, setUserData] = useState({
+    name: props.name,
+    lastName: props.lastName,
+    formattedCUIL: props.cuil,
+    selectedBirthdate: props.birthdate,
+    selectedGender: props.gender,
+  });
+
+  const [errors, setErrors] = useState({
+    name: false,
+    lastName: false,
+    formattedCUIL: false,
+    selectedBirthdate: false,
+    selectedGender: false,
+  });
+
+  const handleInputChange = (field, value) => {
+    setUserData((prevData) => ({ ...prevData, [field]: value }));
+    setErrors((prevErrors) => ({ ...prevErrors, [field]: !value.trim() }));
+  };
+
   const handleCUIL = (event) => {
     const inputValue = event.target.value;
-    let formatted = doformatCUIL(inputValue);
-    setCUILError(!inputValue.trim());
-    setFormattedCUIL(formatted);
+    const formatted = doformatCUIL(inputValue);
+    setUserData((prevData) => ({ ...prevData, formattedCUIL: formatted }));
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      formattedCUIL: !inputValue.trim(),
+    }));
   };
 
-  const [selectedBirthdate, setSelectedBirthdate] = useState(false);
-  const [errorBirthdate, setErrorBirthdate] = useState(false);
   const handleBirthdate = (event) => {
-    let selectedDate = new Date(event.target.value);
-    setSelectedBirthdate(selectedDate);
-    let isValid = true;
-    isValid = datecontrol(selectedDate);
-    setErrorBirthdate(!isValid);
+    const selectedDate = event.target.value;
+    setUserData((prevData) => ({
+      ...prevData,
+      selectedBirthdate: selectedDate,
+    }));
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      selectedBirthdate: !datecontrol(new Date(selectedDate)),
+    }));
   };
 
-  const [selectedGender, setSelectedGender] = useState("Ninguno");
-  const [errorGender, setErrorGender] = useState(false);
   const handleGenderChange = (event) => {
     const newGender = event.target.value;
-    setSelectedGender(newGender);
-    let error = newGender === "Ninguno";
-    setErrorGender(error);
-  };
-
-  const [userName, setUserName] = useState("");
-  const [userLastName, setUserLastName] = useState("");
-  const [nameError, setNameError] = useState(false);
-  const [lastNameError, setLastNameError] = useState(false);
-
-  const handleNameChange = (event) => {
-    const value = event.target.value;
-    setUserName(value);
-    setNameError(!value.trim());
-  };
-
-  const handleLastNameChange = (event) => {
-    const value = event.target.value;
-    setUserLastName(value);
-    setLastNameError(!value.trim());
+    setUserData((prevData) => ({ ...prevData, selectedGender: newGender }));
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      selectedGender: newGender === "Ninguno",
+    }));
   };
 
   const handleErrors = useCallback(() => {
-    let hasErrors = false;
+    const { name, lastName, formattedCUIL, selectedBirthdate, selectedGender } =
+      userData;
 
-    switch (true) {
-      case !userName.trim():
-        setNameError(true);
-        hasErrors = true;
-        break;
-      case !userLastName.trim():
-        setLastNameError(true);
-        hasErrors = true;
-        break;
-      case !formattedCUIL.trim():
-        setCUILError(true);
-        hasErrors = true;
-        break;
-      case !datecontrol(selectedBirthdate):
-        setErrorBirthdate(true);
-        hasErrors = true;
-        break;
-      case selectedGender === "Ninguno":
-        setErrorGender(true);
-        hasErrors = true;
-        break;
-      default:
-        // No errors
-        break;
-    }
+    const errors = {
+      name: !name.trim(),
+      lastName: !lastName.trim(),
+      formattedCUIL: !formattedCUIL.trim() || formattedCUIL.length !== 13,
+      selectedBirthdate:
+        !datecontrol(new Date(selectedBirthdate)) || !selectedBirthdate.trim(),
+      selectedGender: selectedGender === "Ninguno",
+    };
 
-    return hasErrors;
-  }, [
-    userName,
-    userLastName,
-    formattedCUIL,
-    selectedBirthdate,
-    selectedGender,
-    setNameError,
-    setLastNameError,
-    setCUILError,
-    setErrorBirthdate,
-    setErrorGender,
-    datecontrol,
-  ]);
+    setErrors(errors);
 
+    return Object.values(errors).some(Boolean);
+  }, [userData]);
+
+  const getData = () => {
+    return userData;
+  };
+
+  useImperativeHandle(ref, () => ({
+    handleErrors,
+    getData,
+  }));
   return (
-    <CardContent ref={ref}>
+    <CardContent>
       <Grid
         container
         padding={3}
@@ -127,9 +120,13 @@ const InfoDataCard = React.forwardRef((props, ref) => {
             label={labels.name}
             required
             disabled={false}
-            error={nameError}
-            onChange={handleNameChange}
+            value={userData.name}
+            error={errors.name}
+            onChange={(event) => handleInputChange("name", event.target.value)}
             helperText={null}
+            InputLabelProps={{
+              shrink: Boolean(userData.name !== ""),
+            }}
             variant="standard"
           />
         </Grid>
@@ -139,21 +136,31 @@ const InfoDataCard = React.forwardRef((props, ref) => {
             label={labels.lastname}
             required
             disabled={false}
-            error={lastNameError}
+            value={userData.lastName}
+            error={errors.lastName}
+            onChange={(event) =>
+              handleInputChange("lastName", event.target.value)
+            }
             helperText={null}
-            onChange={handleLastNameChange}
+            InputLabelProps={{
+              shrink: Boolean(userData.lastName !== ""),
+            }}
             variant="standard"
           />
         </Grid>
+
         <Grid item xs={12} sm={4}>
           <TextField
             id="cuil"
             label={labels.cuil}
             required
             disabled={false}
-            error={false}
+            error={errors.formattedCUIL}
             helperText={null}
-            value={formattedCUIL}
+            InputLabelProps={{
+              shrink: Boolean(userData.formattedCUIL !== ""),
+            }}
+            value={userData.formattedCUIL}
             onChange={handleCUIL}
             variant="standard"
           />
@@ -164,7 +171,8 @@ const InfoDataCard = React.forwardRef((props, ref) => {
             label={labels.birthdate}
             required
             disabled={false}
-            error={errorBirthdate}
+            value={userData.selectedBirthdate}
+            error={errors.selectedBirthdate}
             helperText={null}
             type="date"
             fullWidth
@@ -181,9 +189,9 @@ const InfoDataCard = React.forwardRef((props, ref) => {
               {labels.gender}
             </InputLabel>
             <NativeSelect
-              value={selectedGender}
+              value={userData.selectedGender}
               onChange={handleGenderChange}
-              error={errorGender}
+              error={errors.selectedGender}
               inputProps={{
                 name: "gender",
                 id: "gender-select",
@@ -195,7 +203,7 @@ const InfoDataCard = React.forwardRef((props, ref) => {
                 </option>
               ))}
             </NativeSelect>
-            <FormHelperText>{/** ERROR label */}</FormHelperText>
+            <FormHelperText>{/* ERROR label */}</FormHelperText>
           </FormControl>
         </Grid>
       </Grid>

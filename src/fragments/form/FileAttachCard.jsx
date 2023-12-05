@@ -16,7 +16,7 @@ import { FileUploadSection } from "../../fragments";
 import { textJustifyStyle } from "../../theme.jsx";
 // Styles
 
-const FileAttachCard = () => {
+const FileAttachCard = React.forwardRef((props, ref) => {
   const labels = useFileAttachCardString();
   return (
     <CardContent>
@@ -48,6 +48,6 @@ const FileAttachCard = () => {
       </Grid>
     </CardContent>
   );
-};
+});
 
 export default FileAttachCard;

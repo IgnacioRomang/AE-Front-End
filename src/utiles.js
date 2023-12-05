@@ -145,6 +145,33 @@ export const doformatCUIL = (inputValue) => {
   return formatted;
 };
 
+export const doPostalCode = (inputValue) => {
+  const sanitizedValue = inputValue.replace(/\D/g, "");
+  const truncatedValue = sanitizedValue.slice(0, 4);
+  let formatted = truncatedValue;
+  return formatted;
+};
+export const doFloor = (value) => {
+  const floorNumber = parseInt(value, 10) || 0;
+  return Math.min(Math.max(floorNumber, 0), 50).toString();
+};
+
+export const doApartment = (value) => {
+  const sanitizedValue = value.replace(/[^A-Z0-9]/gi, "").toUpperCase();
+  return sanitizedValue.length > 0 ? sanitizedValue.charAt(0) : "";
+};
+
+export const doEmail = (email) => {
+  const trimmedEmail = email.trim();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (emailRegex.test(trimmedEmail)) {
+    const formattedEmail = trimmedEmail.toLowerCase();
+    return formattedEmail;
+  } else {
+    return null;
+  }
+};
+
 export default {
   isNum,
   shortFileName,
@@ -153,4 +180,7 @@ export default {
   doformatCUIL,
   getHSL,
   datecontrol,
+  doPostalCode,
+  doFloor,
+  doApartment,
 };
