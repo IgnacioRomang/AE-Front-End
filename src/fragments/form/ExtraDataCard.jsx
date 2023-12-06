@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import React, { useState, useCallback, useImperativeHandle } from "react";
 import { useExtraDataCardString } from "../../contexts/TextProvider";
+import { doEmail, doPhone } from "../../utiles";
 
 const occupations = [
   { label: "Estudiante", id: 11 },
@@ -26,6 +27,7 @@ const capacitys = [
 
 const ExtraDataCard = React.forwardRef((props, ref) => {
   const labels = useExtraDataCardString();
+
   const [userData, setUserData] = useState({
     occupation: props.occupation,
     study: props.study,
@@ -37,6 +39,7 @@ const ExtraDataCard = React.forwardRef((props, ref) => {
     phone: false,
     email: false,
   });
+
   const handleChange = (event, field, formatter) => {
     const { value } = event.target;
     setUserData((prevUserData) => ({
@@ -44,12 +47,17 @@ const ExtraDataCard = React.forwardRef((props, ref) => {
       [field]: formatter(value),
     }));
   };
+
   const handleErrors = useCallback(() => {
     const { phone, email } = userData;
-
+    // TODO COMUNICAR CON BACKEND PARA VER SI EMAIL ES FACTIBLE
     const errors = {
-      phone: !phone.trim(),
-      email: !email.trim(),
+      phone:
+        phone.trim() !== ""
+          ? !/^\+54 \(\d{2}\) \d{4}-\d{4}$/.test(userData.phone)
+          : false,
+      email:
+        !email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userData.email),
     };
 
     setErrors(errors);
@@ -65,6 +73,12 @@ const ExtraDataCard = React.forwardRef((props, ref) => {
     handleErrors,
     getData,
   }));
+
+  const handleChangeNotFormatter = (event, field) => {
+    const value = event.target.value;
+    setUserData((prevData) => ({ ...prevData, [field]: value }));
+  };
+
   return (
     <CardContent>
       <Grid container padding={3} spacing={3}>
@@ -72,6 +86,10 @@ const ExtraDataCard = React.forwardRef((props, ref) => {
           <FormControl fullWidth>
             <InputLabel htmlFor="occupation">{labels.occupation}</InputLabel>
             <NativeSelect
+              value={userData.occupation}
+              onChange={(event) =>
+                handleChangeNotFormatter(event, "occupation")
+              }
               inputProps={{
                 name: "occupation",
                 id: "occupation",
@@ -89,6 +107,8 @@ const ExtraDataCard = React.forwardRef((props, ref) => {
           <FormControl fullWidth>
             <InputLabel htmlFor="Study">{labels.capacity}</InputLabel>
             <NativeSelect
+              value={userData.study}
+              onChange={(event) => handleChangeNotFormatter(event, "study")}
               inputProps={{
                 name: "Study",
                 id: "Study",
@@ -108,7 +128,8 @@ const ExtraDataCard = React.forwardRef((props, ref) => {
             label={labels.phone}
             disabled={false}
             error={errors.phone}
-            onChange={(event) => handleChange(event, "phone")}
+            value={userData.phone}
+            onChange={(event) => handleChange(event, "phone", doPhone)}
             variant="standard"
           />
         </Grid>
@@ -117,9 +138,10 @@ const ExtraDataCard = React.forwardRef((props, ref) => {
             id="email"
             label={labels.email}
             required
-            disabled={(event) => handleChange(event, "email")}
+            disabled={null}
+            value={userData.email}
             error={errors.email}
-            onChange={null}
+            onChange={(event) => handleChange(event, "email", doEmail)}
             variant="standard"
           />
         </Grid>

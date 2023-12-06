@@ -104,19 +104,17 @@ function stringToColor(string) {
 
 export const datecontrol = (selectedDate) => {
   let today = new Date();
-  if (selectedDate >= today) {
-    return false;
-  } else {
-    let yearsAgo_18 = new Date(
-      today.getFullYear() - 18,
-      today.getMonth(),
-      today.getDate()
-    );
-    if (yearsAgo_18 < selectedDate) {
-      return false;
-    }
-  }
-  return true;
+  let yearsAgo_18 = new Date(
+    today.getFullYear() - 18,
+    today.getMonth(),
+    today.getDate()
+  );
+  let yearsAgo_100 = new Date(
+    today.getFullYear() - 100,
+    today.getMonth(),
+    today.getDate()
+  );
+  return yearsAgo_100 <= selectedDate && selectedDate <= yearsAgo_18;
 };
 
 export const stringAvatar = (name) => {
@@ -168,7 +166,20 @@ export const doEmail = (email) => {
     const formattedEmail = trimmedEmail.toLowerCase();
     return formattedEmail;
   } else {
-    return null;
+    return trimmedEmail;
+  }
+};
+
+export const doPhone = (phonein) => {
+  const phone = phonein.replace(/[^\d+()]/g, "");
+  console.log(`${phone}  --------------- ${phonein}`);
+  if (phone.length >= 10) {
+    return `+54 (${phone.slice(0, 2)}) ${phone.slice(2, 6)}-${phone.slice(
+      6,
+      10
+    )}`;
+  } else {
+    return phone;
   }
 };
 
@@ -183,4 +194,6 @@ export default {
   doPostalCode,
   doFloor,
   doApartment,
+  doPhone,
+  doEmail,
 };

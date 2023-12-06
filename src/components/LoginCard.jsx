@@ -24,6 +24,8 @@ import {
   centerBottonsStyle,
   linksStyle,
 } from "../theme.jsx";
+import { useNavigate } from "react-router-dom";
+
 import LoginFragment from "../fragments/LoginFragment.jsx";
 
 const Login = () => {
@@ -34,7 +36,7 @@ const Login = () => {
   //Si es verdadero desactiva los botones y muestra el mensaje de exito
   //para poder enviarlo  a la proxima pantalla
   const [loginSuccess, setLoginSuccess] = React.useState(false);
-
+  const navigate = useNavigate();
   //Si es verdadero muestra el mensaje de fallo en logeo
   const [loginFail, setLoginFail] = React.useState(false);
 
@@ -64,6 +66,10 @@ const Login = () => {
   const handlePassword = (event) => {
     // Si esta en error cambiar eso
     //TODO
+  };
+
+  const handleCancel = (event) => {
+    navigate("/news");
   };
   return (
     <Card sx={cardLoginStyle}>
@@ -107,7 +113,12 @@ const Login = () => {
           <Divider></Divider>
           {/* BOTONES */}
           <CardActions sx={centerBottonsStyle}>
-            <Button size="small" color="inherit" disabled={loginSuccess}>
+            <Button
+              size="small"
+              color="inherit"
+              onClick={handleCancel}
+              disabled={loginSuccess}
+            >
               {commonlabels.button.cancel}
             </Button>
             <Button size="small" onClick={handleLogin} disabled={loginSuccess}>
