@@ -1,4 +1,4 @@
-import { AES } from "crypto-js";
+//import { AES } from "crypto-js";
 
 const generarClaveAES = () => {
   return crypto.randomBytes(32).toString("hex");
