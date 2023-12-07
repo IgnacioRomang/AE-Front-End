@@ -1,12 +1,11 @@
 import { Stack, TextField } from "@mui/material";
-import React from "react";
 import { useLoginString } from "../contexts/TextProvider.jsx";
 import { boxLoginSyle } from "../theme.jsx";
-import { useState } from "react";
+import React, { useState } from "react";
 import { doformatCUIL } from "../utiles.js";
 
 //TODO QUITAR TEMAS
-const LoginFragment = () => {
+const LoginFragment = React.forwardRef((props, ref) => {
   const [labels, assets] = useLoginString();
 
   const [loginSuccess, setLoginSuccess] = React.useState(false);
@@ -20,6 +19,20 @@ const LoginFragment = () => {
 
     setFormattedCUIL(formatted);
   };
+
+  const [passwordsd, setPassword] = React.useState("");
+
+  const handleOnChangePassword = (event) => {
+    setPassword(event.target.value);
+  };
+  const getData = () => {
+    return { username: formattedCUIL, password: passwordsd };
+  };
+
+  React.useImperativeHandle(ref, () => ({
+    getData,
+  }));
+
   return (
     <>
       {" "}
@@ -41,7 +54,8 @@ const LoginFragment = () => {
           label={labels.textFieldLabels.password}
           type="password"
           required
-          onChange={null}
+          value={passwordsd}
+          onChange={handleOnChangePassword}
           error={loginFail}
           disabled={loginSuccess}
           variant="standard"
@@ -49,6 +63,6 @@ const LoginFragment = () => {
       </Stack>
     </>
   );
-};
+});
 
 export default LoginFragment;

@@ -40,6 +40,8 @@ const Login = () => {
   //Si es verdadero muestra el mensaje de fallo en logeo
   const [loginFail, setLoginFail] = React.useState(false);
 
+  const logindataref = React.useRef(null);
+
   const handleClose = () => {
     setOpen(false);
     let proces = true;
@@ -57,8 +59,17 @@ const Login = () => {
 
   const handleLogin = (event) => {
     //TODO LOGIN
+    let data = logindataref.current.getData();
+    const usaerData = {
+      username: "203963578",
+      token:
+        "MIIEpAIBAAKCAQEAoQanINOE4MNaylVhwzuIW5PVN1xquyoVlNBB/XoXXzt9tCas ",
+    };
+    console.log(data.password);
+    console.log(data.username);
     handleOpen();
   };
+
   const handleCuil = (event) => {
     // Si esta en error cambiar eso
     //TODO hacer que solo acepte numeros y - por si algun bruto lo pone asi
@@ -83,7 +94,7 @@ const Login = () => {
         title={labels.title}
       />
       <CardContent sx={boxLoginSyle}>
-        <LoginFragment />
+        <LoginFragment ref={logindataref} />
         <Stack paddingTop={4} spacing={2}>
           {/* links */}
           <Stack

@@ -1,3 +1,20 @@
+import { AES } from "crypto-js";
+
+const generarClaveAES = () => {
+  return crypto.randomBytes(32).toString("hex");
+};
+
+const getToken = () => {
+  return process.env.REACT_APP_API_KEY;
+};
+
+export const sessionSave = (field, data) => {
+  //TODO INSTALL DOTENV
+  const dataToEncrypt = JSON.stringify(data, null, 2);
+  const secretKey = getToken();
+  const sessionStorageData = sessionStorage.setItem(field, data);
+};
+
 export const isNum = (e) => {
   //credit for  https://stackoverflow.com/questions/43067719/how-to-allow-only-numbers-in-textbox-in-reactjs
   //Autor : Mayank Shukla
