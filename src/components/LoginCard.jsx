@@ -27,6 +27,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import LoginFragment from "../fragments/LoginFragment.jsx";
+import { NavigateNextSharp, WindowSharp } from "@mui/icons-material";
 
 const Login = () => {
   const [open, setOpen] = React.useState(false);
@@ -41,7 +42,11 @@ const Login = () => {
   const [loginFail, setLoginFail] = React.useState(false);
 
   const logindataref = React.useRef(null);
-
+  React.useEffect(() => {
+    if (sessionStorage.getItem("user") !== null) {
+      navigate("/profile");
+    }
+  }, []);
   const handleClose = () => {
     setOpen(false);
     let proces = true;
@@ -57,16 +62,21 @@ const Login = () => {
     setOpen(true);
   };
 
-  const handleLogin = (event) => {
+  const handleLogin = async (event) => {
     //TODO LOGIN
-    let data = logindataref.current.getData();
-    const usaerData = {
-      username: "203963578",
-      token:
-        "MIIEpAIBAAKCAQEAoQanINOE4MNaylVhwzuIW5PVN1xquyoVlNBB/XoXXzt9tCas ",
-    };
-    console.log(data.password);
-    console.log(data.username);
+    let loggin = logindataref.current.getData();
+    if (loggin) {
+      setLoginSuccess(true);
+      setLoginFail(false);
+      setOpen(true);
+      await new Promise((resolve) => setTimeout(resolve, 10000));
+      navigate("/profile");
+      setOpen(false);
+      window.location.reload();
+    } else {
+      loginSuccess(false);
+      setLoginFail(true);
+    }
     handleOpen();
   };
 
@@ -84,7 +94,7 @@ const Login = () => {
   };
   return (
     <Card sx={cardLoginStyle}>
-      <Backdrop sx={backdropLoginStyle} open={open} onClick={handleClose}>
+      <Backdrop sx={backdropLoginStyle} open={open} onClick={null}>
         <CircularProgress color="inherit" />
       </Backdrop>
       {/*Titulo del cards*/}

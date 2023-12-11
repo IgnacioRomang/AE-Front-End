@@ -45,7 +45,9 @@ const IconUserMenu = (props) => {
         navigate("register");
         break;
       case settings[0].id:
+        sessionStorage.removeItem("user");
         navigate("news");
+        window.location.reload();
         break;
       default:
         navigate("error");

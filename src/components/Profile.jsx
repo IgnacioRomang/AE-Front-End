@@ -3,7 +3,7 @@ import React from "react";
 import ProfileAEdata from "../fragments/ProfileIconData";
 import ProfileData from "../fragments/ProfileData";
 import Calendar from "../fragments/calendar/Calendar";
-import { getDates } from "../utiles";
+import { getDates, sessionGet } from "../utiles";
 import { centeringStyles, gridProfileStyle } from "../theme";
 import { useProfileString } from "../contexts/TextProvider";
 
@@ -56,19 +56,7 @@ const randomName = generateRandomName();
 
 const Profile = () => {
   const names = generateRandomName().split(" ");
-  const iuser = {
-    name: names[0],
-    cuil: "11-37425457-8",
-    lastname: names[1],
-    email: "ignacioromang@outlook.com",
-    address: {
-      street: "calle falsa",
-      city: "ciudad falsa",
-      state: "Inunda Fe",
-    },
-    phone: "+(12) 3214-645123",
-    ae: false,
-  };
+  let iuser = JSON.parse(sessionStorage.getItem("user"));
 
   const { startDay, fthMonth, sixMonth, lastMonth } = getDates();
   const labels = useProfileString();

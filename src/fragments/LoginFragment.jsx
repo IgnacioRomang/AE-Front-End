@@ -2,7 +2,7 @@ import { Stack, TextField } from "@mui/material";
 import { useLoginString } from "../contexts/TextProvider.jsx";
 import { boxLoginSyle } from "../theme.jsx";
 import React, { useState } from "react";
-import { doformatCUIL } from "../utiles.js";
+import { doformatCUIL, sessionSave } from "../utiles.js";
 
 //TODO QUITAR TEMAS
 const LoginFragment = React.forwardRef((props, ref) => {
@@ -25,8 +25,29 @@ const LoginFragment = React.forwardRef((props, ref) => {
   const handleOnChangePassword = (event) => {
     setPassword(event.target.value);
   };
-  const getData = () => {
-    return { username: formattedCUIL, password: passwordsd };
+  const getData = (consulta = false) => {
+    //TODO CONECTAR
+    let connect = true;
+    if (consulta) {
+      //CONSULTAR CON AXIZ
+      return true;
+    } else {
+      //CONSUTLAR VALORES  Y RETORNAR
+      sessionSave("user", {
+        name: "Ignacio",
+        cuil: "11-37425457-8",
+        lastname: "Romang",
+        email: "ignacioromang@outlook.com",
+        address: {
+          street: "calle falsa",
+          city: "ciudad falsa",
+          state: "Inunda Fe",
+        },
+        phone: "+(12) 3214-645123",
+        ae: false,
+      });
+    }
+    return connect;
   };
 
   React.useImperativeHandle(ref, () => ({

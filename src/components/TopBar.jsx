@@ -33,6 +33,8 @@ const TopBar = (props) => {
 
   const navigate = useNavigate();
 
+  React.useEffect(() => {});
+
   const pages = [
     { label: labels.opctions[0], icon: <PersonIcon />, id: 0, disabled: false },
     {

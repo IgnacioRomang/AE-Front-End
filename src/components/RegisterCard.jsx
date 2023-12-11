@@ -82,8 +82,6 @@ const RegisterCard = () => {
     },
     { occupation: "Otro", study: "No contesta", phone: "", email: "" },
     { files: [] },
-    {},
-    {},
   ]);
 
   const getStepperStage = (viewid, labels) => {

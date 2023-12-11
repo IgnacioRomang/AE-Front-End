@@ -63,13 +63,13 @@
             "topbar": {
                 "opctions": [
                     "Perfil",
-                    "Renovar",
+                    "Nueva Autoexclusión",
                     "Historial",
                     "finalización"
                 ]
             },
             "renewalcard": {
-                "mainTitle": "Renovación",
+                "mainTitle": "Nueva Autoexclusión",
                 "info": {
                     "title": "Actualización de Datos",
                     "body": [

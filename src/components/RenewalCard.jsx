@@ -39,12 +39,37 @@ const RenewalCard = () => {
   const [error, setError] = useState(false);
   const [expanded, setExpanded] = React.useState("null");
 
+  const [stepData, setStepData] = useState([
+    {
+      name: "",
+      lastName: "",
+      formattedCUIL: "",
+      selectedBirthdate: "",
+      selectedGender: "Ninguno",
+    },
+    {
+      address: "",
+      floor: "0",
+      apartment: "0",
+      province: "",
+      city: "",
+      postalCode: "",
+    },
+    { occupation: "Otro", study: "No contesta", phone: "", email: "" },
+    { files: [] },
+  ]);
+  const infoDataCardRef = React.useRef(null);
+  const addressDataCardRef = React.useRef(null);
+  const extraDataCardRef = React.useRef(null);
+  const fileAttachCardRef = React.useRef(null);
+
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
 
   const handleSend = () => {
     setRegisterSend(true);
+    //TODO SEND
     setOpen(!open);
   };
 
@@ -83,7 +108,14 @@ const RenewalCard = () => {
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <InfoDataCard />
+                  <InfoDataCard
+                    name={stepData[0].name}
+                    lastName={stepData[0].lastName}
+                    cuil={stepData[0].formattedCUIL}
+                    birthdate={stepData[0].selectedBirthdate}
+                    gender={stepData[0].selectedGender}
+                    ref={infoDataCardRef}
+                  />
                 </AccordionDetails>
               </Accordion>
 
@@ -101,7 +133,15 @@ const RenewalCard = () => {
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <AddressDataCard />
+                  <AddressDataCard
+                    address={stepData[1].address}
+                    floor={stepData[1].floor}
+                    apartment={stepData[1].apartment}
+                    province={stepData[1].province}
+                    city={stepData[1].city}
+                    postalCode={stepData[1].postalCode}
+                    ref={addressDataCardRef}
+                  />
                 </AccordionDetails>
               </Accordion>
 
@@ -119,7 +159,13 @@ const RenewalCard = () => {
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <ExtraDataCard />
+                  <ExtraDataCard
+                    occupation={stepData[2].occupation}
+                    study={stepData[2].study}
+                    phone={stepData[2].phone}
+                    email={stepData[2].email}
+                    ref={extraDataCardRef}
+                  />
                 </AccordionDetails>
               </Accordion>
 
@@ -137,7 +183,11 @@ const RenewalCard = () => {
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <FileAttachCard />
+                  <FileAttachCard
+                    ref={fileAttachCardRef}
+                    files={stepData[3].files}
+                  />
+                  ;
                 </AccordionDetails>
               </Accordion>
             </>
