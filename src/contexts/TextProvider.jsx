@@ -82,7 +82,12 @@ export function useProfileString() {
 export function useProfileIconDataString() {
   return useContext(baseTextContext).public.fragments.profileicondata;
 }
-
+export function useResetPasswordString() {
+  return useContext(baseTextContext).public.fragments.passwordreset;
+}
+export function useResetPasswordCardString() {
+  return useContext(baseTextContext).public.components.resetpassword;
+}
 export default {
   useRegisterCardString,
   useFileUploadSectionString,
@@ -102,4 +107,5 @@ export default {
   useUnRegisterCardString,
   useUnRegisterSuccessString,
   useProfileString,
+  useResetPasswordString,
 };

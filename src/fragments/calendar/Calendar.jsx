@@ -95,7 +95,7 @@ const Calendar = ({ intStart, intEnd, msg }) => {
 
   return (
     <div>
-      <Typography variant="h7" paddingBottom={2}>
+      <Typography variant="body7" padding={2}>
         {monthName.charAt(0).toUpperCase() +
           monthName.slice(1) +
           " " +

@@ -1,15 +1,16 @@
-import { Divider, Grid, Paper, Typography, TextField } from "@mui/material";
+import { Divider, Button, Paper, Typography } from "@mui/material";
 import React from "react";
 import UserBadge from "./UserBadgeFragment";
 import { centeringStyles } from "../theme.jsx";
-import { IconButton } from "@mui/material";
-import { GetApp, Visibility } from "@mui/icons-material";
 import { Box, Stack } from "@mui/system";
 import { useProfileIconDataString } from "../contexts/TextProvider";
+import { useNavigate } from "react-router-dom";
 
 const ProfileIconData = ({ iuser }) => {
   const [ae, setAe] = React.useState(iuser.ae);
   const labels = useProfileIconDataString();
+  const nav = useNavigate();
+
   const handleDownload = () => {
     // Lógica para descargar el PDF
     console.log("Descargando el PDF");
@@ -21,33 +22,35 @@ const ProfileIconData = ({ iuser }) => {
   };
   return (
     <Box sx={{ ...centeringStyles, paddingLeft: "4px", paddingRight: "4px" }}>
-      <Stack sx={centeringStyles}>
-        <UserBadge username={iuser.name + " " + iuser.lastname} isActive={ae} />
-        <Typography variant="body1" paddingRight={17} fontSize={10}>
-          {labels.cuil}
-        </Typography>
-        <Typography variant="h5">{iuser.cuil}</Typography>
-        <Typography variant="body1">
-          {iuser.lastname + ", " + iuser.name}
-        </Typography>
-        {/** ingresar botones de ojito y descarga*/}
-      </Stack>
-      {ae && (
-        <>
-          <Divider />
-          <Stack direction={"row"} sx={centeringStyles}>
-            <Typography variant="body1" fontSize={14}>
-              {labels.PDF}
-            </Typography>
-            <IconButton onClick={handleDownload} aria-label="Descargar PDF">
-              <GetApp />
-            </IconButton>
-            <IconButton onClick={handleView} aria-label="Visualizar PDF">
-              <Visibility />
-            </IconButton>
-          </Stack>
-        </>
-      )}
+      <Paper elevation={1}>
+        <Stack sx={centeringStyles}>
+          <UserBadge
+            username={iuser.name + " " + iuser.lastname}
+            isActive={ae}
+          />
+          <Typography variant="body1" paddingRight={17} fontSize={10}>
+            {labels.cuil}
+          </Typography>
+          <Typography variant="h5">{iuser.cuil}</Typography>
+          <Typography variant="body1">
+            {iuser.lastname + ", " + iuser.name}
+          </Typography>
+          {/** ingresar botones de ojito y descarga*/}
+        </Stack>
+
+        {ae && (
+          <>
+            <Divider />
+            <Stack direction={"row"} sx={centeringStyles}>
+              <Button>{labels.PDF}</Button>
+              <Divider orientation="vertical" flexItem />
+              <Button onClick={(e) => nav("/reset-ps")}>
+                {labels.password}
+              </Button>
+            </Stack>
+          </>
+        )}
+      </Paper>
     </Box>
   );
 };

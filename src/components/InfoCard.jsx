@@ -35,7 +35,7 @@ const InfoCard = ({ state }) => {
   const [loading, setLoading] = useState(state);
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 450 }}>
       {loading ? (
         <Skeleton
           variant="rectangular"

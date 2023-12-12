@@ -69,8 +69,8 @@ const Login = () => {
       setLoginSuccess(true);
       setLoginFail(false);
       setOpen(true);
-      await new Promise((resolve) => setTimeout(resolve, 10000));
-      navigate("/profile");
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      navigate("/profile/" + JSON.parse(sessionStorage.getItem("user")).id);
       setOpen(false);
       window.location.reload();
     } else {

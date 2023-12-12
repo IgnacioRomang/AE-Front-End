@@ -18,6 +18,7 @@ import Root from "./routes/root";
 import ErrorPage from "./routes/error-page";
 import Login from "./components/LoginCard.jsx";
 import News from "./routes/news";
+import ResetPassword from "./components/ResetPassword.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -41,12 +42,16 @@ const router = createBrowserRouter([
         element: <RenewalCard />,
       },
       {
-        path: "profile",
+        path: "profile/:id",
         element: <Profile />,
       },
       {
         path: "end",
         element: <UnRegisterCard />,
+      },
+      {
+        path: "reset-ps",
+        element: <ResetPassword />,
       },
     ],
   },

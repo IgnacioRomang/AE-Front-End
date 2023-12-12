@@ -13,7 +13,6 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import PersonIcon from "@mui/icons-material/Person";
-import SettingsIcon from "@mui/icons-material/Settings";
 import { stringAvatar } from "../utiles";
 
 import { useNavigate } from "react-router-dom";
@@ -40,9 +39,11 @@ const IconUserMenu = (props) => {
     switch (id) {
       case settings_login[0].id:
         navigate("login");
+        setAnchorElUser(null);
         break;
       case settings_login[1].id:
         navigate("register");
+        setAnchorElUser(null);
         break;
       case settings[0].id:
         sessionStorage.removeItem("user");
@@ -53,7 +54,7 @@ const IconUserMenu = (props) => {
         navigate("error");
     }
   };
-
+  const avatarname = stringAvatar(props.userName);
   return (
     <Box sx={{ flexGrow: 0 }}>
       <>
@@ -61,10 +62,11 @@ const IconUserMenu = (props) => {
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
             {props.userAuth ? (
               <Avatar
-                {...stringAvatar(props.userName)}
-                sx={{ width: 40, height: 40 }}
+                sx={{ ...avatarname.sx, width: 40, height: 40 }}
                 variant="rounded"
-              />
+              >
+                {avatarname.children}
+              </Avatar>
             ) : (
               <Avatar
                 src={PersonIcon}

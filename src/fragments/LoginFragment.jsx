@@ -34,6 +34,7 @@ const LoginFragment = React.forwardRef((props, ref) => {
     } else {
       //CONSUTLAR VALORES  Y RETORNAR
       sessionSave("user", {
+        id: "DFSKLF2KSADASDASDASDASDASDASDSADASDAS",
         name: "Ignacio",
         cuil: "11-37425457-8",
         lastname: "Romang",
@@ -44,7 +45,7 @@ const LoginFragment = React.forwardRef((props, ref) => {
           state: "Inunda Fe",
         },
         phone: "+(12) 3214-645123",
-        ae: false,
+        ae: true,
       });
     }
     return connect;

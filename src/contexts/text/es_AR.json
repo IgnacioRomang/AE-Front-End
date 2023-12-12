@@ -13,7 +13,11 @@
                     "restart": "Reintentar"
                 }
             },
+            "resetpassword":{
+                "title":"Cambio de Contraseña"
+            },
             "profile":{
+                "calendar": "Cronograma de Autoexclusión",
                 "msg":["Inicio de autoexclusión","Periodo de Baja","Fin de autoexclusión"]
             },
             "registerCard": {
@@ -96,9 +100,13 @@
             }
         },
         "fragments": {
+            "passwordreset":{
+                "textFieldLabels": ["Contraseña Actual","Nueva Contraseña","Reescriba nueva contraseña"]
+            },
             "profileicondata":{
                 "cuil": "CUIL",
-                "PDF": "Comprobante"
+                "PDF": "Comprobante de exclusión",
+                "password": "Cambio de Contraseña"
             },
             "unregistersuccess":{
                 "title": "¡Baja de auto-exclusión completada!",
