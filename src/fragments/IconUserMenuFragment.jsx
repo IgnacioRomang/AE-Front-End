@@ -16,6 +16,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import { stringAvatar } from "../utiles";
 
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 const settings = [{ label: "Cerrar sesión", icon: <ExitToAppIcon />, id: 5 }];
 
@@ -27,6 +28,7 @@ const settings_login = [
 const IconUserMenu = (props) => {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate();
+  const { setUser, setIsAuthenticated, User, isAuthenticated } = useAuth();
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -46,15 +48,18 @@ const IconUserMenu = (props) => {
         setAnchorElUser(null);
         break;
       case settings[0].id:
-        sessionStorage.removeItem("user");
-        navigate("news");
-        window.location.reload();
+        setUser(null);
+        setIsAuthenticated(false);
+        navigate("/news", { replace: true });
+        setAnchorElUser(null);
         break;
       default:
         navigate("error");
     }
   };
-  const avatarname = stringAvatar(props.userName);
+  const avatarname = isAuthenticated
+    ? stringAvatar(User.name + " " + User.lastname)
+    : stringAvatar("N N");
   return (
     <Box sx={{ flexGrow: 0 }}>
       <>

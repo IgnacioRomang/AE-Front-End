@@ -2,7 +2,7 @@ import React from "react";
 
 const ScrollableComponent = ({ children, styles }) => {
   const newStyle = {
-    minHeight: "90vh",
+    minHeight: "100vh",
     overflowY: "scroll",
     ...styles,
   };

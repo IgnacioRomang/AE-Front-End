@@ -44,7 +44,7 @@ const ProfileIconData = ({ iuser }) => {
             <Stack direction={"row"} sx={centeringStyles}>
               <Button>{labels.PDF}</Button>
               <Divider orientation="vertical" flexItem />
-              <Button onClick={(e) => nav("/reset-ps")}>
+              <Button onClick={(e) => nav("/resetpassword")}>
                 {labels.password}
               </Button>
             </Stack>

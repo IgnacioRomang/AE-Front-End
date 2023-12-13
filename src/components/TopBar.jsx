@@ -63,7 +63,7 @@ const TopBar = (props) => {
         //navigate("renewal");
         break;
       case pages[3].id:
-        navigate("end");
+        navigate("baja");
         break;
 
       default:
@@ -148,7 +148,7 @@ const TopBar = (props) => {
             />
           </Box>
           <Box sx={{ flexGrow: 1 }} />
-          <IconUserMenu userAuth={props.userAuth} userName="Ignacio Romang" />
+          <IconUserMenu userAuth={props.userAuth} />
         </Toolbar>
       </Container>
     </AppBar>

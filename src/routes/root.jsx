@@ -4,17 +4,14 @@ import InfoCard from "../components/InfoCard";
 import TopBar from "../components/TopBar";
 import ScrollableComponent from "../fragments/ScrollableComponent";
 import React from "react";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function Root() {
-  const [userAuth, setUserAuth] = React.useState(
-    sessionStorage.getItem("user") !== null
-  );
-  React.useEffect(() => {
-    setUserAuth(sessionStorage.getItem("user") !== null);
-  }, [userAuth, setUserAuth]);
+  const { isAuthenticated } = useAuth();
+
   return (
     <>
-      <TopBar userAuth={userAuth} />
+      <TopBar userAuth={isAuthenticated} />
       <ScrollableComponent>
         <div id="detail" style={{ padding: 52 }}>
           <Outlet />

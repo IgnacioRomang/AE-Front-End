@@ -11,11 +11,11 @@ import {
   Divider,
   Link,
   Stack,
-  TextField,
 } from "@mui/material";
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
 import { useCommonsString, useLoginString } from "../contexts/TextProvider.jsx";
 import {
   backdropLoginStyle,
@@ -24,15 +24,15 @@ import {
   centerBottonsStyle,
   linksStyle,
 } from "../theme.jsx";
-import { useNavigate } from "react-router-dom";
 
+import { useAuth } from "../contexts/AuthContext.js";
 import LoginFragment from "../fragments/LoginFragment.jsx";
-import { NavigateNextSharp, WindowSharp } from "@mui/icons-material";
 
 const Login = () => {
   const [open, setOpen] = React.useState(false);
   const [labels, assets] = useLoginString();
   const commonlabels = useCommonsString();
+  const { setIsAuthenticated, setUser, User } = useAuth();
 
   //Si es verdadero desactiva los botones y muestra el mensaje de exito
   //para poder enviarlo  a la proxima pantalla
@@ -42,8 +42,9 @@ const Login = () => {
   const [loginFail, setLoginFail] = React.useState(false);
 
   const logindataref = React.useRef(null);
+
   React.useEffect(() => {
-    if (sessionStorage.getItem("user") !== null) {
+    if (User !== null) {
       navigate("/profile");
     }
   }, []);
@@ -65,14 +66,18 @@ const Login = () => {
   const handleLogin = async (event) => {
     //TODO LOGIN
     let loggin = logindataref.current.getData();
-    if (loggin) {
+    if (loggin !== null) {
       setLoginSuccess(true);
       setLoginFail(false);
       setOpen(true);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      navigate("/profile/" + JSON.parse(sessionStorage.getItem("user")).id);
+
+      setIsAuthenticated(true);
+      setUser(loggin);
+
+      navigate("/profile", {
+        replace: true,
+      });
       setOpen(false);
-      window.location.reload();
     } else {
       loginSuccess(false);
       setLoginFail(true);
@@ -93,7 +98,7 @@ const Login = () => {
     navigate("/news");
   };
   return (
-    <Card sx={cardLoginStyle}>
+    <Card sx={cardLoginStyle} >
       <Backdrop sx={backdropLoginStyle} open={open} onClick={null}>
         <CircularProgress color="inherit" />
       </Backdrop>

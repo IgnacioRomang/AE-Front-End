@@ -1,17 +1,16 @@
-import { Box, Divider, Stack, Paper, Grid, Typography } from "@mui/material";
+import { Divider, Grid, Paper, Typography } from "@mui/material";
 import React from "react";
-import ProfileAEdata from "../fragments/ProfileIconData";
-import ProfileData from "../fragments/ProfileData";
-import Calendar from "../fragments/calendar/Calendar";
-import { getDates, sessionGet } from "../utiles";
-import { centeringStyles, gridProfileStyle } from "../theme";
+import { useAuth } from "../contexts/AuthContext";
 import { useProfileString } from "../contexts/TextProvider";
-import PasswordFragment from "../fragments/PasswordFragment";
-import ResetPassword from "./ResetPassword";
+import ProfileData from "../fragments/ProfileData";
+import ProfileAEdata from "../fragments/ProfileIconData";
+import Calendar from "../fragments/calendar/Calendar";
+import { centeringStyles, gridProfileStyle } from "../theme";
+import { getDates } from "../utiles";
 
-const Profile = () => {
-  let iuser = JSON.parse(sessionStorage.getItem("user"));
-
+const Profile = (props) => {
+  const { User } = useAuth();
+  const iuser = User;
   const { startDay, fthMonth, sixMonth, lastMonth } = getDates();
   const labels = useProfileString();
   return (
