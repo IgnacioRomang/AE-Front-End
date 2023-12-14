@@ -1,10 +1,16 @@
 import {
+  Alert,
+  AlertTitle,
   Box,
   Button,
   Card,
   CardActions,
   CardContent,
   CardHeader,
+  Collapse,
+  List,
+  ListItem,
+  ListItemText,
   Typography,
 } from "@mui/material";
 import React from "react";
@@ -26,11 +32,15 @@ const ResetPassword = () => {
   const label = useResetPasswordCardString();
   const nav = useNavigate();
   const ref = React.useRef(null);
-
+  const [error, setError] = React.useState(false);
   const handleAcept = () => {
     //TODO HACe;
-    //ref.current.sendData();
-    nav("/profile");
+    let result = ref.current.sendData();
+    setError(!result[0]);
+    if (result[0]) {
+      //TODO enviar datos de result[1]
+      nav("/profile");
+    }
   };
   const handleBack = () => {
     nav("/profile");
@@ -39,8 +49,26 @@ const ResetPassword = () => {
     <>
       <Card sx={cardLoginStyle}>
         <CardHeader title={label.title} />
-        <CardContent sx={boxLoginSyle}>
-          <PasswordFragment ref={ref} />
+        <CardContent container sx={boxLoginSyle}>
+          <CardContent item sx={12} sm={8}>
+            <PasswordFragment ref={ref} />
+          </CardContent>
+          <CardContent item sx={12} sm={8}>
+            <Collapse in={error}>
+              <Alert
+                severity="error"
+                style={{ textAlign: "left", marginTop: "16px" }}
+              >
+                <AlertTitle>{label.alert.title}</AlertTitle>
+                <ul>
+                  <li>{label.alert.body[0]}</li>
+                  <li>{label.alert.body[1]}</li>
+                  <li>{label.alert.body[2]}</li>
+                  <li>{label.alert.body[3]}</li>
+                </ul>
+              </Alert>
+            </Collapse>
+          </CardContent>
         </CardContent>
         <CardActions sx={centerBottonsStyle}>
           <Button size="small" onClick={handleBack} color="inherit">

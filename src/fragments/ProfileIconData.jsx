@@ -5,6 +5,7 @@ import { centeringStyles } from "../theme.jsx";
 import { Box, Stack } from "@mui/system";
 import { useProfileIconDataString } from "../contexts/TextProvider";
 import { useNavigate } from "react-router-dom";
+import { Height } from "@mui/icons-material";
 
 const ProfileIconData = ({ iuser }) => {
   const [ae, setAe] = React.useState(iuser.ae);
@@ -22,7 +23,7 @@ const ProfileIconData = ({ iuser }) => {
   };
   return (
     <Box sx={{ ...centeringStyles, paddingLeft: "4px", paddingRight: "4px" }}>
-      <Paper elevation={1}>
+      <Paper elevation={1} sx={{ width: "25vw" }}>
         <Stack sx={centeringStyles}>
           <UserBadge
             username={iuser.name + " " + iuser.lastname}
@@ -46,6 +47,10 @@ const ProfileIconData = ({ iuser }) => {
               <Divider orientation="vertical" flexItem />
               <Button onClick={(e) => nav("/resetpassword")}>
                 {labels.password}
+              </Button>
+              <Divider orientation="vertical" flexItem />
+              <Button onClick={(e) => nav("/resetpassword")}>
+                {labels.email}
               </Button>
             </Stack>
           </>

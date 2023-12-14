@@ -29,6 +29,7 @@ import {
 
 import AlertFragment from "../fragments/AlertFragmet.jsx";
 import { cardRegisterStyle, centerBottonsStyle } from "../theme.jsx";
+import { useAuth } from "../contexts/AuthContext.js";
 
 const RenewalCard = () => {
   const [registerSend, setRegisterSend] = useState(false);
@@ -38,24 +39,29 @@ const RenewalCard = () => {
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
   const [expanded, setExpanded] = React.useState("null");
-
+  const { User } = useAuth();
   const [stepData, setStepData] = useState([
     {
-      name: "",
-      lastName: "",
-      formattedCUIL: "",
-      selectedBirthdate: "",
-      selectedGender: "Ninguno",
+      name: User.name,
+      lastName: User.lastname,
+      formattedCUIL: User.cuil,
+      selectedBirthdate: User.birthdate,
+      selectedGender: User.gender,
     },
     {
-      address: "",
-      floor: "0",
-      apartment: "0",
-      province: "",
-      city: "",
-      postalCode: "",
+      address: User.address.street,
+      floor: User.address.floor,
+      apartment: User.address.apartment,
+      state: User.address.state,
+      city: User.address.city,
+      postalCode: User.address.postalCode,
     },
-    { occupation: "Otro", study: "No contesta", phone: "", email: "" },
+    {
+      occupation: User.occupation,
+      study: User.study,
+      phone: User.phone,
+      email: User.email,
+    },
     { files: [] },
   ]);
   const infoDataCardRef = React.useRef(null);
@@ -112,6 +118,7 @@ const RenewalCard = () => {
                     name={stepData[0].name}
                     lastName={stepData[0].lastName}
                     cuil={stepData[0].formattedCUIL}
+                    regregisterStateister={false}
                     birthdate={stepData[0].selectedBirthdate}
                     gender={stepData[0].selectedGender}
                     ref={infoDataCardRef}
@@ -137,7 +144,7 @@ const RenewalCard = () => {
                     address={stepData[1].address}
                     floor={stepData[1].floor}
                     apartment={stepData[1].apartment}
-                    province={stepData[1].province}
+                    province={stepData[1].state}
                     city={stepData[1].city}
                     postalCode={stepData[1].postalCode}
                     ref={addressDataCardRef}
@@ -187,7 +194,6 @@ const RenewalCard = () => {
                     ref={fileAttachCardRef}
                     files={stepData[3].files}
                   />
-                  ;
                 </AccordionDetails>
               </Accordion>
             </>

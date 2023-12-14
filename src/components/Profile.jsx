@@ -18,7 +18,7 @@ const Profile = (props) => {
       <Grid spacing={2} padding={1} container sx={gridProfileStyle}>
         <Grid item xs={12} sm={12}>
           <Grid container spacing={4} sx={centeringStyles}>
-            <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={5}>
               <ProfileAEdata iuser={iuser} />
             </Grid>
             <Grid item xs={12} sm={6}>

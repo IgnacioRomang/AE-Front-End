@@ -56,12 +56,10 @@ export const getDates = () => {
 
 export const shortEmail = (email) => {
   let splitemail = email.split("@");
-  let sizedir = splitemail[0].length;
   let sizedom = splitemail[1].length;
   return (
-    splitemail[0].substr(0, 2) +
+    splitemail[0].substr(0, 3) +
     "****" +
-    splitemail[0].substr(sizedir - 2, sizedir) +
     "@" +
     splitemail[1].substr(0, 3) +
     "***" +
@@ -198,8 +196,15 @@ export const doPhone = (phonein) => {
   }
 };
 
+export const testpassword = (password1, password2) => {
+  let re = new RegExp("^(?=.*d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$");
+
+  return password1 === password2 ? re.test(password1) : false;
+};
+
 export default {
   isNum,
+  testpassword,
   shortFileName,
   getDates,
   stringAvatar,

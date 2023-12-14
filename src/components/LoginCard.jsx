@@ -72,8 +72,9 @@ const Login = () => {
       setOpen(true);
 
       setIsAuthenticated(true);
-      setUser(loggin);
 
+      setUser(loggin);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       navigate("/profile", {
         replace: true,
       });
@@ -98,7 +99,7 @@ const Login = () => {
     navigate("/news");
   };
   return (
-    <Card sx={cardLoginStyle} >
+    <Card sx={cardLoginStyle}>
       <Backdrop sx={backdropLoginStyle} open={open} onClick={null}>
         <CircularProgress color="inherit" />
       </Backdrop>

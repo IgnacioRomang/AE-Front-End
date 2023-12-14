@@ -31,13 +31,20 @@ const LoginFragment = React.forwardRef((props, ref) => {
       name: "Ignacio",
       cuil: "11-37425457-8",
       lastname: "Romang",
+      birthdate: "1996-04-21",
+      gender: 2,
       email: "ignacioromang@outlook.com",
       address: {
         street: "calle falsa",
+        floor: 1,
+        apartment: "A",
+        postalCode: "3000",
         city: "ciudad falsa",
         state: "Inunda Fe",
       },
       phone: "+(12) 3214-645123",
+      occupation: 11,
+      study: 24,
       ae: true,
     };
     return connect;

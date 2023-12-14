@@ -71,6 +71,7 @@ const RegisterCard = () => {
       formattedCUIL: "",
       selectedBirthdate: "",
       selectedGender: "Ninguno",
+      password: "",
     },
     {
       address: "",
@@ -90,10 +91,12 @@ const RegisterCard = () => {
         return (
           <InfoDataCard
             name={stepData[0].name}
+            registerState={true}
             lastName={stepData[0].lastName}
             cuil={stepData[0].formattedCUIL}
             birthdate={stepData[0].selectedBirthdate}
             gender={stepData[0].selectedGender}
+            password={stepData[0].password}
             ref={dataRef}
           />
         );
