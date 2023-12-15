@@ -103,7 +103,6 @@ const Login = () => {
       <Backdrop sx={backdropLoginStyle} open={open} onClick={null}>
         <CircularProgress color="inherit" />
       </Backdrop>
-      {/*Titulo del cards*/}
       <CardHeader
         titleTypographyProps={{ variant: "h6" }}
         avatar={<LockOpenIcon />}

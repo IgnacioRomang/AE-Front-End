@@ -22,8 +22,21 @@ const ProfileIconData = ({ iuser }) => {
     console.log("Visualizando el PDF");
   };
   return (
-    <Box sx={{ ...centeringStyles, paddingLeft: "4px", paddingRight: "4px" }}>
-      <Paper elevation={1} sx={{ width: "25vw" }}>
+    <Box
+      sx={{
+        ...centeringStyles,
+        paddingLeft: "4px",
+        paddingRight: "4px",
+      }}
+    >
+      <Paper
+        elevation={1}
+        sx={{
+          width: "25vw",
+          background:
+            "linear-gradient(90deg,rgba(228,228,228,1) 0%, rgba(255,255,255,1) 50%,rgba(228,228,228,1) 100%);",
+        }}
+      >
         <Stack sx={centeringStyles}>
           <UserBadge
             username={iuser.name + " " + iuser.lastname}

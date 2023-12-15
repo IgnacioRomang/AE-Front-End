@@ -87,7 +87,7 @@ const InfoDataCard = React.forwardRef((props, ref) => {
     setUserData((prevData) => ({ ...prevData, selectedGender: newGender }));
     setErrors((prevErrors) => ({
       ...prevErrors,
-      selectedGender: newGender === "Ninguno",
+      selectedGender: newGender === 4,
     }));
   };
 
@@ -107,8 +107,8 @@ const InfoDataCard = React.forwardRef((props, ref) => {
       formattedCUIL: !formattedCUIL.trim() || formattedCUIL.length !== 13,
       selectedBirthdate:
         !datecontrol(new Date(selectedBirthdate)) || !selectedBirthdate.trim(),
-      selectedGender: selectedGender === "Ninguno",
-      password: testpassword(passrep, password),
+      selectedGender: selectedGender === 4,
+      password: !testpassword(passrep, password),
     };
 
     setErrors(errors);

@@ -25,45 +25,46 @@ const PasswordFragment = React.forwardRef((props, ref) => {
     sendData,
   }));
   return (
-    <Box>
-      <Stack spacing={2}>
-        <TextField
-          id="password"
-          label={labels.textFieldLabels[0]}
-          required
-          value={passwordChange.password}
-          onChange={(event) => {
-            handleChange("password", event.target.value);
-          }}
-          type="password"
-          variant="standard"
-        />
-        <TextField
-          id="password"
-          label={labels.textFieldLabels[1]}
-          type="password"
-          required
-          error={error}
-          value={passwordChange.newps}
-          onChange={(event) => {
-            handleChange("newps", event.target.value);
-          }}
-          variant="standard"
-        />
-        <TextField
-          id="passwordres"
-          label={labels.textFieldLabels[2]}
-          type="password"
-          required
-          error={error}
-          value={passwordChange.renewps}
-          onChange={(event) => {
-            handleChange("renewps", event.target.value);
-          }}
-          variant="standard"
-        />
-      </Stack>
-    </Box>
+    <Stack spacing={1}>
+      <TextField
+        id="password"
+        sx={{ width: "25vw" }}
+        label={labels.textFieldLabels[0]}
+        required
+        value={passwordChange.password}
+        onChange={(event) => {
+          handleChange("password", event.target.value);
+        }}
+        type="password"
+        variant="standard"
+      />
+      <TextField
+        id="password"
+        label={labels.textFieldLabels[1]}
+        type="password"
+        sx={{ width: "25vw" }}
+        required
+        error={error}
+        value={passwordChange.newps}
+        onChange={(event) => {
+          handleChange("newps", event.target.value);
+        }}
+        variant="standard"
+      />
+      <TextField
+        id="passwordres"
+        label={labels.textFieldLabels[2]}
+        type="password"
+        sx={{ width: "25vw" }}
+        required
+        error={error}
+        value={passwordChange.renewps}
+        onChange={(event) => {
+          handleChange("renewps", event.target.value);
+        }}
+        variant="standard"
+      />
+    </Stack>
   );
 });
 

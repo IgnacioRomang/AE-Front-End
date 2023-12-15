@@ -197,7 +197,7 @@ export const doPhone = (phonein) => {
 };
 
 export const testpassword = (password1, password2) => {
-  let re = new RegExp("^(?=.*d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$");
+  let re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
 
   return password1 === password2 ? re.test(password1) : false;
 };

@@ -160,7 +160,8 @@
           "De lo contrario, la exclusión durará hasta ",
           "Y durará hasta ",
           "¿Esta seguro que desea continuar?"
-        ]
+        ],
+        "code": "Codigo"
       },
       "fileUploadSection": {
         "label": "Imágenes del DNI (*)",

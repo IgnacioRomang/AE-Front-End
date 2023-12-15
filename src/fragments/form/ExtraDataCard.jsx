@@ -16,7 +16,7 @@ const occupations = [
   { label: "Trabajador", id: 13 },
   { label: "Otro", id: 14 },
 ];
-const capacitys = [
+const study = [
   { label: "Primaria", id: 21 },
   { label: "Secundaria", id: 22 },
   { label: "Tercearua", id: 23 },
@@ -114,7 +114,7 @@ const ExtraDataCard = React.forwardRef((props, ref) => {
                 id: "Study",
               }}
             >
-              {capacitys.map((c) => (
+              {study.map((c) => (
                 <option key={c.id} value={c.id}>
                   {c.label}
                 </option>

@@ -46,40 +46,38 @@ const ResetPassword = () => {
     nav("/profile");
   };
   return (
-    <>
-      <Card sx={cardLoginStyle}>
-        <CardHeader title={label.title} />
-        <CardContent container sx={boxLoginSyle}>
-          <CardContent item sx={12} sm={8}>
-            <PasswordFragment ref={ref} />
-          </CardContent>
-          <CardContent item sx={12} sm={8}>
-            <Collapse in={error}>
-              <Alert
-                severity="error"
-                style={{ textAlign: "left", marginTop: "16px" }}
-              >
-                <AlertTitle>{label.alert.title}</AlertTitle>
-                <ul>
-                  <li>{label.alert.body[0]}</li>
-                  <li>{label.alert.body[1]}</li>
-                  <li>{label.alert.body[2]}</li>
-                  <li>{label.alert.body[3]}</li>
-                </ul>
-              </Alert>
-            </Collapse>
-          </CardContent>
+    <Card sx={cardLoginStyle}>
+      <CardHeader title={label.title} />
+      <CardContent container sx={boxLoginSyle}>
+        <CardContent item sx={12} sm={8}>
+          <PasswordFragment ref={ref} />
         </CardContent>
-        <CardActions sx={centerBottonsStyle}>
-          <Button size="small" onClick={handleBack} color="inherit">
-            {labelbutton.button.back}
-          </Button>
-          <Button size="small" onClick={handleAcept}>
-            {labelbutton.button.ok}
-          </Button>
-        </CardActions>
-      </Card>
-    </>
+        <CardContent item sx={12} sm={8}>
+          <Collapse in={error}>
+            <Alert
+              severity="error"
+              style={{ textAlign: "left", marginTop: "16px" }}
+            >
+              <AlertTitle>{label.alert.title}</AlertTitle>
+              <ul>
+                <li>{label.alert.body[0]}</li>
+                <li>{label.alert.body[1]}</li>
+                <li>{label.alert.body[2]}</li>
+                <li>{label.alert.body[3]}</li>
+              </ul>
+            </Alert>
+          </Collapse>
+        </CardContent>
+      </CardContent>
+      <CardActions sx={centerBottonsStyle}>
+        <Button size="small" onClick={handleBack} color="inherit">
+          {labelbutton.button.back}
+        </Button>
+        <Button size="small" onClick={handleAcept}>
+          {labelbutton.button.ok}
+        </Button>
+      </CardActions>
+    </Card>
   );
 };
 

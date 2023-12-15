@@ -70,7 +70,7 @@ const RegisterCard = () => {
       lastName: "",
       formattedCUIL: "",
       selectedBirthdate: "",
-      selectedGender: "Ninguno",
+      selectedGender: 4,
       password: "",
     },
     {
@@ -81,7 +81,7 @@ const RegisterCard = () => {
       city: "",
       postalCode: "",
     },
-    { occupation: "Otro", study: "No contesta", phone: "", email: "" },
+    { occupation: 14, study: 26, phone: "", email: "" },
     { files: [] },
   ]);
 
