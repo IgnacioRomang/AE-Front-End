@@ -48,42 +48,27 @@ const Login = () => {
       navigate("/profile");
     }
   }, []);
-  const handleClose = () => {
-    setOpen(false);
-    let proces = true;
-    if (proces === true) {
-      setLoginSuccess(true);
-      // hacer
-    } else {
-      setLoginFail(true);
-      //Activar mensajes de error en los text
-    }
-  };
-  const handleOpen = () => {
-    setOpen(true);
-  };
 
   const handleLogin = async (event) => {
-    //TODO LOGIN
-    let loggin = logindataref.current.getData();
+    setOpen(true);
+    let loggin = await logindataref.current.getData();
+    console.log(loggin);
+    setOpen(false);
     if (loggin !== null) {
       setLoginSuccess(true);
       setLoginFail(false);
-      setOpen(true);
 
       setIsAuthenticated(true);
 
       setUser(loggin);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       navigate("/profile", {
         replace: true,
       });
-      setOpen(false);
     } else {
-      loginSuccess(false);
+      setLoginSuccess(false);
       setLoginFail(true);
     }
-    handleOpen();
   };
 
   const handleCuil = (event) => {

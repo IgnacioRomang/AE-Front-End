@@ -2,6 +2,7 @@ import { Stack, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { useLoginString } from "../contexts/TextProvider.jsx";
 import { doformatCUIL } from "../utiles.js";
+import axios from "axios";
 
 //TODO QUITAR TEMAS
 const LoginFragment = React.forwardRef((props, ref) => {
@@ -24,30 +25,45 @@ const LoginFragment = React.forwardRef((props, ref) => {
   const handleOnChangePassword = (event) => {
     setPassword(event.target.value);
   };
-  const getData = (consulta = false) => {
-    //TODO CONECTAR
-    let connect = {
-      id: "DFSKLF2KSADASDASDASDASDASDASDSADASDAS",
-      name: "Ignacio",
-      cuil: "11-37425457-8",
-      lastname: "Romang",
-      birthdate: "1996-04-21",
-      gender: 2,
-      email: "ignacioromang@outlook.com",
-      address: {
-        street: "calle falsa",
-        floor: 1,
-        apartment: "A",
-        postalCode: "3000",
-        city: "ciudad falsa",
-        state: "Inunda Fe",
-      },
-      phone: "+(12) 3214-645123",
-      occupation: 11,
-      study: 24,
-      ae: true,
-    };
-    return connect;
+  const getData = async () => {
+    let url = process.env.REACT_APP_BACK_URL;
+    let user = null;
+    await axios
+      .post(`${url}/api/login`, {
+        name: formattedCUIL,
+        password: passwordsd,
+      })
+      .then((response) => {
+        sessionStorage.setItem("authorization", response.authorization);
+        console.log(response.data);
+        if (response.data !== null) {
+          user = {
+            id: "DFSKLF2KSADASDASDASDASDASDASDSADASDAS",
+            name: "Ignacio",
+            cuil: response.data.user.name,
+            lastname: "Romang",
+            birthdate: "1996-04-21",
+            gender: 2,
+            email: response.data.user.email,
+            address: {
+              street: "calle falsa",
+              floor: 1,
+              apartment: "A",
+              postalCode: "3000",
+              city: "ciudad falsa",
+              state: "Inunda Fe",
+            },
+            phone: "+(12) 3214-645123",
+            occupation: 11,
+            study: 24,
+            ae: true,
+          };
+        }
+      })
+      .catch((e) => {
+        console.error("Error durante el inicio de sesión:", e);
+      });
+    return user;
   };
 
   React.useImperativeHandle(ref, () => ({
