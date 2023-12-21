@@ -52,7 +52,6 @@ const Login = () => {
   const handleLogin = async (event) => {
     setOpen(true);
     let loggin = await logindataref.current.getData();
-    console.log(loggin);
     setOpen(false);
     if (loggin !== null) {
       setLoginSuccess(true);

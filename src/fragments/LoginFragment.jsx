@@ -28,34 +28,22 @@ const LoginFragment = React.forwardRef((props, ref) => {
   const getData = async () => {
     let url = process.env.REACT_APP_BACK_URL;
     let user = null;
+    let csrfToken = null;
+    let auth = null;
     await axios
-      .post(`${url}/api/login`, {
-        name: formattedCUIL,
+      .post(`${url}/api/auth/login`, {
+        cuil: formattedCUIL,
         password: passwordsd,
       })
       .then((response) => {
-        sessionStorage.setItem("authorization", response.authorization);
-        console.log(response.data);
+        auth = response.data.authorization;
+        sessionStorage.setItem("authorization", auth);
         if (response.data !== null) {
+          let names = response.data.user.name.split(" ");
           user = {
-            id: "DFSKLF2KSADASDASDASDASDASDASDSADASDAS",
-            name: "Ignacio",
-            cuil: response.data.user.name,
-            lastname: "Romang",
-            birthdate: "1996-04-21",
-            gender: 2,
-            email: response.data.user.email,
-            address: {
-              street: "calle falsa",
-              floor: 1,
-              apartment: "A",
-              postalCode: "3000",
-              city: "ciudad falsa",
-              state: "Inunda Fe",
-            },
-            phone: "+(12) 3214-645123",
-            occupation: 11,
-            study: 24,
+            name: names[0],
+            cuil: response.data.user.cuil,
+            lastname: names[1],
             ae: true,
           };
         }
@@ -63,6 +51,10 @@ const LoginFragment = React.forwardRef((props, ref) => {
       .catch((e) => {
         console.error("Error durante el inicio de sesión:", e);
       });
+    axios.defaults.headers.common["X-CSRF-TOKEN"] = csrfToken;
+    axios.defaults.headers.common["User-Agent"] = "FRONT-END-REACT";
+    axios.defaults.headers.common["Authorization"] = auth.type + auth.token;
+
     return user;
   };
 

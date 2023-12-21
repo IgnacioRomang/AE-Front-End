@@ -13,6 +13,7 @@ import { AuthProvider } from "./contexts/AuthContext.js";
 import ErrorPage from "./routes/error-page";
 import News from "./routes/news";
 import Root from "./routes/root";
+import axios from "axios";
 
 function App() {
   return (
