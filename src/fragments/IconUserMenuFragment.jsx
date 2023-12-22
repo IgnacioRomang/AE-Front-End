@@ -17,6 +17,7 @@ import { stringAvatar } from "../utiles";
 
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import axios from "axios";
 
 const settings = [{ label: "Cerrar sesión", icon: <ExitToAppIcon />, id: 5 }];
 
@@ -50,6 +51,10 @@ const IconUserMenu = (props) => {
       case settings[0].id:
         setUser(null);
         setIsAuthenticated(false);
+
+        let url = process.env.REACT_APP_BACK_URL;
+        axios.post(`${url}/api/auth/logout`);
+
         navigate("/news", { replace: true });
         setAnchorElUser(null);
         break;

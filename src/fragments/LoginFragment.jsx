@@ -31,10 +31,16 @@ const LoginFragment = React.forwardRef((props, ref) => {
     let csrfToken = null;
     let auth = null;
     await axios
-      .post(`${url}/api/auth/login`, {
-        cuil: formattedCUIL,
-        password: passwordsd,
-      })
+      .post(
+        `${url}/api/auth/login`,
+        {
+          cuil: formattedCUIL,
+          password: passwordsd,
+        },
+        {
+          withCredentials: true, // Agrega esta opción para incluir las credenciales
+        }
+      )
       .then((response) => {
         auth = response.data.authorization;
         sessionStorage.setItem("authorization", auth);

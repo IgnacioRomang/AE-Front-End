@@ -13,25 +13,40 @@ const Profile = (props) => {
   const { User } = useAuth();
   const iuser = User;
   const [loading, setLoading] = React.useState(true);
-  const { startDay, fthMonth, sixMonth, lastMonth } = getDates();
-  let url = process.env.REACT_APP_BACK_URL;
-  axios.post(`${url}/api/ae/aedates`).then((response) => {
-    startDay = new Date(response.data.startDay);
-    fthMonth = new Date(response.data.fifthMonth);
-    sixMonth = new Date(response.data.sixthMonth);
-    lastMonth = new Date(response.data.lastMonth);
-    setLoading(false);
+  const [serverDates, setServerDates] = React.useState({
+    startDay: new Date(),
+    fifthMonth: new Date(),
+    sixthMonth: new Date(),
+    lastMonth: new Date(),
   });
+
+  React.useEffect(() => {
+    let url = process.env.REACT_APP_BACK_URL;
+    const fetchData = async () => {
+      try {
+        const response = await axios.post(`${url}/api/ae/aedates`);
+        setServerDates({
+          startDay: new Date(response.data.startDay),
+          fifthMonth: new Date(response.data.fifthMonth),
+          sixthMonth: new Date(response.data.sixthMonth),
+          lastMonth: new Date(response.data.lastMonth),
+        });
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        // Manejar el error según sea necesario
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
   const labels = useProfileString();
   return (
     <Paper>
       <Grid spacing={2} padding={1} container sx={gridProfileStyle}>
-        <Grid item xs={12} sm={12}>
-          <Grid container spacing={4} sx={centeringStyles}>
-            <Grid item xs={12} sm={5}>
-              <ProfileAEdata iuser={iuser} />
-            </Grid>
-          </Grid>
+        <Grid item xs={12} lg={8} sm={6} sx={centeringStyles}>
+          <ProfileAEdata iuser={iuser} />
         </Grid>
         {iuser.ae && (
           <Grid item paddingBottom={2}>
@@ -50,8 +65,8 @@ const Profile = (props) => {
                   <Skeleton variant="rounded" width={200} height={200} />
                 ) : (
                   <Calendar
-                    intStart={startDay}
-                    intEnd={startDay}
+                    intStart={serverDates.startDay}
+                    intEnd={serverDates.startDay}
                     msg={labels.msg[0]}
                   />
                 )}
@@ -61,8 +76,8 @@ const Profile = (props) => {
                   <Skeleton variant="rounded" width={200} height={200} />
                 ) : (
                   <Calendar
-                    intStart={fthMonth}
-                    intEnd={sixMonth}
+                    intStart={serverDates.fifthMonth}
+                    intEnd={serverDates.sixthMonth}
                     msg={labels.msg[1]}
                   />
                 )}
@@ -73,9 +88,13 @@ const Profile = (props) => {
                 ) : (
                   <Calendar
                     intStart={
-                      new Date(sixMonth.getFullYear(), sixMonth.getMonth(), 1)
+                      new Date(
+                        serverDates.sixthMonth.getFullYear(),
+                        serverDates.sixthMonth.getMonth(),
+                        1
+                      )
                     }
-                    intEnd={sixMonth}
+                    intEnd={serverDates.sixthMonth}
                     msg={labels.msg[1]}
                   />
                 )}
@@ -85,8 +104,8 @@ const Profile = (props) => {
                   <Skeleton variant="rounded" width={200} height={200} />
                 ) : (
                   <Calendar
-                    intStart={lastMonth}
-                    intEnd={lastMonth}
+                    intStart={serverDates.lastMonth}
+                    intEnd={serverDates.lastMonth}
                     msg={labels.msg[2]}
                   />
                 )}

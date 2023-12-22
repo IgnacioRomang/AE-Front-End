@@ -291,6 +291,34 @@ export const gridProfileStyle = {
   },
   // Otros estilos personalizados si es necesario
 };
+export const gridProfileInfoStyle = {
+  background:
+    "linear-gradient(90deg,rgba(228,228,228,1) 0%, rgba(255,255,255,1) 50%,rgba(228,228,228,1) 100%);",
+  width: "50vw", // Altura por defecto
+
+  // Ajusta la altura para tamaños de pantalla específicos
+  "@media (max-width: 600px)": {
+    width: "80vw", // Altura para tamaños pequeños de pantalla (xs)
+  },
+
+  "@media (min-width: 601px) and (max-width: 960px)": {
+    width: "40vw", // Altura para tamaños medianos de pantalla (sm)
+  },
+
+  "@media (min-width: 961px) and (max-width: 1280px)": {
+    width: "40vw", // Altura para tamaños grandes de pantalla (md)
+  },
+
+  "@media (min-width: 1281px) and (max-width: 1920px)": {
+    // pantalla 1080
+    width: "40vw", // Altura para tamaños extra grandes de pantalla (lg)
+  },
+
+  "@media (min-width: 1921px)": {
+    width: "40vw", // Altura para tamaños muy grandes de pantalla (xl)
+  },
+  // Otros estilos personalizados si es necesario
+};
 // AddressDataCArd fragment
 // Exportar todas las constantes
 export default {
@@ -320,4 +348,5 @@ export default {
   boxUnRegisterLogSyle,
   boxErrorAESyle,
   superCenter,
+  gridProfileInfoStyle,
 };

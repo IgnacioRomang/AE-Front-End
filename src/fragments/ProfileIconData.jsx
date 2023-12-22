@@ -1,7 +1,7 @@
 import { Divider, Button, Paper, Typography } from "@mui/material";
 import React from "react";
 import UserBadge from "./UserBadgeFragment";
-import { centeringStyles } from "../theme.jsx";
+import { centeringStyles, gridProfileInfoStyle } from "../theme.jsx";
 import { Box, Stack } from "@mui/system";
 import { useProfileIconDataString } from "../contexts/TextProvider";
 import { useNavigate } from "react-router-dom";
@@ -29,14 +29,7 @@ const ProfileIconData = ({ iuser }) => {
         paddingRight: "4px",
       }}
     >
-      <Paper
-        elevation={1}
-        sx={{
-          width: "25vw",
-          background:
-            "linear-gradient(90deg,rgba(228,228,228,1) 0%, rgba(255,255,255,1) 50%,rgba(228,228,228,1) 100%);",
-        }}
-      >
+      <Paper elevation={1} sx={gridProfileInfoStyle}>
         <Stack sx={centeringStyles}>
           <UserBadge
             username={iuser.name + " " + iuser.lastname}

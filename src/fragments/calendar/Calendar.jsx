@@ -16,7 +16,7 @@ import { getHSL } from "../../utiles";
 
 const Calendar = ({ intStart, intEnd, msg }) => {
   const [currentDate, setCurrentDate] = useState(intStart);
-
+  const hash = btoa(currentDate.toString() + intEnd.toString());
   const daysInMonth = getDaysInMonth(currentDate);
 
   const monthName = new Intl.DateTimeFormat("es", { month: "long" }).format(
@@ -31,7 +31,7 @@ const Calendar = ({ intStart, intEnd, msg }) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
   };
 
-  const getTableCel = (day, index) => {
+  const getTableCel = (day, rowIndex, cellIndex) => {
     let { h, s, l } = { h: 228, s: 0, l: 100 };
     let msgon = false;
     if (intStart === intEnd) {
@@ -69,7 +69,7 @@ const Calendar = ({ intStart, intEnd, msg }) => {
         <TableCell
           onMouseEnter={msgon ? handleOver : null}
           onMouseLeave={msgon ? handleOver : null}
-          key={index}
+          key={`${hash}-${rowIndex}-${cellIndex}`}
           sx={{
             border: "1px solid #ddd",
             textAlign: "center",
@@ -83,7 +83,7 @@ const Calendar = ({ intStart, intEnd, msg }) => {
           {day || " "}
         </TableCell>
         {msgon && (
-          <Popper id={index} open={open} anchorEl={anchorEl}>
+          <Popper id={`${hash}-${rowIndex}`} open={open} anchorEl={anchorEl}>
             <Box sx={{ border: 1, p: 1, bgcolor: "background.paper" }}>
               {msg}
             </Box>
@@ -111,12 +111,12 @@ const Calendar = ({ intStart, intEnd, msg }) => {
               {["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"].map(
                 (day, index) => (
                   <TableCell
-                    key={index}
                     sx={{
                       backgroundColor: "#f2f2f2",
                       textAlign: "center",
                       padding: "2px",
                     }}
+                    key={day + hash}
                   >
                     {day}
                   </TableCell>
@@ -126,8 +126,8 @@ const Calendar = ({ intStart, intEnd, msg }) => {
           </TableHead>
           <TableBody>
             {chunkArray(daysInMonth, 7).map((row, rowIndex) => (
-              <TableRow key={rowIndex}>
-                {row.map((day, index) => getTableCel(day, index))}
+              <TableRow key={`${hash}-${rowIndex}`}>
+                {row.map((day, index) => getTableCel(day, rowIndex, index))}
               </TableRow>
             ))}
           </TableBody>
