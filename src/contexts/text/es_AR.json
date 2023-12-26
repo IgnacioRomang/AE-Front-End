@@ -16,16 +16,26 @@
       "faq": {
         "title": "Preguntas Frecuentes",
         "body": [
-          { "question": "¿Olvidaste tu contraseña?", "answer": "Respuesta 1" },
-          { "question": "¿No tienes cuenta?", "answer": "Respuesta 1" },
-          { "question": "¿Cual es mi cuil?", "answer": "Respuesta 1" },
+          {
+            "question": "¿Olvidaste tu contraseña?",
+            "answer": ["Respuesta 1"]
+          },
+          {
+            "question": "¿No tienes cuenta?",
+            "answer": [
+              "En caso de que desees autoexcluirte, puedes dirigirte a la sección de registro.",
+              "Posteriormente, podrás iniciar sesión utilizando tu CUIL y la contraseña que hayas elegido. Esto te permitirá acceder a los plazos de exclusión y mantenerte informado sobre cualquier novedad.",
+              " Si te has registrado de forma presencial en las oficinas de CAS o en algún casino de Santa Fe, deberás dirigirte a la sección de 'Recuperar mi contraseña'. Ingresando tu CUIL, recibirás una clave temporal en tu correo electrónico registrado en el formulario."
+            ]
+          },
+          { "question": "¿Cual es mi cuil?", "answer": ["Respuesta 1"] },
           {
             "question": "¿Como funciona una auto-exclusion?",
-            "answer": "Respuesta 1"
+            "answer": ["Respuesta 1"]
           },
           {
             "question": "Me registre pesencialmente ¿Tengo una cuenta?",
-            "answer": "Respuesta 1"
+            "answer": ["Respuesta 1"]
           }
         ]
       },

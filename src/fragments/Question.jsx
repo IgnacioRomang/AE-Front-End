@@ -26,8 +26,19 @@ const Question = ({ question, answer }) => {
       >
         <Typography>{question}</Typography>
       </AccordionSummary>
-      <AccordionDetails>
-        <Typography>{answer}</Typography>
+      <AccordionDetails
+        sx={{
+          alignItems: "justify",
+          justifyContent: "justify",
+          textAlign: "justify",
+        }}
+      >
+        {answer.map((line, index) => (
+          <>
+            <Typography variant="body6">{line}</Typography>
+            <br />
+          </>
+        ))}
       </AccordionDetails>
     </Accordion>
   );
