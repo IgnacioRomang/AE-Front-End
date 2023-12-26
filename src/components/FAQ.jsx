@@ -9,7 +9,7 @@ const FAQ = (props) => {
 
   return (
     <Paper>
-      <Typography variant="h5" padding={3}>
+      <Typography variant="h5" padding={5}>
         {labels.title}
       </Typography>
       {labels.body.map((faq, index) => (
