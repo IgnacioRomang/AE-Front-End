@@ -115,6 +115,21 @@ const Login = () => {
               href={assets.links.account}
               disabled={loginSuccess}
               underline="hover"
+              onClick={() => {
+                navigate("/faq");
+              }}
+              style={loginSuccess ? linksStyle : null}
+            >
+              {labels.links.labels.faq}
+            </Link>
+            <Link
+              component="button"
+              href={assets.links.account}
+              disabled={loginSuccess}
+              onClick={() => {
+                navigate("/register");
+              }}
+              underline="hover"
               style={loginSuccess ? linksStyle : null}
             >
               {labels.links.labels.account}

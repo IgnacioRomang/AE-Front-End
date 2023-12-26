@@ -8,6 +8,7 @@ import Calendar from "../fragments/calendar/Calendar";
 import { centeringStyles, gridProfileStyle } from "../theme";
 import { getDates } from "../utiles";
 import axios from "axios";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Profile = (props) => {
   const { User } = useAuth();
@@ -19,6 +20,7 @@ const Profile = (props) => {
     sixthMonth: new Date(),
     lastMonth: new Date(),
   });
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     let url = process.env.REACT_APP_BACK_URL;
@@ -33,9 +35,26 @@ const Profile = (props) => {
         });
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching data:", error);
-        // Manejar el error según sea necesario
-        setLoading(false);
+        // Manejar errores aquí
+        if (error.response) {
+          // La solicitud fue hecha y el servidor respondió con un estado de error
+          console.log("Status:", error.response.status);
+          console.log("Data:", error.response.data);
+          console.log("Headers:", error.response.headers);
+
+          if (error.response.status === 401) {
+            // Aquí puedes manejar el error de autorización específicamente
+            console.log("Error de autorización");
+            navigate("/news");
+          }
+        } else if (error.request) {
+          // La solicitud fue hecha, pero no se recibió respuesta del servidor
+          console.log("No hay respuesta del servidor");
+        } else {
+          // Ocurrió un error durante la configuración de la solicitud
+          console.log("Error al configurar la solicitud", error.message);
+          setLoading(false);
+        }
       }
     };
 

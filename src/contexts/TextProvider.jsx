@@ -88,6 +88,9 @@ export function useResetPasswordString() {
 export function useResetPasswordCardString() {
   return useContext(baseTextContext).public.components.resetpassword;
 }
+export function useFAQString() {
+  return useContext(baseTextContext).public.components.faq;
+}
 export default {
   useRegisterCardString,
   useFileUploadSectionString,

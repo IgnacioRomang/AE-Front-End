@@ -98,7 +98,7 @@ export const cardLoginStyle = {
     width: "100vw", // Altura para tamaños medianos de pantalla (sm)
   },
   "@media (min-width: 961px) and (max-width: 1280px)": {
-    width: "30vw", // Altura para tamaños grandes de pantalla (md),
+    width: "35vw", // Altura para tamaños grandes de pantalla (md),
   },
   "@media (min-width: 1281px) and (max-width: 1920px)": {
     width: "30vw", // Altura para tamaños extra grandes de pantalla (lg)

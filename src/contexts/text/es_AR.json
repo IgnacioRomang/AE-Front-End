@@ -13,6 +13,22 @@
           "restart": "Reintentar"
         }
       },
+      "faq": {
+        "title": "Preguntas Frecuentes",
+        "body": [
+          { "question": "¿Olvidaste tu contraseña?", "answer": "Respuesta 1" },
+          { "question": "¿No tienes cuenta?", "answer": "Respuesta 1" },
+          { "question": "¿Cual es mi cuil?", "answer": "Respuesta 1" },
+          {
+            "question": "¿Como funciona una auto-exclusion?",
+            "answer": "Respuesta 1"
+          },
+          {
+            "question": "Me registre pesencialmente ¿Tengo una cuenta?",
+            "answer": "Respuesta 1"
+          }
+        ]
+      },
       "resetpassword": {
         "title": "Cambio de Contraseña",
         "alert": {
@@ -51,7 +67,8 @@
         "links": {
           "labels": {
             "password": "¿Olvidaste tu contraseña?",
-            "account": "¿No tienes cuenta?"
+            "account": "¿No tienes cuenta?",
+            "faq": "Preguntas Frecuentes"
           }
         },
         "buttons": {

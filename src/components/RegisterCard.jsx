@@ -41,6 +41,7 @@ import {
   stepStyle,
 } from "../theme.jsx";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const RegisterCard = () => {
   const labels = useRegisterCardString();
@@ -184,8 +185,23 @@ const RegisterCard = () => {
       if (activeStep === steps.length - 1) {
         // Enviar datos y generar PDF (asumiendo que esto debe hacerse aquí)
         console.log(activeStep);
-        updateErrorAtIndex(5, true);
-        setSendError(true);
+
+        let url = process.env.REACT_APP_BACK_URL;
+        let register_user = {
+          name: stepData[0].name + " " + stepData[0].lastName,
+          cuil: stepData[0].formattedCUIL,
+          email: stepData[2].email,
+          password: stepData[0].password,
+        };
+        axios
+          .post(`${url}/api/auth/register`, register_user)
+          .then((response) => {
+            console.log("Datos enviados correctamente");
+          })
+          .catch((e) => {
+            updateErrorAtIndex(5, true);
+            setSendError(true);
+          });
       }
 
       // Incrementar el paso activo y actualizar los pasos omitidos
@@ -199,8 +215,23 @@ const RegisterCard = () => {
   };
 
   const handleRestart = () => {
-    updateErrorAtIndex(5, false);
-    setActiveStep(5);
+    let url = process.env.REACT_APP_BACK_URL;
+    let register_user = {
+      name: stepData[0].name + " " + stepData[0].lastName,
+      cuil: stepData[0].formattedCUIL,
+      email: stepData[2].email,
+      password: stepData[0].password,
+    };
+    axios
+      .post(`${url}/api/auth/register`, register_user)
+      .then((response) => {
+        console.log("Datos enviados correctamente");
+        updateErrorAtIndex(5, false);
+        setSendError(false);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   return (

@@ -53,7 +53,9 @@ const IconUserMenu = (props) => {
         setIsAuthenticated(false);
 
         let url = process.env.REACT_APP_BACK_URL;
-        axios.post(`${url}/api/auth/logout`);
+        axios.post(`${url}/api/auth/logout`).catch((e) => {
+          console.log("session finalizada");
+        });
 
         navigate("/news", { replace: true });
         setAnchorElUser(null);

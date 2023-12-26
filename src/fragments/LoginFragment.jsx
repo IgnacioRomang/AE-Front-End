@@ -53,13 +53,13 @@ const LoginFragment = React.forwardRef((props, ref) => {
             ae: true,
           };
         }
+        axios.defaults.headers.common["X-CSRF-TOKEN"] = csrfToken;
+        axios.defaults.headers.common["User-Agent"] = "FRONT-END-REACT";
+        axios.defaults.headers.common["Authorization"] = auth.type + auth.token;
       })
       .catch((e) => {
-        console.error("Error durante el inicio de sesión:", e);
+        console.error("Error durante el inicio de sesión:");
       });
-    axios.defaults.headers.common["X-CSRF-TOKEN"] = csrfToken;
-    axios.defaults.headers.common["User-Agent"] = "FRONT-END-REACT";
-    axios.defaults.headers.common["Authorization"] = auth.type + auth.token;
 
     return user;
   };
