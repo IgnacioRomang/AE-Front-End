@@ -8,15 +8,8 @@ import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
 import { createTheme } from "@mui/material/styles";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const info_notice = {
-  tags: ["Tag1", "Noticias", "InformacionUtil", "Mas", "Mas", "mas"],
-  title: "Info Title",
-  abstract:
-    "Esto es un Abstract! , asd asd asd asd  as asd asd asd asd asd asd asd asd asd asd asd",
-  imageUrl: "/images/ruleta-de-casino.png",
-  imageTitle: "Img Title",
-};
 const theme = createTheme({
   spacing: 2,
 });
@@ -31,11 +24,11 @@ const high_res = {
 
 //TODO: agregar info_noticias y loading state a un props
 
-const InfoCard = ({ state }) => {
+const InfoCard = ({ state, pdf }) => {
   const [loading, setLoading] = useState(state);
-
+  const navigate = useNavigate();
   return (
-    <Card sx={{ maxWidth: 450 }}>
+    <Card sx={{ width: "25vw", maxWidth: "450px", maxHeight: "50vh" }}>
       {loading ? (
         <Skeleton
           variant="rectangular"
@@ -50,44 +43,32 @@ const InfoCard = ({ state }) => {
             display: high_res.display,
             height: 140,
           }}
-          image={info_notice.imageUrl}
-          title={info_notice.imageTitle}
+          image={`data:image/png;base64,${pdf.img}`}
+          title={pdf.title}
         />
       )}
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {loading ? <Skeleton /> : info_notice.title}
+          {loading ? <Skeleton /> : pdf.title}
         </Typography>
 
         <Typography variant="body2" color="text.secondary">
           {loading ? (
             <Skeleton variant="rectangular" height={80} />
           ) : (
-            info_notice.abstract
+            pdf.abstract
           )}
         </Typography>
       </CardContent>
-      <CardContent
-        sx={{
-          display: high_res.display,
-          justifyContent: "center",
-          flexWrap: "wrap",
-          "& > *": {
-            margin: theme.spacing(0.5),
-          },
-        }}
-      >
-        {loading ? (
-          <></>
-        ) : (
-          info_notice.tags.map((tag, index) => (
-            <Chip key={index} label={tag} color="success" />
-          ))
-        )}
-      </CardContent>
       <Divider />
       <CardActions>
-        <Button size="small" disabled={loading}>
+        <Button
+          size="small"
+          disabled={loading}
+          onClick={() => {
+            navigate("/news/" + pdf.id);
+          }}
+        >
           Leer mas
         </Button>
       </CardActions>

@@ -15,6 +15,7 @@ import News from "./routes/news";
 import Root from "./routes/root";
 import axios from "axios";
 import FAQcard from "./components/FAQ.jsx";
+import PDFViewer from "./components/PDFViewer.jsx";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
               <Route path="profile" element={<Profile />} />
               <Route path="resetpassword" element={<ResetPassword />} />
               <Route path="faq" element={<FAQcard />} />
+              <Route path="news/:pdfid" element={<PDFViewer />} />
             </Route>
           </Routes>
         </Router>

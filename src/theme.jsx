@@ -88,7 +88,6 @@ export const footerPaperStyle = {
   width: "100%",
 };
 
-// Estilos del login
 export const cardLoginStyle = {
   width: "50vw", // Altura por defecto
   "@media (max-width: 600px)": {

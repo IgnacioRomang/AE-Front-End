@@ -1,30 +1,25 @@
-import { Outlet } from "react-router-dom";
-import Footer from "../components/Footer";
-import InfoCard from "../components/InfoCard";
-import TopBar from "../components/TopBar";
-import ScrollableComponent from "../fragments/ScrollableComponent";
-import { Grid } from "@mui/material";
+import axios from "axios";
+import React from "react";
+import PdfTable from "../components/PDFtable";
 
 export default function News() {
-  return (
-    <>
-      <Grid
-        container
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-        spacing={3}
-      >
-        <Grid item xs={4}>
-          <InfoCard state={false} />
-        </Grid>
-        <Grid item xs={4}>
-          <InfoCard state={true} />
-        </Grid>
-        <Grid item xs={4} state={true}>
-          <InfoCard />
-        </Grid>
-      </Grid>
-    </>
-  );
+  const [pdfs, setPdfs] = React.useState([]);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let url = process.env.REACT_APP_BACK_URL;
+        const response = await axios.post(url + "/api/pdf/getpdflist");
+        setPdfs(response.data);
+      } catch (error) {
+        console.error("Error fetching PDF:", error);
+        // Handle error if needed
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  //TODO HACER EL LOADING
+  return <PdfTable pdfs={pdfs} />;
 }

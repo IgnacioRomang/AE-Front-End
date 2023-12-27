@@ -5,6 +5,7 @@ import TopBar from "../components/TopBar";
 import ScrollableComponent from "../fragments/ScrollableComponent";
 import React from "react";
 import { useAuth } from "../contexts/AuthContext";
+import { mainPaddingStyle } from "../theme";
 
 export default function Root() {
   const { isAuthenticated } = useAuth();
@@ -13,7 +14,7 @@ export default function Root() {
     <>
       <TopBar userAuth={isAuthenticated} />
       <ScrollableComponent>
-        <div id="detail" style={{ padding: 52 }}>
+        <div id="detail" style={{ padding: 50 }}>
           <Outlet />
         </div>
       </ScrollableComponent>
