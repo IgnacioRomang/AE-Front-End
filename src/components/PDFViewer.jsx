@@ -24,19 +24,17 @@ const PDFViewer = () => {
     fetchData();
   }, []);
   return (
-    <Paper>
-      <div style={{ width: "100vw", height: "100vh" }}>
-        <Typography paddingTop={2} variant="h5">
-          {pdf.title}
-        </Typography>
-        <iframe
-          title="PDF Viewer"
-          src={`data:application/pdf;base64,${pdf.content}`}
-          width="100%"
-          height="100%"
-          style={{ border: "none" }}
-        ></iframe>
-      </div>
+    <Paper sx={{ width: "98vw", height: "98vh" }}>
+      <Typography paddingTop={2} variant="h5">
+        {pdf.title}
+      </Typography>
+      <iframe
+        title="PDF Viewer"
+        src={`data:application/pdf;base64,${pdf.content}`}
+        width="100%"
+        height="100%"
+        style={{ border: "none" }}
+      ></iframe>
     </Paper>
   );
 };

@@ -1,31 +1,54 @@
-import React from "react";
-import { Grid } from "@mui/material";
+import React, { useState } from "react";
+import { Grid, Pagination, Box, Container } from "@mui/material";
 import InfoCard from "./InfoCard";
+
 const PdfTable = ({ pdfs }) => {
-  const rows = [];
-  for (let i = 0; i < pdfs.length; i += 3) {
-    rows.push(pdfs.slice(i, i + 3));
-  }
+  const itemsPerPage = 3;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalItems = pdfs.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  const handlePageChange = (event, page) => {
+    setCurrentPage(page);
+  };
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+
+  const visiblePdfs = pdfs.slice(startIndex, endIndex);
 
   return (
-    <Grid container spacing={3}>
-      {rows.map((row, rowIndex) => (
-        <Grid
-          container
-          item
-          key={rowIndex}
-          justifyContent="space-between"
-          alignItems="center"
-          spacing={3}
-        >
-          {row.map((pdf, columnIndex) => (
-            <Grid item xs={4} key={columnIndex}>
+    <Container>
+      <Grid container spacing={3}>
+        {visiblePdfs.map((pdf, index) => (
+          <Grid item xs={12} sm={6} md={4} key={index}>
+            <Box
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+              alignItems="center"
+              height="100%" // Asegura que la caja ocupe la altura completa del Grid item
+            >
               <InfoCard pdf={pdf} />
-            </Grid>
-          ))}
-        </Grid>
-      ))}
-    </Grid>
+            </Box>
+          </Grid>
+        ))}
+      </Grid>
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        mt={3} // Ajusta el margen según sea necesario
+      >
+        <Pagination
+          count={totalPages}
+          page={currentPage}
+          onChange={handlePageChange}
+          color="primary"
+        />
+      </Box>
+    </Container>
   );
 };
 

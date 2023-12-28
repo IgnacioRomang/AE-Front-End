@@ -1,14 +1,12 @@
 import { Divider, Grid, Paper, Skeleton, Typography } from "@mui/material";
+import axios from "axios";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { useProfileString } from "../contexts/TextProvider";
-import ProfileData from "../fragments/ProfileData";
 import ProfileAEdata from "../fragments/ProfileIconData";
 import Calendar from "../fragments/calendar/Calendar";
 import { centeringStyles, gridProfileStyle } from "../theme";
-import { getDates } from "../utiles";
-import axios from "axios";
-import { Navigate, useNavigate } from "react-router-dom";
 
 const Profile = (props) => {
   const { User } = useAuth();

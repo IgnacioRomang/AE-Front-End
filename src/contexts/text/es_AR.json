@@ -64,9 +64,9 @@
         "titles": ["Información", "Dirección", "Otros", "Adjuntar", "Prevista"]
       },
       "footer": {
-        "address": "Calle falsa 123",
-        "phone": "+11 2222-333333",
-        "email": "esto-es-un-email@dominio-creible.com"
+        "address": "Primera Junta 2724,Santa Fe Ciudad",
+        "phone": "+54 (342) 4815660",
+        "email": "museo@loteriasantafe.gov.ar"
       },
       "loginCard": {
         "title": "Iniciar sesión",
@@ -103,7 +103,7 @@
           "Perfil",
           "Nueva Autoexclusión",
           "Historial",
-          "finalización"
+          "Finalización"
         ]
       },
       "renewalcard": {
@@ -118,7 +118,7 @@
         },
         "dialogAdv": {
           "title": "Advertencia",
-          "body": "Al tratarse de una renovación la normativa dicta un periodo de exclusión de 12 meses sin cancelación, ¿Desea continuar?"
+          "body": "En el caso de renovación, la normativa establece un período de exclusión de 12 meses sin la opción de cancelación. ¿Desea proceder con la solicitud?"
         }
       },
       "unregistercard": {
@@ -126,8 +126,8 @@
         "warning": {
           "title": "¡Importante!",
           "body": [
-            "Solo se permite una vez el proceso de finalización de autoexclusión, específicamente durante la primera autoexclusión.",
-            "Después de completarlo, tendrás libre acceso a los casinos. Si decides autoexcluirte nuevamente, por favor, dirígete a la sección de renovación disponible después de finalizar este procedimiento inicial.",
+            "El proceso de autoexclusión solo puede completarse una vez, específicamente durante la primera autoexclusión.",
+            "Después de finalizarlo, se restaurará tu acceso a los casinos. Si decides autoexcluirte nuevamente, por favor, dirígete a la sección de renovación, disponible después de concluir este procedimiento inicial.",
             ""
           ]
         }
@@ -149,7 +149,7 @@
       },
       "unregistersuccess": {
         "title": "¡Baja de auto-exclusión completada!",
-        "body": "La solicitud se realizo correctamente. \n Recuerda si necesitas asistencia, no dudes en comunicarte +89 3427 515151"
+        "body": "La solicitud se realizo correctamente. \n Recuerda si necesitas asistencia, no dudes en comunicarte +54 (342) 4815660"
       },
       "successae": {
         "title1": "¡Felicidades, tu registro está completo!",

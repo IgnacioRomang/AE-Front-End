@@ -73,7 +73,13 @@ const LoginFragment = React.forwardRef((props, ref) => {
       {" "}
       <Stack spacing={2}>
         <TextField
-          sx={{ width: "25vw" }}
+          sx={{
+            width: "100%", // Ancho completo en pantallas móviles
+            "@media (min-width: 600px)": {
+              // Ajusta según sea necesario para tamaños mayores
+              width: "25vw",
+            },
+          }}
           id="cuil"
           label={labels.textFieldLabels.user}
           required
@@ -84,7 +90,13 @@ const LoginFragment = React.forwardRef((props, ref) => {
           variant="standard"
         />
         <TextField
-          sx={{ width: "25vw" }}
+          sx={{
+            width: "100%", // Ancho completo en pantallas móviles
+            "@media (min-width: 600px)": {
+              // Ajusta según sea necesario para tamaños mayores
+              width: "25vw",
+            },
+          }}
           id="password"
           label={labels.textFieldLabels.password}
           type="password"

@@ -291,8 +291,6 @@ export const gridProfileStyle = {
   // Otros estilos personalizados si es necesario
 };
 export const gridProfileInfoStyle = {
-  background:
-    "linear-gradient(90deg,rgba(228,228,228,1) 0%, rgba(255,255,255,1) 50%,rgba(228,228,228,1) 100%);",
   width: "50vw", // Altura por defecto
 
   // Ajusta la altura para tamaños de pantalla específicos

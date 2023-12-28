@@ -17,7 +17,7 @@ const theme = createTheme({
 const high_res = {
   display: {
     xs: "none",
-    md: "none",
+    md: "flex",
     lg: "flex",
   },
 };
@@ -28,7 +28,16 @@ const InfoCard = ({ state, pdf }) => {
   const [loading, setLoading] = useState(state);
   const navigate = useNavigate();
   return (
-    <Card sx={{ width: "25vw", maxWidth: "450px", maxHeight: "50vh" }}>
+    <Card
+      sx={{
+        width: "100%",
+        "@media (min-width: 600px)": {
+          width: "25vw",
+        },
+        maxWidth: "450px",
+        maxHeight: "60vh",
+      }}
+    >
       {loading ? (
         <Skeleton
           variant="rectangular"
@@ -60,7 +69,7 @@ const InfoCard = ({ state, pdf }) => {
           )}
         </Typography>
       </CardContent>
-      <Divider />
+
       <CardActions>
         <Button
           size="small"

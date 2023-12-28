@@ -1,11 +1,10 @@
-import { Divider, Button, Paper, Typography } from "@mui/material";
-import React from "react";
-import UserBadge from "./UserBadgeFragment";
-import { centeringStyles, gridProfileInfoStyle } from "../theme.jsx";
+import { Button, Divider, Paper, Typography } from "@mui/material";
 import { Box, Stack } from "@mui/system";
-import { useProfileIconDataString } from "../contexts/TextProvider";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Height } from "@mui/icons-material";
+import { useProfileIconDataString } from "../contexts/TextProvider";
+import { centeringStyles, gridProfileInfoStyle } from "../theme.jsx";
+import UserBadge from "./UserBadgeFragment";
 
 const ProfileIconData = ({ iuser }) => {
   const [ae, setAe] = React.useState(iuser.ae);
