@@ -1,12 +1,15 @@
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import React from "react";
 import PdfTable from "../components/PDFtable";
 import ScrollableComponent from "../fragments/ScrollableComponent";
+import { Backdrop, CircularProgress } from "@mui/material";
+import { backdropLoginStyle } from "../theme";
 
 export default function News() {
-  const [pdfs, setPdfs] = React.useState([]);
+  const [pdfs, setPdfs] = useState([null, null, null]);
+  const [loading, setLoading] = useState(true);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       try {
         let url = process.env.REACT_APP_BACK_URL;
@@ -16,12 +19,17 @@ export default function News() {
       } catch (error) {
         console.error("Error fetching PDF:", error);
         // Handle error if needed
+      } finally {
+        setLoading(false); // Set loading to false regardless of success or failure
       }
     };
 
     fetchData();
   }, []);
 
-  //TODO HACER EL LOADING
-  return <PdfTable pdfs={pdfs} />;
+  return (
+    <>
+      <PdfTable pdfs={pdfs} key={loading} />
+    </>
+  );
 }

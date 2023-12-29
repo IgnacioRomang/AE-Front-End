@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { Grid, Pagination, Box, Container } from "@mui/material";
 import InfoCard from "./InfoCard";
+import { centeringStyles } from "../theme";
 
 const PdfTable = ({ pdfs }) => {
   const itemsPerPage = 3;
+
   const [currentPage, setCurrentPage] = useState(1);
 
   const totalItems = pdfs.length;
@@ -19,8 +21,8 @@ const PdfTable = ({ pdfs }) => {
   const visiblePdfs = pdfs.slice(startIndex, endIndex);
 
   return (
-    <Container>
-      <Grid container spacing={3}>
+    <Container height={"90vh"}>
+      <Grid container spacing={3} width={"100%"} sx={centeringStyles}>
         {visiblePdfs.map((pdf, index) => (
           <Grid item xs={12} sm={6} md={4} key={index}>
             <Box
@@ -30,7 +32,7 @@ const PdfTable = ({ pdfs }) => {
               alignItems="center"
               height="100%" // Asegura que la caja ocupe la altura completa del Grid item
             >
-              <InfoCard pdf={pdf} />
+              <InfoCard state={pdf === null} pdf={pdf} />
             </Box>
           </Grid>
         ))}

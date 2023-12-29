@@ -1,4 +1,4 @@
-import { Button, Divider, Paper, Typography } from "@mui/material";
+import { Button, Divider, Link, Paper, Typography } from "@mui/material";
 import { Box, Stack } from "@mui/system";
 import React from "react";
 import { useNavigate } from "react-router-dom";
@@ -43,9 +43,17 @@ const ProfileIconData = ({ iuser }) => {
           </Typography>
           {/** ingresar botones de ojito y descarga*/}
         </Stack>
-
-        {ae && (
-          <>
+        <Stack padding={2} spacing={1} sx={centeringStyles}>
+          <Link>{labels.PDF}</Link>
+          <Link onClick={(e) => nav("/resetpassword")}>{labels.password}</Link>
+          <Link onClick={(e) => nav("/resetpassword")}>{labels.email}</Link>
+        </Stack>
+      </Paper>
+    </Box>
+  );
+};
+/**
+ *           <>
             <Divider />
             <Stack direction={"row"} sx={centeringStyles}>
               <Button>{labels.PDF}</Button>
@@ -59,10 +67,6 @@ const ProfileIconData = ({ iuser }) => {
               </Button>
             </Stack>
           </>
-        )}
-      </Paper>
-    </Box>
-  );
-};
+ */
 
 export default ProfileIconData;

@@ -57,6 +57,7 @@ const Login = () => {
       setLoginSuccess(true);
       setLoginFail(false);
 
+      await new Promise((resolve) => setTimeout(resolve, 500));
       setIsAuthenticated(true);
 
       setUser(loggin);
@@ -84,9 +85,6 @@ const Login = () => {
   };
   return (
     <Card sx={cardLoginStyle}>
-      <Backdrop sx={backdropLoginStyle} open={open} onClick={null}>
-        <CircularProgress color="inherit" />
-      </Backdrop>
       <CardHeader
         titleTypographyProps={{ variant: "h6" }}
         avatar={<LockOpenIcon />}

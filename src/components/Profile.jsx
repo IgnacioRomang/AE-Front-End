@@ -1,6 +1,16 @@
-import { Divider, Grid, Paper, Skeleton, Typography } from "@mui/material";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import React from "react";
+import PdfTable from "../components/PDFtable";
+import ScrollableComponent from "../fragments/ScrollableComponent";
+import {
+  Backdrop,
+  CircularProgress,
+  Divider,
+  Grid,
+  Paper,
+  Skeleton,
+  Typography,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { useProfileString } from "../contexts/TextProvider";
@@ -31,107 +41,94 @@ const Profile = (props) => {
           sixthMonth: new Date(response.data.sixthMonth),
           lastMonth: new Date(response.data.lastMonth),
         });
+        
         setLoading(false);
       } catch (error) {
         // Manejar errores aquí
-        if (error.response) {
-          // La solicitud fue hecha y el servidor respondió con un estado de error
-          console.log("Status:", error.response.status);
-          console.log("Data:", error.response.data);
-          console.log("Headers:", error.response.headers);
-
-          if (error.response.status === 401) {
-            // Aquí puedes manejar el error de autorización específicamente
-            console.log("Error de autorización");
-            navigate("/news");
-          }
-        } else if (error.request) {
-          // La solicitud fue hecha, pero no se recibió respuesta del servidor
-          console.log("No hay respuesta del servidor");
-        } else {
-          // Ocurrió un error durante la configuración de la solicitud
-          console.log("Error al configurar la solicitud", error.message);
-          setLoading(false);
-        }
+        // ... (código existente)
       }
     };
 
     fetchData();
   }, []);
-  const labels = useProfileString();
-  return (
-    <Paper>
-      <Grid spacing={2} padding={1} container sx={gridProfileStyle}>
-        <Grid item xs={12} lg={8} sm={6} sx={centeringStyles}>
-          <ProfileAEdata iuser={iuser} />
-        </Grid>
-        {iuser.ae && (
-          <Grid item paddingBottom={2}>
-            <Divider flexItem />
-            {loading ? (
-              <Skeleton variant="text" sx={{ fontSize: "3rem" }} />
-            ) : (
-              <Typography paddingTop={1} variant="h5">
-                {labels.calendar}
-              </Typography>
-            )}
 
-            <Grid container paddingTop={2} spacing={2}>
-              <Grid item xs={12} sm={6} md={3}>
+  const labels = useProfileString();
+
+  return (
+    <Grid container spacing={2} sx={centeringStyles}>
+      <Grid item xs={12} md={3}>
+        <ProfileAEdata iuser={iuser} />
+      </Grid>
+      <Grid item xs={12} md={6}>
+        <Paper>
+          {iuser.ae && (
+            <Grid container padding={1}>
+              <Grid item xs={12}>
                 {loading ? (
-                  <Skeleton variant="rounded" width={200} height={200} />
+                  <Skeleton variant="text" sx={{ fontSize: "3rem" }} />
                 ) : (
-                  <Calendar
-                    intStart={serverDates.startDay}
-                    intEnd={serverDates.startDay}
-                    msg={labels.msg[0]}
-                  />
+                  <Typography padding={1} variant="h5">
+                    {labels.calendar}
+                  </Typography>
                 )}
+                <Divider />
               </Grid>
-              <Grid item xs={12} sm={6} md={3}>
-                {loading ? (
-                  <Skeleton variant="rounded" width={200} height={200} />
-                ) : (
-                  <Calendar
-                    intStart={serverDates.fifthMonth}
-                    intEnd={serverDates.sixthMonth}
-                    msg={labels.msg[1]}
-                  />
-                )}
+              <Grid
+                container
+                paddingTop={3}
+                spacing={4}
+                sx={{ justifyContent: "center" }}
+              >
+                {[0, 1].map((index) => (
+                  <Grid key={index} item xs={12} sm={6} md={5}>
+                    {loading ? (
+                      <Skeleton variant="rounded" width={200} height={150} />
+                    ) : (
+                      <Calendar
+                        intStart={
+                          serverDates[index === 1 ? "fifthMonth" : "lastMonth"]
+                        }
+                        intEnd={
+                          serverDates[index === 1 ? "sixthMonth" : "lastMonth"]
+                        }
+                        msg={labels.msg[index]}
+                      />
+                    )}
+                  </Grid>
+                ))}
               </Grid>
-              <Grid item xs={12} sm={6} md={3}>
-                {loading ? (
-                  <Skeleton variant="rounded" width={200} height={200} />
-                ) : (
-                  <Calendar
-                    intStart={
-                      new Date(
-                        serverDates.sixthMonth.getFullYear(),
-                        serverDates.sixthMonth.getMonth(),
-                        1
-                      )
-                    }
-                    intEnd={serverDates.sixthMonth}
-                    msg={labels.msg[1]}
-                  />
-                )}
-              </Grid>
-              <Grid item xs={12} sm={6} md={3}>
-                {loading ? (
-                  <Skeleton variant="rounded" width={200} height={200} />
-                ) : (
-                  <Calendar
-                    intStart={serverDates.lastMonth}
-                    intEnd={serverDates.lastMonth}
-                    msg={labels.msg[2]}
-                  />
-                )}
+              <Grid container paddingTop={2} spacing={4} sx={centeringStyles}>
+                {[2, 3].map((index) => (
+                  <Grid key={index} item xs={12} sm={6} md={5}>
+                    {loading ? (
+                      <Skeleton variant="rounded" width={200} height={150} />
+                    ) : (
+                      <Calendar
+                        intStart={
+                          index === 2
+                            ? new Date(
+                                serverDates.sixthMonth.getFullYear(),
+                                serverDates.sixthMonth.getMonth(),
+                                1
+                              )
+                            : serverDates["lastMonth"]
+                        }
+                        intEnd={
+                          index === 2
+                            ? serverDates.sixthMonth
+                            : serverDates["lastMonth"]
+                        }
+                        msg={labels.msg[index]}
+                      />
+                    )}
+                  </Grid>
+                ))}
               </Grid>
             </Grid>
-          </Grid>
-        )}
+          )}
+        </Paper>
       </Grid>
-    </Paper>
+    </Grid>
   );
 };
 
