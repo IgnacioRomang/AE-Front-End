@@ -54,16 +54,16 @@ const TopBar = (props) => {
   const handleoOnClickMenu = (e, id) => {
     switch (id) {
       case pages[0].id:
-        navigate("profile");
+        navigate("/user/profile");
         break;
       case pages[1].id:
-        navigate("renewal");
+        navigate("/user/renewal");
         break;
       case pages[2].id:
         //navigate("renewal");
         break;
       case pages[3].id:
-        navigate("baja");
+        navigate("/user/baja");
         break;
 
       default:
@@ -79,7 +79,7 @@ const TopBar = (props) => {
   };
 
   const handleLogoClick = () => {
-    navigate("/news");
+    navigate("/");
   };
   return (
     <AppBar position="static">

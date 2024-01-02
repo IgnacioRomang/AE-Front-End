@@ -41,11 +41,11 @@ const IconUserMenu = (props) => {
   const onClickMenu = (e, id) => {
     switch (id) {
       case settings_login[0].id:
-        navigate("login");
+        navigate("/auth/login");
         setAnchorElUser(null);
         break;
       case settings_login[1].id:
-        navigate("register");
+        navigate("/auth/register");
         setAnchorElUser(null);
         break;
       case settings[0].id:
@@ -57,7 +57,7 @@ const IconUserMenu = (props) => {
           console.log("session finalizada");
         });
 
-        navigate("/news", { replace: true });
+        navigate("/", { replace: true });
         setAnchorElUser(null);
         break;
       default:

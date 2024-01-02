@@ -45,8 +45,12 @@ const ProfileIconData = ({ iuser }) => {
         </Stack>
         <Stack padding={2} spacing={1} sx={centeringStyles}>
           <Link>{labels.PDF}</Link>
-          <Link onClick={(e) => nav("/resetpassword")}>{labels.password}</Link>
-          <Link onClick={(e) => nav("/resetpassword")}>{labels.email}</Link>
+          <Link onClick={(e) => nav("/user/resetpassword")}>
+            {labels.password}
+          </Link>
+          <Link onClick={(e) => nav("/user/resetpassword")}>
+            {labels.email}
+          </Link>
         </Stack>
       </Paper>
     </Box>

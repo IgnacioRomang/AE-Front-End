@@ -62,7 +62,7 @@ const Login = () => {
 
       setUser(loggin);
 
-      navigate("/profile", {
+      navigate("/user/profile", {
         replace: true,
       });
     } else {
@@ -81,7 +81,7 @@ const Login = () => {
   };
 
   const handleCancel = (event) => {
-    navigate("/news");
+    navigate("/");
   };
   return (
     <Card sx={cardLoginStyle}>
@@ -104,6 +104,9 @@ const Login = () => {
               href={assets.links.password}
               disabled={loginSuccess}
               underline="hover"
+              onClick={() => {
+                navigate("/auth/forgotpassword");
+              }}
               style={loginSuccess ? linksStyle : null}
             >
               {labels.links.labels.password}
@@ -125,7 +128,7 @@ const Login = () => {
               href={assets.links.account}
               disabled={loginSuccess}
               onClick={() => {
-                navigate("/register");
+                navigate("/auth/register");
               }}
               underline="hover"
               style={loginSuccess ? linksStyle : null}

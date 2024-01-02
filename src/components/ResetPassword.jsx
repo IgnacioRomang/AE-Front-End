@@ -39,11 +39,11 @@ const ResetPassword = () => {
     setError(!result[0]);
     if (result[0]) {
       //TODO enviar datos de result[1]
-      nav("/profile");
+      nav("/user/profile");
     }
   };
   const handleBack = () => {
-    nav("/profile");
+    nav("/user/profile");
   };
   return (
     <Card sx={cardLoginStyle}>
@@ -60,10 +60,9 @@ const ResetPassword = () => {
             >
               <AlertTitle>{label.alert.title}</AlertTitle>
               <ul>
-                <li>{label.alert.body[0]}</li>
-                <li>{label.alert.body[1]}</li>
-                <li>{label.alert.body[2]}</li>
-                <li>{label.alert.body[3]}</li>
+                {label.alert.body.map((lablel, index) => (
+                  <li key={index}>{lablel}</li>
+                ))}
               </ul>
             </Alert>
           </Collapse>

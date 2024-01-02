@@ -36,6 +36,14 @@
           {
             "question": "Me registre pesencialmente ¿Tengo una cuenta?",
             "answer": ["Respuesta 1"]
+          },
+          {
+            "question": "Me registre pesencialmente ¿Tengo una cuenta?",
+            "answer": ["Respuesta 1"]
+          },
+          {
+            "question": "Me registre pesencialmente ¿Tengo una cuenta?",
+            "answer": ["Respuesta 1"]
           }
         ]
       },
@@ -67,6 +75,26 @@
         "address": "Primera Junta 2724,Santa Fe Ciudad",
         "phone": "+54 (342) 4815660",
         "email": "museo@loteriasantafe.gov.ar"
+      },
+      "forgotpassword": {
+        "title": "Recuperar contraña",
+        "textFieldLabels": "CUIL",
+        "alert": {
+          "title": "Requisitos",
+          "body": [
+            "El email asociado a tu cuenta debe estar verificado. De lo contrario, no podemos asegurar que resivas el correo"
+          ]
+        },
+        "success": {
+          "title": "Éxito",
+          "body": "El mensaje fue enviado -",
+          "strong": "¡Revisa tu correo!"
+        },
+        "fail": {
+          "title": "Error",
+          "body": "Oops, algo salió mal -",
+          "strong": "Parece que ha habido un problema, debes ingresar un CUIL"
+        }
       },
       "loginCard": {
         "title": "Iniciar sesión",
@@ -243,10 +271,10 @@
     "components": {
       "footer": {
         "imgProv": {
-          "src": "images/logo_prov.png"
+          "src": "/images/logo_prov.png"
         },
         "imgLotes": {
-          "src": "images/logo_lote2.png"
+          "src": "/images/logo_lote2.png"
         }
       },
       "loginCard": {
@@ -259,7 +287,7 @@
       },
       "topbar": {
         "logo": {
-          "src": "images/logo.png"
+          "src": "/images/logo.png"
         }
       }
     }

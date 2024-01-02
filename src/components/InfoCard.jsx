@@ -75,7 +75,7 @@ const InfoCard = ({ state, pdf }) => {
           size="small"
           disabled={loading}
           onClick={() => {
-            navigate("/news/" + pdf.id);
+            navigate("/document/" + pdf.id);
           }}
         >
           Leer mas

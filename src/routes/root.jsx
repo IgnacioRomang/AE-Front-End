@@ -1,11 +1,9 @@
+import React from "react";
 import { Outlet } from "react-router-dom";
 import Footer from "../components/Footer";
-import InfoCard from "../components/InfoCard";
 import TopBar from "../components/TopBar";
-import ScrollableComponent from "../fragments/ScrollableComponent";
-import React from "react";
 import { useAuth } from "../contexts/AuthContext";
-import { mainPaddingStyle } from "../theme";
+import ScrollableComponent from "../fragments/ScrollableComponent";
 
 export default function Root() {
   const { isAuthenticated } = useAuth();

@@ -16,6 +16,7 @@ import Root from "./routes/root";
 import axios from "axios";
 import FAQcard from "./components/FAQ.jsx";
 import PDFViewer from "./components/PDFViewer.jsx";
+import ForgotPassword from "./components/ForgotPassword.jsx";
 
 function App() {
   return (
@@ -23,16 +24,24 @@ function App() {
       <AuthProvider>
         <Router>
           <Routes>
+            <Route path="/" element={<News />} errorElement={<ErrorPage />} />
+
             <Route path="/" element={<Root />} errorElement={<ErrorPage />}>
-              <Route path="news" element={<News />} />
+              <Route path="faq" element={<FAQcard />} />
+              <Route path="document/:pdfid" element={<PDFViewer />} />
+            </Route>
+
+            <Route path="/auth" element={<Root />} errorElement={<ErrorPage />}>
               <Route path="login" element={<Login />} />
               <Route path="register" element={<RegisterCard />} />
+              <Route path="forgotpassword" element={<ForgotPassword />} />
+            </Route>
+
+            <Route path="/user" element={<Root />} errorElement={<ErrorPage />}>
               <Route path="baja" element={<UnRegisterCard />} />
               <Route path="renewal" element={<RenewalCard />} />
               <Route path="profile" element={<Profile />} />
               <Route path="resetpassword" element={<ResetPassword />} />
-              <Route path="faq" element={<FAQcard />} />
-              <Route path="news/:pdfid" element={<PDFViewer />} />
             </Route>
           </Routes>
         </Router>

@@ -6,7 +6,7 @@ import { useFAQString } from "../contexts/TextProvider";
 
 const FAQ = (props) => {
   const labels = useFAQString();
-
+  //TODO FETCH data from backend
   return (
     <Paper>
       <Typography variant="h5" padding={5}>

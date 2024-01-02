@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { default as React, useEffect, useState } from "react";
 import PdfTable from "../components/PDFtable";
+import TopBar from "../components/TopBar";
 import ScrollableComponent from "../fragments/ScrollableComponent";
-import { Backdrop, CircularProgress } from "@mui/material";
-import { backdropLoginStyle } from "../theme";
+import Footer from "../components/Footer";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function News() {
   const [pdfs, setPdfs] = useState([null, null, null]);
   const [loading, setLoading] = useState(true);
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,7 +31,13 @@ export default function News() {
 
   return (
     <>
-      <PdfTable pdfs={pdfs} key={loading} />
+      <TopBar userAuth={isAuthenticated} />
+      <ScrollableComponent>
+        <div id="detail" style={{ padding: 50 }}>
+          <PdfTable pdfs={pdfs} key={loading} />
+        </div>
+      </ScrollableComponent>
+      <Footer />
     </>
   );
 }

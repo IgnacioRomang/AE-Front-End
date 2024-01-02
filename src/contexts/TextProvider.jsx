@@ -85,6 +85,9 @@ export function useProfileIconDataString() {
 export function useResetPasswordString() {
   return useContext(baseTextContext).public.fragments.passwordreset;
 }
+export function useForgotPasswordString() {
+  return useContext(baseTextContext).public.components.forgotpassword;
+}
 export function useResetPasswordCardString() {
   return useContext(baseTextContext).public.components.resetpassword;
 }
