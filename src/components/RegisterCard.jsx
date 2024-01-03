@@ -211,7 +211,7 @@ const RegisterCard = () => {
   };
 
   const handleLogin = () => {
-    navigate("/login");
+    navigate("/auth/login");
   };
 
   const handleRestart = () => {

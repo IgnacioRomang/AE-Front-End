@@ -3,6 +3,8 @@ import axios from "axios";
 import PdfTable from "../components/PDFtable";
 import ScrollableComponent from "../fragments/ScrollableComponent";
 import {
+  Alert,
+  AlertTitle,
   Backdrop,
   CircularProgress,
   Divider,
@@ -19,7 +21,7 @@ import Calendar from "../fragments/calendar/Calendar";
 import { centeringStyles, gridProfileStyle } from "../theme";
 
 const Profile = (props) => {
-  const { User } = useAuth();
+  const { User, setUser } = useAuth();
   const iuser = User;
   const [loading, setLoading] = React.useState(true);
   const [serverDates, setServerDates] = React.useState({
@@ -35,13 +37,22 @@ const Profile = (props) => {
     const fetchData = async () => {
       try {
         const response = await axios.post(`${url}/api/ae/aedates`);
+        if (!response.data.startDay) {
+          let u = User;
+          u.ae = false;
+          setUser(u);
+        } else {
+          let u = User;
+          u.ae = true;
+          setUser(u);
+        }
         setServerDates({
           startDay: new Date(response.data.startDay),
           fifthMonth: new Date(response.data.fifthMonth),
           sixthMonth: new Date(response.data.sixthMonth),
           lastMonth: new Date(response.data.lastMonth),
         });
-        
+
         setLoading(false);
       } catch (error) {
         // Manejar errores aquí
@@ -55,13 +66,13 @@ const Profile = (props) => {
   const labels = useProfileString();
 
   return (
-    <Grid container spacing={2} sx={centeringStyles}>
+    <Grid container spacing={2} padding={iuser.ae ? 0 : 8} sx={centeringStyles}>
       <Grid item xs={12} md={3}>
         <ProfileAEdata iuser={iuser} />
       </Grid>
-      <Grid item xs={12} md={6}>
-        <Paper>
-          {iuser.ae && (
+      {iuser.ae ? (
+        <Grid item xs={12} md={6}>
+          <Paper>
             <Grid container padding={1}>
               <Grid item xs={12}>
                 {loading ? (
@@ -118,16 +129,27 @@ const Profile = (props) => {
                             ? serverDates.sixthMonth
                             : serverDates["lastMonth"]
                         }
-                        msg={labels.msg[index]}
+                        msg={labels.msg[index - 1]}
                       />
                     )}
                   </Grid>
                 ))}
               </Grid>
             </Grid>
-          )}
-        </Paper>
-      </Grid>
+          </Paper>
+        </Grid>
+      ) : (
+        <Grid item xs={12} md={6}>
+          <Alert padding={5} severity="warning">
+            <AlertTitle variant="h4"> {labels.warning.title} </AlertTitle>
+            {labels.warning.body.map((label, index) => (
+              <Typography key={index} paddingTop={1}>
+                {label}
+              </Typography>
+            ))}
+          </Alert>
+        </Grid>
+      )}
     </Grid>
   );
 };

@@ -30,19 +30,14 @@ const PdfTable = ({ pdfs }) => {
               flexDirection="column"
               justifyContent="center"
               alignItems="center"
-              height="100%" // Asegura que la caja ocupe la altura completa del Grid item
+              height="100%"
             >
               <InfoCard state={pdf === null} pdf={pdf} />
             </Box>
           </Grid>
         ))}
       </Grid>
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        mt={3} // Ajusta el margen según sea necesario
-      >
+      <Box display="flex" justifyContent="center" alignItems="center" mt={3}>
         <Pagination
           count={totalPages}
           page={currentPage}

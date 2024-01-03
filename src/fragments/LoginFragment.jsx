@@ -50,7 +50,7 @@ const LoginFragment = React.forwardRef((props, ref) => {
             name: names[0],
             cuil: response.data.user.cuil,
             lastname: names[1],
-            ae: true,
+            ae: false,
           };
         }
         axios.defaults.headers.common["X-CSRF-TOKEN"] = csrfToken;
