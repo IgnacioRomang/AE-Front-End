@@ -15,7 +15,7 @@ export default function News() {
     const fetchData = async () => {
       try {
         let url = process.env.REACT_APP_BACK_URL;
-        const response = await axios.post(url + "/api/pdf/getpdflist");
+        const response = await axios.post(url + "/api/resources/getpdflist");
         const sortedPdfs = response.data.sort((a, b) => a.id - b.id);
         setPdfs(sortedPdfs);
       } catch (error) {
