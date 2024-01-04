@@ -43,6 +43,7 @@ function App() {
               <Route path="profile" element={<Profile />} />
               <Route path="resetpassword" element={<ResetPassword />} />
             </Route>
+            <Route path="*" element={<ErrorPage />} />
           </Routes>
         </Router>
       </AuthProvider>

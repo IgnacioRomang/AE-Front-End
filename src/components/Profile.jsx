@@ -22,7 +22,6 @@ import { centeringStyles, gridProfileStyle } from "../theme";
 
 const Profile = (props) => {
   const { User, setUser } = useAuth();
-  const iuser = User;
   const [loading, setLoading] = React.useState(true);
   const [serverDates, setServerDates] = React.useState({
     startDay: new Date(),
@@ -61,16 +60,16 @@ const Profile = (props) => {
     };
 
     fetchData();
-  }, []);
+  }, [User, setUser]);
 
   const labels = useProfileString();
 
   return (
-    <Grid container spacing={2} padding={iuser.ae ? 0 : 8} sx={centeringStyles}>
+    <Grid container spacing={2} padding={User.ae ? 0 : 8} sx={centeringStyles}>
       <Grid item xs={12} md={3}>
-        <ProfileAEdata iuser={iuser} />
+        <ProfileAEdata iuser={User} />
       </Grid>
-      {iuser.ae ? (
+      {User.ae ? (
         <Grid item xs={12} md={6}>
           <Paper>
             <Grid container padding={1}>

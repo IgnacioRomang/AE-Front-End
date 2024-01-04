@@ -1,4 +1,4 @@
-import { Button, Divider, Link, Paper, Typography } from "@mui/material";
+import { Link, Paper, Typography } from "@mui/material";
 import { Box, Stack } from "@mui/system";
 import React from "react";
 import { useNavigate } from "react-router-dom";
@@ -7,7 +7,6 @@ import { centeringStyles, gridProfileInfoStyle } from "../theme.jsx";
 import UserBadge from "./UserBadgeFragment";
 
 const ProfileIconData = ({ iuser }) => {
-  const [ae, setAe] = React.useState(iuser.ae);
   const labels = useProfileIconDataString();
   const nav = useNavigate();
 
@@ -32,7 +31,7 @@ const ProfileIconData = ({ iuser }) => {
         <Stack sx={centeringStyles}>
           <UserBadge
             username={iuser.name + " " + iuser.lastname}
-            isActive={ae}
+            isActive={iuser.ae}
           />
           <Typography variant="body1" paddingRight={17} fontSize={10}>
             {labels.cuil}
@@ -56,21 +55,5 @@ const ProfileIconData = ({ iuser }) => {
     </Box>
   );
 };
-/**
- *           <>
-            <Divider />
-            <Stack direction={"row"} sx={centeringStyles}>
-              <Button>{labels.PDF}</Button>
-              <Divider orientation="vertical" flexItem />
-              <Button onClick={(e) => nav("/resetpassword")}>
-                {labels.password}
-              </Button>
-              <Divider orientation="vertical" flexItem />
-              <Button onClick={(e) => nav("/resetpassword")}>
-                {labels.email}
-              </Button>
-            </Stack>
-          </>
- */
 
 export default ProfileIconData;
