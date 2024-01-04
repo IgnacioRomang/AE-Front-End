@@ -16,18 +16,29 @@ const Question = ({ question, answer }) => {
 
   return (
     <Accordion
+      sx={{
+        border: `1px solid #999999`,
+        "&:not(:last-child)": {
+          borderBottom: 0,
+        },
+        "&::before": {
+          display: "none",
+        },
+      }}
       expanded={expanded === question}
       onChange={handleChange(question)}
     >
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
+        sx={{ background: "rgba(0, 0, 0, .03)" }}
         aria-controls="panel1bh-content"
         id="panel1bh-header"
       >
-        <Typography>{question}</Typography>
+        <Typography variant="h6">{question}</Typography>
       </AccordionSummary>
       <AccordionDetails
         sx={{
+          borderTop: "1px solid rgba(0, 0, 0, .125)",
           alignItems: "justify",
           justifyContent: "justify",
           textAlign: "justify",
@@ -35,8 +46,7 @@ const Question = ({ question, answer }) => {
       >
         {answer.map((line, index) => (
           <>
-            <Typography variant="body6">{line}</Typography>
-            <br />
+            <Typography>{line}</Typography>
           </>
         ))}
       </AccordionDetails>
