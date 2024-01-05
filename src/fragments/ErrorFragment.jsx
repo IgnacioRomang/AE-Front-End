@@ -14,8 +14,9 @@ const ErrorAE = () => {
         {labels.body}
       </Typography>
       <Alert paddingbottom={5} severity="error">
-        <Typography>{labels.alert.body[0]}</Typography>
-        <Typography>{labels.alert.body[1]}</Typography>
+        {labels.alert.body.map((text, index) => (
+          <Typography key={index}>{text}</Typography>
+        ))}
       </Alert>
     </Box>
   );

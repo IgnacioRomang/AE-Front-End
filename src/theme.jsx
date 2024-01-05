@@ -88,6 +88,31 @@ export const footerPaperStyle = {
   width: "100%",
 };
 
+export const infoCArdStyle = {
+  width: "100%",
+  "@media (max-width: 600px)": {
+    width: "100vw",
+    maxWidth: "90vw",
+    maxHeight: "30vh",
+  },
+  "@media (min-width: 601px) and (max-width: 960px)": {
+    maxWidth: "90vw",
+    maxHeight: "30vh",
+  },
+  "@media (min-width: 961px) and (max-width: 1280px)": {
+    maxWidth: "25vw",
+    maxHeight: "75vh",
+  },
+  "@media (min-width: 1281px) and (max-width: 1920px)": {
+    maxWidth: "25vw",
+    maxHeight: "60vh",
+  },
+  "@media (min-width: 1921px)": {
+    maxWidth: "70vw",
+    maxHeight: "60vh",
+  },
+};
+
 export const cardLoginStyle = {
   width: "50vw", // Altura por defecto
   "@media (max-width: 600px)": {
@@ -259,7 +284,8 @@ export const boxSuccessAESyle = {
   ...superCenter,
 };
 // errorAE
-export const boxErrorAESyle = boxSuccessAESyle;
+
+export const boxErrorAESyle = { ...boxSuccessAESyle, padding: "50px" };
 export const boxUnRegisterLogSyle = boxSuccessAESyle;
 export const boxLoginSyle = superCenter;
 // Profile

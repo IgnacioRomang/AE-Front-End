@@ -57,6 +57,7 @@ const RegisterCard = () => {
     false,
     false,
     false,
+    false,
   ]);
   const [sendError, setSendError] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
@@ -84,6 +85,12 @@ const RegisterCard = () => {
     },
     { occupation: 14, study: 26, phone: "", email: "" },
     { files: [] },
+    {
+      startDay: "",
+      fthMonth: "",
+      sixMonth: "",
+      lastMonth: "",
+    },
   ]);
 
   const getStepperStage = (viewid, labels) => {
@@ -126,12 +133,12 @@ const RegisterCard = () => {
       case 3:
         return <FileAttachCard ref={dataRef} files={stepData[3].files} />;
       case 4:
-        return <DatePlanAE first={true} />;
+        return <DatePlanAE first={true} ref={dataRef} />;
       case 5:
         if (!errors[5]) {
           return <SuccessAE first={true} />;
         } else {
-          return <ErrorAE />;
+          return <ErrorAE padding={8} />;
         }
       default:
         return <CircularProgress padding={15} />;
@@ -168,7 +175,7 @@ const RegisterCard = () => {
       updateErrorAtIndex(activeStep, false);
 
       // Actualizar datos del paso actual si no es el último paso
-      if (activeStep <= 3) {
+      if (activeStep <= 4) {
         const receivedData = dataRef.current.getData();
         setStepData((prevStepData) => {
           const newStepData = [...prevStepData];
@@ -181,11 +188,10 @@ const RegisterCard = () => {
       if (isStepSkipped(activeStep)) {
         newSkipped.delete(activeStep);
       }
+      // Incrementar el paso activo y actualizar los pasos omitidos
 
-      if (activeStep === steps.length - 1) {
+      if (activeStep === 4) {
         // Enviar datos y generar PDF (asumiendo que esto debe hacerse aquí)
-        console.log(activeStep);
-
         let url = process.env.REACT_APP_BACK_URL;
         let register_user = {
           name: stepData[0].name + " " + stepData[0].lastName,
@@ -203,8 +209,6 @@ const RegisterCard = () => {
             setSendError(true);
           });
       }
-
-      // Incrementar el paso activo y actualizar los pasos omitidos
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
       setSkipped(newSkipped);
     }
@@ -230,7 +234,8 @@ const RegisterCard = () => {
         setSendError(false);
       })
       .catch((e) => {
-        console.log(e);
+        updateErrorAtIndex(5, true);
+        setSendError(true);
       });
   };
 

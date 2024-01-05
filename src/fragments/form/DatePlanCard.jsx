@@ -1,9 +1,10 @@
+import CheckIcon from "@mui/icons-material/Check";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import { Box, Button, Stack, TextField, Typography } from "@mui/material";
-import React, { useEffect } from "react";
+import { Box, TextField, Typography } from "@mui/material";
+import React from "react";
 import { useDatePlanAEString } from "../../contexts/TextProvider.jsx";
 import { getDates } from "../../utiles.js";
-import CheckIcon from "@mui/icons-material/Check";
+
 function generarCodigo() {
   const caracteres = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   let codigo = "";
@@ -16,7 +17,7 @@ function generarCodigo() {
   return codigo;
 }
 
-const DatePlanAE = ({ first }) => {
+const DatePlanAE = React.forwardRef((props, ref) => {
   const { startDay, fthMonth, sixMonth, lastMonth } = getDates();
   const labels = useDatePlanAEString();
   const [code, setCode] = React.useState(generarCodigo());
@@ -24,14 +25,32 @@ const DatePlanAE = ({ first }) => {
   const [icon, setIcon] = React.useState(false);
   const [click, setClick] = React.useState(false);
   const [timeLeft, setTimeLeft] = React.useState(31);
+
   console.log(code);
+  const getData = () => {
+    return {
+      startDay: startDay,
+      fthMonth: fthMonth,
+      sixMonth: sixMonth,
+      lastMonth: lastMonth,
+    };
+  };
+  const handleErrors = React.useCallback(() => {
+    return codeEnter !== code;
+  });
+
+  React.useImperativeHandle(ref, () => ({
+    handleErrors,
+    getData,
+  }));
+
   const handleCode = (value) => {
     setCodeEnter(value);
     if (value === code) {
       setIcon(true);
-      setCode(null);
     }
   };
+
   return (
     <Box
       paddingBottom={3}
@@ -49,7 +68,7 @@ const DatePlanAE = ({ first }) => {
         {labels.body[0]}
         {startDay.toLocaleDateString("en-GB")}.
       </Typography>
-      {first && (
+      {props.first && (
         <Typography variant="h6">
           {labels.body[1]}
           {fthMonth.toLocaleDateString("en-GB")}
@@ -58,57 +77,59 @@ const DatePlanAE = ({ first }) => {
         </Typography>
       )}
       <Typography variant="h6">
-        {first ? labels.body[3] : labels.body[4]}
+        {props.first ? labels.body[3] : labels.body[4]}
         {lastMonth.toLocaleDateString("en-GB")}.
       </Typography>
       <Typography variant="h6">{labels.body[5]}</Typography>
 
       <Typography variant="body1" paddingBottom={2}>
-        Ingresa el codigo de verificacion enviado a tu email
+        {labels.msgCode}
       </Typography>
-      <TextField
-        label={labels.code}
-        variant="outlined"
-        onChange={(event) => handleCode(event.target.value)}
-        disabled={icon}
-        value={codeEnter}
-        InputProps={{
-          endAdornment: !icon ? (
-            <>
-              <RefreshIcon
-                style={{ cursor: "pointer" }}
-                disabled={click}
-                color={!click ? "primary" : "#d6dbdf "}
-                onClick={() => {
-                  if (!click) {
-                    setCode(generarCodigo());
-                    setTimeLeft(30);
-                    const intervalId = setInterval(() => {
-                      setTimeLeft((prevTime) => prevTime - 1);
-                    }, 1000);
-                    setClick(true);
-                    setTimeout(() => {
-                      clearInterval(intervalId);
-                      setIcon(false);
-                      setClick(false);
-                    }, 31000);
-                  }
-                }}
-              />
-              {click ? (
-                <span style={{ marginLeft: "9px", color: "#d6dbdf " }}>
-                  {timeLeft}s
-                </span>
-              ) : (
-                <></>
-              )}
-            </>
-          ) : (
-            <CheckIcon />
-          ),
-        }}
-      />
+      {props.first && (
+        <TextField
+          label={labels.code}
+          variant="outlined"
+          onChange={(event) => handleCode(event.target.value)}
+          disabled={icon}
+          value={codeEnter}
+          InputProps={{
+            endAdornment: !icon ? (
+              <>
+                <RefreshIcon
+                  style={{ cursor: "pointer" }}
+                  disabled={click}
+                  color={!click ? "primary" : "#d6dbdf "}
+                  onClick={() => {
+                    if (!click) {
+                      setCode(generarCodigo());
+                      setTimeLeft(30);
+                      const intervalId = setInterval(() => {
+                        setTimeLeft((prevTime) => prevTime - 1);
+                      }, 1000);
+                      setClick(true);
+                      setTimeout(() => {
+                        clearInterval(intervalId);
+                        setIcon(false);
+                        setClick(false);
+                      }, 31000);
+                    }
+                  }}
+                />
+                {click ? (
+                  <span style={{ marginLeft: "9px", color: "#d6dbdf " }}>
+                    {timeLeft}s
+                  </span>
+                ) : (
+                  <></>
+                )}
+              </>
+            ) : (
+              <CheckIcon />
+            ),
+          }}
+        />
+      )}
     </Box>
   );
-};
+});
 export default DatePlanAE;

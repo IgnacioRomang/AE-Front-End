@@ -21,10 +21,15 @@ const PdfTable = ({ pdfs }) => {
   const visiblePdfs = pdfs.slice(startIndex, endIndex);
 
   return (
-    <Container>
-      <Grid container spacing={3} width={"100%"} sx={centeringStyles}>
+    <Container sx={{ height: "80vh", width: "100vw" }}>
+      <Grid
+        container
+        spacing={3}
+        width={"100%"}
+        sx={{ ...centeringStyles, height: "70vh", width: "90vw" }}
+      >
         {visiblePdfs.map((pdf, index) => (
-          <Grid item xs={12} sm={6} md={4} key={index}>
+          <Grid item key={index}>
             <Box
               display="flex"
               flexDirection="column"

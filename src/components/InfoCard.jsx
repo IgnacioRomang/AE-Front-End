@@ -9,6 +9,7 @@ import Typography from "@mui/material/Typography";
 import { createTheme } from "@mui/material/styles";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { infoCArdStyle } from "../theme";
 
 const theme = createTheme({
   spacing: 2,
@@ -28,16 +29,7 @@ const InfoCard = ({ state, pdf }) => {
   const [loading, setLoading] = useState(state);
   const navigate = useNavigate();
   return (
-    <Card
-      sx={{
-        width: "100%",
-        "@media (min-width: 600px)": {
-          width: "25vw",
-        },
-        maxWidth: "450px",
-        maxHeight: "60vh",
-      }}
-    >
+    <Card sx={infoCArdStyle}>
       {loading ? (
         <Skeleton
           variant="rectangular"

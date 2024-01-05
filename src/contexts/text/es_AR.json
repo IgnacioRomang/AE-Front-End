@@ -82,7 +82,7 @@
         },
         "links": {
           "labels": {
-            "password": "¿Olvidaste tu contraseña?",
+            "password": "¿Recupera tu contraseña ó Cuenta?",
             "account": "¿No tienes cuenta?",
             "faq": "Preguntas Frecuentes"
           }
@@ -180,6 +180,7 @@
         "alert": {
           "body": [
             "Por favor, inténtalo de nuevo más tarde.",
+            "Es posible que este problema esté vinculado con nuestro servicio. Sin embargo, también podría ser consecuencia de que ya esté registrado. Le recomendamos iniciar sesión de manera convencional. Si se registró de forma presencial mediante un formulario escrito y desea acceder a su cuenta a través de la web, le sugerimos recuperar su cuenta. Vaya al apartado 'Recuperar mi cuenta' en la sección de inicio de sesión para obtener información detallada. Además, puede consultar las preguntas frecuentes en la parte inferior de la pantalla para obtener asistencia adicional.",
             "Si el problema persiste, contacta al soporte."
           ]
         }
@@ -194,6 +195,7 @@
           "Y durará hasta ",
           "¿Esta seguro que desea continuar?"
         ],
+        "msgCode": "Ingresa el codigo de verificacion enviado a tu email",
         "code": "Codigo"
       },
       "fileUploadSection": {
