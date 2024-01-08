@@ -33,7 +33,8 @@ const InfoCard = ({ state, pdf }) => {
       {loading ? (
         <Skeleton
           variant="rectangular"
-          height={140}
+          height={"25vh"}
+          width={"30vw"}
           sx={{
             display: high_res.display,
           }}

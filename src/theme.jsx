@@ -136,7 +136,7 @@ export const backdropLoginStyle = {
   color: "#fff",
   zIndex: (theme) => theme.zIndex.drawer + 1,
 };
-export const centerBottonsStyle = {
+export const centerButtonsStyle = {
   justifyContent: "space-between",
 };
 
@@ -361,7 +361,7 @@ export default {
   iconButtonTopStyle,
   menuStyles,
   centeringStyles,
-  centerBottonsStyle,
+  centerButtonsStyle,
   finalboxStyle,
   boxbottonsSteppStyle,
   stepStyle,

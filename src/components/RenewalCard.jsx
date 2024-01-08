@@ -27,9 +27,9 @@ import {
   InfoDataCard,
 } from "../fragments/form";
 
-import AlertFragment from "../fragments/AlertFragmet.jsx";
-import { cardRegisterStyle, centerBottonsStyle } from "../theme.jsx";
 import { useAuth } from "../contexts/AuthContext.js";
+import AlertFragment from "../fragments/AlertFragmet.jsx";
+import { cardRegisterStyle, centerButtonsStyle } from "../theme.jsx";
 
 const RenewalCard = () => {
   const [registerSend, setRegisterSend] = useState(false);
@@ -200,7 +200,7 @@ const RenewalCard = () => {
           )}
         </CardContent>
 
-        <CardActions sx={centerBottonsStyle}>
+        <CardActions sx={centerButtonsStyle}>
           <Button size="small" color="inherit">
             {commonlabels.button.cancel}
           </Button>

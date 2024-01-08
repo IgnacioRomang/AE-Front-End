@@ -7,6 +7,7 @@ import ScrollableComponent from "../fragments/ScrollableComponent";
 import Fab from "@mui/material/Fab";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { useNavigate } from "react-router-dom";
+import { blue } from "@mui/material/colors";
 export default function Root() {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
@@ -26,10 +27,15 @@ export default function Root() {
       </ScrollableComponent>
       <Footer />
       <Fab
-        color="secondary"
         aria-label="Ayuda"
         variant="extended"
-        style={{ position: "fixed", bottom: 16, right: 16 }}
+        style={{
+          backgroundColor: blue[800],
+          color: "white",
+          position: "fixed",
+          bottom: 16,
+          right: 16,
+        }}
         onClick={handleHelpClick}
       >
         <HelpOutlineIcon sx={{ mr: 1 }} />

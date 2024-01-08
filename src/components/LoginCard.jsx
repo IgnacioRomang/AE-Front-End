@@ -21,7 +21,7 @@ import {
   backdropLoginStyle,
   boxLoginSyle,
   cardLoginStyle,
-  centerBottonsStyle,
+  centerButtonsStyle,
   linksStyle,
 } from "../theme.jsx";
 
@@ -105,7 +105,7 @@ const Login = () => {
               disabled={loginSuccess}
               underline="hover"
               onClick={() => {
-                navigate("/auth/forgotpassword");
+                navigate("/auth/forgot-password");
               }}
               style={loginSuccess ? linksStyle : null}
             >
@@ -138,16 +138,15 @@ const Login = () => {
           </Stack>
           <Divider></Divider>
           {/* BOTONES */}
-          <CardActions sx={centerBottonsStyle}>
+          <CardActions sx={centerButtonsStyle}>
             <Button
-              size="small"
               color="inherit"
               onClick={handleCancel}
               disabled={loginSuccess}
             >
               {commonlabels.button.cancel}
             </Button>
-            <Button size="small" onClick={handleLogin} disabled={loginSuccess}>
+            <Button onClick={handleLogin} disabled={loginSuccess}>
               {commonlabels.button.ok}
             </Button>
           </CardActions>

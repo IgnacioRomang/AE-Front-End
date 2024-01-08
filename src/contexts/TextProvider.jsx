@@ -94,6 +94,9 @@ export function useResetPasswordCardString() {
 export function useFAQString() {
   return useContext(baseTextContext).public.components.faq;
 }
+export function useEmailChangeString() {
+  return useContext(baseTextContext).public.components.emailchange;
+}
 export default {
   useRegisterCardString,
   useFileUploadSectionString,

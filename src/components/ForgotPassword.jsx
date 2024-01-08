@@ -24,7 +24,7 @@ import {
 import {
   boxLoginSyle,
   cardLoginStyle,
-  centerBottonsStyle,
+  centerButtonsStyle,
   centeringStyles,
 } from "../theme";
 import { useNavigate } from "react-router-dom";
@@ -99,7 +99,7 @@ const ForgotPassword = () => {
           </Alert>
         </CardContent>
       </CardContent>
-      <CardActions sx={centerBottonsStyle}>
+      <CardActions sx={centerButtonsStyle}>
         <Button size="small" onClick={handleBack} color="inherit">
           {labelbutton.button.back}
         </Button>

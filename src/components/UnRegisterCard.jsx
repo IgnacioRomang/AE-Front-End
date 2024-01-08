@@ -19,7 +19,7 @@ import UnRegisterSuccessFragment from "../fragments/UnRegisterSuccessFragment.js
 import {
   boxUnRegisterLogSyle,
   cardRegisterStyle,
-  centerBottonsStyle,
+  centerButtonsStyle,
 } from "../theme.jsx";
 
 const UnRegisterCard = () => {
@@ -63,7 +63,7 @@ const UnRegisterCard = () => {
             </>
           )}
         </CardContent>
-        <CardActions sx={centerBottonsStyle}>
+        <CardActions sx={centerButtonsStyle}>
           <Button size="small" color="inherit">
             {commonlabels.button.cancel}
           </Button>

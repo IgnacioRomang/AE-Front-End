@@ -34,33 +34,30 @@ const Calendar = ({ intStart, intEnd, msg }) => {
   const getTableCel = (day, rowIndex, cellIndex) => {
     let { h, s, l } = { h: 228, s: 0, l: 100 };
     let msgon = false;
+
     if (intStart === intEnd) {
       if (day != null && day === intEnd.getDate()) {
-        h = 204;
-        s = 70;
-        l = 63;
+        h = 145;
+        s = 63;
+        l = 37;
         msgon = true;
       }
-      // estoy en marcado de un dia
+      // Marking a single day
     } else {
-      //tengo que colorar rango
-      //TODO MEJORAR ESATA LOGICA
-      if (intStart.getMonth() < intEnd.getMonth()) {
-        //es exclusion de un mes o de PRIMER cal
-        if (day != null && day >= intStart.getDate()) {
-          h = 6;
-          s = 39;
-          l = 81;
-          msgon = true;
-        }
-      } else {
-        // seg cal
-        if (day != null && day <= intEnd.getDate()) {
-          h = 6;
-          s = 39;
-          l = 81;
-          msgon = true;
-        }
+      // Coloring a range
+      // TODO: Improve this logic
+
+      const isExclusionOfFirstCal = intStart.getMonth() < intEnd.getMonth();
+
+      if (
+        isExclusionOfFirstCal
+          ? day != null && day >= intStart.getDate()
+          : day != null && day <= intEnd.getDate()
+      ) {
+        h = 0;
+        s = 50;
+        l = 67;
+        msgon = true;
       }
     }
 

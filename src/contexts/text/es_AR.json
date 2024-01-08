@@ -10,11 +10,19 @@
           "skyp": "Saltar",
           "back": "Atras",
           "next": "Siguiente",
-          "restart": "Reintentar"
+          "restart": "Reintentar",
+          "send": "Verificar codigo"
         }
       },
       "faq": {
         "title": "Preguntas Frecuentes"
+      },
+      "emailchange": {
+        "alert": {
+          "title": "Importancia de la Verificación de Correo Electrónico",
+          "strong": "¡Verifica tu correo!",
+          "body": "Protege tu cuenta, Facilita la recuperación y mejora la comunicación con nuestro servicio."
+        }
       },
       "resetpassword": {
         "title": "Cambio de Contraseña",
