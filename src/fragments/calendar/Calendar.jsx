@@ -12,7 +12,7 @@ import {
   Popper,
   Box,
 } from "@mui/material";
-import { getHSL } from "../../utiles";
+import { blue, grey, red } from "@mui/material/colors";
 
 const Calendar = ({ intStart, intEnd, msg }) => {
   const [currentDate, setCurrentDate] = useState(intStart);
@@ -32,56 +32,67 @@ const Calendar = ({ intStart, intEnd, msg }) => {
   };
 
   const getTableCel = (day, rowIndex, cellIndex) => {
-    let { h, s, l } = { h: 228, s: 0, l: 100 };
-    let msgon = false;
+    let msg_active = false;
+    let sizes = false;
+    let range_start = false;
+    let range_end = false;
+    let color = grey[50];
 
     if (intStart === intEnd) {
       if (day != null && day === intEnd.getDate()) {
-        h = 145;
-        s = 63;
-        l = 37;
-        msgon = true;
+        color = blue[200];
+        sizes = true;
+        msg_active = true;
       }
-      // Marking a single day
     } else {
-      // Coloring a range
-      // TODO: Improve this logic
-
       const isExclusionOfFirstCal = intStart.getMonth() < intEnd.getMonth();
-
+      range_start = intStart.getDate() === day && isExclusionOfFirstCal;
+      range_end = intEnd.getDate() === day && !isExclusionOfFirstCal;
       if (
         isExclusionOfFirstCal
           ? day != null && day >= intStart.getDate()
-          : day != null && day <= intEnd.getDate()
+          : day == null || day <= intEnd.getDate()
       ) {
-        h = 0;
-        s = 50;
-        l = 67;
-        msgon = true;
+        color = red[200];
+        msg_active = true;
       }
     }
 
     return (
       <>
         <TableCell
-          onMouseEnter={msgon ? handleOver : null}
-          onMouseLeave={msgon ? handleOver : null}
+          onMouseEnter={msg_active ? handleOver : null}
+          onMouseLeave={msg_active ? handleOver : null}
           key={`${hash}-${rowIndex}-${cellIndex}`}
           sx={{
-            border: "1px solid #ddd",
+            //border: "1px solid #ddd",
+
+            alignItems: "center",
+            justifyContent: "center",
             textAlign: "center",
             padding: "2px",
-            backgroundColor: getHSL(h, s, l),
+            borderTopLeftRadius: sizes || range_start ? "30px" : "0px",
+            borderBottomLeftRadius: sizes || range_start ? "30px" : "0px",
+            borderTopRightRadius: sizes || range_end ? "30px" : "0px",
+            borderBottomRightRadius: sizes || range_end ? "30px" : "0px",
+            overflow: "hidden",
+            backgroundColor: color,
             "&:hover": {
-              backgroundColor: getHSL(h, s, l - 10),
+              backgroundColor: color,
             },
           }}
         >
           {day || " "}
         </TableCell>
-        {msgon && (
+        {msg_active && (
           <Popper id={`${hash}-${rowIndex}`} open={open} anchorEl={anchorEl}>
-            <Box sx={{ border: 1, p: 1, bgcolor: "background.paper" }}>
+            <Box
+              sx={{
+                border: 1,
+                p: 1,
+                bgcolor: "background.paper",
+              }}
+            >
               {msg}
             </Box>
           </Popper>

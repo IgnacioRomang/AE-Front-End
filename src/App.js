@@ -18,6 +18,7 @@ import FAQcard from "./components/FAQ.jsx";
 import PDFViewer from "./components/PDFViewer.jsx";
 import ForgotPassword from "./components/ForgotPassword.jsx";
 import EmailChange from "./components/EmailChange.jsx";
+import VerificationCard from "./components/VerifyEmail.jsx";
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
               <Route path="profile" element={<Profile />} />
               <Route path="reset-password" element={<ResetPassword />} />
               <Route path="email-change" element={<EmailChange />} />
+              <Route path="verify-email" element={<VerificationCard />} />
             </Route>
             <Route path="*" element={<ErrorPage />} />
           </Routes>

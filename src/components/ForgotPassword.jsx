@@ -104,7 +104,7 @@ const ForgotPassword = () => {
           {labelbutton.button.back}
         </Button>
         <Button size="small" onClick={handleAcept}>
-          {labelbutton.button.ok}
+          {!isSubmitted ? labelbutton.button.ok : labelbutton.button.login}
         </Button>
       </CardActions>
       <Collapse in={isSubmitted}>
