@@ -40,8 +40,8 @@ function App() {
             </Route>
 
             <Route path="/user" element={<Root />} errorElement={<ErrorPage />}>
-              <Route path="baja" element={<UnRegisterCard />} />
-              <Route path="renewal" element={<RenewalCard />} />
+              <Route path="ae-finalize" element={<UnRegisterCard />} />
+              <Route path="ae-renewal" element={<RenewalCard />} />
               <Route path="profile" element={<Profile />} />
               <Route path="reset-password" element={<ResetPassword />} />
               <Route path="email-change" element={<EmailChange />} />

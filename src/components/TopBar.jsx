@@ -26,44 +26,69 @@ import {
   logoTopStyle,
   menuStyles,
 } from "../theme.jsx";
+import { useAuth } from "../contexts/AuthContext.js";
 
 const TopBar = (props) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [labels, assets] = useTopBarString();
-
+  const { User, serverDates } = useAuth();
   const navigate = useNavigate();
-
-  React.useEffect(() => {});
-
-  const pages = [
-    { label: labels.opctions[0], icon: <PersonIcon />, id: 0, disabled: false },
-    {
-      label: labels.opctions[1],
-      icon: <RefreshIcon />,
-      id: 1,
-      disabled: false,
-    },
+  const today = new Date();
+  let pages = [
+    { label: labels.opctions[0], id: 0, disabled: false },
+    { label: labels.opctions[1], id: 3, disabled: false },
     {
       label: labels.opctions[2],
-      icon: <HistoryIcon />,
-      id: 2,
-      disabled: true,
+      id: 1,
+      disabled: User !== null ? User.ae : false,
     },
-    { label: labels.opctions[3], icon: <BlockIcon />, id: 3, disabled: false },
+    {
+      label: labels.opctions[3],
+      id: 2,
+      disabled:
+        User !== null && User.ae
+          ? today.getMilliseconds() >=
+              serverDates.fifthMonth.getMilliseconds() &&
+            today.getMilliseconds() <= serverDates.sixthMonth.getMilliseconds()
+          : false,
+    },
   ];
+  React.useEffect(() => {
+    pages = [
+      { label: labels.opctions[0], id: 0, disabled: false },
+      { label: labels.opctions[1], id: 3, disabled: false },
+      {
+        label: labels.opctions[2],
+        id: 1,
+        disabled: User !== null ? User.ae : false,
+      },
+      {
+        label: labels.opctions[3],
+        id: 2,
+        disabled:
+          User !== null && User.ae
+            ? today.getMilliseconds() >=
+                serverDates.fifthMonth.getMilliseconds() &&
+              today.getMilliseconds() <=
+                serverDates.sixthMonth.getMilliseconds()
+            : false,
+      },
+    ];
+  }, [User, serverDates]);
+
   const handleoOnClickMenu = (e, id) => {
     switch (id) {
-      case pages[0].id:
+      case pages[3].id:
         navigate("/user/profile");
         break;
       case pages[1].id:
-        navigate("/user/renewal");
+        navigate("/user/ae-renewal");
         break;
       case pages[2].id:
-        //navigate("renewal");
+        navigate("/user/ae-finalize");
         break;
-      case pages[3].id:
-        navigate("/user/baja");
+      case pages[0].id:
+        navigate("/");
         break;
 
       default:
@@ -99,16 +124,19 @@ const TopBar = (props) => {
             />
 
             {props.userAuth &&
-              pages.map((page) => (
-                <Button
-                  key={page.label}
-                  disabled={page.disabled}
-                  onClick={(e) => handleoOnClickMenu(e, page.id)}
-                  sx={buttonTopStyle}
-                >
-                  {page.label}
-                </Button>
-              ))}
+              pages.map(
+                (page) =>
+                  !page.disabled && (
+                    <Button
+                      key={page.label}
+                      disabled={page.disabled}
+                      onClick={(e) => handleoOnClickMenu(e, page.id)}
+                      sx={buttonTopStyle}
+                    >
+                      {page.label}
+                    </Button>
+                  )
+              )}
           </Box>
 
           <Box sx={boxSMmenu}>
@@ -124,18 +152,23 @@ const TopBar = (props) => {
                   open={Boolean(anchorElNav)}
                   onClose={handleCloseNavMenu}
                 >
-                  {pages.map((page) => (
-                    <MenuItem
-                      key={page.label}
-                      disabled={page.disabled}
-                      onClick={(e) => handleoOnClickMenu(e, page.id)}
-                    >
-                      {page.icon}
-                      <Typography textAlign="center" paddingBlockStart={"5px"}>
-                        {page.label}
-                      </Typography>
-                    </MenuItem>
-                  ))}
+                  {pages.map(
+                    (page) =>
+                      !page.disabled && (
+                        <MenuItem
+                          key={page.label}
+                          disabled={page.disabled}
+                          onClick={(e) => handleoOnClickMenu(e, page.id)}
+                        >
+                          <Typography
+                            textAlign="center"
+                            paddingBlockStart={"5px"}
+                          >
+                            {page.label}
+                          </Typography>
+                        </MenuItem>
+                      )
+                  )}
                 </Menu>
               </>
             )}

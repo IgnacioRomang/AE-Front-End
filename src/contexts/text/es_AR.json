@@ -114,9 +114,9 @@
       },
       "topbar": {
         "opctions": [
+          "Noticias",
           "Perfil",
           "Nueva Autoexclusión",
-          "Historial",
           "Finalización"
         ]
       },

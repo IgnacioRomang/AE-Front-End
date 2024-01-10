@@ -21,14 +21,9 @@ import Calendar from "../fragments/calendar/Calendar";
 import { centeringStyles, gridProfileStyle } from "../theme";
 
 const Profile = (props) => {
-  const { User, setUser } = useAuth();
+  const { User, setUser, serverDates, setServerDates } = useAuth();
   const [loading, setLoading] = React.useState(true);
-  const [serverDates, setServerDates] = React.useState({
-    startDay: new Date(),
-    fifthMonth: new Date(),
-    sixthMonth: new Date(),
-    lastMonth: new Date(),
-  });
+
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -96,10 +91,10 @@ const Profile = (props) => {
                     ) : (
                       <Calendar
                         intStart={
-                          serverDates[index === 1 ? "fifthMonth" : "lastMonth"]
+                          serverDates[index === 1 ? "fifthMonth" : "startDay"]
                         }
                         intEnd={
-                          serverDates[index === 1 ? "sixthMonth" : "lastMonth"]
+                          serverDates[index === 1 ? "sixthMonth" : "startDay"]
                         }
                         msg={labels.msg[index]}
                       />

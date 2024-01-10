@@ -26,7 +26,7 @@ const PdfTable = ({ pdfs }) => {
         container
         spacing={3}
         width={"100%"}
-        sx={{ ...centeringStyles, height: "70vh", width: "90vw" }}
+        sx={{ ...centeringStyles, height: "80vh", width: "90vw" }}
       >
         {visiblePdfs.map((pdf, index) => (
           <Grid item key={index}>
