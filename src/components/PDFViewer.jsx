@@ -2,11 +2,15 @@ import { Paper, Typography } from "@mui/material";
 import axios from "axios";
 import React from "react";
 import { useParams } from "react-router-dom";
+s;
+/* The code defines a functional component called `PDFViewer`. If u click in the infocard u will see the info of the pdf in this component*/
 
 const PDFViewer = () => {
   const [pdf, setPdf] = React.useState([]);
-  //TODO leer pdf de back end
+
   const { pdfid } = useParams();
+  /* The `React.useEffect` hook is used to perform side effects in a functional component. In this case,
+it is used to fetch the PDF data from the backend API. */
   React.useEffect(() => {
     const fetchData = async () => {
       try {

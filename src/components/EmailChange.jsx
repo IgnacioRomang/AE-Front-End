@@ -1,3 +1,4 @@
+// This file is part of React. Component. In order to avoid circular imports we have to import all of the components that are in the React context. React's context is a JSX object that represents the top - level React component and its dependencies
 import {
   Alert,
   AlertTitle,
@@ -9,22 +10,15 @@ import {
 } from "@mui/material";
 import React from "react";
 
-import { useNavigate } from "react-router-dom";
-import CodeFragment from "../fragments/CodeFragment";
-import { centerButtonsStyle } from "../theme";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import {
   useCommonsString,
   useEmailChangeString,
 } from "../contexts/TextProvider";
-import { common } from "@mui/material/colors";
+import CodeFragment from "../fragments/CodeFragment";
+import { centerButtonsStyle } from "../theme";
 
-/**
- * Elemento cargado del cambio de email, es una card solo accesible desde el perfil de usuario
- * Posee un text field para el email y otro para el codigo de confirmacion
- *
- * @return {*}
- */
 const EmailChange = () => {
   const labels = useEmailChangeString();
   const commonlabels = useCommonsString();
@@ -38,14 +32,7 @@ const EmailChange = () => {
   const [icon, setIcon] = React.useState(false);
   const navigate = useNavigate();
 
-  /**
-   * Verifica si el email esta escrito correctamente y tiene un formato tipico de email
-   * en caso afirmativo setea banderas para la interfaz como bajar signos de error y notificar envio
-   * luego se comunica con backend
-   *
-   * en caso de no cumplir setea los errores.
-   *
-   */
+  // Adds send and error email rules based on the email address. This is used to prevent sending the re
   const handleSend = () => {
     if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email === reemail) {
       setSend(true);
@@ -56,6 +43,8 @@ const EmailChange = () => {
       setErrorEmail(true);
     }
   };
+
+  // Adds confirm middleware to handle confirming user's auth code. Also checks if user has chosen to login
   const handleConfirm = () => {
     let url = process.env.REACT_APP_BACK_URL;
     axios
@@ -73,6 +62,8 @@ const EmailChange = () => {
         console.log(e);
       });
   };
+
+  // Sends an email to the user's email address if they are not already logged in
   const sendEmail = () => {
     let url = process.env.REACT_APP_BACK_URL;
     axios.post(url + "/api/auth/verify/send", { email: email }).catch((e) => {

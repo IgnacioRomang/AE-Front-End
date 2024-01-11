@@ -55,11 +55,21 @@ const InfoDataCard = React.forwardRef((props, ref) => {
     password: false,
   });
 
+  /**
+   * The function `handleInputChange` updates the `userData` state object with a new value for a specific
+   * field, and updates the `errors` state object to indicate if the value is empty or not.
+   */
   const handleInputChange = (field, value) => {
     setUserData((prevData) => ({ ...prevData, [field]: value }));
     setErrors((prevErrors) => ({ ...prevErrors, [field]: !value.trim() }));
   };
 
+  /**
+   * The handleCUIL function takes an event object, extracts the input value, formats it using the
+   * doformatCUIL function, updates the formattedCUIL property in the userData state, and checks for
+   * errors by setting the formattedCUIL error to true if the input value is empty or consists only of
+   * whitespace.
+   */
   const handleCUIL = (event) => {
     const inputValue = event.target.value;
     const formatted = doformatCUIL(inputValue);
@@ -70,6 +80,10 @@ const InfoDataCard = React.forwardRef((props, ref) => {
     }));
   };
 
+  /**
+   * The handleBirthdate function updates the selectedBirthdate value in the userData state and checks if
+   * the selected date is a valid date.
+   */
   const handleBirthdate = (event) => {
     const selectedDate = event.target.value;
     setUserData((prevData) => ({
@@ -82,6 +96,10 @@ const InfoDataCard = React.forwardRef((props, ref) => {
     }));
   };
 
+  /**
+   * The function `handleGenderChange` updates the selected gender in the user data and checks if the
+   * selected gender is equal to 4, updating the errors accordingly.
+   */
   const handleGenderChange = (event) => {
     const newGender = event.target.value;
     setUserData((prevData) => ({ ...prevData, selectedGender: newGender }));

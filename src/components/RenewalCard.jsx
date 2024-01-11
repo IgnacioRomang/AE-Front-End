@@ -31,6 +31,11 @@ import { useAuth } from "../contexts/AuthContext.js";
 import AlertFragment from "../fragments/AlertFragmet.jsx";
 import { cardRegisterStyle, centerButtonsStyle } from "../theme.jsx";
 
+/* The above code is defining a React component called `RenewalCard`. This component renders a card
+with multiple sections (accordion panels) for collecting user information. The user can input their
+personal information, address, extra data, and attach files. The component also includes buttons for
+canceling or submitting the form. When the form is submitted, the `handleSend` function is called,
+which sets the `registerSend` state to true and opens a success or error message. */
 const RenewalCard = () => {
   const [registerSend, setRegisterSend] = useState(false);
   const labels = useRegisterCardString();

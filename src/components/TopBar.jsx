@@ -1,8 +1,4 @@
-import BlockIcon from "@mui/icons-material/Block";
-import HistoryIcon from "@mui/icons-material/History";
 import MenuIcon from "@mui/icons-material/Menu";
-import PersonIcon from "@mui/icons-material/Person";
-import RefreshIcon from "@mui/icons-material/Refresh";
 import AppBar from "@mui/material/AppBar";
 
 import Button from "@mui/material/Button";
@@ -16,7 +12,8 @@ import { Box } from "@mui/system";
 import React from "react";
 import IconUserMenu from "../fragments/IconUserMenuFragment.jsx";
 
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext.js";
 import { useTopBarString } from "../contexts/TextProvider.jsx";
 import {
   boxSMmenu,
@@ -26,8 +23,9 @@ import {
   logoTopStyle,
   menuStyles,
 } from "../theme.jsx";
-import { useAuth } from "../contexts/AuthContext.js";
 
+/* The `TopBar` component is a React functional component that represents the top navigation bar of a
+web application. It displays a logo, menu options, and a user menu. */
 const TopBar = (props) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [labels, assets] = useTopBarString();
@@ -53,6 +51,8 @@ const TopBar = (props) => {
           : false,
     },
   ];
+  /* The `React.useEffect` hook is used to perform side effects in a functional component. In this case,
+the effect is triggered whenever the `User` or `serverDates` variables change. */
   React.useEffect(() => {
     pages = [
       { label: labels.opctions[0], id: 0, disabled: false },
@@ -76,21 +76,24 @@ const TopBar = (props) => {
     ];
   }, [User, serverDates]);
 
+  /**
+   * The function `handleOnClickMenu` is used to navigate to different pages based on the provided `id`
+   * parameter.
+   */
   const handleoOnClickMenu = (e, id) => {
     switch (id) {
-      case pages[3].id:
+      case pages[1].id:
         navigate("/user/profile");
         break;
-      case pages[1].id:
+      case pages[2].id:
         navigate("/user/ae-renewal");
         break;
-      case pages[2].id:
+      case pages[3].id:
         navigate("/user/ae-finalize");
         break;
       case pages[0].id:
         navigate("/");
         break;
-
       default:
         navigate("error");
     }

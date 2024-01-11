@@ -3,6 +3,9 @@ import { CardContent, Grid, TextField } from "@mui/material";
 import { useAddressDataCardString } from "../../contexts/TextProvider.jsx";
 import { doPostalCode, doApartment, doFloor } from "../../utiles.js";
 
+/* The code defines a React functional component called `AddressDataCard`. It is a form component that
+displays fields for entering address data such as street address, floor, apartment, province, city,
+and postal code. */
 const AddressDataCard = React.forwardRef((props, ref) => {
   const labels = useAddressDataCardString();
 
@@ -22,6 +25,9 @@ const AddressDataCard = React.forwardRef((props, ref) => {
     postalCode: false,
   });
 
+  /**
+   * The handleChange function updates the userData state by formatting the value of a specific field.
+   */
   const handleChange = (event, field, formatter) => {
     const { value } = event.target;
     setUserData((prevUserData) => ({
@@ -30,6 +36,8 @@ const AddressDataCard = React.forwardRef((props, ref) => {
     }));
   };
 
+  /* The `handleErrors` function is a callback function created using the `useCallback` hook. It is
+responsible for validating the user data and updating the `errors` state accordingly. */
   const handleErrors = useCallback(() => {
     const { address, province, city, postalCode } = userData;
 
@@ -45,6 +53,11 @@ const AddressDataCard = React.forwardRef((props, ref) => {
     return Object.values(errors).some(Boolean);
   }, [userData]);
 
+  /**
+   * The function exports a `getData` function that returns `userData` and is accessible through the
+   * `ref` object.
+   * @returns The `getData` function is being returned.
+   */
   const getData = () => {
     return userData;
   };

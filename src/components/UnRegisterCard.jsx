@@ -7,6 +7,7 @@ import {
   CardContent,
   CardHeader,
 } from "@mui/material";
+s;
 import React, { useState } from "react";
 import {
   useCommonsString,
@@ -22,6 +23,7 @@ import {
   centerButtonsStyle,
 } from "../theme.jsx";
 
+/* The code defines a functional component called `UnRegisterCard`. */
 const UnRegisterCard = () => {
   const commonlabels = useCommonsString();
   const renewalstring = useUnRegisterCardString();

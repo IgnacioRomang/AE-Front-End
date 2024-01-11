@@ -1,35 +1,32 @@
 import {
   Alert,
   AlertTitle,
-  Box,
   Button,
   Card,
   CardActions,
   CardContent,
   CardHeader,
   Collapse,
-  List,
-  ListItem,
-  ListItemText,
   TextField,
-  Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import PasswordFragment from "../fragments/PasswordFragment";
+import { useNavigate } from "react-router-dom";
 import {
   useCommonsString,
   useForgotPasswordString,
-  useResetPasswordCardString,
 } from "../contexts/TextProvider";
-import {
-  boxLoginSyle,
-  cardLoginStyle,
-  centerButtonsStyle,
-  centeringStyles,
-} from "../theme";
-import { useNavigate } from "react-router-dom";
+import { boxLoginSyle, cardLoginStyle, centerButtonsStyle } from "../theme";
 import { doformatCUIL } from "../utiles";
 
+/**
+ * The `ForgotPassword` function is a React component that renders a form for users to enter their CUIL
+ * (Argentinian identification number) and handles the submission and validation of the form.
+ * @returns The `ForgotPassword` component is returning a JSX structure that represents a card with a
+ * form for resetting a password. The card contains a title, a text field for entering a CUIL (a unique
+ * identification number used in Argentina), an alert with information about the CUIL format, and two
+ * buttons for navigating back or submitting the form. Additionally, there are two `Collapse`
+ * components that display success or
+ */
 const ForgotPassword = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const nav = useNavigate();
@@ -37,6 +34,10 @@ const ForgotPassword = () => {
   const label = useForgotPasswordString();
   const [error, setError] = React.useState(false);
 
+  /**
+   * The function `handleAcept` checks if the `formattedCUIL` is valid and if it is, it sets the error
+   * state to false and either navigates to the login page or toggles the `isSubmitted` state.
+   */
   const handleAcept = (e) => {
     e.preventDefault();
     if (!formattedCUIL.trim() || formattedCUIL.length !== 13) {
@@ -55,6 +56,10 @@ const ForgotPassword = () => {
 
   const [formattedCUIL, setFormattedCUIL] = useState("");
 
+  /**
+   * The function `handleInputChange` takes an input value, formats it using the `doformatCUIL` function,
+   * and sets the formatted value in the state variable `formattedCUIL`.
+   */
   const handleInputChange = (event) => {
     const inputValue = event.target.value;
     let formatted = doformatCUIL(inputValue);

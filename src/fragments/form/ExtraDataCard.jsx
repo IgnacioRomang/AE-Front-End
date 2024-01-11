@@ -24,6 +24,8 @@ const study = [
   { label: "Otra", id: 25 },
   { label: "No contesta", id: 26 },
 ];
+/* The code defines a React functional component called `ExtraDataCard`. It is a card component that
+displays and allows users to edit extra data such as occupation, study, phone, and email. */
 
 const ExtraDataCard = React.forwardRef((props, ref) => {
   const labels = useExtraDataCardString();
@@ -40,6 +42,9 @@ const ExtraDataCard = React.forwardRef((props, ref) => {
     email: false,
   });
 
+  /**
+   * The handleChange function updates the userData state by formatting the value of a specific field.
+   */
   const handleChange = (event, field, formatter) => {
     const { value } = event.target;
     setUserData((prevUserData) => ({
@@ -48,9 +53,10 @@ const ExtraDataCard = React.forwardRef((props, ref) => {
     }));
   };
 
+  /* The `handleErrors` function is a callback function that is used to validate the phone and email
+fields in the `userData` state object. */
   const handleErrors = useCallback(() => {
     const { phone, email } = userData;
-    // TODO COMUNICAR CON BACKEND PARA VER SI EMAIL ES FACTIBLE
     const errors = {
       phone:
         phone.trim() !== ""
@@ -74,6 +80,10 @@ const ExtraDataCard = React.forwardRef((props, ref) => {
     getData,
   }));
 
+  /**
+   * The handleChangeNotFormatter function updates the value of a specific field in the userData state
+   * object using the setUserData function.
+   */
   const handleChangeNotFormatter = (event, field) => {
     const value = event.target.value;
     setUserData((prevData) => ({ ...prevData, [field]: value }));

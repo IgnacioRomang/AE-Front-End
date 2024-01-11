@@ -1,31 +1,31 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import PdfTable from "../components/PDFtable";
-import ScrollableComponent from "../fragments/ScrollableComponent";
 import {
   Alert,
   AlertTitle,
-  Backdrop,
-  CircularProgress,
   Divider,
   Grid,
   Paper,
   Skeleton,
   Typography,
 } from "@mui/material";
+import axios from "axios";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { useProfileString } from "../contexts/TextProvider";
 import ProfileAEdata from "../fragments/ProfileIconData";
 import Calendar from "../fragments/calendar/Calendar";
-import { centeringStyles, gridProfileStyle } from "../theme";
+import { centeringStyles } from "../theme";
 
+/* The `Profile` component is a functional component in JavaScript React. It is responsible for
+rendering the user's profile page. */
 const Profile = (props) => {
   const { User, setUser, serverDates, setServerDates } = useAuth();
   const [loading, setLoading] = React.useState(true);
 
   const navigate = useNavigate();
 
+  /* The `React.useEffect` hook is used to perform side effects in a functional component. In this case,
+it is used to fetch data from an API endpoint when the component mounts. */
   React.useEffect(() => {
     let url = process.env.REACT_APP_BACK_URL;
     const fetchData = async () => {

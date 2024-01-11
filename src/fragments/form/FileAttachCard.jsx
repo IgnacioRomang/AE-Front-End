@@ -18,6 +18,8 @@ import {
 import { textJustifyStyle } from "../../theme.jsx";
 import { shortFileName } from "../../utiles.js";
 
+/* The code defines a React functional component called `FileAttachCard`. It is a card component that
+allows users to attach files (DNI PHOTOS). */
 const FileAttachCard = React.forwardRef((props, ref) => {
   const labels = useFileAttachCardString();
 
@@ -30,6 +32,10 @@ const FileAttachCard = React.forwardRef((props, ref) => {
     files_type: false,
   });
 
+  /**
+   * The function `handleFileChange` is used to handle the change event when selecting files, limiting
+   * the number of files to 2 and checking if the files are of type image.
+   */
   const handleFileChange = (event) => {
     let files = event.target.files;
     let selectedFilesArray = [];
@@ -55,6 +61,10 @@ const FileAttachCard = React.forwardRef((props, ref) => {
     setButtonDisabled(selectedFilesArray.length + userData.length >= 2);
   };
 
+  /**
+   * The function `handleRemoveFile` removes a file from the `userData` array and updates the state with
+   * the updated array.
+   */
   const handleRemoveFile = (index) => {
     const updatedFiles = [...userData];
     updatedFiles.splice(index, 1);
@@ -62,6 +72,8 @@ const FileAttachCard = React.forwardRef((props, ref) => {
     setButtonDisabled(false);
   };
 
+  /* The `handleErrors` function is a callback function that checks for errors in the file attachments.
+It determines if there are any errors based on two conditions: */
   const handleErrors = useCallback(() => {
     const errors = {
       files_size: userData.length < 2,

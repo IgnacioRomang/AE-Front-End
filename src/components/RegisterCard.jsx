@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useState } from "react";
 
 // Material-UI Components
 import {
@@ -6,10 +6,10 @@ import {
   Button,
   Card,
   CardHeader,
+  CircularProgress,
   Step,
   StepLabel,
   Stepper,
-  CircularProgress,
 } from "@mui/material";
 
 // Icons
@@ -33,6 +33,8 @@ import {
   InfoDataCard,
 } from "../fragments/form";
 // Styles
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import {
   boxbottonsSteppStyle,
   cardRegisterStyle,
@@ -40,9 +42,11 @@ import {
   finalboxStyle,
   stepStyle,
 } from "../theme.jsx";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
+/* The above code is a React component called `RegisterCard`. It is a multi-step form that allows users
+to register by providing various information. The component uses state hooks to manage the current
+step, errors, skipped steps, and step data. It also uses refs to access data and handle errors in
+child components. */
 const RegisterCard = () => {
   const labels = useRegisterCardString();
   const bottonslabel = useCommonsString();
@@ -93,6 +97,8 @@ const RegisterCard = () => {
     },
   ]);
 
+  /* The `getStepperStage` function is a helper function that determines which component to render based
+on the current step of the stepper. */
   const getStepperStage = (viewid, labels) => {
     switch (viewid) {
       case 0:
@@ -159,12 +165,20 @@ const RegisterCard = () => {
       return newErrors;
     });
   };
+  /**
+   * The function `handleNext` is used to handle the next step in a multi-step form, updating the step
+   * data, checking for errors, and sending data to a server if it is the last step.
+   */
   const handleNext = () => {
     // Copia el conjunto de pasos omitidos para evitar mutaciones directas
     let newSkipped = new Set(skipped);
 
     // Evaluar errores
     let error = false;
+    /* The code block is checking if the `dataRef.current` exists and if it has a function called
+    `handleErrors`. If both conditions are true, it calls the `handleErrors` function and assigns its
+    return value to the `error` variable. This is used to determine if there are any errors in the
+    current step of the form. */
     if (dataRef.current && typeof dataRef.current.handleErrors === "function") {
       error = dataRef.current.handleErrors();
     }
@@ -173,8 +187,7 @@ const RegisterCard = () => {
       updateErrorAtIndex(activeStep, true);
     } else {
       updateErrorAtIndex(activeStep, false);
-
-      // Actualizar datos del paso actual si no es el último paso
+      /* This code block is handling the data received from the current step of the form. */
       if (activeStep <= 4) {
         const receivedData = dataRef.current.getData();
         setStepData((prevStepData) => {
@@ -183,15 +196,13 @@ const RegisterCard = () => {
           return newStepData;
         });
       }
-
-      // Eliminar el paso actual de los pasos omitidos
       if (isStepSkipped(activeStep)) {
         newSkipped.delete(activeStep);
       }
-      // Incrementar el paso activo y actualizar los pasos omitidos
-
+      /* The code block you provided is handling the submission of user registration data to a server. It is
+      checking if the current step of the form is the last step (step 4) and if so, it creates an object
+`     register_user` with the necessary data from the previous steps (name, cuil, email, and password). */
       if (activeStep === 4) {
-        // Enviar datos y generar PDF (asumiendo que esto debe hacerse aquí)
         let url = process.env.REACT_APP_BACK_URL;
         let register_user = {
           name: stepData[0].name + " " + stepData[0].lastName,
@@ -218,6 +229,10 @@ const RegisterCard = () => {
     navigate("/auth/login");
   };
 
+  /**
+   * The `handleRestart` function sends a POST request to a specified URL with user registration data and
+   * handles the response.
+   */
   const handleRestart = () => {
     let url = process.env.REACT_APP_BACK_URL;
     let register_user = {

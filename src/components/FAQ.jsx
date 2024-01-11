@@ -1,12 +1,14 @@
-import React from "react";
-import Question from "../fragments/Question";
 import { Paper, Typography } from "@mui/material";
 import axios from "axios"; // Asegúrate de importar axios
+import React from "react";
 import { useFAQString } from "../contexts/TextProvider";
+import Question from "../fragments/Question";
 
 const FAQ = (props) => {
   const [questions, setQuestions] = React.useState([]);
   const labels = useFAQString();
+
+  // Adds the middleware that fetches and sets questions from React's back page
   React.useEffect(() => {
     const fetchData = async () => {
       try {
@@ -26,6 +28,7 @@ const FAQ = (props) => {
     fetchData();
   }, []);
 
+  // Toggles the state of the question at the given index. This is used to prevent an unintended change in the state
   const handleQuestionToggle = (index) => {
     setQuestions((prevQuestions) => {
       const updatedQuestions = [...prevQuestions];

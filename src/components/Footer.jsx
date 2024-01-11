@@ -14,9 +14,8 @@ import {
   imgLogoProvStyle,
 } from "../theme.jsx";
 
-// PONER QUE LOS CHIPS CAMBIEN DE COLOR AL PASAR POR ARRIBA NO PRIORI
-
-//sx={{ background: blue[50] }}
+/* The code defines a functional component called `Footer`. Inside the component, it uses the
+`useFooterString` hook to retrieve the `contact_info` and `assets` values. */
 const Footer = () => {
   const [contact_info, assets] = useFooterString();
   return (

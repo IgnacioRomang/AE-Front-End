@@ -1,10 +1,9 @@
-import { Chip, Skeleton } from "@mui/material";
+import { Skeleton } from "@mui/material";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
 import { createTheme } from "@mui/material/styles";
 import React, { useState } from "react";
@@ -23,8 +22,7 @@ const high_res = {
   },
 };
 
-//TODO: agregar info_noticias y loading state a un props
-
+/* The `InfoCard` component is a React functional component that takes two props: `state` and `pdf` and make a cardview for etch pdf. */
 const InfoCard = ({ state, pdf }) => {
   const [loading, setLoading] = useState(state);
   const navigate = useNavigate();

@@ -1,34 +1,31 @@
 import {
   Alert,
   AlertTitle,
-  Box,
   Button,
   Card,
   CardActions,
   CardContent,
   CardHeader,
   Collapse,
-  List,
-  ListItem,
-  ListItemText,
-  Typography,
 } from "@mui/material";
+import axios from "axios";
 import React from "react";
-import PasswordFragment from "../fragments/PasswordFragment";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 import {
   useCommonsString,
   useResetPasswordCardString,
 } from "../contexts/TextProvider";
-import {
-  boxLoginSyle,
-  cardLoginStyle,
-  centerButtonsStyle,
-  centeringStyles,
-} from "../theme";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { useAuth } from "../contexts/AuthContext";
+import PasswordFragment from "../fragments/PasswordFragment";
+import { boxLoginSyle, cardLoginStyle, centerButtonsStyle } from "../theme";
 
+/**
+ * The `ResetPassword` function is a React component that handles the process of resetting a user's
+ * password.
+ * @returns The `ResetPassword` component is returning a JSX element, specifically a `Card` component
+ * with various child components such as `CardHeader`, `CardContent`, `Collapse`, `Alert`, and
+ * `CardActions`.
+ */
 const ResetPassword = () => {
   const labelbutton = useCommonsString();
   const label = useResetPasswordCardString();
@@ -36,12 +33,14 @@ const ResetPassword = () => {
   const { setUser, setIsAuthenticated } = useAuth();
   const ref = React.useRef(null);
   const [error, setError] = React.useState(false);
+  /**
+   * The function `handleAcept` sends a POST request to the server to change the user's password and
+   * handles the response accordingly.
+   */
   const handleAcept = () => {
-    //TODO HACe;
     let result = ref.current.sendData();
     setError(!result[0]);
     if (result[0]) {
-      //TODO enviar datos de result[1]
       let url = process.env.REACT_APP_BACK_URL;
       axios
         .post(url + "/api/auth/change_password", result[1])

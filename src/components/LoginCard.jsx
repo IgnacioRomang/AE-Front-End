@@ -12,13 +12,10 @@ import {
   Link,
   Stack,
 } from "@mui/material";
-import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { useCommonsString, useLoginString } from "../contexts/TextProvider.jsx";
 import {
-  backdropLoginStyle,
   boxLoginSyle,
   cardLoginStyle,
   centerButtonsStyle,
@@ -34,21 +31,24 @@ const Login = () => {
   const commonlabels = useCommonsString();
   const { setIsAuthenticated, setUser, User } = useAuth();
 
-  //Si es verdadero desactiva los botones y muestra el mensaje de exito
-  //para poder enviarlo  a la proxima pantalla
   const [loginSuccess, setLoginSuccess] = React.useState(false);
   const navigate = useNavigate();
-  //Si es verdadero muestra el mensaje de fallo en logeo
   const [loginFail, setLoginFail] = React.useState(false);
 
   const logindataref = React.useRef(null);
 
+  /* The `React.useEffect` hook is used to perform side effects in a functional component. In this case,
+the effect is triggered when the component mounts (since the dependency array is empty `[]`). */
   React.useEffect(() => {
     if (User !== null) {
       navigate("/profile");
     }
   }, []);
 
+  /**
+   * The handleLogin function checks if the login data is valid, sets the appropriate state variables,
+   * and redirects the user to their profile page if the login is successful.
+   */
   const handleLogin = async (event) => {
     setOpen(true);
     let loggin = await logindataref.current.getData();
@@ -69,15 +69,6 @@ const Login = () => {
       setLoginSuccess(false);
       setLoginFail(true);
     }
-  };
-
-  const handleCuil = (event) => {
-    // Si esta en error cambiar eso
-    //TODO hacer que solo acepte numeros y - por si algun bruto lo pone asi
-  };
-  const handlePassword = (event) => {
-    // Si esta en error cambiar eso
-    //TODO
   };
 
   const handleCancel = (event) => {
