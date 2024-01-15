@@ -13,8 +13,14 @@ import {
 import { blue, grey, red } from "@mui/material/colors";
 import React, { useState } from "react";
 
-/* The `Calendar` component is a React component that displays a calendar table. It takes three props
-as input: `intStart`, `intEnd`, and `msg`. */
+/**
+ * The `Calendar` component is a React component that displays a calendar table. It takes three props
+ * as input: `intStart`, `intEnd`, and `msg`.
+ *
+ * @param {Date} intStart - The start date of the calendar range
+ * @param {Date} intEnd - The end date of the calendar range
+ * @param {string} msg - The message to display when the user hovers over a date in the calendar
+ */
 const Calendar = ({ intStart, intEnd, msg }) => {
   const [currentDate, setCurrentDate] = useState(intStart);
   const hash = btoa(currentDate.toString() + intEnd.toString());
@@ -33,12 +39,12 @@ const Calendar = ({ intStart, intEnd, msg }) => {
   };
 
   /**
-   * The function `getTableCel` returns a table cell element with specific styling and color based on the
-   * provided parameters.
-   * @returns a JSX element that consists of a TableCell component and a Popper component. The TableCell
-   * component has various styling properties and displays the value of the "day" variable. The Popper
-   * component is conditionally rendered based on the value of the "msg_active" variable and displays the
-   * value of the "msg" variable.
+   * Returns a table cell for a given date.
+   *
+   * @param {Date} day - The date to display in the table cell
+   * @param {number} rowIndex - The index of the row containing the table cell
+   * @param {number} cellIndex - The index of the table cell within the row
+   * @returns {React.ReactElement} A table cell containing the given date
    */
   const getTableCel = (day, rowIndex, cellIndex) => {
     let msg_active = false;
@@ -47,8 +53,6 @@ const Calendar = ({ intStart, intEnd, msg }) => {
     let range_end = false;
     let color = grey[50];
 
-    /* The code block you provided is a conditional statement that determines the styling and color of a
- table cell based on the values of `intStart`, `intEnd`, and `day`. */
     if (intStart === intEnd) {
       if (day != null && day === intEnd.getDate()) {
         color = blue[200];
@@ -157,10 +161,10 @@ const Calendar = ({ intStart, intEnd, msg }) => {
 };
 
 /**
- * The function `getDaysInMonth` returns an array of the days in a given month, including any empty
- * cells for days before the first day of the month.
- * @returns The function `getDaysInMonth` returns an array containing the days of the month, including
- * any empty cells for days before the first day of the month.
+ * Returns an array containing the days of the month, including any empty cells for days before the first day of the month.
+ *
+ * @param {Date} date - The date for which to retrieve the days of the month
+ * @returns {number[]} An array containing the days of the month, starting with the first day of the month and including any empty cells for days before the first day of the month
  */
 const getDaysInMonth = (date) => {
   const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
@@ -185,7 +189,10 @@ const getDaysInMonth = (date) => {
 /**
  * The `chunkArray` function takes an array and a size as input and returns a new array with the
  * original array split into smaller arrays of the specified size.
- * @returns The function `chunkArray` returns a new array that contains subarrays of the original array
+ *
+ * @param {Array} arr - The array to be split into smaller arrays
+ * @param {number} size - The maximum length of each subarray
+ * @returns {Array} The function `chunkArray` returns a new array that contains subarrays of the original array
  * `arr`, where each subarray has a maximum length of `size`.
  */
 const chunkArray = (arr, size) => {
@@ -195,5 +202,4 @@ const chunkArray = (arr, size) => {
   }
   return chunkedArray;
 };
-
 export default Calendar;

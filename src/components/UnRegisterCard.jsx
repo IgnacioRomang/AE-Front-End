@@ -7,29 +7,41 @@ import {
   CardContent,
   CardHeader,
 } from "@mui/material";
-s;
+
 import React, { useState } from "react";
+
 import {
   useCommonsString,
   useUnRegisterCardString,
 } from "../contexts/TextProvider.jsx";
+
 import AlertFragment from "../fragments/AlertFragmet.jsx";
 import ErrorAE from "../fragments/ErrorFragment.jsx";
 import LoginFragment from "../fragments/LoginFragment.jsx";
 import UnRegisterSuccessFragment from "../fragments/UnRegisterSuccessFragment.jsx";
+
 import {
   boxUnRegisterLogSyle,
   cardRegisterStyle,
   centerButtonsStyle,
 } from "../theme.jsx";
 
-/* The code defines a functional component called `UnRegisterCard`. */
+/**
+ * @brief This component is used to unregister the user from the system.
+ *
+ * @return {JSX.Element} The component.
+ */
 const UnRegisterCard = () => {
   const commonlabels = useCommonsString();
   const renewalstring = useUnRegisterCardString();
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
 
+  /**
+   * @brief This function is used to handle the send button.
+   *
+   * @return {undefined}
+   */
   const handleSend = () => {
     if (error) {
       setError(false);
@@ -37,9 +49,15 @@ const UnRegisterCard = () => {
     setOpen(!open);
   };
 
+  /**
+   * @brief This function is used to handle the close button.
+   *
+   * @return {undefined}
+   */
   const handleClose = () => {
     setOpen(false);
   };
+
   return (
     <>
       <Card sx={cardRegisterStyle}>

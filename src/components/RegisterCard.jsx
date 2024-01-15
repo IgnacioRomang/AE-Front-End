@@ -42,11 +42,12 @@ import {
   finalboxStyle,
   stepStyle,
 } from "../theme.jsx";
-
-/* The above code is a React component called `RegisterCard`. It is a multi-step form that allows users
-to register by providing various information. The component uses state hooks to manage the current
-step, errors, skipped steps, and step data. It also uses refs to access data and handle errors in
-child components. */
+/**
+ * The RegisterCard component is a multi-step form that allows users to register by providing various information.
+ * The component uses state hooks to manage the current step, errors, skipped steps, and step data. It also uses refs to access data and handle errors in child components.
+ * @function
+ * @returns {JSX.Element} The RegisterCard component.
+ */
 const RegisterCard = () => {
   const labels = useRegisterCardString();
   const bottonslabel = useCommonsString();
@@ -97,8 +98,14 @@ const RegisterCard = () => {
     },
   ]);
 
-  /* The `getStepperStage` function is a helper function that determines which component to render based
-on the current step of the stepper. */
+  /**
+   * The getStepperStage function is a helper function that determines which component to render based
+   * on the current step of the stepper.
+   *
+   * @param {number} viewid - the current step of the stepper
+   * @param {object} labels - an object containing the translated strings for the component
+   * @returns {JSX.Element} the component to render for the current step
+   */
   const getStepperStage = (viewid, labels) => {
     switch (viewid) {
       case 0:
@@ -139,7 +146,9 @@ on the current step of the stepper. */
       case 3:
         return <FileAttachCard ref={dataRef} files={stepData[3].files} />;
       case 4:
-        return <DatePlanAE first={true} ref={dataRef} />;
+        return (
+          <DatePlanAE first={false} ref={dataRef} email={stepData[2].email} />
+        );
       case 5:
         if (!errors[5]) {
           return <SuccessAE first={true} />;
@@ -150,14 +159,28 @@ on the current step of the stepper. */
         return <CircularProgress padding={15} />;
     }
   };
-
+  /**
+   * The handleBack function is a click handler that decrements the activeStep state by 1.
+   * @function
+   */
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
+
+  /**
+   * The isStepSkipped function is a helper function that returns a boolean indicating whether the specified step is skipped.
+   * @param {number} step - the step to check
+   * @returns {boolean} true if the step is skipped, false otherwise
+   */
   const isStepSkipped = (step) => {
     return skipped.has(step);
   };
 
+  /**
+   * The updateErrorAtIndex function is a helper function that updates the errors state array at the specified index with the specified value.
+   * @param {number} index - the index of the error to update
+   * @param {boolean} value - the new value of the error
+   */
   const updateErrorAtIndex = (index, value) => {
     setErrors((prevErrors) => {
       const newErrors = [...prevErrors];
@@ -168,6 +191,16 @@ on the current step of the stepper. */
   /**
    * The function `handleNext` is used to handle the next step in a multi-step form, updating the step
    * data, checking for errors, and sending data to a server if it is the last step.
+   *
+   * @param {Set} skipped - the set of steps that have been skipped
+   * @param {number} activeStep - the current step of the stepper
+   * @param {function} setStepData - a function that updates the step data
+   * @param {function} setErrors - a function that updates the errors state array
+   * @param {function} setSendError - a function that updates the sendError state
+   * @param {object} stepData - the current step data
+   * @param {object} dataRef - a ref to the current step component
+   * @param {boolean} sendError - a boolean indicating if there was an error sending data to the server
+   * @returns {void}
    */
   const handleNext = () => {
     // Copia el conjunto de pasos omitidos para evitar mutaciones directas
@@ -175,10 +208,11 @@ on the current step of the stepper. */
 
     // Evaluar errores
     let error = false;
-    /* The code block is checking if the `dataRef.current` exists and if it has a function called
-    `handleErrors`. If both conditions are true, it calls the `handleErrors` function and assigns its
-    return value to the `error` variable. This is used to determine if there are any errors in the
-    current step of the form. */
+    /**
+     * Checks if the current step has any errors and returns a boolean indicating if there are any errors.
+     *
+     * @returns {boolean} A boolean indicating if there are any errors in the current step.
+     */
     if (dataRef.current && typeof dataRef.current.handleErrors === "function") {
       error = dataRef.current.handleErrors();
     }
@@ -199,9 +233,6 @@ on the current step of the stepper. */
       if (isStepSkipped(activeStep)) {
         newSkipped.delete(activeStep);
       }
-      /* The code block you provided is handling the submission of user registration data to a server. It is
-      checking if the current step of the form is the last step (step 4) and if so, it creates an object
-`     register_user` with the necessary data from the previous steps (name, cuil, email, and password). */
       if (activeStep === 4) {
         let url = process.env.REACT_APP_BACK_URL;
         let register_user = {
@@ -224,7 +255,6 @@ on the current step of the stepper. */
       setSkipped(newSkipped);
     }
   };
-
   const handleLogin = () => {
     navigate("/auth/login");
   };
@@ -232,21 +262,16 @@ on the current step of the stepper. */
   /**
    * The `handleRestart` function sends a POST request to a specified URL with user registration data and
    * handles the response.
+   *
+   * @param {string} url - the URL to send the POST request to
+   * @param {object} register_user - the user registration data to send in the POST request body
+   * @returns {void}
    */
-  const handleRestart = () => {
-    let url = process.env.REACT_APP_BACK_URL;
-    let register_user = {
-      name: stepData[0].name + " " + stepData[0].lastName,
-      cuil: stepData[0].formattedCUIL,
-      email: stepData[2].email,
-      password: stepData[0].password,
-    };
+  const handleRestart = (url, register_user) => {
     axios
       .post(`${url}/api/auth/register`, register_user)
       .then((response) => {
         console.log("Datos enviados correctamente");
-        updateErrorAtIndex(5, false);
-        setSendError(false);
       })
       .catch((e) => {
         updateErrorAtIndex(5, true);

@@ -24,8 +24,13 @@ import {
   menuStyles,
 } from "../theme.jsx";
 
-/* The `TopBar` component is a React functional component that represents the top navigation bar of a
-web application. It displays a logo, menu options, and a user menu. */
+/**
+ * The `TopBar` component is a React functional component that represents the top navigation bar of a
+ * web application. It displays a logo, menu options, and a user menu.
+ *
+ * @param {object} props - The properties of the component
+ * @param {boolean} props.userAuth - A boolean indicating whether the user is authenticated or not
+ */
 const TopBar = (props) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [labels, assets] = useTopBarString();
@@ -51,8 +56,14 @@ const TopBar = (props) => {
           : false,
     },
   ];
-  /* The `React.useEffect` hook is used to perform side effects in a functional component. In this case,
-the effect is triggered whenever the `User` or `serverDates` variables change. */
+
+  /**
+   * React.useEffect hook is used to perform side effects in a functional component.
+   * In this case, the effect is triggered whenever the User or serverDates variables change.
+   *
+   * @param {object} prevProps - previous props of the component
+   * @param {object} prevState - previous state of the component
+   */
   React.useEffect(() => {
     pages = [
       { label: labels.opctions[0], id: 0, disabled: false },
@@ -77,8 +88,11 @@ the effect is triggered whenever the `User` or `serverDates` variables change. *
   }, [User, serverDates]);
 
   /**
-   * The function `handleOnClickMenu` is used to navigate to different pages based on the provided `id`
+   * The function `handleoOnClickMenu` is used to navigate to different pages based on the provided `id`
    * parameter.
+   *
+   * @param {Event} e - The event object
+   * @param {number} id - The id of the page to navigate to
    */
   const handleoOnClickMenu = (e, id) => {
     switch (id) {
@@ -98,6 +112,7 @@ the effect is triggered whenever the `User` or `serverDates` variables change. *
         navigate("error");
     }
   };
+
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -109,6 +124,7 @@ the effect is triggered whenever the `User` or `serverDates` variables change. *
   const handleLogoClick = () => {
     navigate("/");
   };
+
   return (
     <AppBar position="static">
       <Container

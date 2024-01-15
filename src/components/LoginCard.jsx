@@ -25,6 +25,11 @@ import {
 import { useAuth } from "../contexts/AuthContext.js";
 import LoginFragment from "../fragments/LoginFragment.jsx";
 
+/**
+ * @brief This function is the login component for the user authentication system.
+ *
+ * @return {JSX.Element} The login component.
+ */
 const Login = () => {
   const [open, setOpen] = React.useState(false);
   const [labels, assets] = useLoginString();
@@ -37,8 +42,10 @@ const Login = () => {
 
   const logindataref = React.useRef(null);
 
-  /* The `React.useEffect` hook is used to perform side effects in a functional component. In this case,
-the effect is triggered when the component mounts (since the dependency array is empty `[]`). */
+  /**
+   * @brief This useEffect hook is used to perform side effects in a functional component.
+   * In this case, the effect is triggered when the component mounts (since the dependency array is empty []).
+   */
   React.useEffect(() => {
     if (User !== null) {
       navigate("/profile");
@@ -46,8 +53,10 @@ the effect is triggered when the component mounts (since the dependency array is
   }, []);
 
   /**
-   * The handleLogin function checks if the login data is valid, sets the appropriate state variables,
+   * @brief This function checks if the login data is valid, sets the appropriate state variables,
    * and redirects the user to their profile page if the login is successful.
+   *
+   * @param {Event} event The event object.
    */
   const handleLogin = async (event) => {
     setOpen(true);
@@ -71,9 +80,15 @@ the effect is triggered when the component mounts (since the dependency array is
     }
   };
 
+  /**
+   * @brief This function is used to cancel the login process.
+   *
+   * @param {Event} event The event object.
+   */
   const handleCancel = (event) => {
     navigate("/");
   };
+
   return (
     <Card sx={cardLoginStyle}>
       <CardHeader

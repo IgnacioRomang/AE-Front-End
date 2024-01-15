@@ -28,12 +28,12 @@ const CodeFragment = ({ code, error, setCode, icon, setIcon, resend }) => {
               color={!click ? "primary" : "#d6dbdf "}
               onClick={() => {
                 if (!click) {
+                  resend();
                   setTimeLeft(30);
                   const intervalId = setInterval(() => {
                     setTimeLeft((prevTime) => prevTime - 1);
                   }, 1000);
                   setClick(true);
-                  resend();
                   setTimeout(() => {
                     clearInterval(intervalId);
                     setIcon(false);

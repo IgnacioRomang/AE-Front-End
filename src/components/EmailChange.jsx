@@ -1,4 +1,12 @@
-// This file is part of React. Component. In order to avoid circular imports we have to import all of the components that are in the React context. React's context is a JSX object that represents the top - level React component and its dependencies
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import {
+  useCommonsString,
+  useEmailChangeString,
+} from "../contexts/TextProvider";
+import CodeFragment from "../fragments/CodeFragment";
+import { centerButtonsStyle } from "../theme";
 import {
   Alert,
   AlertTitle,
@@ -8,51 +16,105 @@ import {
   Grid,
   TextField,
 } from "@mui/material";
-import React from "react";
 
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import {
-  useCommonsString,
-  useEmailChangeString,
-} from "../contexts/TextProvider";
-import CodeFragment from "../fragments/CodeFragment";
-import { centerButtonsStyle } from "../theme";
-
-const EmailChange = () => {
-  const labels = useEmailChangeString();
+/**
+ * @brief This component handles the email change process.
+ *
+ * @param {object} props - The props passed to the component.
+ *
+ * @returns {JSX.Element} The EmailChange component.
+ */
+const EmailChange = (props) => {
   const commonlabels = useCommonsString();
-  const [code, setCode] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [reemail, setReEmail] = React.useState("");
-  const [send, setSend] = React.useState(false);
-  const [result, setResult] = React.useState(false);
-  const [error, setError] = React.useState(false);
-  const [errorEmail, setErrorEmail] = React.useState(false);
-  const [icon, setIcon] = React.useState(false);
+  const labels = useEmailChangeString();
+  const [code, setCode] = useState("");
+  const [email, setEmail] = useState("");
+  const [reemail, setReEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [send, setSend] = useState(false);
+  const [result, setResult] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorEmail, setErrorEmail] = useState(false);
+  const [icon, setIcon] = useState(false);
   const navigate = useNavigate();
 
-  // Adds send and error email rules based on the email address. This is used to prevent sending the re
-  const handleSend = () => {
-    if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email === reemail) {
+  /**
+   * @brief Sends an email with the verification code to the given email address.
+   *
+   * @returns {void}
+   */
+  const sendEmail = () => {
+    let url = process.env.REACT_APP_BACK_URL;
+    axios
+      .post(url + "/api/auth/email/verify/send", {
+        password: password,
+        email: email,
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  /**
+   * @brief Handles the change of the email input field.
+   *
+   * @param {object} event - The event object.
+   *
+   * @returns {void}
+   */
+  const handleChangeEmail = (event) => {
+    setSend(false);
+    setEmail(event.target.value);
+  };
+
+  /**
+   * @brief Handles the change of the re-email input field.
+   *
+   * @param {object} event - The event object.
+   *
+   * @returns {void}
+   */
+  const handleChangeReEmail = (event) => {
+    setReEmail(event.target.value);
+  };
+
+  const handleChangePassword = (event) => {
+    setPassword(event.target.value);
+  };
+
+  /**
+   * @brief Handles the click of the back button.
+   *
+   * @returns {void}
+   */
+  const handleBack = () => {
+    if (send) {
+      setSend(false);
+    } else {
+      navigate("/user/profile");
+    }
+  };
+
+  const handleConfirm = () => {
+    if (reemail === email) {
       setSend(true);
-      setEmail(false);
       setErrorEmail(false);
       sendEmail();
     } else {
       setErrorEmail(true);
     }
   };
-
-  // Adds confirm middleware to handle confirming user's auth code. Also checks if user has chosen to login
-  const handleConfirm = () => {
+  const handleSend = () => {
     let url = process.env.REACT_APP_BACK_URL;
     axios
-      .post(url + "/api/auth/verify", { code: code })
+      .post(url + "/api/auth/email/verify", {
+        code: code,
+        email: email,
+      })
       .then((response) => {
-        if (response.data.msg === "Código válido") {
+        console.log(response);
+        if (response.data.message == "Código válido") {
           setError(false);
-          setIcon(true);
           navigate("/user/profile");
         } else {
           setError(true);
@@ -63,23 +125,6 @@ const EmailChange = () => {
       });
   };
 
-  // Sends an email to the user's email address if they are not already logged in
-  const sendEmail = () => {
-    let url = process.env.REACT_APP_BACK_URL;
-    axios.post(url + "/api/auth/verify/send", { email: email }).catch((e) => {
-      console.log(e);
-    });
-  };
-  const handleChangeEmail = (newEmail) => {
-    setSend(false);
-    setEmail(newEmail);
-  };
-  const handleChangeReEmail = (newReEmail) => {
-    setReEmail(newReEmail);
-  };
-  const handleBack = () => {
-    navigate("/user/profile");
-  };
   return (
     <Card>
       <Grid container spacing={2} direction={"column"} padding={5}>
@@ -94,9 +139,11 @@ const EmailChange = () => {
         <Grid item>
           <TextField
             variant="standard"
+            value={email}
+            disabled={send}
             error={errorEmail}
-            onChange={(e) => handleChangeEmail(e.target.value)}
-            label={"Email"}
+            onChange={handleChangeEmail}
+            label={labels.textField.email}
           />
         </Grid>
         {!send && (
@@ -104,8 +151,21 @@ const EmailChange = () => {
             <TextField
               variant="standard"
               error={errorEmail}
-              onChange={(e) => handleChangeReEmail(e.target.value)}
-              label={"Repetir Email"}
+              value={reemail}
+              onChange={handleChangeReEmail}
+              label={labels.textField.reemail}
+            />
+          </Grid>
+        )}
+        {!send && (
+          <Grid item>
+            <TextField
+              variant="standard"
+              error={errorEmail}
+              value={password}
+              type="password"
+              onChange={handleChangePassword}
+              label={labels.textField.password}
             />
           </Grid>
         )}
@@ -114,9 +174,9 @@ const EmailChange = () => {
             <CodeFragment
               error={error}
               code={code}
-              setCode={(e) => setCode(e)}
+              setCode={setCode}
               icon={icon}
-              setIcon={(e) => setIcon(e)}
+              setIcon={setIcon}
               resend={sendEmail}
             />
           )}
@@ -124,7 +184,7 @@ const EmailChange = () => {
       </Grid>
       <CardActions sx={centerButtonsStyle}>
         <Button onClick={handleBack}>{commonlabels.button.back}</Button>
-        <Button onClick={code !== "" ? handleConfirm : handleSend}>
+        <Button onClick={code == "" ? handleConfirm : handleSend}>
           {code !== "" ? commonlabels.button.send : commonlabels.button.ok}
         </Button>
       </CardActions>

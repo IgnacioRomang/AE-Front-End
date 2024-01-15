@@ -13,9 +13,10 @@ import {
   imgLogoLoteStyle,
   imgLogoProvStyle,
 } from "../theme.jsx";
-
-/* The code defines a functional component called `Footer`. Inside the component, it uses the
-`useFooterString` hook to retrieve the `contact_info` and `assets` values. */
+/**
+ * React functional component for the Footer component
+ * @returns {JSX.Element} The footer component
+ */
 const Footer = () => {
   const [contact_info, assets] = useFooterString();
   return (

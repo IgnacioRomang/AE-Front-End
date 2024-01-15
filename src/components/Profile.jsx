@@ -16,16 +16,27 @@ import ProfileAEdata from "../fragments/ProfileIconData";
 import Calendar from "../fragments/calendar/Calendar";
 import { centeringStyles } from "../theme";
 
-/* The `Profile` component is a functional component in JavaScript React. It is responsible for
-rendering the user's profile page. */
+/**
+ * The `Profile` component is a functional component in JavaScript React. It is responsible for
+ * rendering the user's profile page.
+ *
+ * @param {object} props - The props passed to the component
+ * @param {object} props.User - The user object
+ * @param {function} props.setUser - A function to update the user object
+ * @param {object} props.serverDates - The server dates object
+ * @param {function} props.setServerDates - A function to update the server dates object
+ * @returns {JSX.Element} The Profile component
+ */
 const Profile = (props) => {
   const { User, setUser, serverDates, setServerDates } = useAuth();
   const [loading, setLoading] = React.useState(true);
 
   const navigate = useNavigate();
 
-  /* The `React.useEffect` hook is used to perform side effects in a functional component. In this case,
-it is used to fetch data from an API endpoint when the component mounts. */
+  /**
+   * The `React.useEffect` hook is used to perform side effects in a functional component. In this case,
+   * it is used to fetch data from an API endpoint when the component mounts.
+   */
   React.useEffect(() => {
     let url = process.env.REACT_APP_BACK_URL;
     const fetchData = async () => {
@@ -39,13 +50,13 @@ it is used to fetch data from an API endpoint when the component mounts. */
           let u = User;
           u.ae = true;
           setUser(u);
+          setServerDates({
+            startDay: new Date(response.data.startDay),
+            fifthMonth: new Date(response.data.fifthMonth),
+            sixthMonth: new Date(response.data.sixthMonth),
+            lastMonth: new Date(response.data.lastMonth),
+          });
         }
-        setServerDates({
-          startDay: new Date(response.data.startDay),
-          fifthMonth: new Date(response.data.fifthMonth),
-          sixthMonth: new Date(response.data.sixthMonth),
-          lastMonth: new Date(response.data.lastMonth),
-        });
 
         setLoading(false);
       } catch (error) {
@@ -102,7 +113,13 @@ it is used to fetch data from an API endpoint when the component mounts. */
                   </Grid>
                 ))}
               </Grid>
-              <Grid container paddingTop={2} spacing={4} sx={centeringStyles}>
+              <Grid
+                container
+                paddingTop={3}
+                paddingBottom={3}
+                spacing={4}
+                sx={centeringStyles}
+              >
                 {[2, 3].map((index) => (
                   <Grid key={index} item xs={12} sm={6} md={5}>
                     {loading ? (

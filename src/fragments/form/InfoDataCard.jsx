@@ -56,8 +56,9 @@ const InfoDataCard = React.forwardRef((props, ref) => {
   });
 
   /**
-   * The function `handleInputChange` updates the `userData` state object with a new value for a specific
-   * field, and updates the `errors` state object to indicate if the value is empty or not.
+   * Updates the state of the component with the new value of the input field.
+   * @param {string} field - the name of the field to update
+   * @param {string} value - the new value of the field
    */
   const handleInputChange = (field, value) => {
     setUserData((prevData) => ({ ...prevData, [field]: value }));
@@ -67,22 +68,27 @@ const InfoDataCard = React.forwardRef((props, ref) => {
   /**
    * The handleCUIL function takes an event object, extracts the input value, formats it using the
    * doformatCUIL function, updates the formattedCUIL property in the userData state, and checks for
-   * errors by setting the formattedCUIL error to true if the input value is empty or consists only of
+   * errors by setting the formattedCUIL ersror to true if the input value is empty or consists only of
    * whitespace.
+   *
+   * @param {Event} event - the event object
+   * @returns {void}
    */
   const handleCUIL = (event) => {
-    const inputValue = event.target.value;
-    const formatted = doformatCUIL(inputValue);
-    setUserData((prevData) => ({ ...prevData, formattedCUIL: formatted }));
+    let formatted = doformatCUIL(event.target.value);
+    setUserData((prevData) => ({
+      ...prevData,
+      formattedCUIL: formatted,
+    }));
     setErrors((prevErrors) => ({
       ...prevErrors,
-      formattedCUIL: !inputValue.trim(),
+      formattedCUIL: !formatted.trim(),
     }));
   };
 
   /**
-   * The handleBirthdate function updates the selectedBirthdate value in the userData state and checks if
-   * the selected date is a valid date.
+   * Updates the selectedBirthdate value in the userData state and checks if the selected date is a valid date.
+   * @param {Event} event - the event object
    */
   const handleBirthdate = (event) => {
     const selectedDate = event.target.value;
@@ -95,7 +101,6 @@ const InfoDataCard = React.forwardRef((props, ref) => {
       selectedBirthdate: !datecontrol(new Date(selectedDate)),
     }));
   };
-
   /**
    * The function `handleGenderChange` updates the selected gender in the user data and checks if the
    * selected gender is equal to 4, updating the errors accordingly.

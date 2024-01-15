@@ -8,8 +8,14 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-/* The `VerificationCard` component is a React component that displays a card with a loading spinner
-and a verification result message. */
+/**
+ * The `VerificationCard` component is a React component that displays a card with a loading spinner
+ * and a verification result message.
+ *
+ * @param {string} id - The unique identifier of the email verification request.
+ * @param {string} hash - The cryptographic hash of the email verification request.
+ * @returns {JSX.Element} The `VerificationCard` component.
+ */
 const VerificationCard = ({ id, hash }) => {
   const [loading, setLoading] = useState(true);
   const [verificationResult, setVerificationResult] = useState(null);
@@ -18,8 +24,10 @@ const VerificationCard = ({ id, hash }) => {
   /**
    * The function `verifyEmail` is an asynchronous function that sends a POST request to verify an email
    * using the provided `id` and `hash`, and updates the verification result accordingly.
+   *
+   * @async
    */
-  const verifyEmail = async () => {
+  async function verifyEmail() {
     //TODO Work in progress
     try {
       const response = await axios.post(`/email/verify/${id}/${hash}`);
@@ -34,7 +42,7 @@ const VerificationCard = ({ id, hash }) => {
       await new Promise((resolve) => setTimeout(resolve, 5000));
       setLoading(false);
     }
-  };
+  }
 
   useEffect(() => {
     verifyEmail();

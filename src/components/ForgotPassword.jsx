@@ -17,15 +17,14 @@ import {
 } from "../contexts/TextProvider";
 import { boxLoginSyle, cardLoginStyle, centerButtonsStyle } from "../theme";
 import { doformatCUIL } from "../utiles";
-
 /**
- * The `ForgotPassword` function is a React component that renders a form for users to enter their CUIL
+ * The ForgotPassword function is a React component that renders a form for users to enter their CUIL
  * (Argentinian identification number) and handles the submission and validation of the form.
- * @returns The `ForgotPassword` component is returning a JSX structure that represents a card with a
+ * @returns {JSX.Element} The ForgotPassword component is returning a JSX structure that represents a card with a
  * form for resetting a password. The card contains a title, a text field for entering a CUIL (a unique
  * identification number used in Argentina), an alert with information about the CUIL format, and two
- * buttons for navigating back or submitting the form. Additionally, there are two `Collapse`
- * components that display success or
+ * buttons for navigating back or submitting the form. Additionally, there are two Collapse components that display success or
+ * error messages.
  */
 const ForgotPassword = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -35,8 +34,9 @@ const ForgotPassword = () => {
   const [error, setError] = React.useState(false);
 
   /**
-   * The function `handleAcept` checks if the `formattedCUIL` is valid and if it is, it sets the error
-   * state to false and either navigates to the login page or toggles the `isSubmitted` state.
+   * The handleAcept function checks if the formattedCUIL is valid and if it is, it sets the error
+   * state to false and either navigates to the login page or toggles the isSubmitted state.
+   * @param {Event} e - the event object
    */
   const handleAcept = (e) => {
     e.preventDefault();
@@ -50,6 +50,10 @@ const ForgotPassword = () => {
       setIsSubmitted(!isSubmitted);
     }
   };
+
+  /**
+   * The handleBack function navigates back to the login page.
+   */
   const handleBack = () => {
     nav("/auth/login");
   };
@@ -57,8 +61,9 @@ const ForgotPassword = () => {
   const [formattedCUIL, setFormattedCUIL] = useState("");
 
   /**
-   * The function `handleInputChange` takes an input value, formats it using the `doformatCUIL` function,
-   * and sets the formatted value in the state variable `formattedCUIL`.
+   * The handleInputChange function takes an input value, formats it using the doformatCUIL function,
+   * and sets the formatted value in the state variable formattedCUIL.
+   * @param {Event} event - the input event object
    */
   const handleInputChange = (event) => {
     const inputValue = event.target.value;

@@ -1,17 +1,3 @@
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import HowToRegIcon from "@mui/icons-material/HowToReg";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
-  Typography,
-} from "@mui/material";
-import { grey } from "@mui/material/colors";
 import React, { useState } from "react";
 import {
   useCommonsString,
@@ -31,12 +17,13 @@ import { useAuth } from "../contexts/AuthContext.js";
 import AlertFragment from "../fragments/AlertFragmet.jsx";
 import { cardRegisterStyle, centerButtonsStyle } from "../theme.jsx";
 
-/* The above code is defining a React component called `RenewalCard`. This component renders a card
-with multiple sections (accordion panels) for collecting user information. The user can input their
-personal information, address, extra data, and attach files. The component also includes buttons for
-canceling or submitting the form. When the form is submitted, the `handleSend` function is called,
-which sets the `registerSend` state to true and opens a success or error message. */
-const RenewalCard = () => {
+/**fs
+ * @brief This component is a form for registering a new user.
+ *
+ * @param {object} props The properties of the component.
+ * @return {JSX.Element} The component.
+ */
+const RenewalCard = (props) => {
   const [registerSend, setRegisterSend] = useState(false);
   const labels = useRegisterCardString();
   const commonlabels = useCommonsString();
@@ -74,19 +61,31 @@ const RenewalCard = () => {
   const extraDataCardRef = React.useRef(null);
   const fileAttachCardRef = React.useRef(null);
 
+  /**
+   * @brief This function is called when the user expands or collapses an accordion panel.
+   *
+   * @param {string} panel The name of the accordion panel that was expanded or collapsed.
+   */
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
   };
 
+  /**
+   * @brief This function is called when the user clicks the "Submit" button.
+   */
   const handleSend = () => {
     setRegisterSend(true);
     //TODO SEND
     setOpen(!open);
   };
 
+  /**
+   * @brief This function is called when the user clicks the "Cancel" button.
+   */
   const handleClose = () => {
     setOpen(false);
   };
+
   return (
     <>
       <Card sx={cardRegisterStyle}>

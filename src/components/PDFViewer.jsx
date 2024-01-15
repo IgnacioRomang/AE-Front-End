@@ -2,21 +2,23 @@ import { Paper, Typography } from "@mui/material";
 import axios from "axios";
 import React from "react";
 import { useParams } from "react-router-dom";
-s;
-/* The code defines a functional component called `PDFViewer`. If u click in the infocard u will see the info of the pdf in this component*/
 
-const PDFViewer = () => {
+/**
+ * This function is a React component that displays a PDF document.
+ * @param {object} props - The properties of the component.
+ * @param {string} props.pdfId - The ID of the PDF document to display.
+ */
+const PDFViewer = (props) => {
   const [pdf, setPdf] = React.useState([]);
 
-  const { pdfid } = useParams();
-  /* The `React.useEffect` hook is used to perform side effects in a functional component. In this case,
-it is used to fetch the PDF data from the backend API. */
+  const { pdfId } = props;
+
   React.useEffect(() => {
     const fetchData = async () => {
       try {
         let url = process.env.REACT_APP_BACK_URL;
         const response = await axios.post(url + "/api/resources/getpdf", {
-          pdfId: pdfid,
+          pdfId: pdfId,
         });
         setPdf(response.data);
       } catch (error) {
@@ -26,7 +28,8 @@ it is used to fetch the PDF data from the backend API. */
     };
 
     fetchData();
-  }, []);
+  }, [pdfId]);
+
   return (
     <Paper sx={{ width: "98vw", height: "98vh" }}>
       <Typography paddingTop={2} variant="h5">

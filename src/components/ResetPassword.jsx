@@ -34,11 +34,16 @@ const ResetPassword = () => {
   const ref = React.useRef(null);
   const [error, setError] = React.useState(false);
   /**
-   * The function `handleAcept` sends a POST request to the server to change the user's password and
-   * handles the response accordingly.
+   * Sends a POST request to the server to change the user's password and handles the response.
+   * @param {object} data - The data to be sent in the POST request.
+   * @param {string} data.old_password - The user's old password.
+   * @param {string} data.new_password1 - The user's new password.
+   * @param {string} data.new_password2 - The user's new password (again) to confirm.
+   * @returns {Array} - An array containing a boolean indicating whether there was an error and an
+   * object containing the response data.
    */
-  const handleAcept = () => {
-    let result = ref.current.sendData();
+  const handleAcept = (data) => {
+    let result = ref.current.sendData(data);
     setError(!result[0]);
     if (result[0]) {
       let url = process.env.REACT_APP_BACK_URL;

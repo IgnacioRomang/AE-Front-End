@@ -49,6 +49,9 @@ const ProfileIconData = ({ iuser }) => {
           </Link>
           <Link onClick={(e) => nav("/user/email-change")}>{labels.email}</Link>
         </Stack>
+        <Link onClick={(e) => nav("/user/reset-password")}>
+          {labels.verify}
+        </Link>
       </Paper>
     </Box>
   );

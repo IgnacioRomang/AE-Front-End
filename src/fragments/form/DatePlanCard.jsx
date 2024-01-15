@@ -4,6 +4,7 @@ import { Box, TextField, Typography } from "@mui/material";
 import React from "react";
 import { useDatePlanAEString } from "../../contexts/TextProvider.jsx";
 import { getDates } from "../../utiles.js";
+import axios from "axios";
 
 function generarCodigo() {
   const caracteres = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -22,13 +23,21 @@ displays information about dates and allows the user to enter a code. */
 const DatePlanAE = React.forwardRef((props, ref) => {
   const { startDay, fthMonth, sixMonth, lastMonth } = getDates();
   const labels = useDatePlanAEString();
-  const [code, setCode] = React.useState(generarCodigo());
+  const [codeverf, setCodeverf] = React.useState(false);
   const [codeEnter, setCodeEnter] = React.useState("");
   const [icon, setIcon] = React.useState(false);
   const [click, setClick] = React.useState(false);
   const [timeLeft, setTimeLeft] = React.useState(31);
 
-  console.log(code);
+  const handleSendMail = () => {
+    let url = process.env.REACT_APP_BACK_URL;
+    axios.post(url + "/api/auth/email/verify/send", {
+      email: props.email,
+    });
+  };
+  React.useEffect(() => {
+    //handleSendMail();
+  });
   const getData = () => {
     return {
       startDay: startDay,
@@ -38,7 +47,7 @@ const DatePlanAE = React.forwardRef((props, ref) => {
     };
   };
   const handleErrors = React.useCallback(() => {
-    return codeEnter !== code;
+    return props.first ? !codeverf : false;
   });
 
   React.useImperativeHandle(ref, () => ({
@@ -48,8 +57,19 @@ const DatePlanAE = React.forwardRef((props, ref) => {
 
   const handleCode = (value) => {
     setCodeEnter(value);
-    if (value === code) {
-      setIcon(true);
+    if (value.length == 6) {
+      let url = process.env.REACT_APP_BACK_URL;
+      axios
+        .post(url + "/api/auth/email/verify", {
+          code: value,
+        })
+        .then((response) => {
+          if (response.data.msg && response.data.msg == "Código válido") {
+            setIcon(true);
+            setCodeverf(true);
+          } else {
+          }
+        });
     }
   };
 
@@ -103,7 +123,7 @@ const DatePlanAE = React.forwardRef((props, ref) => {
                   color={!click ? "primary" : "#d6dbdf "}
                   onClick={() => {
                     if (!click) {
-                      setCode(generarCodigo());
+                      handleSendMail();
                       setTimeLeft(30);
                       const intervalId = setInterval(() => {
                         setTimeLeft((prevTime) => prevTime - 1);

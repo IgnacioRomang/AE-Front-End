@@ -18,8 +18,13 @@ import {
 import { textJustifyStyle } from "../../theme.jsx";
 import { shortFileName } from "../../utiles.js";
 
-/* The code defines a React functional component called `FileAttachCard`. It is a card component that
-allows users to attach files (DNI PHOTOS). */
+/**
+ * The code defines a React functional component called `FileAttachCard`. It is a card component that
+ * allows users to attach files (DNI PHOTOS).
+ * @param {object} props - The props passed to the component.
+ * @param {array} props.files - An array of files uploaded by the user.
+ * @returns {JSX.Element} - Returns the FileAttachCard component.
+ */
 const FileAttachCard = React.forwardRef((props, ref) => {
   const labels = useFileAttachCardString();
 
@@ -35,6 +40,7 @@ const FileAttachCard = React.forwardRef((props, ref) => {
   /**
    * The function `handleFileChange` is used to handle the change event when selecting files, limiting
    * the number of files to 2 and checking if the files are of type image.
+   * @param {Event} event - the change event
    */
   const handleFileChange = (event) => {
     let files = event.target.files;
@@ -62,8 +68,8 @@ const FileAttachCard = React.forwardRef((props, ref) => {
   };
 
   /**
-   * The function `handleRemoveFile` removes a file from the `userData` array and updates the state with
-   * the updated array.
+   * Removes a file from the `userData` array and updates the state with the updated array.
+   * @param {number} index - The index of the file to remove.
    */
   const handleRemoveFile = (index) => {
     const updatedFiles = [...userData];
@@ -72,19 +78,34 @@ const FileAttachCard = React.forwardRef((props, ref) => {
     setButtonDisabled(false);
   };
 
-  /* The `handleErrors` function is a callback function that checks for errors in the file attachments.
-It determines if there are any errors based on two conditions: */
-  const handleErrors = useCallback(() => {
+  /**
+   * The function `handleErrors` is a callback function that checks for errors in the file attachments.
+   * It determines if there are any errors based on two conditions:
+   * 1. If the number of files uploaded is less than 2, an error of `files_size` is set to true.
+   * 2. If any of the uploaded files is not of type image, an error of `files_type` is set to true
+   * @returns {boolean} - Returns true if there are any errors, else returns false.
+   */
+  const handleErrors = () => {
     const errors = {
       files_size: userData.length < 2,
-      files_type: error.files_type,
+      files_type: false,
     };
 
-    setError(errors);
+    for (const file of userData) {
+      if (!file.type.startsWith("image/")) {
+        errors.files_type = true;
+        break;
+      }
+    }
 
     return Object.values(errors).some(Boolean);
-  }, [userData]);
+  };
 
+  /**
+   * The function exports a `getData` function that returns `userData` and is accessible through the
+   * `ref` object.
+   * @returns {object} - Returns an object containing the user data.
+   */
   const getData = () => {
     return { files: userData };
   };

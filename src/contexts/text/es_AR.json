@@ -22,6 +22,11 @@
           "title": "Importancia de la Verificación de Correo Electrónico",
           "strong": "¡Verifica tu correo!",
           "body": "Protege tu cuenta, Facilita la recuperación y mejora la comunicación con nuestro servicio."
+        },
+        "textField": {
+          "email": "Nuevo Email",
+          "reemail": "Rescriba nuevo email",
+          "password": "Contraseña"
         }
       },
       "resetpassword": {
