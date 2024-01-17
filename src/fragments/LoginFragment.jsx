@@ -80,6 +80,7 @@ const LoginFragment = React.forwardRef((props, ref) => {
               width: "25vw",
             },
           }}
+          size="small"
           id="cuil"
           label={labels.textFieldLabels.user}
           required
@@ -97,6 +98,7 @@ const LoginFragment = React.forwardRef((props, ref) => {
               width: "25vw",
             },
           }}
+          size="small"
           id="password"
           label={labels.textFieldLabels.password}
           type="password"

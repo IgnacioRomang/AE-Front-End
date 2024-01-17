@@ -16,6 +16,20 @@ import {
 import { useAuth } from "../contexts/AuthContext.js";
 import AlertFragment from "../fragments/AlertFragmet.jsx";
 import { cardRegisterStyle, centerButtonsStyle } from "../theme.jsx";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Alert,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  Typography,
+} from "@mui/material";
+import { ExpandMore, HowToReg } from "@mui/icons-material";
+import { grey } from "@mui/material/colors";
 
 /**fs
  * @brief This component is a form for registering a new user.
@@ -90,7 +104,7 @@ const RenewalCard = (props) => {
     <>
       <Card sx={cardRegisterStyle}>
         <CardHeader
-          avatar={<HowToRegIcon />}
+          avatar={<HowToReg />}
           titleTypographyProps={{ variant: "h6" }}
           title={renewalstring.mainTitle}
         />
@@ -99,7 +113,7 @@ const RenewalCard = (props) => {
             <>{!error ? <SuccessAE first={false} /> : <ErrorAE />}</>
           ) : (
             <>
-              <AlertFragment
+              <Alert
                 type={"info"}
                 title={renewalstring.info.title}
                 body={renewalstring.info.body}
@@ -109,7 +123,7 @@ const RenewalCard = (props) => {
                 onChange={handleChange("panel1")}
               >
                 <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
+                  expandIcon={<ExpandMore />}
                   aria-controls="panel1d-content"
                   id="panel1d-header"
                 >
@@ -135,7 +149,7 @@ const RenewalCard = (props) => {
                 onChange={handleChange("panel2")}
               >
                 <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
+                  expandIcon={<ExpandMore />}
                   aria-controls="panel2d-content"
                   id="panel2d-header"
                 >
@@ -161,7 +175,7 @@ const RenewalCard = (props) => {
                 onChange={handleChange("panel3")}
               >
                 <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
+                  expandIcon={<ExpandMore />}
                   aria-controls="panel3d-content"
                   id="panel3d-header"
                 >
@@ -185,7 +199,7 @@ const RenewalCard = (props) => {
                 onChange={handleChange("panel5")}
               >
                 <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
+                  expandIcon={<ExpandMore />}
                   aria-controls="panel3d-content"
                   id="panel5d-header"
                 >

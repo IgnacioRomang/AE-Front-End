@@ -110,6 +110,7 @@ const DatePlanAE = React.forwardRef((props, ref) => {
       {props.first && (
         <TextField
           label={labels.code}
+          size="small"
           variant="outlined"
           onChange={(event) => handleCode(event.target.value)}
           disabled={icon}

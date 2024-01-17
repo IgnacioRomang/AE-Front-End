@@ -89,6 +89,7 @@ responsible for validating the user data and updating the `errors` state accordi
             <TextField
               id="address"
               label={labels.street}
+              size="small"
               required
               disabled={false}
               error={errors.address}
@@ -106,6 +107,7 @@ responsible for validating the user data and updating the `errors` state accordi
             <TextField
               id="floor"
               label={labels.floor}
+              size="small"
               disabled={false}
               onChange={(event) => handleChange(event, "floor", doFloor)}
               variant="standard"
@@ -119,6 +121,7 @@ responsible for validating the user data and updating the `errors` state accordi
             <TextField
               id="apartment"
               label={labels.apartment}
+              size="small"
               disabled={false}
               onChange={(event) =>
                 handleChange(event, "apartment", doApartment)
@@ -135,6 +138,7 @@ responsible for validating the user data and updating the `errors` state accordi
               id="province"
               label={labels.province}
               required
+              size="small"
               disabled={false}
               error={errors.province}
               onChange={(event) =>
@@ -153,6 +157,7 @@ responsible for validating the user data and updating the `errors` state accordi
               label={labels.city}
               required
               disabled={false}
+              size="small"
               error={errors.city}
               onChange={(event) =>
                 handleChange(event, "city", (value) => value)
@@ -170,6 +175,7 @@ responsible for validating the user data and updating the `errors` state accordi
               label={labels.postalCode}
               disabled={false}
               error={errors.postalCode}
+              size="small"
               onChange={(event) =>
                 handleChange(event, "postalCode", doPostalCode)
               }

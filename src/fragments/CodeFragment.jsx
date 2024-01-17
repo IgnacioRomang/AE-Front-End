@@ -18,6 +18,7 @@ const CodeFragment = ({ code, error, setCode, icon, setIcon, resend }) => {
       onChange={(event) => handleCode(event.target.value)}
       disabled={icon}
       error={error}
+      size="small"
       value={code}
       InputProps={{
         endAdornment: !icon ? (

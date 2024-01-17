@@ -8,7 +8,7 @@ const SuccessAE = ({ first }) => {
   const { startDay, fthMonth, sixMonth, lastMonth } = getDates();
   const labels = useSuccessAEString();
   return (
-    <Box container="true" sx={{ ...superCenter, paddingBottom: 5 }}>
+    <Box container sx={{ ...superCenter, paddingBottom: 5 }}>
       {/* Your component content */}
 
       <Typography variant="h4" color="success.main" gutterBottom>

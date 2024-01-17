@@ -91,7 +91,7 @@ const EmailChange = (props) => {
     if (send) {
       setSend(false);
     } else {
-      navigate("/user/profile");
+      navigate(-1);
     }
   };
 
@@ -183,8 +183,10 @@ const EmailChange = (props) => {
         </Grid>
       </Grid>
       <CardActions sx={centerButtonsStyle}>
-        <Button onClick={handleBack}>{commonlabels.button.back}</Button>
-        <Button onClick={code == "" ? handleConfirm : handleSend}>
+        <Button size="small" onClick={handleBack}>
+          {commonlabels.button.back}
+        </Button>
+        <Button size="small" onClick={code == "" ? handleConfirm : handleSend}>
           {code !== "" ? commonlabels.button.send : commonlabels.button.ok}
         </Button>
       </CardActions>

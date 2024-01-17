@@ -80,11 +80,9 @@ const IconUserMenu = (props) => {
                 {avatarname.children}
               </Avatar>
             ) : (
-              <Avatar
-                src={PersonIcon}
-                sx={{ width: 40, height: 40 }}
-                variant="rounded"
-              />
+              <Avatar sx={{ width: 40, height: 40 }} variant="rounded">
+                <PersonIcon />
+              </Avatar>
             )}
           </IconButton>
         </Tooltip>
@@ -98,6 +96,7 @@ const IconUserMenu = (props) => {
             horizontal: "right",
           }}
           keepMounted
+          size="small"
           transformOrigin={{
             vertical: "top",
             horizontal: "right",
@@ -107,6 +106,7 @@ const IconUserMenu = (props) => {
         >
           {(props.userAuth ? settings : settings_login).map((setting) => (
             <MenuItem
+              size="small"
               key={setting.id}
               onClick={(e) => onClickMenu(e, setting.id)}
             >

@@ -126,6 +126,7 @@ const Profile = (props) => {
                       <Skeleton variant="rounded" width={200} height={150} />
                     ) : (
                       <Calendar
+                        key={index}
                         intStart={
                           index === 2
                             ? new Date(

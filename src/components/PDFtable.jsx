@@ -29,26 +29,17 @@ const PdfTable = ({ pdfs }) => {
   const endIndex = startIndex + itemsPerPage;
 
   const visiblePdfs = pdfs.slice(startIndex, endIndex);
-
   return (
-    <Container sx={{ height: "80vh", width: "100vw" }}>
+    <>
       <Grid
         container
         spacing={3}
-        width={"100%"}
+        width={"90vw"}
         sx={{ ...centeringStyles, height: "80vh", width: "90vw" }}
       >
         {visiblePdfs.map((pdf, index) => (
           <Grid item key={index}>
-            <Box
-              display="flex"
-              flexDirection="column"
-              justifyContent="center"
-              alignItems="center"
-              height="100%"
-            >
-              <InfoCard state={pdf === null} pdf={pdf} />
-            </Box>
+            <InfoCard state={pdf === null} pdf={pdf} />
           </Grid>
         ))}
       </Grid>
@@ -60,7 +51,7 @@ const PdfTable = ({ pdfs }) => {
           color="primary"
         />
       </Box>
-    </Container>
+    </>
   );
 };
 

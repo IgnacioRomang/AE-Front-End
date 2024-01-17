@@ -122,6 +122,7 @@ const ExtraDataCard = React.forwardRef(
               <InputLabel htmlFor="occupation">{labels.occupation}</InputLabel>
               <NativeSelect
                 value={userData.occupation}
+                size="small"
                 onChange={(event) =>
                   handleChangeNotFormatter(event, "occupation")
                 }
@@ -143,6 +144,7 @@ const ExtraDataCard = React.forwardRef(
               <InputLabel htmlFor="Study">{labels.capacity}</InputLabel>
               <NativeSelect
                 value={userData.study}
+                size="small"
                 onChange={(event) => handleChangeNotFormatter(event, "study")}
                 inputProps={{
                   name: "Study",
@@ -163,6 +165,7 @@ const ExtraDataCard = React.forwardRef(
               label={labels.phone}
               disabled={false}
               error={errors.phone}
+              size="small"
               value={userData.phone}
               onChange={(event) => handleChange(event, "phone", doPhone)}
               variant="standard"
@@ -174,6 +177,7 @@ const ExtraDataCard = React.forwardRef(
               label={labels.email}
               required
               disabled={null}
+              size="small"
               value={userData.email}
               error={errors.email}
               onChange={(event) => handleChange(event, "email", doEmail)}

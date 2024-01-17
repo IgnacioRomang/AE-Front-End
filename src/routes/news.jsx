@@ -24,7 +24,7 @@ export default function News() {
     const fetchData = async () => {
       try {
         let url = process.env.REACT_APP_BACK_URL;
-        const response = await axios.post(url + "/api/resources/getpdflist");
+        const response = await axios.get(url + "/api/resources/getpdflist");
         const sortedPdfs = response.data.sort((a, b) => a.id - b.id);
         setPdfs(sortedPdfs);
       } catch (error) {
@@ -49,12 +49,11 @@ export default function News() {
     <>
       <TopBar userAuth={isAuthenticated} />
       <ScrollableComponent>
-        <div id="detail" style={{ padding: 50 }}>
-          <PdfTable pdfs={pdfs} key={loading} />
-        </div>
+        <PdfTable pdfs={pdfs} key={loading} />
       </ScrollableComponent>
       <Footer />
       <Fab
+        size="medium"
         aria-label="Ayuda"
         variant="extended"
         style={{

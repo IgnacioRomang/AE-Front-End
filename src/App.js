@@ -30,7 +30,7 @@ function App() {
 
             <Route path="/" element={<Root />} errorElement={<ErrorPage />}>
               <Route path="faq" element={<FAQcard />} />
-              <Route path="document/:pdfid" element={<PDFViewer />} />
+              <Route path="document/:id" element={<PDFViewer />} />
             </Route>
 
             <Route path="/auth" element={<Root />} errorElement={<ErrorPage />}>

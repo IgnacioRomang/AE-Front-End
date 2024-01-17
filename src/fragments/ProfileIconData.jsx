@@ -43,13 +43,15 @@ const ProfileIconData = ({ iuser }) => {
           {/** ingresar botones de ojito y descarga*/}
         </Stack>
         <Stack padding={2} spacing={1} sx={centeringStyles}>
-          <Link>{labels.PDF}</Link>
-          <Link onClick={(e) => nav("/user/reset-password")}>
+          <Link size="small">{labels.PDF}</Link>
+          <Link size="small" onClick={(e) => nav("/user/reset-password")}>
             {labels.password}
           </Link>
-          <Link onClick={(e) => nav("/user/email-change")}>{labels.email}</Link>
+          <Link size="small" onClick={(e) => nav("/user/email-change")}>
+            {labels.email}
+          </Link>
         </Stack>
-        <Link onClick={(e) => nav("/user/reset-password")}>
+        <Link size="small" onClick={(e) => nav("/user/reset-password")}>
           {labels.verify}
         </Link>
       </Paper>

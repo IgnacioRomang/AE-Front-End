@@ -76,7 +76,7 @@ const UnRegisterCard = () => {
                 title={renewalstring.warning.title}
                 body={renewalstring.warning.body}
               />
-              <Box container={true} sx={boxUnRegisterLogSyle}>
+              <Box container="true" sx={boxUnRegisterLogSyle}>
                 {/* Box succes tambien es estilo en otro lado cuidado*/}
                 <LoginFragment></LoginFragment>
               </Box>

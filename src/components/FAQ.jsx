@@ -20,7 +20,7 @@ const FAQ = (props) => {
     const fetchData = async () => {
       try {
         let url = process.env.REACT_APP_BACK_URL;
-        const response = await axios.post(url + "/api/resources/getQuestions");
+        const response = await axios.get(url + "/api/resources/getQuestions");
         setQuestions(
           response.data.map((question) => ({
             ...question,

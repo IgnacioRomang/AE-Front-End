@@ -23,7 +23,7 @@ import React, { useState } from "react";
  */
 const Calendar = ({ intStart, intEnd, msg }) => {
   const [currentDate, setCurrentDate] = useState(intStart);
-  const hash = btoa(currentDate.toString() + intEnd.toString());
+  const hash = btoa(currentDate.toString() + intEnd.toString() + msg);
   const daysInMonth = getDaysInMonth(currentDate);
 
   const monthName = new Intl.DateTimeFormat("es", { month: "long" }).format(
@@ -78,10 +78,8 @@ const Calendar = ({ intStart, intEnd, msg }) => {
         <TableCell
           onMouseEnter={msg_active ? handleOver : null}
           onMouseLeave={msg_active ? handleOver : null}
-          key={`${hash}-${rowIndex}-${cellIndex}`}
+          //key={`${hash}-${rowIndex}-${cellIndex}`}
           sx={{
-            //border: "1px solid #ddd",
-
             alignItems: "center",
             justifyContent: "center",
             textAlign: "center",
@@ -100,7 +98,10 @@ const Calendar = ({ intStart, intEnd, msg }) => {
           {day || " "}
         </TableCell>
         {msg_active && (
-          <Popper id={`${hash}-${rowIndex}`} open={open} anchorEl={anchorEl}>
+          <Popper //id={`${hash}-${rowIndex}`}
+            open={open}
+            anchorEl={anchorEl}
+          >
             <Box
               sx={{
                 border: 1,
@@ -139,7 +140,7 @@ const Calendar = ({ intStart, intEnd, msg }) => {
                       textAlign: "center",
                       padding: "2px",
                     }}
-                    key={day + hash}
+                    //key={day + hash + index}
                   >
                     {day}
                   </TableCell>
@@ -149,7 +150,8 @@ const Calendar = ({ intStart, intEnd, msg }) => {
           </TableHead>
           <TableBody>
             {chunkArray(daysInMonth, 7).map((row, rowIndex) => (
-              <TableRow key={`${hash}-${rowIndex}`}>
+              <TableRow //key={`${hash}-${rowIndex}`}
+              >
                 {row.map((day, index) => getTableCel(day, rowIndex, index))}
               </TableRow>
             ))}

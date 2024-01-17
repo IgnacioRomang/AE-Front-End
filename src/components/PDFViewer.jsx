@@ -6,20 +6,20 @@ import { useParams } from "react-router-dom";
 /**
  * This function is a React component that displays a PDF document.
  * @param {object} props - The properties of the component.
- * @param {string} props.pdfId - The ID of the PDF document to display.
  */
 const PDFViewer = (props) => {
   const [pdf, setPdf] = React.useState([]);
 
-  const { pdfId } = props;
-
+  const { id } = useParams();
+  console.log(id);
   React.useEffect(() => {
     const fetchData = async () => {
       try {
         let url = process.env.REACT_APP_BACK_URL;
         const response = await axios.post(url + "/api/resources/getpdf", {
-          pdfId: pdfId,
+          id: id,
         });
+        console.log(response.data);
         setPdf(response.data);
       } catch (error) {
         console.error("Error fetching PDF viewer:", error);
@@ -28,7 +28,7 @@ const PDFViewer = (props) => {
     };
 
     fetchData();
-  }, [pdfId]);
+  }, [id]);
 
   return (
     <Paper sx={{ width: "98vw", height: "98vh" }}>

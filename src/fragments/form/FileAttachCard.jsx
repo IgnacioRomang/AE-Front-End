@@ -150,6 +150,7 @@ const FileAttachCard = React.forwardRef((props, ref) => {
               variant="outlined"
               accept="image/*"
               multiple
+              size="small"
               error={error.files_size || error.files_type}
               disabled={isButtonDisabled}
               onChange={handleFileChange}

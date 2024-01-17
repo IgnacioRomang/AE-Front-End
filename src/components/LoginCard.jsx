@@ -86,7 +86,7 @@ const Login = () => {
    * @param {Event} event The event object.
    */
   const handleCancel = (event) => {
-    navigate("/");
+    navigate(-1);
   };
 
   return (
@@ -106,6 +106,7 @@ const Login = () => {
             spacing={1}
           >
             <Link
+              size="small"
               component="button"
               href={assets.links.password}
               disabled={loginSuccess}
@@ -118,6 +119,7 @@ const Login = () => {
               {labels.links.labels.password}
             </Link>
             <Link
+              size="small"
               component="button"
               href={assets.links.account}
               disabled={loginSuccess}
@@ -130,6 +132,7 @@ const Login = () => {
               {labels.links.labels.faq}
             </Link>
             <Link
+              size="small"
               component="button"
               href={assets.links.account}
               disabled={loginSuccess}
@@ -146,13 +149,14 @@ const Login = () => {
           {/* BOTONES */}
           <CardActions sx={centerButtonsStyle}>
             <Button
+              size="small"
               color="inherit"
               onClick={handleCancel}
               disabled={loginSuccess}
             >
               {commonlabels.button.cancel}
             </Button>
-            <Button onClick={handleLogin} disabled={loginSuccess}>
+            <Button size="small" onClick={handleLogin} disabled={loginSuccess}>
               {commonlabels.button.ok}
             </Button>
           </CardActions>

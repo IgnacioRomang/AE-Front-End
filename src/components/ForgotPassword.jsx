@@ -55,7 +55,7 @@ const ForgotPassword = () => {
    * The handleBack function navigates back to the login page.
    */
   const handleBack = () => {
-    nav("/auth/login");
+    nav(-1);
   };
 
   const [formattedCUIL, setFormattedCUIL] = useState("");
@@ -86,6 +86,7 @@ const ForgotPassword = () => {
               },
             }}
             id="cuil"
+            size="small"
             label={label.textFieldLabels}
             required
             disabled={null}

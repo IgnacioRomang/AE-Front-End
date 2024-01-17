@@ -11,40 +11,15 @@ import { useNavigate } from "react-router-dom";
 import { infoCArdStyle } from "../theme";
 
 /**
- * A high-resolution display configuration object.
- * @typedef {Object} HighResDisplayConfig
- * @property {string} display.xs - The display style for extra-small screens.
- * @property {string} display.md - The display style for medium screens.
- * @property {string} display.lg - The display style for large screens.
- */
-
-/**
- * A card style object for the info card component.
- * @typedef {Object} InfoCardStyle
- * @property {import("@mui/system").CSSObject} card - The CSS styles for the card component.
- */
-
-/**
- * Props for the InfoCard component.
- * @typedef {Object} InfoCardProps
- * @property {boolean} state - Indicates whether the card is in a loading state.
- * @property {Object} pdf - The PDF document data.
- */
-
-/**
  * A component that displays an info card for a PDF document.
  * @param {InfoCardProps} props - The props for the InfoCard component.
  * @returns {JSX.Element} A React element that displays an info card for a PDF document.
  */
 function InfoCard(props) {
   const { state, pdf } = props;
+
   const [loading, setLoading] = useState(state);
   const navigate = useNavigate();
-
-  /**
-   * A high-resolution display configuration object.
-   * @type {HighResDisplayConfig}
-   */
   const highResDisplay = {
     display: {
       xs: "none",
@@ -52,11 +27,6 @@ function InfoCard(props) {
       lg: "flex",
     },
   };
-
-  /**
-   * A card style object for the info card component.
-   * @type {InfoCardStyle}
-   */
   const infoCardStyle = {
     card: {
       maxWidth: 345,
@@ -88,6 +58,7 @@ function InfoCard(props) {
           sx={{
             display: highResDisplay.display,
             height: 140,
+            width: "100%",
           }}
           image={`data:image/png;base64,${pdf.img}`}
           title={pdf.title}
@@ -112,7 +83,7 @@ function InfoCard(props) {
           size="small"
           disabled={loading}
           onClick={() => {
-            navigate("/document/" + pdf.id);
+            navigate("/document/" + pdf.id.toString());
           }}
         >
           Leer mas

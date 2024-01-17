@@ -313,6 +313,7 @@ const RegisterCard = () => {
                 <Box sx={{ flex: "1 1 auto" }} />
                 {errors[5] ? (
                   <Button
+                    size="small"
                     disabled={activeStep === 0}
                     onClick={handleRestart}
                     sx={{ mr: 1 }}
@@ -321,6 +322,7 @@ const RegisterCard = () => {
                   </Button>
                 ) : (
                   <Button
+                    size="small"
                     disabled={activeStep === 0}
                     onClick={handleLogin}
                     sx={{ mr: 1 }}
@@ -334,6 +336,7 @@ const RegisterCard = () => {
             <React.Fragment>
               <Box sx={boxbottonsSteppStyle}>
                 <Button
+                  size="small"
                   color="inherit"
                   disabled={activeStep === 0}
                   onClick={handleBack}
@@ -343,7 +346,7 @@ const RegisterCard = () => {
                 </Button>
                 <Box sx={{ flex: "1 1 auto" }} />
 
-                <Button onClick={handleNext}>
+                <Button size="small" onClick={handleNext}>
                   {activeStep === steps.length - 1
                     ? bottonslabel.button.ok
                     : bottonslabel.button.next}

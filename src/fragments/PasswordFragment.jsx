@@ -39,6 +39,7 @@ const PasswordFragment = React.forwardRef((props, ref) => {
         id="password"
         sx={{ width: "25vw" }}
         label={labels.textFieldLabels[0]}
+        size="small"
         required
         value={passwordChange.password}
         onChange={(event) => {
@@ -50,6 +51,7 @@ const PasswordFragment = React.forwardRef((props, ref) => {
       <TextField
         id="password"
         label={labels.textFieldLabels[1]}
+        size="small"
         type="password"
         sx={{ width: "25vw" }}
         required
@@ -63,6 +65,7 @@ const PasswordFragment = React.forwardRef((props, ref) => {
       <TextField
         id="passwordres"
         label={labels.textFieldLabels[2]}
+        size="small"
         type="password"
         sx={{ width: "25vw" }}
         required

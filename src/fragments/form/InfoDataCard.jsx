@@ -164,6 +164,7 @@ const InfoDataCard = React.forwardRef((props, ref) => {
               required
               disabled={false}
               value={userData.name}
+              size="small"
               error={errors.name}
               onChange={(event) =>
                 handleInputChange("name", event.target.value)
@@ -180,6 +181,7 @@ const InfoDataCard = React.forwardRef((props, ref) => {
               id="lastname"
               label={labels.lastname}
               required
+              size="small"
               disabled={false}
               value={userData.lastName}
               error={errors.lastName}
@@ -199,6 +201,7 @@ const InfoDataCard = React.forwardRef((props, ref) => {
               id="cuil"
               label={labels.cuil}
               required
+              size="small"
               disabled={false}
               error={errors.formattedCUIL}
               helperText={null}
@@ -220,6 +223,7 @@ const InfoDataCard = React.forwardRef((props, ref) => {
               error={errors.selectedBirthdate}
               helperText={null}
               type="date"
+              size="small"
               fullWidth
               InputLabelProps={{
                 shrink: true,
@@ -237,6 +241,7 @@ const InfoDataCard = React.forwardRef((props, ref) => {
                 value={userData.selectedGender}
                 onChange={handleGenderChange}
                 error={errors.selectedGender}
+                size="small"
                 inputProps={{
                   name: "gender",
                   id: "gender-select",
@@ -263,6 +268,7 @@ const InfoDataCard = React.forwardRef((props, ref) => {
                 <Grid item xs={12} sm={4}>
                   <TextField
                     id="password"
+                    size="small"
                     label={labels.password}
                     required
                     type="password"
@@ -283,6 +289,7 @@ const InfoDataCard = React.forwardRef((props, ref) => {
                     label={"Repita la " + labels.password}
                     required
                     error={errors.password}
+                    size="small"
                     value={passrep}
                     type="password"
                     onChange={(event) => {

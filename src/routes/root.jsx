@@ -21,12 +21,11 @@ export default function Root() {
     <>
       <TopBar userAuth={isAuthenticated} />
       <ScrollableComponent>
-        <div id="detail" style={{ padding: 25 }}>
-          <Outlet />
-        </div>
+        <Outlet />
       </ScrollableComponent>
       <Footer />
       <Fab
+        size="medium"
         aria-label="Ayuda"
         variant="extended"
         style={{

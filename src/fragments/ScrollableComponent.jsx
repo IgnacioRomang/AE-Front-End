@@ -4,6 +4,7 @@ const ScrollableComponent = ({ children, styles }) => {
   const newStyle = {
     minHeight: "100vh", // Esto dejalo asi no se por que pero fucniona de 10 xD
     overflowY: "scroll",
+    padding: 25,
     ...styles,
   };
   return <div style={newStyle}>{children}</div>;

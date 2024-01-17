@@ -147,6 +147,7 @@ const TopBar = (props) => {
                 (page) =>
                   !page.disabled && (
                     <Button
+                      size="small"
                       key={page.label}
                       disabled={page.disabled}
                       onClick={(e) => handleoOnClickMenu(e, page.id)}
@@ -168,6 +169,7 @@ const TopBar = (props) => {
                   id="menu-appbar"
                   anchorEl={anchorElNav}
                   {...menuStyles}
+                  size="small"
                   open={Boolean(anchorElNav)}
                   onClose={handleCloseNavMenu}
                 >
