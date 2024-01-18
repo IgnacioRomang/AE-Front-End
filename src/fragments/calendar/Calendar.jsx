@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { blue, grey, red } from "@mui/material/colors";
-import React, { useState } from "react";
+import React from "react";
 
 /**
  * The `Calendar` component is a React component that displays a calendar table. It takes three props
@@ -22,8 +22,8 @@ import React, { useState } from "react";
  * @param {string} msg - The message to display when the user hovers over a date in the calendar
  */
 const Calendar = ({ intStart, intEnd, msg }) => {
-  const [currentDate, setCurrentDate] = useState(intStart);
-  const hash = btoa(currentDate.toString() + intEnd.toString() + msg);
+  const currentDate = intStart;
+  //const hash = btoa(currentDate.toString() + intEnd.toString() + msg);
   const daysInMonth = getDaysInMonth(currentDate);
 
   const monthName = new Intl.DateTimeFormat("es", { month: "long" }).format(

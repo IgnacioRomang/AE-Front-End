@@ -31,7 +31,6 @@ import LoginFragment from "../fragments/LoginFragment.jsx";
  * @return {JSX.Element} The login component.
  */
 const Login = () => {
-  const [open, setOpen] = React.useState(false);
   const [labels, assets] = useLoginString();
   const commonlabels = useCommonsString();
   const { setIsAuthenticated, setUser, User } = useAuth();
@@ -50,7 +49,7 @@ const Login = () => {
     if (User !== null) {
       navigate("/profile");
     }
-  }, []);
+  }, [User, navigate]);
 
   /**
    * @brief This function checks if the login data is valid, sets the appropriate state variables,
@@ -59,9 +58,7 @@ const Login = () => {
    * @param {Event} event The event object.
    */
   const handleLogin = async (event) => {
-    setOpen(true);
     let loggin = await logindataref.current.getData();
-    setOpen(false);
     if (loggin !== null) {
       setLoginSuccess(true);
       setLoginFail(false);

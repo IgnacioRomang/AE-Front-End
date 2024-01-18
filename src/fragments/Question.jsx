@@ -1,11 +1,11 @@
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import React from "react";
 
 const Question = ({ question, answer }) => {
   const [expanded, setExpanded] = React.useState(false);

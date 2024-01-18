@@ -1,7 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
 import { useUnRegisterSuccessString } from "../contexts/TextProvider.jsx";
-import { getDates } from "../utiles.js";
 import { superCenter } from "../theme.jsx";
 const UnRegisterSuccessFragment = ({ first }) => {
   const labels = useUnRegisterSuccessString();

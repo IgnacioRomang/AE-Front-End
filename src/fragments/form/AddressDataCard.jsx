@@ -1,7 +1,7 @@
-import React, { useState, useCallback, useImperativeHandle } from "react";
 import { CardContent, Grid, TextField } from "@mui/material";
+import React, { useCallback, useImperativeHandle, useState } from "react";
 import { useAddressDataCardString } from "../../contexts/TextProvider.jsx";
-import { doPostalCode, doApartment, doFloor } from "../../utiles.js";
+import { doApartment, doFloor, doPostalCode } from "../../utiles.js";
 
 /**
  * The `AddressDataCard` component is a form component that displays fields for entering address data such as street address, floor, apartment, province, city, and postal code.

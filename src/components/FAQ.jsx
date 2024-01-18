@@ -1,8 +1,8 @@
 import { Paper, Typography } from "@mui/material";
-import React from "react";
-import Question from "../fragments/Question";
 import axios from "axios";
+import React from "react";
 import { useFAQString } from "../contexts/TextProvider";
+import Question from "../fragments/Question";
 /**
  * React functional component for the FAQ page.
  *

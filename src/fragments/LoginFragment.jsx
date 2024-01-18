@@ -1,12 +1,12 @@
 import { Stack, TextField } from "@mui/material";
+import axios from "axios";
 import React, { useState } from "react";
 import { useLoginString } from "../contexts/TextProvider.jsx";
 import { doformatCUIL } from "../utiles.js";
-import axios from "axios";
 
 //TODO QUITAR TEMAS
 const LoginFragment = React.forwardRef((props, ref) => {
-  const [labels, assets] = useLoginString();
+  const [labels] = useLoginString();
 
   const [loginSuccess, setLoginSuccess] = React.useState(false);
   const [loginFail, setLoginFail] = React.useState(false);
@@ -45,6 +45,8 @@ const LoginFragment = React.forwardRef((props, ref) => {
         auth = response.data.authorization;
         sessionStorage.setItem("authorization", auth);
         if (response.data !== null) {
+          setLoginFail(false);
+          setLoginSuccess(true);
           let names = response.data.user.name.split(" ");
           user = {
             name: names[0],
@@ -58,6 +60,7 @@ const LoginFragment = React.forwardRef((props, ref) => {
         axios.defaults.headers.common["Authorization"] = auth.type + auth.token;
       })
       .catch((e) => {
+        setLoginFail(true);
         console.error("Error durante el inicio de sesión:");
       });
 

@@ -30,7 +30,7 @@ const ResetPassword = () => {
   const labelbutton = useCommonsString();
   const label = useResetPasswordCardString();
   const nav = useNavigate();
-  const { setUser, setIsAuthenticated } = useAuth();
+  const { User, setUser, setIsAuthenticated } = useAuth();
   const ref = React.useRef(null);
   const [error, setError] = React.useState(false);
   /**
@@ -42,6 +42,12 @@ const ResetPassword = () => {
    * @returns {Array} - An array containing a boolean indicating whether there was an error and an
    * object containing the response data.
    */
+
+  React.useEffect(() => {
+    if (User === null) {
+      nav("/");
+    }
+  }, [nav, User]);
   const handleAcept = (data) => {
     let result = ref.current.sendData(data);
     setError(!result[0]);

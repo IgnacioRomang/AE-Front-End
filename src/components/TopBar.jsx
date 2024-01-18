@@ -36,8 +36,8 @@ const TopBar = (props) => {
   const [labels, assets] = useTopBarString();
   const { User, serverDates } = useAuth();
   const navigate = useNavigate();
-  const today = new Date();
-  let pages = [
+  const today = React.useMemo(() => new Date(), []);
+  const [pages, setPages] = React.useState([
     { label: labels.opctions[0], id: 0, disabled: false },
     { label: labels.opctions[1], id: 3, disabled: false },
     {
@@ -55,7 +55,7 @@ const TopBar = (props) => {
             today.getMilliseconds() <= serverDates.sixthMonth.getMilliseconds()
           : false,
     },
-  ];
+  ]);
 
   /**
    * React.useEffect hook is used to perform side effects in a functional component.
@@ -65,7 +65,7 @@ const TopBar = (props) => {
    * @param {object} prevState - previous state of the component
    */
   React.useEffect(() => {
-    pages = [
+    setPages([
       { label: labels.opctions[0], id: 0, disabled: false },
       { label: labels.opctions[1], id: 3, disabled: false },
       {
@@ -84,8 +84,8 @@ const TopBar = (props) => {
                 serverDates.sixthMonth.getMilliseconds()
             : false,
       },
-    ];
-  }, [User, serverDates]);
+    ]);
+  }, [User, serverDates, labels, today]);
 
   /**
    * The function `handleoOnClickMenu` is used to navigate to different pages based on the provided `id`

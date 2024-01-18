@@ -25,6 +25,8 @@ import {
   cardRegisterStyle,
   centerButtonsStyle,
 } from "../theme.jsx";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext.js";
 
 /**
  * @brief This component is used to unregister the user from the system.
@@ -36,7 +38,14 @@ const UnRegisterCard = () => {
   const renewalstring = useUnRegisterCardString();
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
+  const navigate = useNavigate();
 
+  const { User } = useAuth();
+  React.useEffect(() => {
+    if (User === null) {
+      navigate("/");
+    }
+  }, [navigate, User]);
   /**
    * @brief This function is used to handle the send button.
    *
@@ -55,6 +64,9 @@ const UnRegisterCard = () => {
    * @return {undefined}
    */
   const handleClose = () => {
+    if (!open) {
+      navigate(-1);
+    }
     setOpen(false);
   };
 
@@ -84,7 +96,7 @@ const UnRegisterCard = () => {
           )}
         </CardContent>
         <CardActions sx={centerButtonsStyle}>
-          <Button size="small" color="inherit">
+          <Button size="small" color="inherit" onClick={handleClose}>
             {commonlabels.button.cancel}
           </Button>
           <Button size="small" onClick={handleSend}>

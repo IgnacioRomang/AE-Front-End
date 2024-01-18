@@ -1,12 +1,3 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import {
-  useCommonsString,
-  useEmailChangeString,
-} from "../contexts/TextProvider";
-import CodeFragment from "../fragments/CodeFragment";
-import { centerButtonsStyle } from "../theme";
 import {
   Alert,
   AlertTitle,
@@ -16,6 +7,16 @@ import {
   Grid,
   TextField,
 } from "@mui/material";
+import axios from "axios";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import {
+  useCommonsString,
+  useEmailChangeString,
+} from "../contexts/TextProvider";
+import CodeFragment from "../fragments/CodeFragment";
+import { centerButtonsStyle } from "../theme";
 
 /**
  * @brief This component handles the email change process.
@@ -32,11 +33,18 @@ const EmailChange = (props) => {
   const [reemail, setReEmail] = useState("");
   const [password, setPassword] = useState("");
   const [send, setSend] = useState(false);
-  const [result, setResult] = useState(false);
+  //const [result, setResult] = useState(false);
   const [error, setError] = useState(false);
   const [errorEmail, setErrorEmail] = useState(false);
   const [icon, setIcon] = useState(false);
   const navigate = useNavigate();
+
+  const { User } = useAuth();
+  React.useEffect(() => {
+    if (User === null) {
+      navigate("/");
+    }
+  }, [navigate, User]);
 
   /**
    * @brief Sends an email with the verification code to the given email address.
@@ -113,7 +121,7 @@ const EmailChange = (props) => {
       })
       .then((response) => {
         console.log(response);
-        if (response.data.message == "Código válido") {
+        if (response.data.message === "Código válido") {
           setError(false);
           navigate("/user/profile");
         } else {
@@ -186,7 +194,7 @@ const EmailChange = (props) => {
         <Button size="small" onClick={handleBack}>
           {commonlabels.button.back}
         </Button>
-        <Button size="small" onClick={code == "" ? handleConfirm : handleSend}>
+        <Button size="small" onClick={code === "" ? handleConfirm : handleSend}>
           {code !== "" ? commonlabels.button.send : commonlabels.button.ok}
         </Button>
       </CardActions>

@@ -1,29 +1,22 @@
 import {
+  Alert,
+  AlertTitle,
   CardContent,
+  Collapse,
   FormControl,
   FormHelperText,
   Grid,
   InputLabel,
   NativeSelect,
   TextField,
-  Button,
-  Collapse,
-  Alert,
-  AlertTitle,
 } from "@mui/material";
-import React, {
-  createContext,
-  useCallback,
-  useEffect,
-  useImperativeHandle,
-  useState,
-} from "react";
+import React, { useCallback, useImperativeHandle, useState } from "react";
 import {
   useInfoDataCardString,
   useResetPasswordCardString,
 } from "../../contexts/TextProvider.jsx";
-import { datecontrol, doformatCUIL, testpassword } from "../../utiles.js";
 import { centeringStyles } from "../../theme.jsx";
+import { datecontrol, doformatCUIL, testpassword } from "../../utiles.js";
 
 const genders = [
   { label: "Femenino", id: 1 },
@@ -137,7 +130,7 @@ const InfoDataCard = React.forwardRef((props, ref) => {
     setErrors(errors);
 
     return Object.values(errors).some(Boolean);
-  }, [userData]);
+  }, [userData, passrep]);
 
   const getData = () => {
     return userData;

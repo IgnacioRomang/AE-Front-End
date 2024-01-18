@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Pagination } from "@mui/material";
+import { Box, Grid, Pagination } from "@mui/material";
 import React, { useState } from "react";
 import { centeringStyles } from "../theme";
 import InfoCard from "./InfoCard";

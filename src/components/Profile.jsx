@@ -9,12 +9,12 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { useProfileString } from "../contexts/TextProvider";
 import ProfileAEdata from "../fragments/ProfileIconData";
 import Calendar from "../fragments/calendar/Calendar";
 import { centeringStyles } from "../theme";
+import { useNavigate } from "react-router-dom";
 
 /**
  * The `Profile` component is a functional component in JavaScript React. It is responsible for
@@ -30,14 +30,15 @@ import { centeringStyles } from "../theme";
 const Profile = (props) => {
   const { User, setUser, serverDates, setServerDates } = useAuth();
   const [loading, setLoading] = React.useState(true);
-
   const navigate = useNavigate();
-
   /**
    * The `React.useEffect` hook is used to perform side effects in a functional component. In this case,
    * it is used to fetch data from an API endpoint when the component mounts.
    */
   React.useEffect(() => {
+    if (User === null) {
+      navigate("/");
+    }
     let url = process.env.REACT_APP_BACK_URL;
     const fetchData = async () => {
       try {
@@ -66,7 +67,7 @@ const Profile = (props) => {
     };
 
     fetchData();
-  }, [User, setUser]);
+  }, [User, setUser, setServerDates, navigate]);
 
   const labels = useProfileString();
 

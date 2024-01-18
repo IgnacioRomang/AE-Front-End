@@ -13,9 +13,7 @@ import {
   InfoDataCard,
 } from "../fragments/form";
 
-import { useAuth } from "../contexts/AuthContext.js";
-import AlertFragment from "../fragments/AlertFragmet.jsx";
-import { cardRegisterStyle, centerButtonsStyle } from "../theme.jsx";
+import { ExpandMore, HowToReg } from "@mui/icons-material";
 import {
   Accordion,
   AccordionDetails,
@@ -28,8 +26,10 @@ import {
   CardHeader,
   Typography,
 } from "@mui/material";
-import { ExpandMore, HowToReg } from "@mui/icons-material";
 import { grey } from "@mui/material/colors";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext.js";
+import { cardRegisterStyle, centerButtonsStyle } from "../theme.jsx";
 
 /**fs
  * @brief This component is a form for registering a new user.
@@ -74,7 +74,13 @@ const RenewalCard = (props) => {
   const addressDataCardRef = React.useRef(null);
   const extraDataCardRef = React.useRef(null);
   const fileAttachCardRef = React.useRef(null);
+  const navigate = useNavigate();
 
+  React.useEffect(() => {
+    if (User === null) {
+      navigate("/");
+    }
+  }, [User, navigate]);
   /**
    * @brief This function is called when the user expands or collapses an accordion panel.
    *

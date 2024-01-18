@@ -5,8 +5,9 @@ import CardContent from "@mui/material/CardContent";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 /**
  * The `VerificationCard` component is a React component that displays a card with a loading spinner
@@ -21,13 +22,15 @@ const VerificationCard = ({ id, hash }) => {
   const [verificationResult, setVerificationResult] = useState(null);
   const navigate = useNavigate();
 
+  const { User } = useAuth();
+
   /**
    * The function `verifyEmail` is an asynchronous function that sends a POST request to verify an email
    * using the provided `id` and `hash`, and updates the verification result accordingly.
    *
    * @async
    */
-  async function verifyEmail() {
+  const verifyEmail = React.useCallback(async () => {
     //TODO Work in progress
     try {
       const response = await axios.post(`/email/verify/${id}/${hash}`);
@@ -35,6 +38,7 @@ const VerificationCard = ({ id, hash }) => {
       if (response.data.success) {
         setVerificationResult("Email verificado exitosamente");
       } else {
+        // Handle unsuccessful verification if needed
       }
     } catch (error) {
       console.error("Error al verificar el email", error);
@@ -42,11 +46,14 @@ const VerificationCard = ({ id, hash }) => {
       await new Promise((resolve) => setTimeout(resolve, 5000));
       setLoading(false);
     }
-  }
+  }, [id, hash, setVerificationResult, setLoading]);
 
-  useEffect(() => {
+  React.useEffect(() => {
+    if (User === null) {
+      navigate("/");
+    }
     verifyEmail();
-  }, []);
+  }, [navigate, User, verifyEmail]);
 
   return (
     <Card>

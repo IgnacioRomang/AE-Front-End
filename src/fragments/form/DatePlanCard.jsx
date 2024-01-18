@@ -1,22 +1,10 @@
 import CheckIcon from "@mui/icons-material/Check";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { Box, TextField, Typography } from "@mui/material";
+import axios from "axios";
 import React from "react";
 import { useDatePlanAEString } from "../../contexts/TextProvider.jsx";
 import { getDates } from "../../utiles.js";
-import axios from "axios";
-
-function generarCodigo() {
-  const caracteres = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  let codigo = "";
-
-  for (let i = 0; i < 6; i++) {
-    const indiceAleatorio = Math.floor(Math.random() * caracteres.length);
-    codigo += caracteres.charAt(indiceAleatorio);
-  }
-
-  return codigo;
-}
 
 /* The code defines a React functional component called `DatePlanAE`. It is a form component that
 displays information about dates and allows the user to enter a code. */
@@ -48,7 +36,7 @@ const DatePlanAE = React.forwardRef((props, ref) => {
   };
   const handleErrors = React.useCallback(() => {
     return props.first ? !codeverf : false;
-  });
+  }, [codeverf, props]);
 
   React.useImperativeHandle(ref, () => ({
     handleErrors,
@@ -57,14 +45,14 @@ const DatePlanAE = React.forwardRef((props, ref) => {
 
   const handleCode = (value) => {
     setCodeEnter(value);
-    if (value.length == 6) {
+    if (value.length === 6) {
       let url = process.env.REACT_APP_BACK_URL;
       axios
         .post(url + "/api/auth/email/verify", {
           code: value,
         })
         .then((response) => {
-          if (response.data.msg && response.data.msg == "Código válido") {
+          if (response.data.msg && response.data.msg === "Código válido") {
             setIcon(true);
             setCodeverf(true);
           } else {
