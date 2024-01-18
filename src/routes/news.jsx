@@ -9,7 +9,6 @@ import PdfTable from "../components/PDFtable";
 import TopBar from "../components/TopBar";
 import { useAuth } from "../contexts/AuthContext";
 import ScrollableComponent from "../fragments/ScrollableComponent";
-
 export default function News() {
   const [pdfs, setPdfs] = useState([null, null, null]);
   const [loading, setLoading] = useState(true);
@@ -67,8 +66,8 @@ export default function News() {
       >
         <HelpOutlineIcon sx={{ mr: 1 }} />
         {"Ayuda"}
-        {shouldShowComponent && (
-          <img
+        {/**shouldShowComponent &&
+                  <img
             src={base64Image}
             alt="Ayuda"
             style={{
@@ -77,8 +76,7 @@ export default function News() {
               height: "65%",
               borderRadius: "50%",
             }}
-          />
-        )}
+          /> */}
       </Fab>
     </>
   );
