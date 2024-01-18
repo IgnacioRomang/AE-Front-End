@@ -1,5 +1,4 @@
 import { Paper, Stack, Typography } from "@mui/material";
-import { useRouteError } from "react-router-dom";
 
 export default function ErrorPage() {
   return (
