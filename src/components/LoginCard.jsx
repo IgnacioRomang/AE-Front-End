@@ -47,7 +47,7 @@ const Login = () => {
    */
   React.useEffect(() => {
     if (User !== null) {
-      navigate("/profile");
+      navigate("/user/profile");
     }
   }, [User, navigate]);
 
@@ -63,11 +63,10 @@ const Login = () => {
       setLoginSuccess(true);
       setLoginFail(false);
 
-      await new Promise((resolve) => setTimeout(resolve, 500));
       setIsAuthenticated(true);
-
       setUser(loggin);
-
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      
       navigate("/user/profile", {
         replace: true,
       });

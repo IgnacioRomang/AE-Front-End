@@ -1,15 +1,12 @@
+import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import Fab from "@mui/material/Fab";
+import { blue } from "@mui/material/colors";
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import TopBar from "../components/TopBar";
-import { useAuth } from "../contexts/AuthContext";
 import ScrollableComponent from "../fragments/ScrollableComponent";
-import Fab from "@mui/material/Fab";
-import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-import { useNavigate } from "react-router-dom";
-import { blue } from "@mui/material/colors";
 export default function Root() {
-  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   const handleHelpClick = () => {
@@ -19,7 +16,7 @@ export default function Root() {
 
   return (
     <>
-      <TopBar userAuth={isAuthenticated} />
+      <TopBar />
       <ScrollableComponent>
         <Outlet />
       </ScrollableComponent>

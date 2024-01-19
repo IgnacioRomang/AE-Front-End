@@ -1,18 +1,3 @@
-const getToken = () => {
-  return process.env.CRYPTDATA;
-};
-
-export const sessionSave = (field, data) => {
-  //TODO INSTALL DOTENV
-  const dataToEncrypt = JSON.stringify(data, null, 2);
-  const secretKey = getToken();
-  const sessionStorageData = sessionStorage.setItem(field, dataToEncrypt);
-};
-export const sessionGet = (field) => {
-  //TODO INSTALL DOTENV
-  const secretKey = getToken();
-  return JSON.parse(sessionStorage.getItem(field), secretKey);
-};
 export const isNum = (e) => {
   //credit for  https://stackoverflow.com/questions/43067719/how-to-allow-only-numbers-in-textbox-in-reactjs
   //Autor : Mayank Shukla
@@ -30,10 +15,6 @@ export const shortFileName = (file_name) => {
     return file_name.substr(0, 7) + "..." + file_name.substr(-7);
   }
   return file_name;
-};
-
-export const getHSL = (h, s, l) => {
-  return "hsl(" + h + "," + s + "%," + l + "%)";
 };
 
 export const getDates = () => {
@@ -66,30 +47,6 @@ export const shortEmail = (email) => {
     splitemail[1].substr(sizedom - 4, sizedom)
   );
 };
-
-function stringToColorNOrm(string) {
-  let hash = 0;
-  let i;
-
-  /* eslint-disable no-bitwise */
-  for (i = 0; i < string.length; i += 1) {
-    hash = string.charCodeAt(i) + ((hash << 5) - hash);
-  }
-
-  let color = "#";
-
-  for (i = 0; i < 3; i += 1) {
-    let value = (hash >> (i * 8)) & 0xff;
-
-    // Ajusta el valor para limitarlo a un rango de colores pastel
-    let pastelValue = Math.floor(150 + (value % 106));
-
-    color += `00${pastelValue.toString(16)}`.slice(-2);
-  }
-  /* eslint-enable no-bitwise */
-
-  return color;
-}
 
 function stringToColor(string) {
   let hash = 0;
@@ -209,7 +166,6 @@ export default {
   getDates,
   stringAvatar,
   doformatCUIL,
-  getHSL,
   datecontrol,
   doPostalCode,
   doFloor,

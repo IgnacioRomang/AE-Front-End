@@ -29,7 +29,8 @@ const settings_login = [
 const IconUserMenu = (props) => {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate();
-  const { setUser, setIsAuthenticated, User, isAuthenticated } = useAuth();
+  const { setUser, setServerDates, setIsAuthenticated, User, isAuthenticated } =
+    useAuth();
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -51,7 +52,7 @@ const IconUserMenu = (props) => {
       case settings[0].id:
         setUser(null);
         setIsAuthenticated(false);
-
+        setServerDates(null);
         let url = process.env.REACT_APP_BACK_URL;
         axios.post(`${url}/api/auth/logout`).catch((e) => {
           console.log("session finalizada");

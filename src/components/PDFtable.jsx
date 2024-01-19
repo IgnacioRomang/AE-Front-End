@@ -35,7 +35,7 @@ const PdfTable = ({ pdfs }) => {
         container
         spacing={3}
         width={"90vw"}
-        sx={{ ...centeringStyles, height: "80vh", width: "90vw" }}
+        sx={{ ...centeringStyles, height: "100vh", width: "90vw" }}
       >
         {visiblePdfs.map((pdf, index) => (
           <Grid item key={index}>
@@ -43,7 +43,19 @@ const PdfTable = ({ pdfs }) => {
           </Grid>
         ))}
       </Grid>
-      <Box display="flex" justifyContent="center" alignItems="center" mt={3}>
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        mt={3}
+        position="sticky"
+        bottom="0"
+        bgcolor="white"
+        padding={1}
+        borderRadius={"40px"}
+        zIndex={1}
+        width={"100%"}
+      >
         <Pagination
           count={totalPages}
           page={currentPage}

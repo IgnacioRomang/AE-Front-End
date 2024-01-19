@@ -1,5 +1,5 @@
+import { grey } from "@mui/material/colors";
 import { createTheme } from "@mui/material/styles";
-import { cyan, grey } from "@mui/material/colors";
 
 const theme = createTheme({
   spacing: [0, 2, 4, 9, 15, 20, 30],

@@ -34,7 +34,7 @@ import {
 const TopBar = (props) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [labels, assets] = useTopBarString();
-  const { User, serverDates } = useAuth();
+  const { User, serverDates, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const today = React.useMemo(() => new Date(), []);
   const [pages, setPages] = React.useState([
@@ -142,7 +142,7 @@ const TopBar = (props) => {
               style={logoTopStyle}
             />
 
-            {props.userAuth &&
+            {isAuthenticated &&
               pages.map(
                 (page) =>
                   !page.disabled && (
@@ -160,7 +160,7 @@ const TopBar = (props) => {
           </Box>
 
           <Box sx={boxSMmenu}>
-            {props.userAuth && (
+            {isAuthenticated && (
               <>
                 <IconButton {...iconButtonTopStyle} onClick={handleOpenNavMenu}>
                   <MenuIcon />
@@ -202,7 +202,7 @@ const TopBar = (props) => {
             />
           </Box>
           <Box sx={{ flexGrow: 1 }} />
-          <IconUserMenu userAuth={props.userAuth} />
+          <IconUserMenu userAuth={isAuthenticated} />
         </Toolbar>
       </Container>
     </AppBar>
