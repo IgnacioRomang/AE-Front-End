@@ -22,8 +22,10 @@ import {
   linksStyle,
 } from "../theme.jsx";
 
+import { TextField } from "@mui/material";
+
 import { useService } from "../contexts/ServiceContext.js";
-import LoginFragment from "../fragments/LoginFragment.jsx";
+import { doformatCUIL } from "../utiles.js";
 
 /**
  * @brief This function is the login component for the user authentication system.
@@ -33,20 +35,34 @@ import LoginFragment from "../fragments/LoginFragment.jsx";
 const Login = () => {
   const [labels, assets] = useLoginString();
   const commonlabels = useCommonsString();
-  const { setIsAuthenticated, setUser, User } = useService();
+
+  const { User, authenticate } = useService();
 
   const [loginSuccess, setLoginSuccess] = React.useState(false);
-  const navigate = useNavigate();
   const [loginFail, setLoginFail] = React.useState(false);
 
-  const logindataref = React.useRef(null);
+  const [formattedCUIL, setFormattedCUIL] = React.useState("");
+  const [passwordsd, setPassword] = React.useState("");
+
+  const navigate = useNavigate();
+
+  const handleInputChange = (event) => {
+    const inputValue = event.target.value;
+    let formatted = doformatCUIL(inputValue);
+
+    setFormattedCUIL(formatted);
+  };
+
+  const handleOnChangePassword = (event) => {
+    setPassword(event.target.value);
+  };
 
   /**
    * @brief This useEffect hook is used to perform side effects in a functional component.
    * In this case, the effect is triggered when the component mounts (since the dependency array is empty []).
    */
   React.useEffect(() => {
-    if (User !== null) {
+    if (User != null) {
       navigate("/user/profile");
     }
   }, [User, navigate]);
@@ -58,8 +74,9 @@ const Login = () => {
    * @param {Event} event The event object.
    */
   const handleLogin = async (event) => {
-    let loggin = await logindataref.current.getData();
-    if (loggin !== null) {
+    let result = authenticate(formattedCUIL, passwordsd);
+
+    if (result) {
       setLoginSuccess(true);
       setLoginFail(false);
 
@@ -91,7 +108,45 @@ const Login = () => {
         title={labels.title}
       />
       <CardContent sx={boxLoginSyle}>
-        <LoginFragment ref={logindataref} />
+        <Stack spacing={2}>
+          <TextField
+            sx={{
+              width: "100%", // Ancho completo en pantallas móviles
+              "@media (min-width: 600px)": {
+                // Ajusta según sea necesario para tamaños mayores
+                width: "25vw",
+              },
+            }}
+            size="small"
+            id="cuil"
+            label={labels.textFieldLabels.user}
+            required
+            disabled={loginSuccess}
+            error={loginFail}
+            value={formattedCUIL}
+            onChange={handleInputChange}
+            variant="standard"
+          />
+          <TextField
+            sx={{
+              width: "100%", // Ancho completo en pantallas móviles
+              "@media (min-width: 600px)": {
+                // Ajusta según sea necesario para tamaños mayores
+                width: "25vw",
+              },
+            }}
+            size="small"
+            id="password"
+            label={labels.textFieldLabels.password}
+            type="password"
+            required
+            value={passwordsd}
+            onChange={handleOnChangePassword}
+            error={loginFail}
+            disabled={loginSuccess}
+            variant="standard"
+          />
+        </Stack>
         <Stack paddingTop={4} spacing={2}>
           {/* links */}
           <Stack

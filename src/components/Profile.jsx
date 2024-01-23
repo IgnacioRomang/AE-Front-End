@@ -25,7 +25,7 @@ import { useNavigate } from "react-router-dom";
  * @returns {JSX.Element} The Profile component
  */
 const Profile = (props) => {
-  const { User, setUser, serverDates, setServerDates } = useService();
+  const { User, getAEdates, serverDates } = useService();
   const [loading, setLoading] = React.useState(true);
   const navigate = useNavigate();
 
@@ -34,30 +34,15 @@ const Profile = (props) => {
    * it is used to fetch data from an API endpoint when the component mounts.
    */
   React.useEffect(() => {
-    if (User == null) {
+    if (User === null) {
       navigate("/");
     }
     if (serverDates == null) {
       let url = process.env.REACT_APP_BACK_URL;
+
       const fetchData = async () => {
         try {
-          const response = await axios.post(`${url}/api/ae/aedates`);
-          if (!response.data.startDay) {
-            let u = User;
-            u.ae = false;
-            setUser(u);
-          } else {
-            let u = User;
-            u.ae = true;
-            setUser(u);
-            setServerDates({
-              startDay: new Date(response.data.startDay),
-              fifthMonth: new Date(response.data.fifthMonth),
-              sixthMonth: new Date(response.data.sixthMonth),
-              lastMonth: new Date(response.data.lastMonth),
-            });
-          }
-
+          let result = await getAEdates();
           setLoading(false);
         } catch (error) {
           // Manejar errores aquí
@@ -68,7 +53,7 @@ const Profile = (props) => {
     } else {
       setLoading(false);
     }
-  }, [User, setUser, setServerDates, navigate]);
+  }, [User, getAEdates, navigate]);
 
   const labels = useProfileString();
 

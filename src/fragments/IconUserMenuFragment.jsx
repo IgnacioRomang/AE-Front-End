@@ -29,8 +29,14 @@ const settings_login = [
 const IconUserMenu = (props) => {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate();
-  const { setUser, setServerDates, setIsAuthenticated, User, isAuthenticated } =
-    useService();
+  const {
+    setUser,
+    setServerDates,
+    setIsAuthenticated,
+    User,
+    isAuthenticated,
+    unauthenticate,
+  } = useService();
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -38,6 +44,18 @@ const IconUserMenu = (props) => {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const logout = async () => {
+    try {
+      let result = await unauthenticate();
+      if (result) {
+        navigate("/", { replace: true });
+        setAnchorElUser(null);
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
   const onClickMenu = (e, id) => {
     switch (id) {
@@ -50,16 +68,7 @@ const IconUserMenu = (props) => {
         setAnchorElUser(null);
         break;
       case settings[0].id:
-        setUser(null);
-        setIsAuthenticated(false);
-        setServerDates(null);
-        let url = process.env.REACT_APP_BACK_URL;
-        axios.post(`${url}/api/auth/logout`).catch((e) => {
-          console.log("session finalizada");
-        });
-
-        navigate("/", { replace: true });
-        setAnchorElUser(null);
+        logout();
         break;
       default:
         navigate("error");

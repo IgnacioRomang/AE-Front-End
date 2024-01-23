@@ -27,14 +27,13 @@ const LoginFragment = React.forwardRef((props, ref) => {
     setPassword(event.target.value);
   };
   const getData = () => {
-    let user = authenticate(formattedCUIL, passwordsd);
-    if (user == null) {
+    authenticate(formattedCUIL, passwordsd);
+    if (null == null) {
       setLoginFail(true);
     } else {
       setLoginFail(false);
       setLoginSuccess(true);
     }
-    return user;
   };
 
   React.useImperativeHandle(ref, () => ({

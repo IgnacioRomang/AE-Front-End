@@ -65,28 +65,29 @@ const TopBar = (props) => {
    * @param {object} prevState - previous state of the component
    */
   React.useEffect(() => {
-    if (serverDates == null) {
+    if (serverDates !== null) {
+      console.log("DATES guardado: " + JSON.stringify(serverDates));
+      setPages([
+        { label: labels.opctions[0], id: 0, disabled: false },
+        { label: labels.opctions[1], id: 3, disabled: false },
+        {
+          label: labels.opctions[2],
+          id: 1,
+          disabled: User !== null ? User.ae : false,
+        },
+        {
+          label: labels.opctions[3],
+          id: 2,
+          disabled:
+            User !== null && User.ae
+              ? today.getMilliseconds() >=
+                  serverDates.fifthMonth.getMilliseconds() &&
+                today.getMilliseconds() <=
+                  serverDates.sixthMonth.getMilliseconds()
+              : true,
+        },
+      ]);
     }
-    setPages([
-      { label: labels.opctions[0], id: 0, disabled: false },
-      { label: labels.opctions[1], id: 3, disabled: false },
-      {
-        label: labels.opctions[2],
-        id: 1,
-        disabled: User !== null ? User.ae : false,
-      },
-      {
-        label: labels.opctions[3],
-        id: 2,
-        disabled:
-          User !== null && User.ae
-            ? today.getMilliseconds() >=
-                serverDates.fifthMonth.getMilliseconds() &&
-              today.getMilliseconds() <=
-                serverDates.sixthMonth.getMilliseconds()
-            : true,
-      },
-    ]);
   }, [User, serverDates, labels, today]);
 
   /**

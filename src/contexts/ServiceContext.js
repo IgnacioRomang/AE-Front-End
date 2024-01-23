@@ -10,9 +10,42 @@ export const ServiceProvider = ({ children }) => {
   const [serverDates, setServerDatesState] = React.useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(User !== null);
 
+  // "SETTERS" "SESSION STORAGE"
+  const setAuthorization = (newval) => {
+    setAuthorizationState(newval);
+    if (newval === null) {
+      sessionStorage.removeItem("authorization");
+    } else {
+      sessionStorage.setItem("authorization", JSON.stringify(newval));
+      //defaultSetupAxios();
+    }
+  };
+
+  const setUser = (newval) => {
+    setUserState(newval);
+    if (newval === null) {
+      sessionStorage.removeItem("user");
+    } else {
+      console.log("usuario guardado: " + JSON.stringify(newval));
+      sessionStorage.setItem("user", JSON.stringify(newval));
+    }
+  };
+
+  const setServerDates = (newval) => {
+    setServerDatesState(newval);
+    if (newval === null) {
+      sessionStorage.removeItem("dates");
+    } else {
+      console.log("dates guardado: " + JSON.stringify(newval));
+      sessionStorage.setItem("dates", JSON.stringify(newval));
+    }
+  };
+
+  // AXIOS
   const authenticate = async (username, password) => {
     let url = process.env.REACT_APP_BACK_URL;
     let user = null;
+    let result = false;
     let auth = null;
     await axios
       .post(
@@ -40,6 +73,7 @@ export const ServiceProvider = ({ children }) => {
         }
         setIsAuthenticated(true);
         setUser(user);
+        result = true;
         axios.defaults.headers.common["XSRF-TOKEN"] = auth.X_CSRF_TOKEN;
         axios.defaults.headers.common["User-Agent"] = "FRONT-END-REACT";
         axios.defaults.headers.common["Authorization"] = auth.type + auth.token;
@@ -47,57 +81,81 @@ export const ServiceProvider = ({ children }) => {
       .catch((e) => {
         console.error("Error durante el inicio de sesión:", e);
       });
-    return user;
+    return result;
   };
 
-  const setAuthorization = (newval) => {
-    setAuthorizationState(newval);
-    if (newval === null) {
-      sessionStorage.removeItem("authorization");
+  const unauthenticate = async () => {
+    let result = false;
+    let url = process.env.REACT_APP_BACK_URL;
+    axios
+      .post(`${url}/api/auth/logout`)
+      .then((response) => {
+        if (response.data.message == "Successfully logged out") {
+          result = true;
+        }
+      })
+      .catch((e) => {
+        console.log("session finalizada");
+      });
+    setUser(null);
+    setIsAuthenticated(false);
+    setServerDates(null);
+    return result;
+  };
+
+  const getAEdates = async () => {
+    let result = false;
+    let url = process.env.REACT_APP_BACK_URL;
+    const response = await axios.post(`${url}/api/ae/aedates`);
+    if (!response.data.startDay) {
+      let u = User;
+      u.ae = false;
+      setUser(u);
     } else {
-      sessionStorage.setItem("authorization", JSON.stringify(Authorization));
-      //defaultSetupAxios();
+      let u = User;
+      u.ae = true;
+      setUser(u);
+      setServerDates({
+        startDay: new Date(response.data.startDay),
+        fifthMonth: new Date(response.data.fifthMonth),
+        sixthMonth: new Date(response.data.sixthMonth),
+        lastMonth: new Date(response.data.lastMonth),
+      });
+      result = true;
     }
+    return result;
   };
 
-  const setUser = (newval) => {
-    setUserState(newval);
-    if (newval === null) {
-      sessionStorage.removeItem("user");
-    } else {
-      sessionStorage.setItem("user", JSON.stringify(User));
-    }
-  };
-
-  const setServerDates = (newval) => {
-    setServerDatesState(newval);
-    if (newval === null) {
-      sessionStorage.removeItem("dates");
-    } else {
-      console.log("Date saved: " + JSON.stringify(serverDates));
-      sessionStorage.setItem("dates", JSON.stringify(serverDates));
-    }
-  };
-
+  // REFRESCO
   useEffect(() => {
     const storedUser = sessionStorage.getItem("user");
     const storedDates = sessionStorage.getItem("dates");
     const storedAuthorization = sessionStorage.getItem("authorization");
 
-    if (User == null && storedUser !== null) {
+    if (storedUser !== null) {
       setUserState(JSON.parse(storedUser));
-      setIsAuthenticated(User !== null);
+      setIsAuthenticated(true); // Actualiza el estado directamente
     }
 
-    if (serverDates == null && storedDates !== null) {
-      setServerDatesState(JSON.parse(storedDates));
+    if (storedDates !== null) {
+      let json = JSON.parse(storedDates);
+      setServerDates({
+        startDay: new Date(json.startDay),
+        fifthMonth: new Date(json.fifthMonth),
+        sixthMonth: new Date(json.sixthMonth),
+        lastMonth: new Date(json.lastMonth),
+      });
     }
 
-    if (Authorization == null && storedAuthorization !== null) {
+    if (storedAuthorization !== null) {
       setAuthorizationState(JSON.parse(storedAuthorization));
-      //defaultSetupAxios();
+      axios.defaults.headers.common["XSRF-TOKEN"] =
+        storedAuthorization.X_CSRF_TOKEN;
+      axios.defaults.headers.common["User-Agent"] = "FRONT-END-REACT";
+      axios.defaults.headers.common["Authorization"] =
+        storedAuthorization.type + storedAuthorization.token;
     }
-  }, [setIsAuthenticated, setUserState, setServerDatesState]);
+  }, []);
 
   return (
     <ServiceContext.Provider
@@ -111,6 +169,8 @@ export const ServiceProvider = ({ children }) => {
         setAuthorization,
         Authorization,
         authenticate,
+        unauthenticate,
+        getAEdates,
       }}
     >
       {children}
