@@ -10,7 +10,7 @@ import {
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
+import { useService } from "../contexts/ServiceContext";
 import {
   useCommonsString,
   useEmailChangeString,
@@ -39,7 +39,7 @@ const EmailChange = (props) => {
   const [icon, setIcon] = useState(false);
   const navigate = useNavigate();
 
-  const { User } = useAuth();
+  const { User } = useService();
   React.useEffect(() => {
     if (User === null) {
       navigate("/");
@@ -121,7 +121,7 @@ const EmailChange = (props) => {
       })
       .then((response) => {
         console.log(response);
-        if (response.data.message === "Código válido") {
+        if (response.data.message === "Email verified") {
           setError(false);
           navigate("/user/profile");
         } else {

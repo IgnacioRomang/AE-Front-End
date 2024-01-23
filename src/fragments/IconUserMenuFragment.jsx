@@ -16,7 +16,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import { stringAvatar } from "../utiles";
 
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
+import { useService } from "../contexts/ServiceContext";
 import axios from "axios";
 
 const settings = [{ label: "Cerrar sesión", icon: <ExitToAppIcon />, id: 5 }];
@@ -30,7 +30,7 @@ const IconUserMenu = (props) => {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate();
   const { setUser, setServerDates, setIsAuthenticated, User, isAuthenticated } =
-    useAuth();
+    useService();
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);

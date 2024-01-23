@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import React from "react";
-import { useAuth } from "../contexts/AuthContext";
+import { useService } from "../contexts/ServiceContext";
 import { useProfileString } from "../contexts/TextProvider";
 import ProfileAEdata from "../fragments/ProfileIconData";
 import Calendar from "../fragments/calendar/Calendar";
@@ -25,7 +25,7 @@ import { useNavigate } from "react-router-dom";
  * @returns {JSX.Element} The Profile component
  */
 const Profile = (props) => {
-  const { User, setUser, serverDates, setServerDates } = useAuth();
+  const { User, setUser, serverDates, setServerDates } = useService();
   const [loading, setLoading] = React.useState(true);
   const navigate = useNavigate();
 

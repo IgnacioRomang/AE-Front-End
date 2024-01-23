@@ -7,7 +7,7 @@ import { useUserBadgeString } from "../contexts/TextProvider";
 import { badgeUserAnchorStyle, boxUserbadgeStyle } from "../theme";
 
 function UserBadge({ username, isActive }) {
-  const statusColor = isActive ? "success" : "secondary";
+  const statusColor = isActive ? "success" : "error";
   const badgeString = useUserBadgeString();
   const statusText = isActive ? badgeString.status[0] : badgeString.status[1];
 

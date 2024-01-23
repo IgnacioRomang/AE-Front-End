@@ -259,14 +259,6 @@ const RegisterCard = () => {
     navigate("/auth/login");
   };
 
-  /**
-   * The `handleRestart` function sends a POST request to a specified URL with user registration data and
-   * handles the response.
-   *
-   * @param {string} url - the URL to send the POST request to
-   * @param {object} register_user - the user registration data to send in the POST request body
-   * @returns {void}
-   */
   const handleRestart = (url, register_user) => {
     axios
       .post(`${url}/api/auth/register`, register_user)

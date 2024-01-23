@@ -11,7 +11,7 @@ import {
 import axios from "axios";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
+import { useService } from "../contexts/ServiceContext";
 import {
   useCommonsString,
   useResetPasswordCardString,
@@ -30,7 +30,7 @@ const ResetPassword = () => {
   const labelbutton = useCommonsString();
   const label = useResetPasswordCardString();
   const nav = useNavigate();
-  const { User, setUser, setIsAuthenticated } = useAuth();
+  const { User, setUser, setIsAuthenticated } = useService();
   const ref = React.useRef(null);
   const [error, setError] = React.useState(false);
   /**

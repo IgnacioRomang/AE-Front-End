@@ -9,7 +9,7 @@ import UnRegisterCard from "./components/UnRegisterCard";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Login from "./components/LoginCard.jsx";
 import ResetPassword from "./components/ResetPassword.jsx";
-import { AuthProvider } from "./contexts/AuthContext.js";
+import { ServiceProvider } from "./contexts/ServiceContext.js";
 import ErrorPage from "./routes/error-page";
 import News from "./routes/news";
 import Root from "./routes/root";
@@ -23,7 +23,7 @@ import VerificationCard from "./components/VerifyEmail.jsx";
 function App() {
   return (
     <div className="App app-container">
-      <AuthProvider>
+      <ServiceProvider>
         <Router>
           <Routes>
             <Route path="/" element={<News />} errorElement={<ErrorPage />} />
@@ -50,7 +50,7 @@ function App() {
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </Router>
-      </AuthProvider>
+      </ServiceProvider>
     </div>
   );
 }

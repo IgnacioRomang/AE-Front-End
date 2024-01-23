@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useLoginString } from "../contexts/TextProvider.jsx";
 import { doformatCUIL } from "../utiles.js";
-import { useAuth } from "../contexts/AuthContext.js";
+import { useService } from "../contexts/ServiceContext.js";
 
 //TODO QUITAR TEMAS
 const LoginFragment = React.forwardRef((props, ref) => {
@@ -13,7 +13,7 @@ const LoginFragment = React.forwardRef((props, ref) => {
   const [loginFail, setLoginFail] = React.useState(false);
 
   const [formattedCUIL, setFormattedCUIL] = useState("");
-  const { authenticate } = useAuth();
+  const { authenticate } = useService();
   const handleInputChange = (event) => {
     const inputValue = event.target.value;
     let formatted = doformatCUIL(inputValue);
@@ -27,7 +27,14 @@ const LoginFragment = React.forwardRef((props, ref) => {
     setPassword(event.target.value);
   };
   const getData = () => {
-    return authenticate(formattedCUIL, passwordsd);
+    let user = authenticate(formattedCUIL, passwordsd);
+    if (user == null) {
+      setLoginFail(true);
+    } else {
+      setLoginFail(false);
+      setLoginSuccess(true);
+    }
+    return user;
   };
 
   React.useImperativeHandle(ref, () => ({

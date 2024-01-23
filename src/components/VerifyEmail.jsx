@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
+import { useService } from "../contexts/ServiceContext";
 
 /**
  * The `VerificationCard` component is a React component that displays a card with a loading spinner
@@ -22,7 +22,7 @@ const VerificationCard = ({ id, hash }) => {
   const [verificationResult, setVerificationResult] = useState(null);
   const navigate = useNavigate();
 
-  const { User } = useAuth();
+  const { User } = useService();
 
   /**
    * The function `verifyEmail` is an asynchronous function that sends a POST request to verify an email

@@ -22,7 +22,7 @@ import {
   linksStyle,
 } from "../theme.jsx";
 
-import { useAuth } from "../contexts/AuthContext.js";
+import { useService } from "../contexts/ServiceContext.js";
 import LoginFragment from "../fragments/LoginFragment.jsx";
 
 /**
@@ -33,7 +33,7 @@ import LoginFragment from "../fragments/LoginFragment.jsx";
 const Login = () => {
   const [labels, assets] = useLoginString();
   const commonlabels = useCommonsString();
-  const { setIsAuthenticated, setUser, User } = useAuth();
+  const { setIsAuthenticated, setUser, User } = useService();
 
   const [loginSuccess, setLoginSuccess] = React.useState(false);
   const navigate = useNavigate();
@@ -63,10 +63,8 @@ const Login = () => {
       setLoginSuccess(true);
       setLoginFail(false);
 
-      setIsAuthenticated(true);
-      setUser(loggin);
       await new Promise((resolve) => setTimeout(resolve, 500));
-      
+
       navigate("/user/profile", {
         replace: true,
       });

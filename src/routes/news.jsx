@@ -7,12 +7,12 @@ import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import PdfTable from "../components/PDFtable";
 import TopBar from "../components/TopBar";
-import { useAuth } from "../contexts/AuthContext";
+import { useService } from "../contexts/ServiceContext";
 import ScrollableComponent from "../fragments/ScrollableComponent";
 export default function News() {
   const [pdfs, setPdfs] = useState([null, null, null]);
   const [loading, setLoading] = useState(true);
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useService();
   const navigate = useNavigate();
 
   const handleHelpClick = () => {

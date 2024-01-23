@@ -26,7 +26,7 @@ import {
   centerButtonsStyle,
 } from "../theme.jsx";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext.js";
+import { useService } from "../contexts/ServiceContext.js";
 
 /**
  * @brief This component is used to unregister the user from the system.
@@ -40,7 +40,7 @@ const UnRegisterCard = () => {
   const [error, setError] = useState(false);
   const navigate = useNavigate();
 
-  const { User } = useAuth();
+  const { User } = useService();
   React.useEffect(() => {
     if (User === null) {
       navigate("/");

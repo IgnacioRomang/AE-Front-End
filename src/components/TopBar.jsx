@@ -13,7 +13,7 @@ import React from "react";
 import IconUserMenu from "../fragments/IconUserMenuFragment.jsx";
 
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext.js";
+import { useService } from "../contexts/ServiceContext.js";
 import { useTopBarString } from "../contexts/TextProvider.jsx";
 import {
   boxSMmenu,
@@ -34,7 +34,7 @@ import {
 const TopBar = (props) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [labels, assets] = useTopBarString();
-  const { User, serverDates, isAuthenticated } = useAuth();
+  const { User, serverDates, isAuthenticated } = useService();
   const navigate = useNavigate();
   const today = React.useMemo(() => new Date(), []);
   const [pages, setPages] = React.useState([
@@ -65,6 +65,8 @@ const TopBar = (props) => {
    * @param {object} prevState - previous state of the component
    */
   React.useEffect(() => {
+    if (serverDates == null) {
+    }
     setPages([
       { label: labels.opctions[0], id: 0, disabled: false },
       { label: labels.opctions[1], id: 3, disabled: false },
@@ -82,7 +84,7 @@ const TopBar = (props) => {
                 serverDates.fifthMonth.getMilliseconds() &&
               today.getMilliseconds() <=
                 serverDates.sixthMonth.getMilliseconds()
-            : false,
+            : true,
       },
     ]);
   }, [User, serverDates, labels, today]);

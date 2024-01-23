@@ -28,7 +28,7 @@ import {
 } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext.js";
+import { useService } from "../contexts/ServiceContext.js";
 import { cardRegisterStyle, centerButtonsStyle } from "../theme.jsx";
 
 /**fs
@@ -45,7 +45,7 @@ const RenewalCard = (props) => {
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
   const [expanded, setExpanded] = React.useState("null");
-  const { User } = useAuth();
+  const { User } = useService();
   const [stepData, setStepData] = useState([
     {
       name: "",

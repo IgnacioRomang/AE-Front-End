@@ -76,7 +76,9 @@ function InfoCard(props) {
         </Typography>
       </CardContent>
 
-      <CardActions>
+      <CardActions
+        sx={{ textAlign: "left", display: "flex", alignItems: "flex-start" }}
+      >
         <Button
           size="small"
           disabled={loading}

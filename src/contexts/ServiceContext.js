@@ -2,9 +2,9 @@
 import axios from "axios";
 import React, { createContext, useContext, useState, useEffect } from "react";
 
-const AuthContext = createContext();
+const ServiceContext = createContext();
 
-export const AuthProvider = ({ children }) => {
+export const ServiceProvider = ({ children }) => {
   const [User, setUserState] = useState(null);
   const [Authorization, setAuthorizationState] = useState(null);
   const [serverDates, setServerDatesState] = React.useState(null);
@@ -30,8 +30,6 @@ export const AuthProvider = ({ children }) => {
         setAuthorization(auth);
 
         if (response.data !== null) {
-          setLoginFail(false);
-          setLoginSuccess(true);
           let names = response.data.user.name.split(" ");
           user = {
             name: names[0],
@@ -40,12 +38,13 @@ export const AuthProvider = ({ children }) => {
             ae: false,
           };
         }
+        setIsAuthenticated(true);
+        setUser(user);
         axios.defaults.headers.common["XSRF-TOKEN"] = auth.X_CSRF_TOKEN;
         axios.defaults.headers.common["User-Agent"] = "FRONT-END-REACT";
         axios.defaults.headers.common["Authorization"] = auth.type + auth.token;
       })
       .catch((e) => {
-        setLoginFail(true);
         console.error("Error durante el inicio de sesión:", e);
       });
     return user;
@@ -59,12 +58,6 @@ export const AuthProvider = ({ children }) => {
       sessionStorage.setItem("authorization", JSON.stringify(Authorization));
       //defaultSetupAxios();
     }
-  };
-
-  const defaultSetupAxios = (auth) => {
-    axios.defaults.headers.common["XSRF-TOKEN"] = auth.X_CSRF_TOKEN;
-    axios.defaults.headers.common["User-Agent"] = "FRONT-END-REACT";
-    axios.defaults.headers.common["Authorization"] = auth.type + auth.token;
   };
 
   const setUser = (newval) => {
@@ -107,7 +100,7 @@ export const AuthProvider = ({ children }) => {
   }, [setIsAuthenticated, setUserState, setServerDatesState]);
 
   return (
-    <AuthContext.Provider
+    <ServiceContext.Provider
       value={{
         isAuthenticated,
         setIsAuthenticated,
@@ -117,13 +110,14 @@ export const AuthProvider = ({ children }) => {
         setServerDates,
         setAuthorization,
         Authorization,
+        authenticate,
       }}
     >
       {children}
-    </AuthContext.Provider>
+    </ServiceContext.Provider>
   );
 };
 
-export const useAuth = () => {
-  return useContext(AuthContext);
+export const useService = () => {
+  return useContext(ServiceContext);
 };
