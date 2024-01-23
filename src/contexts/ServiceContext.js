@@ -101,6 +101,21 @@ export const ServiceProvider = ({ children }) => {
     return result;
   };
 
+  const registerRequest = async (register_user) => {
+    let result = false;
+    let url = process.env.REACT_APP_BACK_URL;
+    axios
+      .post(`${url}/api/auth/register`, register_user)
+      .then((response) => {
+        console.log("Datos enviados correctamente");
+        result = true;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    return result;
+  };
+
   const getAEdates = async () => {
     let result = false;
     let url = process.env.REACT_APP_BACK_URL;
@@ -168,6 +183,7 @@ export const ServiceProvider = ({ children }) => {
         Authorization,
         authenticate,
         unauthenticate,
+        registerRequest,
         getAEdates,
       }}
     >

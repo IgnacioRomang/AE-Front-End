@@ -42,6 +42,7 @@ import {
   finalboxStyle,
   stepStyle,
 } from "../theme.jsx";
+import { useService } from "../contexts/ServiceContext.js";
 /**
  * The RegisterCard component is a multi-step form that allows users to register by providing various information.
  * The component uses state hooks to manage the current step, errors, skipped steps, and step data. It also uses refs to access data and handle errors in child components.
@@ -70,6 +71,7 @@ const RegisterCard = () => {
   const stepperRef = useRef(null);
 
   const dataRef = useRef(null);
+  const { registerRequest } = useService();
 
   const [stepData, setStepData] = useState([
     {
@@ -147,7 +149,7 @@ const RegisterCard = () => {
         return <FileAttachCard ref={dataRef} files={stepData[3].files} />;
       case 4:
         return (
-          <DatePlanAE first={false} ref={dataRef} email={stepData[2].email} />
+          <DatePlanAE first={true} ref={dataRef} email={stepData[2].email} />
         );
       case 5:
         if (!errors[5]) {
@@ -174,6 +176,22 @@ const RegisterCard = () => {
    */
   const isStepSkipped = (step) => {
     return skipped.has(step);
+  };
+
+  const handleRegister = async () => {
+    try {
+      let register_user = {
+        name: stepData[0].name + " " + stepData[0].lastName,
+        cuil: stepData[0].formattedCUIL,
+        email: stepData[2].email,
+        password: stepData[0].password,
+      };
+      let result = await registerRequest(register_user);
+      if (!result) {
+        updateErrorAtIndex(5, true);
+        setSendError(true);
+      }
+    } catch {}
   };
 
   /**
@@ -234,22 +252,7 @@ const RegisterCard = () => {
         newSkipped.delete(activeStep);
       }
       if (activeStep === 4) {
-        let url = process.env.REACT_APP_BACK_URL;
-        let register_user = {
-          name: stepData[0].name + " " + stepData[0].lastName,
-          cuil: stepData[0].formattedCUIL,
-          email: stepData[2].email,
-          password: stepData[0].password,
-        };
-        axios
-          .post(`${url}/api/auth/register`, register_user)
-          .then((response) => {
-            console.log("Datos enviados correctamente");
-          })
-          .catch((e) => {
-            updateErrorAtIndex(5, true);
-            setSendError(true);
-          });
+        handleRegister();
       }
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
       setSkipped(newSkipped);

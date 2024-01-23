@@ -90,55 +90,58 @@ const DatePlanAE = React.forwardRef((props, ref) => {
         {props.first ? labels.body[3] : labels.body[4]}
         {lastMonth.toLocaleDateString("en-GB")}.
       </Typography>
-      <Typography variant="h6">{labels.body[5]}</Typography>
-
-      <Typography variant="body1" paddingBottom={2}>
-        {labels.msgCode}
+      <Typography paddingBottom={3} variant="h6">
+        {labels.body[5]}
       </Typography>
-      {props.first && (
-        <TextField
-          label={labels.code}
-          size="small"
-          variant="outlined"
-          onChange={(event) => handleCode(event.target.value)}
-          disabled={icon}
-          value={codeEnter}
-          InputProps={{
-            endAdornment: !icon ? (
-              <>
-                <RefreshIcon
-                  style={{ cursor: "pointer" }}
-                  disabled={click}
-                  color={!click ? "primary" : "#d6dbdf "}
-                  onClick={() => {
-                    if (!click) {
-                      handleSendMail();
-                      setTimeLeft(30);
-                      const intervalId = setInterval(() => {
-                        setTimeLeft((prevTime) => prevTime - 1);
-                      }, 1000);
-                      setClick(true);
-                      setTimeout(() => {
-                        clearInterval(intervalId);
-                        setIcon(false);
-                        setClick(false);
-                      }, 31000);
-                    }
-                  }}
-                />
-                {click ? (
-                  <span style={{ marginLeft: "9px", color: "#d6dbdf " }}>
-                    {timeLeft}s
-                  </span>
-                ) : (
-                  <></>
-                )}
-              </>
-            ) : (
-              <CheckIcon />
-            ),
-          }}
-        />
+      {false && (
+        <>
+          <Typography variant="body1" paddingBottom={2}>
+            {labels.msgCode}
+          </Typography>
+          <TextField
+            label={labels.code}
+            size="small"
+            variant="outlined"
+            onChange={(event) => handleCode(event.target.value)}
+            disabled={icon}
+            value={codeEnter}
+            InputProps={{
+              endAdornment: !icon ? (
+                <>
+                  <RefreshIcon
+                    style={{ cursor: "pointer" }}
+                    disabled={click}
+                    color={!click ? "primary" : "#d6dbdf "}
+                    onClick={() => {
+                      if (!click) {
+                        handleSendMail();
+                        setTimeLeft(30);
+                        const intervalId = setInterval(() => {
+                          setTimeLeft((prevTime) => prevTime - 1);
+                        }, 1000);
+                        setClick(true);
+                        setTimeout(() => {
+                          clearInterval(intervalId);
+                          setIcon(false);
+                          setClick(false);
+                        }, 31000);
+                      }
+                    }}
+                  />
+                  {click ? (
+                    <span style={{ marginLeft: "9px", color: "#d6dbdf " }}>
+                      {timeLeft}s
+                    </span>
+                  ) : (
+                    <></>
+                  )}
+                </>
+              ) : (
+                <CheckIcon />
+              ),
+            }}
+          />
+        </>
       )}
     </Box>
   );
