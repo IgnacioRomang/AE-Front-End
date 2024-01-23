@@ -53,7 +53,7 @@ export const ServiceProvider = ({ children }) => {
           password: password,
         },
         {
-          withCredentials: true, // Agrega esta opción para incluir las credenciales
+          withCredentials: true,
         }
       )
       .then((response) => {
@@ -66,7 +66,7 @@ export const ServiceProvider = ({ children }) => {
             name: names[0],
             cuil: response.data.user.cuil,
             lastname: names[1],
-            ae: false,
+            ae: null,
           };
         }
         setIsAuthenticated(true);

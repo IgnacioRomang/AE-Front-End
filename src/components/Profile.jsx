@@ -31,6 +31,7 @@ const Profile = (props) => {
 
   const fetchData = async () => {
     try {
+      setLoading(true);
       let result = await getAEdates();
       setLoading(false);
     } catch (error) {
@@ -47,7 +48,9 @@ const Profile = (props) => {
       navigate("/");
     }
     if (serverDates === null) {
+      setLoading(true);
       fetchData();
+      setLoading(false);
     } else {
       setLoading(false);
     }
@@ -156,14 +159,16 @@ const Profile = (props) => {
             </Grid>
           ) : (
             <Grid item xs={12} md={6}>
-              <Alert padding={5} severity="warning">
-                <AlertTitle variant="h4"> {labels.warning.title} </AlertTitle>
-                {labels.warning.body.map((label, index) => (
-                  <Typography key={index} paddingTop={1}>
-                    {label}
-                  </Typography>
-                ))}
-              </Alert>
+              {User.ae !== null && (
+                <Alert padding={5} severity="warning">
+                  <AlertTitle variant="h4"> {labels.warning.title} </AlertTitle>
+                  {labels.warning.body.map((label, index) => (
+                    <Typography key={index} paddingTop={1}>
+                      {label}
+                    </Typography>
+                  ))}
+                </Alert>
+              )}
             </Grid>
           )}
         </Grid>

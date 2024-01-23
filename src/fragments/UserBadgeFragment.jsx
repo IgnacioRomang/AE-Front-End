@@ -5,9 +5,11 @@ import { Box } from "@mui/material";
 import { stringAvatar } from "../utiles";
 import { useUserBadgeString } from "../contexts/TextProvider";
 import { badgeUserAnchorStyle, boxUserbadgeStyle } from "../theme";
+import { grey } from "@mui/material/colors";
 
 function UserBadge({ username, isActive }) {
-  const statusColor = isActive ? "success" : "error";
+  const statusColor =
+    isActive !== null ? (isActive ? "success" : "error") : "secondary";
   const badgeString = useUserBadgeString();
   const statusText = isActive ? badgeString.status[0] : badgeString.status[1];
 
