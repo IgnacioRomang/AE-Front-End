@@ -66,7 +66,6 @@ const TopBar = (props) => {
    */
   React.useEffect(() => {
     if (serverDates !== null) {
-      console.log("DATES guardado: " + JSON.stringify(serverDates));
       setPages([
         { label: labels.opctions[0], id: 0, disabled: false },
         { label: labels.opctions[1], id: 3, disabled: false },

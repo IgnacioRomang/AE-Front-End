@@ -26,7 +26,6 @@ export const ServiceProvider = ({ children }) => {
     if (newval === null) {
       sessionStorage.removeItem("user");
     } else {
-      console.log("usuario guardado: " + JSON.stringify(newval));
       sessionStorage.setItem("user", JSON.stringify(newval));
     }
   };
@@ -36,7 +35,6 @@ export const ServiceProvider = ({ children }) => {
     if (newval === null) {
       sessionStorage.removeItem("dates");
     } else {
-      console.log("dates guardado: " + JSON.stringify(newval));
       sessionStorage.setItem("dates", JSON.stringify(newval));
     }
   };
@@ -139,7 +137,7 @@ export const ServiceProvider = ({ children }) => {
 
     if (storedDates !== null) {
       let json = JSON.parse(storedDates);
-      setServerDates({
+      setServerDatesState({
         startDay: new Date(json.startDay),
         fifthMonth: new Date(json.fifthMonth),
         sixthMonth: new Date(json.sixthMonth),

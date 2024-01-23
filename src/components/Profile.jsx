@@ -29,6 +29,15 @@ const Profile = (props) => {
   const [loading, setLoading] = React.useState(true);
   const navigate = useNavigate();
 
+  const fetchData = async () => {
+    try {
+      let result = await getAEdates();
+      setLoading(false);
+    } catch (error) {
+      // Manejar errores aquí
+      // ... (código existente)
+    }
+  };
   /**
    * The `React.useEffect` hook is used to perform side effects in a functional component. In this case,
    * it is used to fetch data from an API endpoint when the component mounts.
@@ -37,18 +46,7 @@ const Profile = (props) => {
     if (User === null) {
       navigate("/");
     }
-    if (serverDates == null) {
-      let url = process.env.REACT_APP_BACK_URL;
-
-      const fetchData = async () => {
-        try {
-          let result = await getAEdates();
-          setLoading(false);
-        } catch (error) {
-          // Manejar errores aquí
-          // ... (código existente)
-        }
-      };
+    if (serverDates === null) {
       fetchData();
     } else {
       setLoading(false);
