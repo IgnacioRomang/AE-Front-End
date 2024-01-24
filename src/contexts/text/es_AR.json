@@ -14,6 +14,10 @@
           "send": "Verificar codigo"
         }
       },
+      "emailverify": {
+        "success": "Email verificado exitosamente",
+        "error": "Error al verificar el email"
+      },
       "faq": {
         "title": "Preguntas Frecuentes"
       },

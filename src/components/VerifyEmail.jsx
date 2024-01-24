@@ -1,4 +1,5 @@
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { Stack } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -6,8 +7,9 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext";
+import { useEmailVerifyString } from "../contexts/TextProvider";
 
 /**
  * The `VerificationCard` component is a React component that displays a card with a loading spinner
@@ -17,12 +19,12 @@ import { useService } from "../contexts/ServiceContext";
  * @param {string} hash - The cryptographic hash of the email verification request.
  * @returns {JSX.Element} The `VerificationCard` component.
  */
-const VerificationCard = ({ id, hash }) => {
+const VerificationCard = (props) => {
   const [loading, setLoading] = useState(true);
-  const [verificationResult, setVerificationResult] = useState(null);
+  const [success, setSuccess] = useState(false);
+  const labels = useEmailVerifyString();
   const navigate = useNavigate();
-
-  const { User } = useService();
+  const { id, hash } = useParams();
 
   /**
    * The function `verifyEmail` is an asynchronous function that sends a POST request to verify an email
@@ -35,25 +37,24 @@ const VerificationCard = ({ id, hash }) => {
     try {
       const response = await axios.post(`/email/verify/${id}/${hash}`);
 
-      if (response.data.success) {
-        setVerificationResult("Email verificado exitosamente");
+      if (response.data.message) {
+        setSuccess(true);
       } else {
-        // Handle unsuccessful verification if needed
+        setSuccess(false);
       }
     } catch (error) {
       console.error("Error al verificar el email", error);
     } finally {
       await new Promise((resolve) => setTimeout(resolve, 5000));
       setLoading(false);
-    }
-  }, [id, hash, setVerificationResult, setLoading]);
-
-  React.useEffect(() => {
-    if (User === null) {
+      await new Promise((resolve) => setTimeout(resolve, 500));
       navigate("/");
     }
+  }, [id, hash, setLoading]);
+
+  React.useEffect(() => {
     verifyEmail();
-  }, [navigate, User, verifyEmail]);
+  }, [navigate, verifyEmail]);
 
   return (
     <Card>
@@ -66,9 +67,14 @@ const VerificationCard = ({ id, hash }) => {
             </Stack>
           ) : (
             <Stack spacing={2} sx={{ display: "flex", alignItems: "center" }}>
-              <CheckCircleOutlineIcon sx={{ fontSize: 40, color: "green" }} />
+              {success ? (
+                <CheckCircleOutlineIcon sx={{ fontSize: 40, color: "green" }} />
+              ) : (
+                <HighlightOffIcon sx={{ fontSize: 40, color: "red" }} />
+              )}
+
               <Typography paddingTop={3} variant="body1">
-                {verificationResult}
+                {success ? labels.success : labels.error}
               </Typography>
             </Stack>
           )}

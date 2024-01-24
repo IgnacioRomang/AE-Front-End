@@ -45,7 +45,10 @@ function App() {
               <Route path="profile" element={<Profile />} />
               <Route path="reset-password" element={<ResetPassword />} />
               <Route path="email-change" element={<EmailChange />} />
-              <Route path="verify-email" element={<VerificationCard />} />
+              <Route
+                path="verify-email/:id/:hash"
+                element={<VerificationCard />}
+              />
             </Route>
             <Route path="*" element={<ErrorPage />} />
           </Routes>

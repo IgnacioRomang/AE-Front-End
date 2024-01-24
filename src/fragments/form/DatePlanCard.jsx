@@ -11,7 +11,7 @@ displays information about dates and allows the user to enter a code. */
 const DatePlanAE = React.forwardRef((props, ref) => {
   const { startDay, fthMonth, sixMonth, lastMonth } = getDates();
   const labels = useDatePlanAEString();
-  const [codeverf, setCodeverf] = React.useState(false);
+  const [codeverf, setCodeverf] = React.useState(true);
   const [codeEnter, setCodeEnter] = React.useState("");
   const [icon, setIcon] = React.useState(false);
   const [click, setClick] = React.useState(false);

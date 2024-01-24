@@ -191,7 +191,9 @@ const RegisterCard = () => {
         updateErrorAtIndex(5, true);
         setSendError(true);
       }
-    } catch {}
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   /**

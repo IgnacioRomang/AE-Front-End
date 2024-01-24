@@ -12,6 +12,9 @@ export function useRegisterCardString() {
   return useContext(baseTextContext).public.components.registerCard;
 }
 
+export function useEmailVerifyString() {
+  return useContext(baseTextContext).public.components.emailverify;
+}
 export function useRenewalCardString() {
   return useContext(baseTextContext).public.components.renewalcard;
 }
