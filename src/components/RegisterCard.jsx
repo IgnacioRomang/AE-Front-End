@@ -264,18 +264,6 @@ const RegisterCard = () => {
     navigate("/auth/login");
   };
 
-  const handleRestart = (url, register_user) => {
-    axios
-      .post(`${url}/api/auth/register`, register_user)
-      .then((response) => {
-        console.log("Datos enviados correctamente");
-      })
-      .catch((e) => {
-        updateErrorAtIndex(5, true);
-        setSendError(true);
-      });
-  };
-
   return (
     <>
       <Card sx={cardRegisterStyle}>
@@ -312,7 +300,7 @@ const RegisterCard = () => {
                   <Button
                     size="small"
                     disabled={activeStep === 0}
-                    onClick={handleRestart}
+                    onClick={handleRegister}
                     sx={{ mr: 1 }}
                   >
                     {bottonslabel.button.restart}

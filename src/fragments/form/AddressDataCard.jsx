@@ -1,7 +1,9 @@
-import { CardContent, Grid, TextField } from "@mui/material";
+import { CardContent, Grid, Link, TextField, Typography } from "@mui/material";
 import React, { useCallback, useImperativeHandle, useState } from "react";
 import { useAddressDataCardString } from "../../contexts/TextProvider.jsx";
 import { doApartment, doFloor, doPostalCode } from "../../utiles.js";
+import { useService } from "../../contexts/ServiceContext.js";
+import { blue } from "@mui/material/colors";
 
 /**
  * The `AddressDataCard` component is a form component that displays fields for entering address data such as street address, floor, apartment, province, city, and postal code.
@@ -17,7 +19,7 @@ import { doApartment, doFloor, doPostalCode } from "../../utiles.js";
 const AddressDataCard = React.forwardRef(
   ({ address, floor, apartment, province, city, postalCode }, ref) => {
     const labels = useAddressDataCardString();
-
+    const { get_province_names, get_citys_name } = useService();
     const [userData, setUserData] = useState({
       address,
       floor,
@@ -26,7 +28,12 @@ const AddressDataCard = React.forwardRef(
       city,
       postalCode,
     });
-
+    const [suggestions, setSuggestions] = useState({
+      province: [],
+      city: [],
+      postalCode: [],
+      address: [],
+    });
     const [errors, setErrors] = useState({
       address: false,
       province: false,
@@ -40,19 +47,62 @@ const AddressDataCard = React.forwardRef(
      * @param {string} field - The field name.
      * @param {function} formatter - The function used to format the value.
      */
-    const handleChange = (event, field, formatter) => {
+    const handleChange = async (event, field, formatter) => {
       const { value } = event.target;
       setUserData((prevUserData) => ({
         ...prevUserData,
         [field]: formatter(value),
       }));
+
+      if (
+        field === "province" ||
+        field === "city" ||
+        field === "postalCode" ||
+        field === "address"
+      ) {
+        const newSuggestions = await getSuggestions(field, value);
+        setSuggestions((prevSuggestions) => ({
+          ...prevSuggestions,
+          [field]: newSuggestions,
+        }));
+      }
     };
 
+    const getSuggestions = async (field, value) => {
+      let fields = [];
+      switch (field) {
+        default:
+          fields = [];
+          break;
+        case "province":
+          fields = await get_province_names(value);
+          break;
+        case "city":
+          fields = await get_citys_name(userData.province, value);
+          break;
+        case "address":
+          break;
+      }
+      return fields
+        .filter((suggestion) => suggestion.toLowerCase())
+        .slice(0, 3);
+    };
+
+    const handleSuggestionClick = (field, suggestion) => {
+      setUserData((prevUserData) => ({
+        ...prevUserData,
+        [field]: suggestion,
+      }));
+      setSuggestions((prevSuggestions) => ({
+        ...prevSuggestions,
+        [field]: [],
+      }));
+    };
     /**
- * The `handleErrors` function is a callback function created using the `useCallback` hook. It is
-responsible for validating the user data and updating the `errors` state accordingly.
- * @returns {boolean} - Returns a boolean indicating whether any of the user data is invalid.
- */
+      * The `handleErrors` function is a callback function created using the `useCallback` hook. It is
+        responsible for validating the user data and updating the `errors` state accordingly.
+      * @returns {boolean} - Returns a boolean indicating whether any of the user data is invalid.
+    */
     const handleErrors = useCallback(() => {
       const { address, province, city, postalCode } = userData;
 
@@ -85,7 +135,122 @@ responsible for validating the user data and updating the `errors` state accordi
     return (
       <CardContent>
         <Grid container spacing={3} padding={3}>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={3}>
+            <TextField
+              id="province"
+              label={labels.province}
+              required
+              size="small"
+              disabled={false}
+              error={errors.province}
+              onChange={(event) =>
+                handleChange(event, "province", (value) => value)
+              }
+              variant="standard"
+              value={userData.province}
+              InputLabelProps={{
+                shrink: Boolean(userData.province !== ""),
+              }}
+            />
+            {suggestions.province.length > 0 && (
+              <>
+                <Typography
+                  variant="body1"
+                  style={{ alignItems: "left", fontSize: "10px" }}
+                >
+                  {labels.suggest}
+                </Typography>
+                <div style={{ display: "inline-flex", alignItems: "center" }}>
+                  {suggestions.province.map((suggestion, index) => (
+                    <React.Fragment key={index}>
+                      <Typography
+                        variant="body1"
+                        style={{
+                          fontSize: "12px",
+                          color: blue[500],
+                          //marginLeft: index > 0 ? "4px" : "0",
+                        }}
+                        onClick={() =>
+                          handleSuggestionClick("province", suggestion)
+                        }
+                      >
+                        {suggestion}
+                        {index < suggestions.province.length - 1 && (
+                          <span>, </span>
+                        )}
+                      </Typography>
+                    </React.Fragment>
+                  ))}
+                </div>
+              </>
+            )}
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              id="city"
+              label={labels.city}
+              required
+              disabled={false}
+              size="small"
+              error={errors.city}
+              onChange={(event) =>
+                handleChange(event, "city", (value) => value)
+              }
+              variant="standard"
+              value={userData.city}
+              InputLabelProps={{
+                shrink: Boolean(userData.city !== ""),
+              }}
+            />
+            {suggestions.city.length > 0 && (
+              <>
+                <Typography
+                  variant="body1"
+                  style={{ alignItems: "left", fontSize: "10px" }}
+                >
+                  {labels.suggest}
+                </Typography>
+                <div style={{ display: "inline-flex", alignItems: "center" }}>
+                  {suggestions.city.map((suggestion, index) => (
+                    <React.Fragment key={index}>
+                      <Typography
+                        variant="body1"
+                        style={{
+                          fontSize: "12px",
+                          color: blue[500],
+                          //marginLeft: index > 0 ? "4px" : "0",
+                        }}
+                        onClick={() =>
+                          handleSuggestionClick("city", suggestion)
+                        }
+                      >
+                        {suggestion.split(",")[0]}
+                        {index < suggestions.city.length - 1 && <span>, </span>}
+                      </Typography>
+                    </React.Fragment>
+                  ))}
+                </div>
+              </>
+            )}
+          </Grid>
+          <Grid item xs={12} sm={3}>
+            <TextField
+              id="postalCode"
+              label={labels.postalCode}
+              disabled={false}
+              error={errors.postalCode}
+              size="small"
+              onChange={(event) =>
+                handleChange(event, "postalCode", doPostalCode)
+              }
+              variant="standard"
+              value={userData.postalCode}
+              InputLabelProps={{
+                shrink: Boolean(userData.postalCode !== ""),
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={7}>
             <TextField
               id="address"
               label={labels.street}
@@ -103,7 +268,7 @@ responsible for validating the user data and updating the `errors` state accordi
               }}
             />
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={2}>
             <TextField
               id="floor"
               label={labels.floor}
@@ -117,7 +282,7 @@ responsible for validating the user data and updating the `errors` state accordi
               }}
             />
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={2}>
             <TextField
               id="apartment"
               label={labels.apartment}
@@ -130,59 +295,6 @@ responsible for validating the user data and updating the `errors` state accordi
               value={userData.apartment}
               InputLabelProps={{
                 shrink: Boolean(userData.apartment !== ""),
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <TextField
-              id="province"
-              label={labels.province}
-              required
-              size="small"
-              disabled={false}
-              error={errors.province}
-              onChange={(event) =>
-                handleChange(event, "province", (value) => value)
-              }
-              variant="standard"
-              value={userData.province}
-              InputLabelProps={{
-                shrink: Boolean(userData.province !== ""),
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <TextField
-              id="city"
-              label={labels.city}
-              required
-              disabled={false}
-              size="small"
-              error={errors.city}
-              onChange={(event) =>
-                handleChange(event, "city", (value) => value)
-              }
-              variant="standard"
-              value={userData.city}
-              InputLabelProps={{
-                shrink: Boolean(userData.city !== ""),
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <TextField
-              id="postalCode"
-              label={labels.postalCode}
-              disabled={false}
-              error={errors.postalCode}
-              size="small"
-              onChange={(event) =>
-                handleChange(event, "postalCode", doPostalCode)
-              }
-              variant="standard"
-              value={userData.postalCode}
-              InputLabelProps={{
-                shrink: Boolean(userData.postalCode !== ""),
               }}
             />
           </Grid>

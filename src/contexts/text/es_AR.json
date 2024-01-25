@@ -237,6 +237,7 @@
           }
         },
         "addressdatacard": {
+          "suggest": "Sugeridos: ",
           "street": "Domicilio",
           "floor": "Piso",
           "apartment": "Departamento",

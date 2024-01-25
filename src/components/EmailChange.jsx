@@ -39,7 +39,8 @@ const EmailChange = (props) => {
   const [icon, setIcon] = useState(false);
   const navigate = useNavigate();
 
-  const { User } = useService();
+  const { User, send_confirmation_code, send_confirmation_email } =
+    useService();
   React.useEffect(() => {
     if (User === null) {
       navigate("/");
@@ -51,16 +52,8 @@ const EmailChange = (props) => {
    *
    * @returns {void}
    */
-  const sendEmail = () => {
-    let url = process.env.REACT_APP_BACK_URL;
-    axios
-      .post(url + "/api/auth/email/verify/send", {
-        password: password,
-        email: email,
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+  const sendEmail = async () => {
+    await send_confirmation_email();
   };
 
   /**
@@ -112,25 +105,14 @@ const EmailChange = (props) => {
       setErrorEmail(true);
     }
   };
-  const handleSend = () => {
-    let url = process.env.REACT_APP_BACK_URL;
-    axios
-      .post(url + "/api/auth/email/verify", {
-        code: code,
-        email: email,
-      })
-      .then((response) => {
-        console.log(response);
-        if (response.data.message === "Email verified") {
-          setError(false);
-          navigate("/user/profile");
-        } else {
-          setError(true);
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+  const handleSend = async () => {
+    let response = await send_confirmation_code();
+    if (response) {
+      setError(false);
+      navigate("/user/profile");
+    } else {
+      setError(true);
+    }
   };
 
   return (
@@ -148,6 +130,7 @@ const EmailChange = (props) => {
           <TextField
             variant="standard"
             value={email}
+            autoComplete="off"
             disabled={send}
             error={errorEmail}
             onChange={handleChangeEmail}
@@ -157,6 +140,7 @@ const EmailChange = (props) => {
         {!send && (
           <Grid item>
             <TextField
+              autoComplete="off"
               variant="standard"
               error={errorEmail}
               value={reemail}
@@ -168,7 +152,7 @@ const EmailChange = (props) => {
         {!send && (
           <Grid item>
             <TextField
-              autoComplete="off"
+              autoComplete="new-password"
               variant="standard"
               error={errorEmail}
               value={password}

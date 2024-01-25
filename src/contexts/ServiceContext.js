@@ -39,6 +39,67 @@ export const ServiceProvider = ({ children }) => {
     }
   };
 
+  //NORMAL DATA
+
+  const get_province_names = async (province) => {
+    try {
+      // Realizar la solicitud utilizando la instancia de Axios
+      const response = await axios.get(
+        process.env.REACT_APP_GEOREF_URL + "/provincias",
+        {
+          params: {
+            nombre: province,
+            campos: "estandar",
+            aplanar: true,
+          },
+        }
+      );
+      // Verificar la respuesta y mapear las provincias
+      if (response.data.cantidad > 0) {
+        const list = response.data.provincias.map(
+          (elemento) => elemento.nombre
+        );
+        return list.sort();
+      } else {
+        console.error("No se encontraron provincias.");
+        return [];
+      }
+    } catch (error) {
+      console.error("Error al obtener las provincias:", error);
+      return [];
+    }
+  };
+
+  const get_citys_name = async (province, city) => {
+    try {
+      // Realizar la solicitud utilizando la instancia de Axios
+      const response = await axios.get(
+        process.env.REACT_APP_GEOREF_URL + "/localidades",
+        {
+          params: {
+            provincia: province,
+            nombre: city,
+            campos: "estandar",
+            aplanar: true,
+          },
+        }
+      );
+      // Verificar la respuesta y mapear las provincias
+      if (response.data.cantidad > 0) {
+        const list = response.data.localidades.map(
+          (elemento) => elemento.nombre + ", " + elemento.departamento_nombre
+        );
+        return list.sort();
+      } else {
+        console.error("No se encontraron localidades.");
+        return [];
+      }
+    } catch (error) {
+      console.error("Error al obtener las localidades:", error);
+      return [];
+    }
+  };
+
   // AXIOS
   const authenticate = async (username, password) => {
     let url = process.env.REACT_APP_BACK_URL;
@@ -116,6 +177,7 @@ export const ServiceProvider = ({ children }) => {
     return result;
   };
 
+  // TODO CAMBIAR NOMBRE
   const getAEdates = async () => {
     let result = false;
     let url = process.env.REACT_APP_BACK_URL;
@@ -139,6 +201,37 @@ export const ServiceProvider = ({ children }) => {
     return result;
   };
 
+  const send_confirmation_code = async (code, email) => {
+    let result = false;
+    let url = process.env.REACT_APP_BACK_URL;
+    axios
+      .post(url + "/api/auth/email/verify", {
+        code: code,
+        email: email,
+      })
+      .then((response) => {
+        if (response.data.message === "Email verified") {
+          result = true;
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    return result;
+  };
+  const send_confirmation_email = async (password, email) => {
+    //let result = false;
+    let url = process.env.REACT_APP_BACK_URL;
+    await axios
+      .post(url + "/api/auth/email/verify/send", {
+        password: password,
+        email: email,
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    //return result;
+  };
   // REFRESCO
   useEffect(() => {
     const storedUser = sessionStorage.getItem("user");
@@ -185,6 +278,10 @@ export const ServiceProvider = ({ children }) => {
         unauthenticate,
         registerRequest,
         getAEdates,
+        send_confirmation_email,
+        send_confirmation_code,
+        get_province_names,
+        get_citys_name,
       }}
     >
       {children}

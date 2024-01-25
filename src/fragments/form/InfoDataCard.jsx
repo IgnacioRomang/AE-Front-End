@@ -17,6 +17,7 @@ import {
 } from "../../contexts/TextProvider.jsx";
 import { centeringStyles } from "../../theme.jsx";
 import { datecontrol, doformatCUIL, testpassword } from "../../utiles.js";
+import { useService } from "../../contexts/ServiceContext.js";
 
 const genders = [
   { label: "Femenino", id: 1 },
@@ -29,7 +30,6 @@ const InfoDataCard = React.forwardRef((props, ref) => {
   const labels = useInfoDataCardString();
 
   const labelAlert = useResetPasswordCardString().alert;
-
   const [userData, setUserData] = useState({
     name: props.name,
     lastName: props.lastName,
@@ -267,6 +267,8 @@ const InfoDataCard = React.forwardRef((props, ref) => {
                     type="password"
                     error={errors.password}
                     value={userData.password}
+                    //TODO QUITAR AUTO COMPLETE ESTA COMENTADO PARA AGILIZAR EL REGISTRO EN PRUEBAS
+                    //autoComplete="new-password"
                     onChange={(event) =>
                       handleInputChange("password", event.target.value)
                     }
@@ -284,6 +286,7 @@ const InfoDataCard = React.forwardRef((props, ref) => {
                     error={errors.password}
                     size="small"
                     value={passrep}
+                    //autoComplete="new-password"
                     type="password"
                     onChange={(event) => {
                       setPassRep(event.target.value);
