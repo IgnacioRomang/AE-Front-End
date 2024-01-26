@@ -53,7 +53,7 @@ const EmailChange = (props) => {
    * @returns {void}
    */
   const sendEmail = async () => {
-    await send_confirmation_email();
+    await send_confirmation_email(password, email);
   };
 
   /**
@@ -106,7 +106,7 @@ const EmailChange = (props) => {
     }
   };
   const handleSend = async () => {
-    let response = await send_confirmation_code();
+    let response = await send_confirmation_code(code, email);
     if (response) {
       setError(false);
       navigate("/user/profile");

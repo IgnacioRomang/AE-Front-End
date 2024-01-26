@@ -204,7 +204,7 @@ export const ServiceProvider = ({ children }) => {
   const send_confirmation_code = async (code, email) => {
     let result = false;
     let url = process.env.REACT_APP_BACK_URL;
-    axios
+    await axios
       .post(url + "/api/auth/email/verify", {
         code: code,
         email: email,
