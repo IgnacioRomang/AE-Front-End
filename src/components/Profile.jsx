@@ -28,11 +28,11 @@ const Profile = (props) => {
   const { User, getAEdates, serverDates } = useService();
   const [loading, setLoading] = React.useState(true);
   const navigate = useNavigate();
-
   const fetchData = async () => {
     try {
       setLoading(true);
       let result = await getAEdates();
+
       setLoading(false);
     } catch (error) {
       // Manejar errores aquí
@@ -90,31 +90,28 @@ const Profile = (props) => {
                     spacing={4}
                     sx={{ justifyContent: "center" }}
                   >
-                    {[0, 1].map((index) => (
-                      <Grid key={index} item xs={12} sm={6} md={5}>
-                        {loading ? (
-                          <Skeleton
-                            variant="rounded"
-                            width={200}
-                            height={150}
-                          />
-                        ) : (
-                          <Calendar
-                            intStart={
-                              serverDates[
-                                index === 1 ? "fifthMonth" : "startDay"
-                              ]
-                            }
-                            intEnd={
-                              serverDates[
-                                index === 1 ? "sixthMonth" : "startDay"
-                              ]
-                            }
-                            msg={labels.msg[index]}
-                          />
-                        )}
-                      </Grid>
-                    ))}
+                    <Grid key={0} item xs={12} sm={6} md={5}>
+                      {loading ? (
+                        <Skeleton variant="rounded" width={200} height={150} />
+                      ) : (
+                        <Calendar
+                          intStart={serverDates.startDay}
+                          intEnd={serverDates.startDay}
+                          msg={labels.msg[0]}
+                        />
+                      )}
+                    </Grid>
+                    <Grid key={1} item xs={12} sm={6} md={5}>
+                      {loading ? (
+                        <Skeleton variant="rounded" width={200} height={150} />
+                      ) : (
+                        <Calendar
+                          intStart={serverDates.fifthMonth}
+                          intEnd={serverDates.sixthMonth}
+                          msg={labels.msg[1]}
+                        />
+                      )}
+                    </Grid>
                   </Grid>
                   <Grid
                     container
@@ -123,8 +120,9 @@ const Profile = (props) => {
                     spacing={4}
                     sx={centeringStyles}
                   >
-                    {[2, 3].map((index) => (
-                      <Grid key={index} item xs={12} sm={6} md={5}>
+                    {serverDates.fifthMonth.getMonth() !==
+                      serverDates.sixthMonth.getMonth() && (
+                      <Grid key={2} item xs={12} sm={6} md={5}>
                         {loading ? (
                           <Skeleton
                             variant="rounded"
@@ -133,26 +131,26 @@ const Profile = (props) => {
                           />
                         ) : (
                           <Calendar
-                            key={index}
-                            intStart={
-                              index === 2
-                                ? new Date(
-                                    serverDates.sixthMonth.getFullYear(),
-                                    serverDates.sixthMonth.getMonth(),
-                                    1
-                                  )
-                                : serverDates["lastMonth"]
-                            }
-                            intEnd={
-                              index === 2
-                                ? serverDates.sixthMonth
-                                : serverDates["lastMonth"]
-                            }
-                            msg={labels.msg[index - 1]}
+                            key={3}
+                            intStart={serverDates.sixthMonth}
+                            intEnd={serverDates.fifthMonth}
+                            msg={labels.msg[1]}
                           />
                         )}
                       </Grid>
-                    ))}
+                    )}
+                    <Grid key={3} item xs={12} sm={6} md={5}>
+                      {loading ? (
+                        <Skeleton variant="rounded" width={200} height={150} />
+                      ) : (
+                        <Calendar
+                          key={3}
+                          intStart={serverDates.lastMonth}
+                          intEnd={serverDates.lastMonth}
+                          msg={labels.msg[2]}
+                        />
+                      )}
+                    </Grid>
                   </Grid>
                 </Grid>
               </Paper>

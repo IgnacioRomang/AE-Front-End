@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { blue, grey, red } from "@mui/material/colors";
 import React from "react";
+import { imgLogoLoteStyle } from "../../theme";
 
 /**
  * The `Calendar` component is a React component that displays a calendar table. It takes three props
@@ -42,17 +43,47 @@ const Calendar = ({ intStart, intEnd, msg }) => {
    * Returns a table cell for a given date.
    *
    * @param {Date} day - The date to display in the table cell
-   * @param {number} rowIndex - The index of the row containing the table cell
-   * @param {number} cellIndex - The index of the table cell within the row
-   * @returns {React.ReactElement} A table cell containing the given date
+   * @param {number} rowIndex - The index of the roisSameMOnthining the given date
    */
   const getTableCel = (day, rowIndex, cellIndex) => {
     let msg_active = false;
+    let isToday = day == intStart.getDate() || day == intEnd.getDate();
     let sizes = false;
     let range_start = false;
     let range_end = false;
     let color = grey[50];
 
+    if (intStart === intEnd) {
+      //Es un inicio o final
+      if (day === intEnd.getDate()) {
+        color = blue[200];
+        sizes = true;
+        msg_active = true;
+      }
+    } else {
+      // tramos
+      if (intStart.getMonth() === intEnd.getMonth()) {
+        color =
+          day >= intStart.getDate() && day <= intEnd.getDate()
+            ? red[200]
+            : grey[50];
+        range_start = day == intStart.getDate();
+        range_end = day == intEnd.getDate();
+      } else if (intStart < intEnd) {
+        // periodo de un mes
+        if (day >= intStart.getDate()) {
+          color = red[200];
+          range_start = isToday;
+        }
+      } else {
+        if (day <= intStart.getDate()) {
+          color = red[200];
+          range_end = isToday;
+        }
+        //tramo de dos meses
+      }
+    }
+    /*
     if (intStart === intEnd) {
       if (day != null && day === intEnd.getDate()) {
         color = blue[200];
@@ -61,9 +92,19 @@ const Calendar = ({ intStart, intEnd, msg }) => {
       }
     } else {
       const isExclusionOfFirstCal = intStart.getMonth() < intEnd.getMonth();
+      const isSameMonth = intStart.getMonth() === intEnd.getMonth();
       range_start = intStart.getDate() === day && isExclusionOfFirstCal;
       range_end = intEnd.getDate() === day && !isExclusionOfFirstCal;
-      if (
+      if (isSameMonth) {
+        if (
+          day != null &&
+          intStart.getDate() <= day &&
+          intEnd.getDate() >= day
+        ) {
+          color = red[200];
+          msg_active = true;
+        }
+      } else if (
         isExclusionOfFirstCal
           ? day != null && day >= intStart.getDate()
           : day == null || day <= intEnd.getDate()
@@ -71,7 +112,7 @@ const Calendar = ({ intStart, intEnd, msg }) => {
         color = red[200];
         msg_active = true;
       }
-    }
+    }*/
 
     return (
       <>

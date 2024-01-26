@@ -32,6 +32,7 @@ export const ServiceProvider = ({ children }) => {
 
   const setServerDates = (newval) => {
     setServerDatesState(newval);
+    console.log(newval);
     if (newval === null) {
       sessionStorage.removeItem("dates");
     } else {
