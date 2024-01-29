@@ -44,7 +44,6 @@ export const ServiceProvider = ({ children }) => {
 
   const get_province_names = async (province) => {
     try {
-      // Realizar la solicitud utilizando la instancia de Axios
       const response = await axios.get(
         process.env.REACT_APP_GEOREF_URL + "/provincias",
         {
@@ -55,7 +54,6 @@ export const ServiceProvider = ({ children }) => {
           },
         }
       );
-      // Verificar la respuesta y mapear las provincias
       if (response.data.cantidad > 0) {
         const list = response.data.provincias.map(
           (elemento) => elemento.nombre
@@ -73,7 +71,6 @@ export const ServiceProvider = ({ children }) => {
 
   const get_citys_name = async (province, city) => {
     try {
-      // Realizar la solicitud utilizando la instancia de Axios
       const response = await axios.get(
         process.env.REACT_APP_GEOREF_URL + "/localidades",
         {
@@ -85,10 +82,9 @@ export const ServiceProvider = ({ children }) => {
           },
         }
       );
-      // Verificar la respuesta y mapear las provincias
       if (response.data.cantidad > 0) {
         const list = response.data.localidades.map(
-          (elemento) => elemento.nombre + ", " + elemento.departamento_nombre
+          (elemento) => elemento.nombre + "," + elemento.departamento_nombre
         );
         return list.sort();
       } else {
@@ -100,6 +96,44 @@ export const ServiceProvider = ({ children }) => {
       return [];
     }
   };
+
+  const get_address_names = async (province, city, address)=>{
+    try {
+      let aux = city.split(",");
+      const response = await axios.get(
+        process.env.REACT_APP_GEOREF_URL + "/direcciones",
+        {
+          params: {
+            direccion: address,
+            provincia: province,
+            departamento: aux[1],
+            localidad: aux[0],
+            campos: "basico",
+            aplanar: true,
+          },
+        }
+      );
+      if (response.data.cantidad > 0) {
+        const list = response.data.direcciones.map(
+          (elemento) => {
+            const calleNombre = elemento.calle_nombre.charAt(0).toUpperCase() + elemento.calle_nombre.slice(1).toLowerCase();
+            const alturaValor = elemento.altura_valor ? elemento.altura_valor : "NUMERO";
+            return calleNombre + ", " + alturaValor;
+          }
+        );
+        const uniqueList = list.filter((element, index, self) =>
+          index === self.indexOf(element)
+        );
+        return uniqueList.sort();
+      } else {
+        console.error("No se encontraron direcciones.");
+        return [];
+      }
+    } catch (error) {
+      console.error("Error al obtener las direcciones:", error);
+      return [];
+    }
+  }
 
   // AXIOS
   const authenticate = async (username, password) => {
@@ -220,6 +254,7 @@ export const ServiceProvider = ({ children }) => {
       });
     return result;
   };
+
   const send_confirmation_email = async (password, email) => {
     //let result = false;
     let url = process.env.REACT_APP_BACK_URL;
@@ -233,6 +268,18 @@ export const ServiceProvider = ({ children }) => {
       });
     //return result;
   };
+
+  const send_confirmation_verify = async (id, hash) => {
+    let url = process.env.REACT_APP_BACK_URL;
+    const response = await axios.get(`${url}/api/auth/email/verify-link`,
+    {
+      params: {
+        hash: hash,
+        id: id,
+      },
+    });
+    return response.data.message !== null;
+  }
   // REFRESCO
   useEffect(() => {
     const storedUser = sessionStorage.getItem("user");
@@ -283,6 +330,8 @@ export const ServiceProvider = ({ children }) => {
         send_confirmation_code,
         get_province_names,
         get_citys_name,
+        get_address_names,
+        send_confirmation_verify
       }}
     >
       {children}

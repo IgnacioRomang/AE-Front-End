@@ -19,7 +19,7 @@ import { blue } from "@mui/material/colors";
 const AddressDataCard = React.forwardRef(
   ({ address, floor, apartment, province, city, postalCode }, ref) => {
     const labels = useAddressDataCardString();
-    const { get_province_names, get_citys_name } = useService();
+    const { get_province_names, get_citys_name,get_address_names } = useService();
     const [userData, setUserData] = useState({
       address,
       floor,
@@ -81,6 +81,7 @@ const AddressDataCard = React.forwardRef(
           fields = await get_citys_name(userData.province, value);
           break;
         case "address":
+          fields = await get_address_names(userData.province,userData.city, value);
           break;
       }
       return fields
@@ -107,7 +108,7 @@ const AddressDataCard = React.forwardRef(
       const { address, province, city, postalCode } = userData;
 
       const errors = {
-        address: !address.trim(),
+        address: address.trim() === "" || isNaN(parseInt(address.replace(/\s/g, '').split(",")[1])),
         province: !province.trim(),
         city: !city.trim(),
         postalCode: postalCode.trim() ? postalCode.length !== 4 : false,
@@ -267,6 +268,36 @@ const AddressDataCard = React.forwardRef(
                 shrink: Boolean(userData.address !== ""),
               }}
             />
+            {suggestions.address.length > 0 && (
+              <>
+                <Typography
+                  variant="body1"
+                  style={{ alignItems: "left", fontSize: "10px" }}
+                >
+                  {labels.suggest}
+                </Typography>
+                <div style={{ display: "inline-flex", alignItems: "center" }}>
+                  {suggestions.address.map((suggestion, index) => (
+                    <React.Fragment key={index}>
+                      <Typography
+                        variant="body1"
+                        style={{
+                          fontSize: "12px",
+                          color: blue[500],
+                          //marginLeft: index > 0 ? "4px" : "0",
+                        }}
+                        onClick={() =>
+                          handleSuggestionClick("address", suggestion)
+                        }
+                      >
+                        {suggestion.split(",")[0]}
+                        {index < suggestions.address.length - 1 && <span>, </span>}
+                      </Typography>
+                    </React.Fragment>
+                  ))}
+                </div>
+              </>
+            )}
           </Grid>
           <Grid item xs={12} sm={2}>
             <TextField

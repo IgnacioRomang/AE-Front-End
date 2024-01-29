@@ -35,17 +35,12 @@ const VerificationCard = (props) => {
   const verifyEmail = React.useCallback(async () => {
     //TODO Work in progress
     try {
-      const response = await axios.post(`/email/verify/${id}/${hash}`);
-
-      if (response.data.message) {
-        setSuccess(true);
-      } else {
-        setSuccess(false);
-      }
+      let result = send_confirmation_verify(id,hash);
+      setSuccess(result)
     } catch (error) {
       console.error("Error al verificar el email", error);
     } finally {
-      await new Promise((resolve) => setTimeout(resolve, 5000));
+      await new Promise((resolve) => setTimeout(resolve, 500));
       setLoading(false);
       await new Promise((resolve) => setTimeout(resolve, 500));
       navigate("/");
