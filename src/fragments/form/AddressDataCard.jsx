@@ -19,7 +19,8 @@ import { blue } from "@mui/material/colors";
 const AddressDataCard = React.forwardRef(
   ({ address, floor, apartment, province, city, postalCode }, ref) => {
     const labels = useAddressDataCardString();
-    const { get_province_names, get_citys_name,get_address_names } = useService();
+    const { get_province_names, get_citys_name, get_address_names } =
+      useService();
     const [userData, setUserData] = useState({
       address,
       floor,
@@ -81,7 +82,11 @@ const AddressDataCard = React.forwardRef(
           fields = await get_citys_name(userData.province, value);
           break;
         case "address":
-          fields = await get_address_names(userData.province,userData.city, value);
+          fields = await get_address_names(
+            userData.province,
+            userData.city,
+            value
+          );
           break;
       }
       return fields
@@ -108,10 +113,12 @@ const AddressDataCard = React.forwardRef(
       const { address, province, city, postalCode } = userData;
 
       const errors = {
-        address: address.trim() === "" || isNaN(parseInt(address.replace(/\s/g, '').split(",")[1])),
+        address:
+          address.trim() === "" ||
+          isNaN(parseInt(address.replace(/\s/g, "").split(",")[1])),
         province: !province.trim(),
         city: !city.trim(),
-        postalCode: postalCode.trim() ? postalCode.length !== 4 : false,
+        postalCode: !postalCode.trim() && postalCode.length !== 4,
       };
 
       setErrors(errors);
@@ -291,7 +298,9 @@ const AddressDataCard = React.forwardRef(
                         }
                       >
                         {suggestion.split(",")[0]}
-                        {index < suggestions.address.length - 1 && <span>, </span>}
+                        {index < suggestions.address.length - 1 && (
+                          <span>, </span>
+                        )}
                       </Typography>
                     </React.Fragment>
                   ))}

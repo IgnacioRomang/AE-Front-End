@@ -34,7 +34,15 @@ export const getDates = () => {
     lastMonth,
   };
 };
+export const formatDate = (date) => {
+  const year = date.getFullYear();
+  let month = date.getMonth() + 1;
+  month = month < 10 ? "0" + month : month;
+  let day = date.getDate();
+  day = day < 10 ? "0" + day : day;
 
+  return `${year}-${month}-${day}`;
+};
 export const shortEmail = (email) => {
   let splitemail = email.split("@");
   let sizedom = splitemail[1].length;
@@ -141,15 +149,18 @@ export const doEmail = (email) => {
 };
 
 export const doPhone = (phonein) => {
-  const phone = phonein.replace(/[^\d+()]/g, "");
-  console.log(`${phone}  --------------- ${phonein}`);
-  if (phone.length >= 10) {
+  let phone = phonein.replace(/\D/g, "");
+  if (phone.length > 10) {
+    phone = phone.substring(2, 12);
+  }
+  if (phone.length < 10) {
+    return phone;
+  }
+  if (phone.length == 10) {
     return `+54 (${phone.slice(0, 2)}) ${phone.slice(2, 6)}-${phone.slice(
       6,
       10
     )}`;
-  } else {
-    return phone;
   }
 };
 
@@ -172,4 +183,5 @@ export default {
   doApartment,
   doPhone,
   doEmail,
+  formatDate,
 };

@@ -11,18 +11,22 @@ import { useExtraDataCardString } from "../../contexts/TextProvider";
 import { doEmail, doPhone } from "../../utiles";
 
 const occupations = [
-  { label: "Estudiante", id: 11 },
-  { label: "Profesional", id: 12 },
-  { label: "Trabajador", id: 13 },
-  { label: "Otro", id: 14 },
+  { label: "Empleado", id: "E" },
+  { label: "Profesional Independiente", id: "PI" },
+  { label: "Autonomo", id: "A" },
+  { label: "Estudiante", id: "ES" },
+  { label: "Jubilado", id: "J" },
+  { label: "Desocupado", id: "D" },
+  { label: "Otro", id: "O" },
+  { label: "No Contesta", id: "NC" },
 ];
 const studys = [
-  { label: "Primaria", id: 21 },
-  { label: "Secundaria", id: 22 },
-  { label: "Tercearua", id: 23 },
-  { label: "Universitaria", id: 24 },
-  { label: "Otra", id: 25 },
-  { label: "No contesta", id: 26 },
+  { label: "Primaria", id: "P" },
+  { label: "Secundaria", id: "S" },
+  { label: "Tercearua", id: "T" },
+  { label: "Universitaria", id: "U" },
+  { label: "Otra", id: "O" },
+  { label: "No contesta", id: "NC" },
 ];
 /**
  * The code defines a React functional component called `ExtraDataCard`. It is a card component that
@@ -76,12 +80,8 @@ const ExtraDataCard = React.forwardRef(
     const handleErrors = () => {
       const { phone, email } = userData;
       const errors = {
-        phone:
-          phone.trim() !== ""
-            ? !/^\+54 \(\d{2}\) \d{4}-\d{4}$/.test(userData.phone)
-            : false,
-        email:
-          !email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userData.email),
+        phone: !phone.trim() && /^\+54 \(\d{2}\) \d{4}-\d{4}$/.test(phone),
+        email: !email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email),
       };
 
       setErrors(errors);

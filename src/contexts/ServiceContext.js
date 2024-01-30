@@ -97,7 +97,7 @@ export const ServiceProvider = ({ children }) => {
     }
   };
 
-  const get_address_names = async (province, city, address)=>{
+  const get_address_names = async (province, city, address) => {
     try {
       let aux = city.split(",");
       const response = await axios.get(
@@ -114,15 +114,17 @@ export const ServiceProvider = ({ children }) => {
         }
       );
       if (response.data.cantidad > 0) {
-        const list = response.data.direcciones.map(
-          (elemento) => {
-            const calleNombre = elemento.calle_nombre.charAt(0).toUpperCase() + elemento.calle_nombre.slice(1).toLowerCase();
-            const alturaValor = elemento.altura_valor ? elemento.altura_valor : "NUMERO";
-            return calleNombre + ", " + alturaValor;
-          }
-        );
-        const uniqueList = list.filter((element, index, self) =>
-          index === self.indexOf(element)
+        const list = response.data.direcciones.map((elemento) => {
+          const calleNombre =
+            elemento.calle_nombre.charAt(0).toUpperCase() +
+            elemento.calle_nombre.slice(1).toLowerCase();
+          const alturaValor = elemento.altura_valor
+            ? elemento.altura_valor
+            : "NUMERO";
+          return calleNombre + ", " + alturaValor;
+        });
+        const uniqueList = list.filter(
+          (element, index, self) => index === self.indexOf(element)
         );
         return uniqueList.sort();
       } else {
@@ -133,7 +135,7 @@ export const ServiceProvider = ({ children }) => {
       console.error("Error al obtener las direcciones:", error);
       return [];
     }
-  }
+  };
 
   // AXIOS
   const authenticate = async (username, password) => {
@@ -181,7 +183,7 @@ export const ServiceProvider = ({ children }) => {
   const unauthenticate = async () => {
     let result = false;
     let url = process.env.REACT_APP_BACK_URL;
-    axios
+    await axios
       .post(`${url}/api/auth/logout`)
       .then((response) => {
         if (response.data.message == "Successfully logged out") {
@@ -200,14 +202,28 @@ export const ServiceProvider = ({ children }) => {
   const registerRequest = async (register_user) => {
     let result = false;
     let url = process.env.REACT_APP_BACK_URL;
-    axios
+    await axios
       .post(`${url}/api/auth/register`, register_user)
       .then((response) => {
         console.log("Datos enviados correctamente");
+        console.log(response.data);
         result = true;
       })
       .catch((e) => {
         console.log(e);
+      });
+    return result;
+  };
+
+  const start_ae = async (register_user) => {
+    let result = false;
+    let url = process.env.REACT_APP_BACK_URL;
+    await axios
+      .post(url + "/api/ae/start", { register_user })
+      .then((response) => {
+        if (response.data === "Agregado") {
+          result = true;
+        }
       });
     return result;
   };
@@ -271,15 +287,14 @@ export const ServiceProvider = ({ children }) => {
 
   const send_confirmation_verify = async (id, hash) => {
     let url = process.env.REACT_APP_BACK_URL;
-    const response = await axios.get(`${url}/api/auth/email/verify-link`,
-    {
+    const response = await axios.get(`${url}/api/auth/email/verify-link`, {
       params: {
         hash: hash,
         id: id,
       },
     });
     return response.data.message !== null;
-  }
+  };
   // REFRESCO
   useEffect(() => {
     const storedUser = sessionStorage.getItem("user");
@@ -331,7 +346,8 @@ export const ServiceProvider = ({ children }) => {
         get_province_names,
         get_citys_name,
         get_address_names,
-        send_confirmation_verify
+        send_confirmation_verify,
+        start_ae,
       }}
     >
       {children}

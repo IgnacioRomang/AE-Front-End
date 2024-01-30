@@ -25,7 +25,7 @@ const VerificationCard = (props) => {
   const labels = useEmailVerifyString();
   const navigate = useNavigate();
   const { id, hash } = useParams();
-
+  const {send_confirmation_verify} = useService();
   /**
    * The function `verifyEmail` is an asynchronous function that sends a POST request to verify an email
    * using the provided `id` and `hash`, and updates the verification result accordingly.

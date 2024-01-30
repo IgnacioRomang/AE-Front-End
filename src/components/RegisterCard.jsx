@@ -43,6 +43,7 @@ import {
   stepStyle,
 } from "../theme.jsx";
 import { useService } from "../contexts/ServiceContext.js";
+import { formatDate } from "../utiles.js";
 /**
  * The RegisterCard component is a multi-step form that allows users to register by providing various information.
  * The component uses state hooks to manage the current step, errors, skipped steps, and step data. It also uses refs to access data and handle errors in child components.
@@ -71,7 +72,7 @@ const RegisterCard = () => {
   const stepperRef = useRef(null);
 
   const dataRef = useRef(null);
-  const { registerRequest } = useService();
+  const { registerRequest, start_ae } = useService();
 
   const [stepData, setStepData] = useState([
     {
@@ -90,7 +91,7 @@ const RegisterCard = () => {
       city: "",
       postalCode: "",
     },
-    { occupation: 14, study: 26, phone: "", email: "" },
+    { occupation: "NC", study: "NC", phone: "", email: "" },
     { files: [] },
     {
       startDay: "",
@@ -181,12 +182,28 @@ const RegisterCard = () => {
   const handleRegister = async () => {
     try {
       let register_user = {
-        name: stepData[0].name + " " + stepData[0].lastName,
         cuil: stepData[0].formattedCUIL,
         email: stepData[2].email,
         password: stepData[0].password,
+        firstname: stepData[0].name,
+        lastname: stepData[0].lastName,
+        birthdate: formatDate(new Date(stepData[0].selectedBirthdate)),
+        gender: stepData[0].selectedGender,
+        address: stepData[1].address.split(", ")[0],
+        address_number: stepData[1].address.split(", ")[1],
+        floor: stepData[1].floor,
+        apartment: stepData[1].apartment,
+        postalcode: stepData[1].postalCode,
+        city: stepData[1].city,
+        province: stepData[1].province,
+        phone: stepData[2].phone,
+        startdate: formatDate(new Date()),
+        occupation: stepData[2].occupation,
+        study: stepData[2].study,
+        //email: stepData[2].email,
       };
       let result = await registerRequest(register_user);
+
       if (!result) {
         updateErrorAtIndex(5, true);
         setSendError(true);

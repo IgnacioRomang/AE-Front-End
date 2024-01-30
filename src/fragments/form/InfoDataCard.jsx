@@ -20,9 +20,9 @@ import { datecontrol, doformatCUIL, testpassword } from "../../utiles.js";
 import { useService } from "../../contexts/ServiceContext.js";
 
 const genders = [
-  { label: "Femenino", id: 1 },
-  { label: "Masculino", id: 2 },
-  { label: "X", id: 3 },
+  { label: "Femenino", id: "F" },
+  { label: "Masculino", id: "M" },
+  { label: "X", id: "X" },
   { label: "Ninguno", id: 4 },
 ];
 
