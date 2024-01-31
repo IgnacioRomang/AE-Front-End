@@ -34,7 +34,7 @@ import {
 const TopBar = (props) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [labels, assets] = useTopBarString();
-  const { User, serverDates, isAuthenticated } = useService();
+  const { User, serverDates, isAuthenticated, AE } = useService();
   const navigate = useNavigate();
   const today = React.useMemo(() => new Date(), []);
   const [pages, setPages] = React.useState([
@@ -43,17 +43,12 @@ const TopBar = (props) => {
     {
       label: labels.opctions[2],
       id: 1,
-      disabled: User !== null ? User.ae : false,
+      disabled: User !== null ? User.ae === AE.NON_AE : false,
     },
     {
       label: labels.opctions[3],
       id: 2,
-      disabled:
-        User !== null && User.ae
-          ? today.getMilliseconds() >=
-              serverDates.fifthMonth.getMilliseconds() &&
-            today.getMilliseconds() <= serverDates.sixthMonth.getMilliseconds()
-          : false,
+      disabled: User !== null ? User.ae === AE.FINISHABLE : true,
     },
   ]);
 
@@ -72,18 +67,12 @@ const TopBar = (props) => {
         {
           label: labels.opctions[2],
           id: 1,
-          disabled: User !== null ? User.ae : false,
+          disabled: User !== null ? User.ae !== AE.NON_AE : false,
         },
         {
           label: labels.opctions[3],
           id: 2,
-          disabled:
-            User !== null && User.ae
-              ? today.getMilliseconds() >=
-                  serverDates.fifthMonth.getMilliseconds() &&
-                today.getMilliseconds() <=
-                  serverDates.sixthMonth.getMilliseconds()
-              : true,
+          disabled: User !== null ? User.ae === AE.FINISHABLE : true,
         },
       ]);
     }

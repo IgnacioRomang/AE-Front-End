@@ -54,9 +54,7 @@ const RegisterCard = () => {
   const labels = useRegisterCardString();
   const bottonslabel = useCommonsString();
   const navigate = useNavigate();
-
   const steps = labels.titles;
-
   const [errors, setErrors] = useState([
     false,
     false,
@@ -80,7 +78,7 @@ const RegisterCard = () => {
       lastName: "",
       formattedCUIL: "",
       selectedBirthdate: "",
-      selectedGender: 4,
+      selectedGender: -1,
       password: "",
     },
     {
@@ -100,6 +98,40 @@ const RegisterCard = () => {
       lastMonth: "",
     },
   ]);
+
+  const handleRegister = async () => {
+    try {
+      let register_user = {
+        cuil: stepData[0].formattedCUIL,
+        email: stepData[2].email,
+        password: stepData[0].password,
+        firstname: stepData[0].name,
+        lastname: stepData[0].lastName,
+        birthdate: formatDate(new Date(stepData[0].selectedBirthdate)),
+        gender: stepData[0].selectedGender,
+        address: stepData[1].address.split(", ")[0],
+        address_number: stepData[1].address.split(", ")[1],
+        floor: stepData[1].floor,
+        apartment: stepData[1].apartment,
+        postalcode: stepData[1].postalCode,
+        city: stepData[1].city,
+        province: stepData[1].province,
+        phone: stepData[2].phone,
+        startdate: formatDate(new Date()),
+        occupation: stepData[2].occupation,
+        study: stepData[2].study,
+        //email: stepData[2].email,
+      };
+      let result = await registerRequest(register_user);
+
+      if (!result) {
+        updateErrorAtIndex(5, true);
+        setSendError(true);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   /**
    * The getStepperStage function is a helper function that determines which component to render based
@@ -179,40 +211,6 @@ const RegisterCard = () => {
     return skipped.has(step);
   };
 
-  const handleRegister = async () => {
-    try {
-      let register_user = {
-        cuil: stepData[0].formattedCUIL,
-        email: stepData[2].email,
-        password: stepData[0].password,
-        firstname: stepData[0].name,
-        lastname: stepData[0].lastName,
-        birthdate: formatDate(new Date(stepData[0].selectedBirthdate)),
-        gender: stepData[0].selectedGender,
-        address: stepData[1].address.split(", ")[0],
-        address_number: stepData[1].address.split(", ")[1],
-        floor: stepData[1].floor,
-        apartment: stepData[1].apartment,
-        postalcode: stepData[1].postalCode,
-        city: stepData[1].city,
-        province: stepData[1].province,
-        phone: stepData[2].phone,
-        startdate: formatDate(new Date()),
-        occupation: stepData[2].occupation,
-        study: stepData[2].study,
-        //email: stepData[2].email,
-      };
-      let result = await registerRequest(register_user);
-
-      if (!result) {
-        updateErrorAtIndex(5, true);
-        setSendError(true);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   /**
    * The updateErrorAtIndex function is a helper function that updates the errors state array at the specified index with the specified value.
    * @param {number} index - the index of the error to update
@@ -225,6 +223,7 @@ const RegisterCard = () => {
       return newErrors;
     });
   };
+
   /**
    * The function `handleNext` is used to handle the next step in a multi-step form, updating the step
    * data, checking for errors, and sending data to a server if it is the last step.

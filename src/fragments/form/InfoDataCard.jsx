@@ -23,7 +23,7 @@ const genders = [
   { label: "Femenino", id: "F" },
   { label: "Masculino", id: "M" },
   { label: "X", id: "X" },
-  { label: "Ninguno", id: 4 },
+  { label: "Ninguno", id: -1 },
 ];
 
 const InfoDataCard = React.forwardRef((props, ref) => {

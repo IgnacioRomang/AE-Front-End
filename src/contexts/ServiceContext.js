@@ -9,7 +9,12 @@ export const ServiceProvider = ({ children }) => {
   const [Authorization, setAuthorizationState] = useState(null);
   const [serverDates, setServerDatesState] = React.useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(User !== null);
-
+  const AE = {
+    NON_AE: -1,
+    FINISHABLE: 0,
+    FINALIZED: 1,
+    NON_FINISHABLE: 2,
+  };
   // "SETTERS" "SESSION STORAGE"
   const setAuthorization = (newval) => {
     setAuthorizationState(newval);
@@ -32,7 +37,7 @@ export const ServiceProvider = ({ children }) => {
 
   const setServerDates = (newval) => {
     setServerDatesState(newval);
-    console.log(newval);
+    //console.log(newval);
     if (newval === null) {
       sessionStorage.removeItem("dates");
     } else {
@@ -164,7 +169,7 @@ export const ServiceProvider = ({ children }) => {
             name: names[0],
             cuil: response.data.user.cuil,
             lastname: names[1],
-            ae: null,
+            ae: AE.NON_AE,
           };
         }
         setIsAuthenticated(true);
@@ -228,25 +233,39 @@ export const ServiceProvider = ({ children }) => {
     return result;
   };
 
+  const finalize_ae = async (username, password) => {
+    let url = process.env.REACT_APP_BACK_URL;
+    const response = await axios.post(`${url}/api/ae/finalize`, {
+      params: {
+        current_password: password,
+        cuil: username,
+      },
+    });
+    return response.data.message !== null;
+  };
+
   // TODO CAMBIAR NOMBRE
   const getAEdates = async () => {
     let result = false;
     let url = process.env.REACT_APP_BACK_URL;
-    const response = await axios.post(`${url}/api/ae/aedates`);
-    if (!response.data.startDay) {
-      let u = User;
-      u.ae = false;
-      setUser(u);
-    } else {
-      let u = User;
-      u.ae = true;
-      setUser(u);
+    const response = await axios.get(`${url}/api/ae/aedates`);
+    let u = User;
+    u.ae = response.data.type;
+    setUser(u);
+    const parseDate = (dateString) => {
+      const [year, month, day] = dateString.split("-").map(Number);
+      return new Date(year, month - 1, day);
+    };
+    console.log(response.data.dates);
+    if (response.data.dates.startDay !== null) {
+      // date.setUTCHours(date.getUTCHours());
       setServerDates({
-        startDay: new Date(response.data.startDay),
-        fifthMonth: new Date(response.data.fifthMonth),
-        sixthMonth: new Date(response.data.sixthMonth),
-        lastMonth: new Date(response.data.lastMonth),
+        startDay: parseDate(response.data.dates),
+        fifthMonth: parseDate(response.data.dates.fifthMonth),
+        sixthMonth: parseDate(response.data.dates.sixthMonth),
+        lastMonth: parseDate(response.data.dates.lastMonth),
       });
+      
       result = true;
     }
     return result;
@@ -348,6 +367,7 @@ export const ServiceProvider = ({ children }) => {
         get_address_names,
         send_confirmation_verify,
         start_ae,
+        AE,
       }}
     >
       {children}

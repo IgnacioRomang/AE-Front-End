@@ -74,7 +74,7 @@ const Login = () => {
    * @param {Event} event The event object.
    */
   const handleLogin = async (event) => {
-    let result = authenticate(formattedCUIL, passwordsd);
+    let result = await authenticate(formattedCUIL, passwordsd);
 
     if (result) {
       setLoginSuccess(true);

@@ -25,15 +25,16 @@ import { useNavigate } from "react-router-dom";
  * @returns {JSX.Element} The Profile component
  */
 const Profile = (props) => {
-  const { User, getAEdates, serverDates } = useService();
+  const { User, getAEdates, serverDates, AE } = useService();
   const [loading, setLoading] = React.useState(true);
   const navigate = useNavigate();
   const fetchData = async () => {
     try {
       setLoading(true);
+
       let result = await getAEdates();
 
-      setLoading(false);
+      setLoading(!result);
     } catch (error) {
       // Manejar errores aquí
       // ... (código existente)
@@ -64,13 +65,13 @@ const Profile = (props) => {
         <Grid
           container
           spacing={2}
-          padding={User.ae ? 0 : 8}
+          padding={User.ae !== AE.NON_AE ? 0 : 8}
           sx={centeringStyles}
         >
           <Grid item xs={12} md={3}>
             <ProfileAEdata iuser={User} />
           </Grid>
-          {User.ae ? (
+          {User.ae !== AE.NON_AE ? (
             <Grid item xs={12} md={6}>
               <Paper>
                 <Grid container padding={1}>
@@ -157,7 +158,7 @@ const Profile = (props) => {
             </Grid>
           ) : (
             <Grid item xs={12} md={6}>
-              {User.ae !== null && (
+              {User.ae !== AE.NON_AE && (
                 <Alert padding={5} severity="warning">
                   <AlertTitle variant="h4"> {labels.warning.title} </AlertTitle>
                   {labels.warning.body.map((label, index) => (

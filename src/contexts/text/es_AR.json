@@ -149,9 +149,9 @@
         "warning": {
           "title": "¡Importante!",
           "body": [
-            "El proceso de autoexclusión solo puede completarse una vez, específicamente durante la primera autoexclusión.",
-            "Después de finalizarlo, se restaurará tu acceso a los casinos. Si decides autoexcluirte nuevamente, por favor, dirígete a la sección de renovación, disponible después de concluir este procedimiento inicial.",
-            ""
+            "El proceso de  baja de una autoexclusión solo puede completarse durante la primera autoexclusión.",
+            "A partir de las siguientes auto exclusiones esto ya no es posible y la exclusion tendra un periodo de 12 meses.",
+            "Después de finalizarlo, se restaurará tu acceso a los casinos. Si decides autoexcluirte nuevamente, por favor, dirígete a la sección de renovación, disponible después de concluir este procedimiento inicial."
           ]
         }
       }
