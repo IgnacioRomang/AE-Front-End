@@ -52,6 +52,13 @@
           "Periodo de Baja",
           "Fin de autoexclusión"
         ],
+        "warningfinish": {
+          "title": "Finalizada",
+          "body": [
+            "Usted dio de baja la exclusion",
+            "Podrá ingresar libremente al casino a partir de la finalizacion del periodo de baja marcado en rojo en su Cronograma"
+          ]
+        },
         "warning": {
           "title": "Autoexclusión Finalizada",
           "body": [

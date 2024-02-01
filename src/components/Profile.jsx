@@ -5,6 +5,7 @@ import {
   Grid,
   Paper,
   Skeleton,
+  Stack,
   Typography,
 } from "@mui/material";
 import axios from "axios";
@@ -69,7 +70,21 @@ const Profile = (props) => {
           sx={centeringStyles}
         >
           <Grid item xs={12} md={3}>
-            <ProfileAEdata iuser={User} />
+            <Stack spacing={2} sx={centeringStyles}>
+              <ProfileAEdata iuser={User} />
+              {serverDates.endMonth !== null && User.ae !== AE.NON_AE && (
+                <Alert severity="warning">
+                  <AlertTitle variant="h5">
+                    {labels.warningfinish.title}
+                  </AlertTitle>
+                  {labels.warningfinish.body.map((label, index) => (
+                    <Typography key={index} paddingTop={1}>
+                      {label}
+                    </Typography>
+                  ))}
+                </Alert>
+              )}
+            </Stack>
           </Grid>
           {User.ae !== AE.NON_AE ? (
             <Grid item xs={12} md={6}>
@@ -158,16 +173,14 @@ const Profile = (props) => {
             </Grid>
           ) : (
             <Grid item xs={12} md={6}>
-              {User.ae !== AE.NON_AE && (
-                <Alert padding={5} severity="warning">
-                  <AlertTitle variant="h4"> {labels.warning.title} </AlertTitle>
-                  {labels.warning.body.map((label, index) => (
-                    <Typography key={index} paddingTop={1}>
-                      {label}
-                    </Typography>
-                  ))}
-                </Alert>
-              )}
+              <Alert padding={5} severity="warning">
+                <AlertTitle variant="h4"> {labels.warning.title} </AlertTitle>
+                {labels.warning.body.map((label, index) => (
+                  <Typography key={index} paddingTop={1}>
+                    {label}
+                  </Typography>
+                ))}
+              </Alert>
             </Grid>
           )}
         </Grid>

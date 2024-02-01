@@ -10,10 +10,10 @@ export const ServiceProvider = ({ children }) => {
   const [serverDates, setServerDatesState] = React.useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(User !== null);
   const AE = {
-    NON_AE: -1,
-    FINISHABLE: 0,
-    FINALIZED: 1,
-    NON_FINISHABLE: 2,
+    NON_AE: -1, //Sin auto
+    FINALIZED: 0, //finalizado
+    FINISHABLE: 1, // PRimera autoexlcusion
+    NON_FINISHABLE: 2, // segunda o n
   };
   // "SETTERS" "SESSION STORAGE"
   const setAuthorization = (newval) => {
@@ -37,15 +37,12 @@ export const ServiceProvider = ({ children }) => {
 
   const setServerDates = (newval) => {
     setServerDatesState(newval);
-    //console.log(newval);
     if (newval === null) {
       sessionStorage.removeItem("dates");
     } else {
       sessionStorage.setItem("dates", JSON.stringify(newval));
     }
   };
-
-  //NORMAL DATA
 
   const get_province_names = async (province) => {
     try {
@@ -142,7 +139,6 @@ export const ServiceProvider = ({ children }) => {
     }
   };
 
-  // AXIOS
   const authenticate = async (username, password) => {
     let url = process.env.REACT_APP_BACK_URL;
     let user = null;
@@ -233,18 +229,25 @@ export const ServiceProvider = ({ children }) => {
     return result;
   };
 
-  const finalize_ae = async (username, password) => {
+  const finalize_ae = async (password) => {
+    let result = false;
     let url = process.env.REACT_APP_BACK_URL;
-    const response = await axios.post(`${url}/api/ae/finalize`, {
-      params: {
-        current_password: password,
-        cuil: username,
-      },
-    });
-    return response.data.message !== null;
+    await axios
+      .post(`${url}/api/ae/finalize`, {
+        password: password,
+      })
+      .then((response) => {
+        result = response.data.status === "Finalizado";
+      })
+      .catch((e) => {
+        console.log(e);
+        result = false;
+      });
+    setServerDates(null);
+
+    return result;
   };
 
-  // TODO CAMBIAR NOMBRE
   const getAEdates = async () => {
     let result = false;
     let url = process.env.REACT_APP_BACK_URL;
@@ -252,20 +255,22 @@ export const ServiceProvider = ({ children }) => {
     let u = User;
     u.ae = response.data.type;
     setUser(u);
+    console.log(u.ae);
     const parseDate = (dateString) => {
       const [year, month, day] = dateString.split("-").map(Number);
       return new Date(year, month - 1, day);
     };
-    console.log(response.data.dates);
     if (response.data.dates.startDay !== null) {
-      // date.setUTCHours(date.getUTCHours());
       setServerDates({
-        startDay: parseDate(response.data.dates),
+        startDay: parseDate(response.data.dates.startDay),
         fifthMonth: parseDate(response.data.dates.fifthMonth),
         sixthMonth: parseDate(response.data.dates.sixthMonth),
         lastMonth: parseDate(response.data.dates.lastMonth),
+        endMonth: response.data.dates.renewalMonth
+          ? parseDate(response.data.dates.renewalMonth)
+          : null,
       });
-      
+      //console.log(response.data.dates);
       result = true;
     }
     return result;
@@ -368,6 +373,7 @@ export const ServiceProvider = ({ children }) => {
         send_confirmation_verify,
         start_ae,
         AE,
+        finalize_ae,
       }}
     >
       {children}

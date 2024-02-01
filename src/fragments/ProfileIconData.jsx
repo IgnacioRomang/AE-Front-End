@@ -32,7 +32,7 @@ const ProfileIconData = ({ iuser }) => {
         <Stack sx={centeringStyles}>
           <UserBadge
             username={iuser.name + " " + iuser.lastname}
-            isActive={iuser.ae !== AE.NON_AE}
+            isActive={iuser.ae !== AE.NON_AE && iuser.ae !== AE.FINALIZED}
           />
           <Typography variant="body1" paddingRight={17} fontSize={10}>
             {labels.cuil}

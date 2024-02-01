@@ -6,6 +6,7 @@ import {
   CardActions,
   CardContent,
   CardHeader,
+  TextField,
 } from "@mui/material";
 
 import React, { useState } from "react";
@@ -13,6 +14,7 @@ import React, { useState } from "react";
 import {
   useCommonsString,
   useUnRegisterCardString,
+  useLoginString,
 } from "../contexts/TextProvider.jsx";
 
 import AlertFragment from "../fragments/AlertFragmet.jsx";
@@ -33,14 +35,21 @@ import { useService } from "../contexts/ServiceContext.js";
  *
  * @return {JSX.Element} The component.
  */
-const UnRegisterCard = () => {
+const FinalizeCard = () => {
   const commonlabels = useCommonsString();
   const renewalstring = useUnRegisterCardString();
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
   const navigate = useNavigate();
+  const [labels] = useLoginString();
 
-  const { User } = useService();
+  const [passwordsd, setPassword] = React.useState("");
+
+  const handleOnChangePassword = (event) => {
+    setPassword(event.target.value);
+  };
+
+  const { User, finalize_ae } = useService();
   React.useEffect(() => {
     if (User === null) {
       navigate("/");
@@ -51,11 +60,14 @@ const UnRegisterCard = () => {
    *
    * @return {undefined}
    */
-  const handleSend = () => {
-    if (error) {
-      setError(false);
+  const handleSend = async () => {
+    let result = await finalize_ae(passwordsd);
+    setError(!result);
+    if (!result) {
+      setOpen(!result);
+    } else {
+      navigate("/user/profile");
     }
-    setOpen(!open);
   };
 
   /**
@@ -89,8 +101,26 @@ const UnRegisterCard = () => {
                 body={renewalstring.warning.body}
               />
               <Box container="true" paddingTop={3} sx={boxUnRegisterLogSyle}>
-                {/* Box succes tambien es estilo en otro lado cuidado*/}
-                <LoginFragment></LoginFragment>
+                <TextField
+                  sx={{
+                    width: "100%", // Ancho completo en pantallas móviles
+                    "@media (min-width: 600px)": {
+                      // Ajusta según sea necesario para tamaños mayores
+                      width: "25vw",
+                    },
+                  }}
+                  size="small"
+                  autoComplete="new-password"
+                  id="password"
+                  label={labels.textFieldLabels.password}
+                  type="password"
+                  required
+                  value={passwordsd}
+                  onChange={handleOnChangePassword}
+                  error={error}
+                  //disabled={loginSuccess}
+                  variant="standard"
+                />
               </Box>
             </>
           )}
@@ -108,4 +138,4 @@ const UnRegisterCard = () => {
   );
 };
 
-export default UnRegisterCard;
+export default FinalizeCard;

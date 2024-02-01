@@ -195,6 +195,7 @@ const InfoDataCard = React.forwardRef((props, ref) => {
               label={labels.cuil}
               required
               size="small"
+              autoComplete="true"
               disabled={false}
               error={errors.formattedCUIL}
               helperText={null}
@@ -268,7 +269,7 @@ const InfoDataCard = React.forwardRef((props, ref) => {
                     error={errors.password}
                     value={userData.password}
                     //TODO QUITAR AUTO COMPLETE ESTA COMENTADO PARA AGILIZAR EL REGISTRO EN PRUEBAS
-                    //autoComplete="new-password"
+                    autoComplete="new-password"
                     onChange={(event) =>
                       handleInputChange("password", event.target.value)
                     }
@@ -286,7 +287,7 @@ const InfoDataCard = React.forwardRef((props, ref) => {
                     error={errors.password}
                     size="small"
                     value={passrep}
-                    //autoComplete="new-password"
+                    autoComplete="new-password"
                     type="password"
                     onChange={(event) => {
                       setPassRep(event.target.value);

@@ -43,12 +43,17 @@ const TopBar = (props) => {
     {
       label: labels.opctions[2],
       id: 1,
-      disabled: User !== null ? User.ae === AE.NON_AE : false,
+      disabled: User !== null ? User.ae !== AE.NON_AE : false,
     },
     {
       label: labels.opctions[3],
       id: 2,
-      disabled: User !== null ? User.ae === AE.FINISHABLE : true,
+      disabled:
+        User !== null &&
+        User.ae === AE.FINISHABLE &&
+        serverDates.endMonth === null
+          ? today < serverDates.fifthMonth && today > serverDates.sixthMonth
+          : true,
     },
   ]);
 
@@ -72,7 +77,12 @@ const TopBar = (props) => {
         {
           label: labels.opctions[3],
           id: 2,
-          disabled: User !== null ? User.ae === AE.FINISHABLE : true,
+          disabled:
+            User !== null &&
+            User.ae === AE.FINISHABLE &&
+            serverDates.endMonth === null
+              ? today < serverDates.fifthMonth && today > serverDates.sixthMonth
+              : true,
         },
       ]);
     }
