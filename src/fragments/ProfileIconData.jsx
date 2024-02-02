@@ -10,15 +10,16 @@ import { useService } from "../contexts/ServiceContext.js";
 const ProfileIconData = ({ iuser }) => {
   const labels = useProfileIconDataString();
   const nav = useNavigate();
-  const { AE } = useService();
-  const handleDownload = () => {
-    // Lógica para descargar el PDF
-    console.log("Descargando el PDF");
-  };
+  const { AE, User, fetch_end_pdf } = useService();
 
-  const handleView = () => {
-    // Lógica para visualizar el PDF
-    console.log("Visualizando el PDF");
+  const handleEndPDF = async () => {
+    try {
+      const pdfUrl = await fetch_end_pdf();
+      window.open(pdfUrl, "_blank");
+    } catch (error) {
+      // Manejar el error, por ejemplo, mostrar un mensaje al usuario
+      console.error("Error al abrir el PDF:", error);
+    }
   };
   return (
     <Box
@@ -32,7 +33,7 @@ const ProfileIconData = ({ iuser }) => {
         <Stack sx={centeringStyles}>
           <UserBadge
             username={iuser.name + " " + iuser.lastname}
-            isActive={iuser.ae !== AE.NON_AE && iuser.ae !== AE.FINALIZED}
+            isActive={iuser.ae !== AE.NON_AE}
           />
           <Typography variant="body1" paddingRight={17} fontSize={10}>
             {labels.cuil}
@@ -44,7 +45,14 @@ const ProfileIconData = ({ iuser }) => {
           {/** ingresar botones de ojito y descarga*/}
         </Stack>
         <Stack padding={2} spacing={1} sx={centeringStyles}>
-          <Link size="small">{labels.PDF}</Link>
+          {User.ae === AE.FINALIZED && (
+            <Link size="small" onClick={handleEndPDF}>
+              {labels.endPDF}
+            </Link>
+          )}
+          {User.ae !== AE.NON_AE && User.ae !== AE.FINALIZED && (
+            <Link size="small">{labels.startPDF}</Link>
+          )}
           <Link size="small" onClick={(e) => nav("/user/reset-password")}>
             {labels.password}
           </Link>

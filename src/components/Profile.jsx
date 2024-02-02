@@ -56,12 +56,13 @@ const Profile = (props) => {
     } else {
       setLoading(false);
     }
-  }, [User, getAEdates, navigate]);
+  }, [User, getAEdates, navigate, serverDates]);
 
   const labels = useProfileString();
 
   return (
     <>
+      {" "}
       {User !== null ? (
         <Grid
           container
@@ -72,7 +73,8 @@ const Profile = (props) => {
           <Grid item xs={12} md={3}>
             <Stack spacing={2} sx={centeringStyles}>
               <ProfileAEdata iuser={User} />
-              {serverDates.endMonth !== null && User.ae !== AE.NON_AE && (
+
+              {User.ae === AE.FINALIZED && (
                 <Alert severity="warning">
                   <AlertTitle variant="h5">
                     {labels.warningfinish.title}

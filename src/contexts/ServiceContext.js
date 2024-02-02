@@ -254,8 +254,8 @@ export const ServiceProvider = ({ children }) => {
     const response = await axios.get(`${url}/api/ae/aedates`);
     let u = User;
     u.ae = response.data.type;
+    console.log(response.data);
     setUser(u);
-    console.log(u.ae);
     const parseDate = (dateString) => {
       const [year, month, day] = dateString.split("-").map(Number);
       return new Date(year, month - 1, day);
@@ -266,11 +266,11 @@ export const ServiceProvider = ({ children }) => {
         fifthMonth: parseDate(response.data.dates.fifthMonth),
         sixthMonth: parseDate(response.data.dates.sixthMonth),
         lastMonth: parseDate(response.data.dates.lastMonth),
-        endMonth: response.data.dates.renewalMonth
+        endMonth: response.data.dates.hasOwnProperty("renewalMonth")
           ? parseDate(response.data.dates.renewalMonth)
           : null,
       });
-      //console.log(response.data.dates);
+
       result = true;
     }
     return result;
@@ -319,6 +319,24 @@ export const ServiceProvider = ({ children }) => {
     });
     return response.data.message !== null;
   };
+
+  const fetch_end_pdf = async () => {
+    let url = process.env.REACT_APP_BACK_URL;
+    try {
+      const response = await axios.get(url + "/api/ae/fetch-end-pdf", {
+        responseType: "text",
+      });
+      const pdfBlob = new Blob([atob(response.data.pdf_base64)], {
+        type: "application/pdf",
+      });
+      const pdfUrl = URL.createObjectURL(pdfBlob);
+      console.log(pdfUrl);
+      console.log(response.data);
+      return pdfUrl;
+    } catch (error) {
+      console.error("Error al obtener el PDF:", error);
+    }
+  };
   // REFRESCO
   useEffect(() => {
     const storedUser = sessionStorage.getItem("user");
@@ -353,6 +371,7 @@ export const ServiceProvider = ({ children }) => {
   return (
     <ServiceContext.Provider
       value={{
+        fetch_end_pdf,
         isAuthenticated,
         setIsAuthenticated,
         User,

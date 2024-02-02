@@ -19,6 +19,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Alert,
+  AlertTitle,
   Button,
   Card,
   CardActions,
@@ -119,11 +120,15 @@ const RenewalCard = (props) => {
             <>{!error ? <SuccessAE first={false} /> : <ErrorAE />}</>
           ) : (
             <>
-              <Alert
-                type={"info"}
-                title={renewalstring.info.title}
-                body={renewalstring.info.body}
-              />
+              <Alert severity={"info"}>
+                <AlertTitle>{renewalstring.info.title}</AlertTitle>
+                {renewalstring.info.body.map((line) => (
+                  <>
+                    <Typography>{line}</Typography>
+                  </>
+                ))}
+              </Alert>
+
               <Accordion
                 expanded={expanded === "panel1"}
                 onChange={handleChange("panel1")}
@@ -149,7 +154,6 @@ const RenewalCard = (props) => {
                   />
                 </AccordionDetails>
               </Accordion>
-
               <Accordion
                 expanded={expanded === "panel2"}
                 onChange={handleChange("panel2")}
@@ -175,7 +179,6 @@ const RenewalCard = (props) => {
                   />
                 </AccordionDetails>
               </Accordion>
-
               <Accordion
                 expanded={expanded === "panel3"}
                 onChange={handleChange("panel3")}
@@ -199,7 +202,6 @@ const RenewalCard = (props) => {
                   />
                 </AccordionDetails>
               </Accordion>
-
               <Accordion
                 expanded={expanded === "panel5"}
                 onChange={handleChange("panel5")}

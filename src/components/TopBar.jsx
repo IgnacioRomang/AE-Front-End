@@ -49,14 +49,11 @@ const TopBar = (props) => {
       label: labels.opctions[3],
       id: 2,
       disabled:
-        User !== null &&
-        User.ae === AE.FINISHABLE &&
-        serverDates.endMonth === null
+        User !== null && User.ae === AE.FINISHABLE
           ? today < serverDates.fifthMonth && today > serverDates.sixthMonth
           : true,
     },
   ]);
-
   /**
    * React.useEffect hook is used to perform side effects in a functional component.
    * In this case, the effect is triggered whenever the User or serverDates variables change.
@@ -78,9 +75,7 @@ const TopBar = (props) => {
           label: labels.opctions[3],
           id: 2,
           disabled:
-            User !== null &&
-            User.ae === AE.FINISHABLE &&
-            serverDates.endMonth === null
+            User !== null && User.ae === AE.FINISHABLE
               ? today < serverDates.fifthMonth && today > serverDates.sixthMonth
               : true,
         },

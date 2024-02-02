@@ -173,7 +173,8 @@
       },
       "profileicondata": {
         "cuil": "CUIL",
-        "PDF": "Comprobante de exclusión",
+        "endPDF": "Constancia de fin de exclusion ",
+        "startPDF": "Constancia de exclusión",
         "password": "Cambio de Contraseña",
         "email": "Cambio de Email"
       },
