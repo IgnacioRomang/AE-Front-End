@@ -15,7 +15,7 @@ const ProfileIconData = ({ iuser }) => {
   const handleEndPDF = async () => {
     try {
       const pdfUrl = await fetch_end_pdf();
-      window.open(pdfUrl, "_blank");
+      window.open("data:application/pdf;base64," + pdfUrl, "_blank");
     } catch (error) {
       // Manejar el error, por ejemplo, mostrar un mensaje al usuario
       console.error("Error al abrir el PDF:", error);

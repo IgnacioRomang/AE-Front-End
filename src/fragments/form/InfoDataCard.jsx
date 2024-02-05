@@ -188,25 +188,27 @@ const InfoDataCard = React.forwardRef((props, ref) => {
               variant="standard"
             />
           </Grid>
+          {props.registerState && (
+            <Grid item xs={12} sm={4}>
+              <TextField
+                id="cuil"
+                label={labels.cuil}
+                required
+                size="small"
+                autoComplete="true"
+                disabled={false}
+                error={errors.formattedCUIL}
+                helperText={null}
+                InputLabelProps={{
+                  shrink: Boolean(userData.formattedCUIL !== ""),
+                }}
+                value={userData.formattedCUIL}
+                onChange={handleCUIL}
+                variant="standard"
+              />
+            </Grid>
+          )}
 
-          <Grid item xs={12} sm={4}>
-            <TextField
-              id="cuil"
-              label={labels.cuil}
-              required
-              size="small"
-              autoComplete="true"
-              disabled={false}
-              error={errors.formattedCUIL}
-              helperText={null}
-              InputLabelProps={{
-                shrink: Boolean(userData.formattedCUIL !== ""),
-              }}
-              value={userData.formattedCUIL}
-              onChange={handleCUIL}
-              variant="standard"
-            />
-          </Grid>
           <Grid item xs={12} sm={4}>
             <TextField
               id="dates"

@@ -46,14 +46,14 @@ const RenewalCard = (props) => {
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
   const [expanded, setExpanded] = React.useState("null");
-  const { User } = useService();
+  const { User, fetch_user_data } = useService();
   const [stepData, setStepData] = useState([
     {
       name: "",
       lastName: "",
       formattedCUIL: "",
       selectedBirthdate: "",
-      selectedGender: 1,
+      selectedGender: -1,
     },
     {
       address: "",
@@ -64,8 +64,8 @@ const RenewalCard = (props) => {
       postalCode: "",
     },
     {
-      occupation: 21,
-      study: 11,
+      occupation: "NC",
+      study: "NC",
       phone: "",
       email: "",
     },
@@ -81,7 +81,38 @@ const RenewalCard = (props) => {
     if (User === null) {
       navigate("/");
     }
-  }, [User, navigate]);
+    fetch_user_data().then((response) => {
+      let user_data = response.data;
+      if (response.data !== null) {
+        console.log(user_data);
+        setStepData([
+          {
+            name: user_data.name,
+            lastName: user_data.lastname,
+            formattedCUIL: user_data.cuil,
+            selectedBirthdate: user_data.birthdate,
+            selectedGender: user_data.gender,
+          },
+          {
+            address: user_data.address,
+            floor: user_data.floor,
+            apartment: user_data.apartment,
+            state: user_data.state,
+            city: user_data.city,
+            postalCode: user_data.postalCode,
+          },
+          {
+            occupation: user_data.occupation,
+            study: user_data.study,
+            phone: user_data.phone,
+            email: user_data.email,
+          },
+          { files: [] },
+        ]);
+      }
+      console.log(stepData);
+    });
+  }, [User, navigate, setStepData, fetch_user_data]);
   /**
    * @brief This function is called when the user expands or collapses an accordion panel.
    *
@@ -147,10 +178,10 @@ const RenewalCard = (props) => {
                     name={stepData[0].name}
                     lastName={stepData[0].lastName}
                     cuil={stepData[0].formattedCUIL}
-                    regregisterStateister={false}
                     birthdate={stepData[0].selectedBirthdate}
                     gender={stepData[0].selectedGender}
                     ref={infoDataCardRef}
+                    registerState={false}
                   />
                 </AccordionDetails>
               </Accordion>

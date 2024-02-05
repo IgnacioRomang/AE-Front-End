@@ -159,12 +159,15 @@ export const ServiceProvider = ({ children }) => {
         auth = response.data.authorization;
         setAuthorization(auth);
 
+        let names = response.data.user.name.split(" ");
+        let lastnames = names.pop();
+        names = names.join(" ");
+
         if (response.data !== null) {
-          let names = response.data.user.name.split(" ");
           user = {
-            name: names[0],
+            name: names,
             cuil: response.data.user.cuil,
-            lastname: names[1],
+            lastname: lastnames,
             ae: AE.NON_AE,
           };
         }
@@ -207,7 +210,6 @@ export const ServiceProvider = ({ children }) => {
       .post(`${url}/api/auth/register`, register_user)
       .then((response) => {
         console.log("Datos enviados correctamente");
-        console.log(response.data);
         result = true;
       })
       .catch((e) => {
@@ -254,7 +256,6 @@ export const ServiceProvider = ({ children }) => {
     const response = await axios.get(`${url}/api/ae/aedates`);
     let u = User;
     u.ae = response.data.type;
-    console.log(response.data);
     setUser(u);
     const parseDate = (dateString) => {
       const [year, month, day] = dateString.split("-").map(Number);
@@ -323,18 +324,20 @@ export const ServiceProvider = ({ children }) => {
   const fetch_end_pdf = async () => {
     let url = process.env.REACT_APP_BACK_URL;
     try {
-      const response = await axios.get(url + "/api/ae/fetch-end-pdf", {
-        responseType: "text",
-      });
-      const pdfBlob = new Blob([atob(response.data.pdf_base64)], {
-        type: "application/pdf",
-      });
-      const pdfUrl = URL.createObjectURL(pdfBlob);
-      console.log(pdfUrl);
-      console.log(response.data);
-      return pdfUrl;
+      const response = await axios.get(url + "/api/ae/fetch-end-pdf");
+      return response.data.content;
     } catch (error) {
       console.error("Error al obtener el PDF:", error);
+    }
+  };
+
+  const fetch_user_data = async () => {
+    let url = process.env.REACT_APP_BACK_URL;
+    try {
+      const response = await axios.get(url + "/api/ae/fetch-user-data");
+      return response;
+    } catch (error) {
+      console.error("Error al obtener el UserData:", error);
     }
   };
   // REFRESCO
@@ -359,12 +362,13 @@ export const ServiceProvider = ({ children }) => {
     }
 
     if (storedAuthorization !== null) {
-      setAuthorizationState(JSON.parse(storedAuthorization));
+      let addressuthorization_json = JSON.parse(storedAuthorization);
+      setAuthorizationState(addressuthorization_json);
       axios.defaults.headers.common["XSRF-TOKEN"] =
-        storedAuthorization.X_CSRF_TOKEN;
+        addressuthorization_json.X_CSRF_TOKEN;
       axios.defaults.headers.common["User-Agent"] = "FRONT-END-REACT";
       axios.defaults.headers.common["Authorization"] =
-        storedAuthorization.type + storedAuthorization.token;
+        addressuthorization_json.type + addressuthorization_json.token;
     }
   }, []);
 
@@ -392,6 +396,7 @@ export const ServiceProvider = ({ children }) => {
         send_confirmation_verify,
         start_ae,
         AE,
+        fetch_user_data,
         finalize_ae,
       }}
     >
