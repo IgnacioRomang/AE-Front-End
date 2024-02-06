@@ -102,10 +102,16 @@ export const stringAvatar = (name) => {
       width: 56,
       height: 56,
     },
-    children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
+    children: obtenerIniciales(name),
   };
 };
-
+function obtenerIniciales(nombre) {
+  const partes = nombre.split(", ");
+  const inicialNombre = partes[0][0];
+  const apellido = partes.length > 1 ? partes[1] : "";
+  const inicialApellido = apellido ? apellido.split(" ")[0][0] : "";
+  return `${inicialNombre}${inicialApellido}`;
+}
 export const doformatCUIL = (inputValue) => {
   const sanitizedValue = inputValue.replace(/\D/g, "");
   const truncatedValue = sanitizedValue.slice(0, 11);

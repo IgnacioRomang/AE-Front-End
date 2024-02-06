@@ -77,7 +77,7 @@ export const containerChipsFooterStyleSm = {
   ...centeringStyles,
   flexWrap: "wrap",
   "& > *": {
-    ...spacingStyles(5),
+    ...spacingStyles(6),
   },
   ...Sm,
 };

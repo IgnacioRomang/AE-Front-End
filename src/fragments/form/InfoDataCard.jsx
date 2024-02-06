@@ -18,12 +18,13 @@ import {
 import { centeringStyles } from "../../theme.jsx";
 import { datecontrol, doformatCUIL, testpassword } from "../../utiles.js";
 import { useService } from "../../contexts/ServiceContext.js";
+import { red } from "@mui/material/colors";
 
 const genders = [
   { label: "Femenino", id: "F" },
   { label: "Masculino", id: "M" },
   { label: "X", id: "X" },
-  { label: "Ninguno", id: -1 },
+  { label: "Ninguno", id: "-1" },
 ];
 
 const InfoDataCard = React.forwardRef((props, ref) => {
@@ -103,7 +104,7 @@ const InfoDataCard = React.forwardRef((props, ref) => {
     setUserData((prevData) => ({ ...prevData, selectedGender: newGender }));
     setErrors((prevErrors) => ({
       ...prevErrors,
-      selectedGender: newGender === 4,
+      selectedGender: newGender === "-1",
     }));
   };
 
@@ -120,11 +121,14 @@ const InfoDataCard = React.forwardRef((props, ref) => {
     const errors = {
       name: !name.trim(),
       lastName: !lastName.trim(),
-      formattedCUIL: !formattedCUIL.trim() || formattedCUIL.length !== 13,
-      selectedBirthdate:
-        !datecontrol(new Date(selectedBirthdate)) || !selectedBirthdate.trim(),
-      selectedGender: selectedGender === 4,
-      password: !testpassword(passrep, password),
+      formattedCUIL: props.registerState
+        ? !formattedCUIL.trim() || formattedCUIL.length !== 13
+        : false,
+      selectedBirthdate: props.registerState
+        ? !datecontrol(new Date(selectedBirthdate)) || !selectedBirthdate.trim()
+        : false,
+      selectedGender: selectedGender === "-1",
+      password: props.registerState ? !testpassword(passrep, password) : false,
     };
 
     setErrors(errors);
@@ -208,29 +212,35 @@ const InfoDataCard = React.forwardRef((props, ref) => {
               />
             </Grid>
           )}
+          {props.registerState && (
+            <Grid item xs={12} sm={4}>
+              <TextField
+                id="dates"
+                label={labels.birthdate}
+                required
+                disabled={false}
+                value={userData.selectedBirthdate}
+                error={errors.selectedBirthdate}
+                helperText={null}
+                type="date"
+                size="small"
+                fullWidth
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                onChange={handleBirthdate}
+                variant="standard"
+              />
+            </Grid>
+          )}
 
           <Grid item xs={12} sm={4}>
-            <TextField
-              id="dates"
-              label={labels.birthdate}
-              required
-              disabled={false}
-              value={userData.selectedBirthdate}
-              error={errors.selectedBirthdate}
-              helperText={null}
-              type="date"
-              size="small"
-              fullWidth
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={handleBirthdate}
-              variant="standard"
-            />
-          </Grid>
-          <Grid item xs={12} sm={4}>
             <FormControl>
-              <InputLabel variant="standard" htmlFor="gender">
+              <InputLabel
+                sx={{ color: errors.selectedGender ? red[600] : "inherit" }}
+                variant="standard"
+                htmlFor="gender"
+              >
                 {labels.gender}
               </InputLabel>
               <NativeSelect

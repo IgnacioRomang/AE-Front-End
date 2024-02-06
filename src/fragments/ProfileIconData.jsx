@@ -31,17 +31,12 @@ const ProfileIconData = ({ iuser }) => {
     >
       <Paper elevation={1} sx={gridProfileInfoStyle}>
         <Stack sx={centeringStyles}>
-          <UserBadge
-            username={iuser.name + " " + iuser.lastname}
-            isActive={iuser.ae !== AE.NON_AE}
-          />
+          <UserBadge username={iuser.name} isActive={iuser.ae !== AE.NON_AE} />
           <Typography variant="body1" paddingRight={17} fontSize={10}>
             {labels.cuil}
           </Typography>
           <Typography variant="h5">{iuser.cuil}</Typography>
-          <Typography variant="body1">
-            {iuser.lastname + ", " + iuser.name}
-          </Typography>
+          <Typography variant="body1">{iuser.name}</Typography>
           {/** ingresar botones de ojito y descarga*/}
         </Stack>
         <Stack padding={2} spacing={1} sx={centeringStyles}>

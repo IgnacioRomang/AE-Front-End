@@ -31,7 +31,25 @@ import { grey } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext.js";
 import { cardRegisterStyle, centerButtonsStyle } from "../theme.jsx";
+import { formatDate } from "../utiles.js";
 
+const sx = {
+  border: `1px solid #999999`,
+  "&:not(:last-child)": {
+    borderBottom: 0,
+  },
+  "&::before": {
+    display: "none",
+  },
+};
+const sx_summ = { background: "rgba(0, 0, 0, .03)" };
+
+const sx_de = {
+  borderTop: "1px solid rgba(0, 0, 0, .125)",
+  alignItems: "justify",
+  justifyContent: "justify",
+  textAlign: "justify",
+};
 /**fs
  * @brief This component is a form for registering a new user.
  *
@@ -39,13 +57,13 @@ import { cardRegisterStyle, centerButtonsStyle } from "../theme.jsx";
  * @return {JSX.Element} The component.
  */
 const RenewalCard = (props) => {
-  const [registerSend, setRegisterSend] = useState(false);
+  const [errorSend, setSendError] = useState(false);
   const labels = useRegisterCardString();
   const commonlabels = useCommonsString();
   const renewalstring = useRenewalCardString();
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
-  const [expanded, setExpanded] = React.useState("null");
+  const [expanded, setExpanded] = React.useState("");
   const { User, fetch_user_data } = useService();
   const [stepData, setStepData] = useState([
     {
@@ -71,10 +89,9 @@ const RenewalCard = (props) => {
     },
     { files: [] },
   ]);
-  const infoDataCardRef = React.useRef(null);
-  const addressDataCardRef = React.useRef(null);
-  const extraDataCardRef = React.useRef(null);
-  const fileAttachCardRef = React.useRef(null);
+  const { start_ae_n } = useService();
+  const refs = React.useRef(null);
+
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -84,7 +101,7 @@ const RenewalCard = (props) => {
     fetch_user_data().then((response) => {
       let user_data = response.data;
       if (response.data !== null) {
-        console.log(user_data);
+        //console.log(user_data);
         setStepData([
           {
             name: user_data.name,
@@ -94,7 +111,8 @@ const RenewalCard = (props) => {
             selectedGender: user_data.gender,
           },
           {
-            address: user_data.address,
+            address:
+              user_data.address + ", " + user_data.nro_address.toString(),
             floor: user_data.floor,
             apartment: user_data.apartment,
             state: user_data.state,
@@ -110,25 +128,77 @@ const RenewalCard = (props) => {
           { files: [] },
         ]);
       }
-      console.log(stepData);
     });
   }, [User, navigate, setStepData, fetch_user_data]);
+
   /**
    * @brief This function is called when the user expands or collapses an accordion panel.
    *
    * @param {string} panel The name of the accordion panel that was expanded or collapsed.
    */
   const handleChange = (panel) => (event, newExpanded) => {
-    setExpanded(newExpanded ? panel : false);
+    if (expanded === "") {
+      setExpanded(newExpanded ? panel : false);
+    } else {
+      let ref = refs.current;
+      console.log(ref.handleErrors());
+      if (!ref.handleErrors()) {
+        if (expanded !== panel) {
+          setExpanded(newExpanded ? panel : false);
+        } else {
+          setExpanded("");
+        }
+      }
+    }
+  };
+
+  const handleRegister = async () => {
+    try {
+      let register_user = {
+        //cuil: stepData[0].formattedCUIL,
+        ///email: stepData[2].email,
+        //password: stepData[0].password,
+        firstname: stepData[0].name,
+        lastname: stepData[0].lastName,
+        birthdate: formatDate(new Date(stepData[0].selectedBirthdate)),
+        gender: stepData[0].selectedGender,
+        address: stepData[1].address.split(", ")[0],
+        address_number: stepData[1].address.split(", ")[1],
+        floor: stepData[1].floor,
+        apartment: stepData[1].apartment,
+        postalcode: stepData[1].postalCode,
+        city: stepData[1].city,
+        state: stepData[1].state,
+        phone: stepData[2].phone,
+        startdate: formatDate(new Date()),
+        occupation: stepData[2].occupation,
+        study: stepData[2].study,
+      };
+      let result = await start_ae_n(register_user);
+
+      if (!result) {
+        setSendError(true);
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   /**
    * @brief This function is called when the user clicks the "Submit" button.
    */
   const handleSend = () => {
-    setRegisterSend(true);
+    let ref = refs.current;
+    let error = false;
+    if (ref !== null) {
+      error = ref.handleErrors();
+    }
+    if (!error) {
+      handleRegister();
+      setOpen(!open);
+    }
+    setSendError(false);
     //TODO SEND
-    setOpen(!open);
   };
 
   /**
@@ -138,6 +208,9 @@ const RenewalCard = (props) => {
     setOpen(false);
   };
 
+  const handleBack = () => {
+    navigate(-1);
+  };
   return (
     <>
       <Card sx={cardRegisterStyle}>
@@ -148,7 +221,7 @@ const RenewalCard = (props) => {
         />
         <CardContent>
           {open ? (
-            <>{!error ? <SuccessAE first={false} /> : <ErrorAE />}</>
+            <>{!errorSend ? <SuccessAE first={false} /> : <ErrorAE />}</>
           ) : (
             <>
               <Alert severity={"info"}>
@@ -161,10 +234,12 @@ const RenewalCard = (props) => {
               </Alert>
 
               <Accordion
-                expanded={expanded === "panel1"}
-                onChange={handleChange("panel1")}
+                sx={sx}
+                expanded={expanded === 0}
+                onChange={handleChange(0)}
               >
                 <AccordionSummary
+                  sx={sx_summ}
                   expandIcon={<ExpandMore />}
                   aria-controls="panel1d-content"
                   id="panel1d-header"
@@ -173,23 +248,28 @@ const RenewalCard = (props) => {
                     {labels.titles[0]}
                   </Typography>
                 </AccordionSummary>
-                <AccordionDetails>
-                  <InfoDataCard
-                    name={stepData[0].name}
-                    lastName={stepData[0].lastName}
-                    cuil={stepData[0].formattedCUIL}
-                    birthdate={stepData[0].selectedBirthdate}
-                    gender={stepData[0].selectedGender}
-                    ref={infoDataCardRef}
-                    registerState={false}
-                  />
+                <AccordionDetails sx={sx_de}>
+                  {expanded === 0 && (
+                    <InfoDataCard
+                      name={stepData[0].name}
+                      lastName={stepData[0].lastName}
+                      cuil={stepData[0].formattedCUIL}
+                      birthdate={stepData[0].selectedBirthdate}
+                      gender={stepData[0].selectedGender}
+                      ref={refs}
+                      registerState={false}
+                    />
+                  )}
                 </AccordionDetails>
               </Accordion>
+
               <Accordion
-                expanded={expanded === "panel2"}
-                onChange={handleChange("panel2")}
+                sx={sx}
+                expanded={expanded === 1}
+                onChange={handleChange(1)}
               >
                 <AccordionSummary
+                  sx={sx_summ}
                   expandIcon={<ExpandMore />}
                   aria-controls="panel2d-content"
                   id="panel2d-header"
@@ -198,23 +278,28 @@ const RenewalCard = (props) => {
                     {labels.titles[1]}
                   </Typography>
                 </AccordionSummary>
-                <AccordionDetails>
-                  <AddressDataCard
-                    address={stepData[1].address}
-                    floor={stepData[1].floor}
-                    apartment={stepData[1].apartment}
-                    province={stepData[1].state}
-                    city={stepData[1].city}
-                    postalCode={stepData[1].postalCode}
-                    ref={addressDataCardRef}
-                  />
+                <AccordionDetails sx={sx_de}>
+                  {expanded === 1 && (
+                    <AddressDataCard
+                      address={stepData[1].address}
+                      floor={stepData[1].floor}
+                      apartment={stepData[1].apartment}
+                      province={stepData[1].state}
+                      city={stepData[1].city}
+                      postalCode={stepData[1].postalCode}
+                      ref={refs}
+                    />
+                  )}
                 </AccordionDetails>
               </Accordion>
+
               <Accordion
-                expanded={expanded === "panel3"}
-                onChange={handleChange("panel3")}
+                expanded={expanded === 2}
+                onChange={handleChange(2)}
+                sx={sx}
               >
                 <AccordionSummary
+                  sx={sx_summ}
                   expandIcon={<ExpandMore />}
                   aria-controls="panel3d-content"
                   id="panel3d-header"
@@ -223,21 +308,26 @@ const RenewalCard = (props) => {
                     {labels.titles[2]}
                   </Typography>
                 </AccordionSummary>
-                <AccordionDetails>
-                  <ExtraDataCard
-                    occupation={stepData[2].occupation}
-                    study={stepData[2].study}
-                    phone={stepData[2].phone}
-                    email={stepData[2].email}
-                    ref={extraDataCardRef}
-                  />
+                <AccordionDetails sx={sx_de}>
+                  {expanded === 2 && (
+                    <ExtraDataCard
+                      occupation={stepData[2].occupation}
+                      study={stepData[2].study}
+                      phone={stepData[2].phone}
+                      email={stepData[2].email}
+                      ref={refs}
+                    />
+                  )}
                 </AccordionDetails>
               </Accordion>
+
               <Accordion
-                expanded={expanded === "panel5"}
-                onChange={handleChange("panel5")}
+                sx={sx}
+                expanded={expanded === 3}
+                onChange={handleChange(3)}
               >
                 <AccordionSummary
+                  sx={sx_summ}
                   expandIcon={<ExpandMore />}
                   aria-controls="panel3d-content"
                   id="panel5d-header"
@@ -246,11 +336,10 @@ const RenewalCard = (props) => {
                     {labels.titles[3]}
                   </Typography>
                 </AccordionSummary>
-                <AccordionDetails>
-                  <FileAttachCard
-                    ref={fileAttachCardRef}
-                    files={stepData[3].files}
-                  />
+                <AccordionDetails sx={sx_de}>
+                  {expanded === 3 && (
+                    <FileAttachCard ref={refs} files={stepData[3].files} />
+                  )}
                 </AccordionDetails>
               </Accordion>
             </>
@@ -258,9 +347,11 @@ const RenewalCard = (props) => {
         </CardContent>
 
         <CardActions sx={centerButtonsStyle}>
-          <Button size="small" color="inherit">
-            {commonlabels.button.cancel}
-          </Button>
+          {!open && (
+            <Button size="small" color="inherit" onClick={handleBack}>
+              {commonlabels.button.cancel}
+            </Button>
+          )}
           <Button size="small" onClick={handleSend}>
             {commonlabels.button.ok}
           </Button>

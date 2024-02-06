@@ -159,15 +159,10 @@ export const ServiceProvider = ({ children }) => {
         auth = response.data.authorization;
         setAuthorization(auth);
 
-        let names = response.data.user.name.split(" ");
-        let lastnames = names.pop();
-        names = names.join(" ");
-
         if (response.data !== null) {
           user = {
-            name: names,
+            name: response.data.user.name,
             cuil: response.data.user.cuil,
-            lastname: lastnames,
             ae: AE.NON_AE,
           };
         }
@@ -218,11 +213,11 @@ export const ServiceProvider = ({ children }) => {
     return result;
   };
 
-  const start_ae = async (register_user) => {
+  const start_ae_n = async (register_user) => {
     let result = false;
     let url = process.env.REACT_APP_BACK_URL;
     await axios
-      .post(url + "/api/ae/start", { register_user })
+      .post(url + "/api/ae/start_n", register_user)
       .then((response) => {
         if (response.data === "Agregado") {
           result = true;
@@ -394,7 +389,7 @@ export const ServiceProvider = ({ children }) => {
         get_citys_name,
         get_address_names,
         send_confirmation_verify,
-        start_ae,
+        start_ae_n,
         AE,
         fetch_user_data,
         finalize_ae,
