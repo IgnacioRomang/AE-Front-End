@@ -1,6 +1,7 @@
 // AuthContext.js
 import axios from "axios";
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { parseDate } from "../utiles";
 
 const ServiceContext = createContext();
 
@@ -221,6 +222,7 @@ export const ServiceProvider = ({ children }) => {
       .then((response) => {
         if (response.data === "Agregado") {
           result = true;
+          setServerDates(null);
         }
       });
     return result;
@@ -252,20 +254,32 @@ export const ServiceProvider = ({ children }) => {
     let u = User;
     u.ae = response.data.type;
     setUser(u);
-    const parseDate = (dateString) => {
-      const [year, month, day] = dateString.split("-").map(Number);
-      return new Date(year, month - 1, day);
-    };
+
     if (response.data.dates.startDay !== null) {
-      setServerDates({
-        startDay: parseDate(response.data.dates.startDay),
-        fifthMonth: parseDate(response.data.dates.fifthMonth),
-        sixthMonth: parseDate(response.data.dates.sixthMonth),
-        lastMonth: parseDate(response.data.dates.lastMonth),
-        endMonth: response.data.dates.hasOwnProperty("renewalMonth")
-          ? parseDate(response.data.dates.renewalMonth)
-          : null,
-      });
+      //console.log(response.data.dates);
+      const newServerDates = {};
+
+      if (response.data.dates.hasOwnProperty("startDay")) {
+        newServerDates.startDay = parseDate(response.data.dates.startDay);
+      }
+
+      if (response.data.dates.hasOwnProperty("fifthMonth")) {
+        newServerDates.fifthMonth = parseDate(response.data.dates.fifthMonth);
+      }
+
+      if (response.data.dates.hasOwnProperty("sixthMonth")) {
+        newServerDates.sixthMonth = parseDate(response.data.dates.sixthMonth);
+      }
+
+      if (response.data.dates.hasOwnProperty("lastMonth")) {
+        newServerDates.lastMonth = parseDate(response.data.dates.lastMonth);
+      }
+
+      if (response.data.dates.hasOwnProperty("renewalMonth")) {
+        newServerDates.endMonth = parseDate(response.data.dates.renewalMonth);
+      }
+      //console.log(newServerDates);
+      setServerDates(newServerDates);
 
       result = true;
     }

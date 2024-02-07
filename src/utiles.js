@@ -94,7 +94,10 @@ export const datecontrol = (selectedDate) => {
   );
   return yearsAgo_100 <= selectedDate && selectedDate <= yearsAgo_18;
 };
-
+export const parseDate = (dateString) => {
+  const [year, month, day] = dateString.split("-").map(Number);
+  return new Date(year, month - 1, day);
+};
 export const stringAvatar = (name) => {
   return {
     sx: {
@@ -189,5 +192,6 @@ export default {
   doApartment,
   doPhone,
   doEmail,
+  parseDate,
   formatDate,
 };

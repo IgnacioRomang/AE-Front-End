@@ -24,8 +24,8 @@ export default function News() {
       try {
         let url = process.env.REACT_APP_BACK_URL;
         const response = await axios.get(url + "/api/resources/getpdflist");
-        const sortedPdfs = response.data.sort((a, b) => a.id - b.id);
-        setPdfs(sortedPdfs);
+        //const sortedPdfs = response.data.sort((a, b) => a.id - b.id);
+        setPdfs(response.data);
       } catch (error) {
         console.error("Error fetching PDF:", error);
         // Handle error if needed

@@ -33,8 +33,8 @@ import {
   InfoDataCard,
 } from "../fragments/form";
 // Styles
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useService } from "../contexts/ServiceContext.js";
 import {
   boxbottonsSteppStyle,
   cardRegisterStyle,
@@ -42,7 +42,6 @@ import {
   finalboxStyle,
   stepStyle,
 } from "../theme.jsx";
-import { useService } from "../contexts/ServiceContext.js";
 import { formatDate } from "../utiles.js";
 /**
  * The RegisterCard component is a multi-step form that allows users to register by providing various information.

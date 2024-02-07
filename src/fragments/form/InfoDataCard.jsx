@@ -212,7 +212,7 @@ const InfoDataCard = React.forwardRef((props, ref) => {
               />
             </Grid>
           )}
-          {props.registerState && (
+          {true && (
             <Grid item xs={12} sm={4}>
               <TextField
                 id="dates"

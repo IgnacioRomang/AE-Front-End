@@ -31,7 +31,7 @@ import { grey } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext.js";
 import { cardRegisterStyle, centerButtonsStyle } from "../theme.jsx";
-import { formatDate } from "../utiles.js";
+import { formatDate, parseDate } from "../utiles.js";
 
 const sx = {
   border: `1px solid #999999`,
@@ -57,12 +57,10 @@ const sx_de = {
  * @return {JSX.Element} The component.
  */
 const RenewalCard = (props) => {
-  const [errorSend, setSendError] = useState(false);
   const labels = useRegisterCardString();
   const commonlabels = useCommonsString();
   const renewalstring = useRenewalCardString();
-  const [open, setOpen] = useState(false);
-  const [error, setError] = useState(false);
+
   const [expanded, setExpanded] = React.useState("");
   const { User, fetch_user_data } = useService();
   const [stepData, setStepData] = useState([
@@ -91,8 +89,10 @@ const RenewalCard = (props) => {
   ]);
   const { start_ae_n } = useService();
   const refs = React.useRef(null);
-
   const navigate = useNavigate();
+
+  const [open, setOpen] = useState(false);
+  const [errorSend, setSendError] = useState(false);
 
   React.useEffect(() => {
     if (User === null) {
@@ -175,10 +175,7 @@ const RenewalCard = (props) => {
         study: stepData[2].study,
       };
       let result = await start_ae_n(register_user);
-
-      if (!result) {
-        setSendError(true);
-      }
+      setSendError(!result);
     } catch (e) {
       console.log(e);
     }
@@ -188,16 +185,17 @@ const RenewalCard = (props) => {
    * @brief This function is called when the user clicks the "Submit" button.
    */
   const handleSend = () => {
+    setSendError(true);
     let ref = refs.current;
-    let error = false;
+    let data_error = false;
     if (ref !== null) {
-      error = ref.handleErrors();
+      data_error = ref.handleErrors();
     }
-    if (!error) {
+    if (!data_error) {
       handleRegister();
-      setOpen(!open);
+      setOpen(true);
     }
-    setSendError(false);
+    //setSendError(false);
     //TODO SEND
   };
 
@@ -205,11 +203,15 @@ const RenewalCard = (props) => {
    * @brief This function is called when the user clicks the "Cancel" button.
    */
   const handleClose = () => {
-    setOpen(false);
+    navigate("/user/profile");
   };
 
   const handleBack = () => {
-    navigate(-1);
+    if (open) {
+      setOpen(false);
+    } else {
+      navigate(-1);
+    }
   };
   return (
     <>
@@ -347,13 +349,25 @@ const RenewalCard = (props) => {
         </CardContent>
 
         <CardActions sx={centerButtonsStyle}>
-          {!open && (
-            <Button size="small" color="inherit" onClick={handleBack}>
-              {commonlabels.button.cancel}
-            </Button>
-          )}
-          <Button size="small" onClick={handleSend}>
-            {commonlabels.button.ok}
+          <Button size="small" color="inherit" onClick={handleBack}>
+            {commonlabels.button.cancel}
+          </Button>
+
+          <Button
+            size="small"
+            //errorSend && open
+            //
+            // 0 && 0 handleSend
+            // 0 && 1 handleClose
+            // 1 && 0  no puede pasar (?)
+            // 1 && 1 handleSend
+            onClick={
+              (!errorSend && open) || (errorSend && !open)
+                ? handleClose
+                : handleSend
+            }
+          >
+            {errorSend ? commonlabels.button.restart : commonlabels.button.ok}
           </Button>
         </CardActions>
       </Card>

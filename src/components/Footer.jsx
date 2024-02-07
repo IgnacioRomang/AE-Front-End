@@ -1,6 +1,3 @@
-import EmailIcon from "@mui/icons-material/Email";
-import PhoneIcon from "@mui/icons-material/Phone";
-import PlaceIcon from "@mui/icons-material/Place";
 import { Chip, Paper } from "@mui/material";
 import { Container } from "@mui/system";
 import React from "react";
@@ -13,6 +10,11 @@ import {
   imgLogoLoteStyle,
   imgLogoProvStyle,
 } from "../theme.jsx";
+
+const EmailIcon = React.lazy(() => import("@mui/icons-material/Email"));
+const PhoneIcon = React.lazy(() => import("@mui/icons-material/Phone"));
+const PlaceIcon = React.lazy(() => import("@mui/icons-material/Place"));
+
 /**
  * React functional component for the Footer component
  * @returns {JSX.Element} The footer component

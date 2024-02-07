@@ -20,6 +20,12 @@ import News from "./routes/news";
 import Root from "./routes/root";
 
 function App() {
+  React.useEffect(() => {
+    const preconnect = document.createElement("link");
+    preconnect.rel = "preconnect";
+    preconnect.href = process.env.REACT_APP_BACK_URL;
+    document.head.appendChild(preconnect);
+  }, []);
   return (
     <div className="App app-container">
       <ServiceProvider>
