@@ -1,17 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import {
   useCommonsString,
   useRegisterCardString,
   useRenewalCardString,
 } from "../contexts/TextProvider.jsx";
-import ErrorAE from "../fragments/ErrorFragment.jsx";
-import SuccessAE from "../fragments/SuccessFragment.jsx";
-import {
-  AddressDataCard,
-  ExtraDataCard,
-  FileAttachCard,
-  InfoDataCard,
-} from "../fragments/form";
 
 import { ExpandMore, HowToReg } from "@mui/icons-material";
 import {
@@ -22,6 +14,7 @@ import {
   AlertTitle,
   Button,
   Card,
+  CircularProgress,
   CardActions,
   CardContent,
   CardHeader,
@@ -31,7 +24,20 @@ import { grey } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext.js";
 import { cardRegisterStyle, centerButtonsStyle } from "../theme.jsx";
-import { formatDate, parseDate } from "../utiles.js";
+import { formatDate } from "../utiles.js";
+
+const InfoDataCard = React.lazy(() => import("../fragments/form/InfoDataCard"));
+const AddressDataCard = React.lazy(() =>
+  import("../fragments/form/AddressDataCard")
+);
+const ExtraDataCard = React.lazy(() =>
+  import("../fragments/form/ExtraDataCard")
+);
+const FileAttachCard = React.lazy(() =>
+  import("../fragments/form/FileAttachCard")
+);
+const SuccessAE = React.lazy(() => import("../fragments/SuccessFragment"));
+const ErrorAE = React.lazy(() => import("../fragments/ErrorFragment"));
 
 const sx = {
   border: `1px solid #999999`,
@@ -62,8 +68,9 @@ const RenewalCard = (props) => {
   const renewalstring = useRenewalCardString();
 
   const [expanded, setExpanded] = React.useState("");
-  const { User, fetch_user_data } = useService();
-  const [stepData, setStepData] = useState([
+  const [open, setOpen] = React.useState(false);
+  const [errorSend, setSendError] = React.useState(false);
+  const [stepData, setStepData] = React.useState([
     {
       name: "",
       lastName: "",
@@ -87,12 +94,10 @@ const RenewalCard = (props) => {
     },
     { files: [] },
   ]);
-  const { start_ae_n } = useService();
-  const refs = React.useRef(null);
-  const navigate = useNavigate();
 
-  const [open, setOpen] = useState(false);
-  const [errorSend, setSendError] = useState(false);
+  const refs = React.useRef(null);
+  const { User, fetch_user_data, start_ae_n } = useService();
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     if (User === null) {
@@ -141,7 +146,6 @@ const RenewalCard = (props) => {
       setExpanded(newExpanded ? panel : false);
     } else {
       let ref = refs.current;
-      console.log(ref.handleErrors());
       if (!ref.handleErrors()) {
         if (expanded !== panel) {
           setExpanded(newExpanded ? panel : false);
@@ -155,9 +159,6 @@ const RenewalCard = (props) => {
   const handleRegister = async () => {
     try {
       let register_user = {
-        //cuil: stepData[0].formattedCUIL,
-        ///email: stepData[2].email,
-        //password: stepData[0].password,
         firstname: stepData[0].name,
         lastname: stepData[0].lastName,
         birthdate: formatDate(new Date(stepData[0].selectedBirthdate)),
@@ -214,7 +215,13 @@ const RenewalCard = (props) => {
     }
   };
   return (
-    <>
+    <Suspense
+      fallback={
+        <CardContent style={{ textAlign: "center" }}>
+          <CircularProgress />
+        </CardContent>
+      }
+    >
       <Card sx={cardRegisterStyle}>
         <CardHeader
           avatar={<HowToReg />}
@@ -355,12 +362,6 @@ const RenewalCard = (props) => {
 
           <Button
             size="small"
-            //errorSend && open
-            //
-            // 0 && 0 handleSend
-            // 0 && 1 handleClose
-            // 1 && 0  no puede pasar (?)
-            // 1 && 1 handleSend
             onClick={
               (!errorSend && open) || (errorSend && !open)
                 ? handleClose
@@ -371,7 +372,7 @@ const RenewalCard = (props) => {
           </Button>
         </CardActions>
       </Card>
-    </>
+    </Suspense>
   );
 };
 

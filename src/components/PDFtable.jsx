@@ -1,7 +1,8 @@
-import { Box, Grid, Pagination } from "@mui/material";
-import React, { useState } from "react";
+import { Box, Grid, Pagination, Skeleton } from "@mui/material";
+import React, { useState, Suspense } from "react";
 import { centeringStyles } from "../theme";
-import InfoCard from "./InfoCard";
+
+const InfoCard = React.lazy(() => import("./InfoCard"));
 
 /**
  * This function takes in an array of PDFs and returns a view of 3 PDFs in a row.
@@ -39,7 +40,17 @@ const PdfTable = ({ pdfs }) => {
       >
         {visiblePdfs.map((pdf, index) => (
           <Grid item key={index}>
-            <InfoCard state={pdf === null} pdf={pdf} />
+            <Suspense
+              fallback={
+                <Skeleton
+                  variant="rectangular"
+                  height={"25vh"}
+                  width={"30vw"}
+                />
+              }
+            >
+              <InfoCard state={pdf === null} pdf={pdf} />
+            </Suspense>
           </Grid>
         ))}
       </Grid>

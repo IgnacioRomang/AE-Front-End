@@ -41,7 +41,8 @@ function InfoCard(props) {
       },
     },
   };
-
+  console.log(pdf);
+  // image={`data:image/png;base64,${pdf.img}`}
   return (
     <React.Suspense
       fallback={
@@ -70,7 +71,7 @@ function InfoCard(props) {
               height: 140,
               width: "100%",
             }}
-            image={`data:image/png;base64,${pdf.img}`}
+            image={process.env.REACT_APP_BACK_URL + pdf.img}
             title={pdf.title}
           />
         )}

@@ -83,37 +83,6 @@ const Calendar = ({ intStart, intEnd, msg }) => {
         //tramo de dos meses
       }
     }
-    /*
-    if (intStart === intEnd) {
-      if (day != null && day === intEnd.getDate()) {
-        color = blue[200];
-        sizes = true;
-        msg_active = true;
-      }
-    } else {
-      const isExclusionOfFirstCal = intStart.getMonth() < intEnd.getMonth();
-      const isSameMonth = intStart.getMonth() === intEnd.getMonth();
-      range_start = intStart.getDate() === day && isExclusionOfFirstCal;
-      range_end = intEnd.getDate() === day && !isExclusionOfFirstCal;
-      if (isSameMonth) {
-        if (
-          day != null &&
-          intStart.getDate() <= day &&
-          intEnd.getDate() >= day
-        ) {
-          color = red[200];
-          msg_active = true;
-        }
-      } else if (
-        isExclusionOfFirstCal
-          ? day != null && day >= intStart.getDate()
-          : day == null || day <= intEnd.getDate()
-      ) {
-        color = red[200];
-        msg_active = true;
-      }
-    }*/
-
     return (
       <>
         <TableCell
