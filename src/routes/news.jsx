@@ -1,18 +1,18 @@
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-import Fab from "@mui/material/Fab";
+import { Box, Fab } from "@mui/material";
 import { blue } from "@mui/material/colors";
 import axios from "axios";
-import { default as React, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import PdfTable from "../components/PDFtable";
 import TopBar from "../components/TopBar";
-import { useService } from "../contexts/ServiceContext";
-import ScrollableComponent from "../fragments/ScrollableComponent";
-export default function News() {
-  const [pdfs, setPdfs] = useState([null, null, null]);
-  const [loading, setLoading] = useState(true);
-  const { isAuthenticated } = useService();
+import { centeringStyles } from "../theme";
+
+const API_URL = process.env.REACT_APP_BACK_URL;
+
+const News = () => {
+  const [pdfs, setPdfs] = useState([]);
   const navigate = useNavigate();
 
   const handleHelpClick = () => {
@@ -22,27 +22,31 @@ export default function News() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let url = process.env.REACT_APP_BACK_URL;
-        const response = await axios.get(url + "/api/resources/getpdflist");
+        const response = await axios.get(`${API_URL}/api/resources/getpdflist`);
         setPdfs(response.data);
       } catch (error) {
         console.error("Error fetching PDF:", error);
         // Handle error if needed
-      } finally {
-        setLoading(false);
       }
     };
 
     fetchData();
   }, []);
-  const pdfCache = React.useMemo(() => pdfs, [pdfs]);
 
   return (
-    <>
+    <React.Fragment>
       <TopBar />
-      <ScrollableComponent>
-        <PdfTable pdfs={pdfCache} key={loading} />
-      </ScrollableComponent>
+      <Box
+        sx={{
+          minHeight: "75vh",
+          maxHeight: "100vh",
+          padding: 5,
+          display: "flex",
+          ...centeringStyles,
+        }}
+      >
+        {pdfs.length > 0 && <PdfTable pdfs={pdfs} />}
+      </Box>
       <Footer />
       <Fab
         size="medium"
@@ -60,6 +64,8 @@ export default function News() {
         <HelpOutlineIcon sx={{ mr: 1 }} />
         {"Ayuda"}
       </Fab>
-    </>
+    </React.Fragment>
   );
-}
+};
+
+export default News;

@@ -122,12 +122,8 @@ const TopBar = (props) => {
   };
 
   return (
-    <AppBar position="static">
-      <Container
-        sx={{
-          maxWidth: "xl",
-        }}
-      >
+    <AppBar position="static" sx={{ height: "10vh" }}>
+      <Container>
         <Toolbar disableGutters>
           <Box sx={boxXLmenu}>
             <img

@@ -1,111 +1,76 @@
-import React, { useState, Suspense } from "react";
-
+import React, { useState, useEffect, useRef } from "react";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+import Skeleton from "@mui/material/Skeleton";
 import { useNavigate } from "react-router-dom";
-import LazyLoadedCardMedia from "../fragments/LazyLoadedCardMedia";
 
-const Typography = React.lazy(() => import("@mui/material/Typography"));
-const Skeleton = React.lazy(() => import("@mui/material/Skeleton"));
-/**
- * A component that displays an info card for a PDF document.
- * @param {InfoCardProps} props - The props for the InfoCard component.
- * @returns {JSX.Element} A React element that displays an info card for a PDF document.
- */
-function InfoCard(props) {
-  const { state, pdf } = props;
-
-  const [loading, setLoading] = useState(state);
+const InfoCard = ({ pdf }) => {
   const navigate = useNavigate();
-  const highResDisplay = {
-    display: {
-      xs: "none",
-      md: "flex",
-      lg: "flex",
-    },
-  };
-  const infoCardStyle = {
-    card: {
-      maxWidth: 345,
-      margin: "auto",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "space-between",
-      alignItems: "center",
-      boxShadow: 3,
-      "&:hover": {
-        boxShadow: 6,
+  const [isVisible, setIsVisible] = useState(false);
+  const cardMediaRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+            observer.unobserve(entry.target);
+          }
+        });
       },
-    },
-  };
-  console.log(pdf);
-  // image={`data:image/png;base64,${pdf.img}`}
-  return (
-    <React.Suspense
-      fallback={
-        <Skeleton
-          variant="rectangular"
-          height={"25vh"}
-          width={"30vw"}
-          sx={{ display: highResDisplay.display }}
-        />
+      { threshold: 0.5 }
+    );
+
+    if (cardMediaRef.current) {
+      observer.observe(cardMediaRef.current);
+    }
+
+    return () => {
+      if (cardMediaRef.current) {
+        observer.unobserve(cardMediaRef.current);
       }
-    >
-      <Card sx={infoCardStyle.card}>
-        {loading ? (
-          <Skeleton
-            variant="rectangular"
-            height={"25vh"}
-            width={"30vw"}
-            sx={{
-              display: highResDisplay.display,
-            }}
-          />
-        ) : (
-          <CardMedia
-            sx={{
-              display: highResDisplay.display,
-              height: 140,
-              width: "100%",
-            }}
-            image={process.env.REACT_APP_BACK_URL + pdf.img}
-            title={pdf.title}
-          />
-        )}
+    };
+  }, []);
 
-        <CardContent>
-          <Suspense fallback={<Skeleton variant="text" />}>
-            <CardContent>
-              <Typography variant="body2" color="text.secondary">
-                {loading ? (
-                  <Skeleton variant="rectangular" height={80} width={"30vw"} />
-                ) : (
-                  pdf.abstract
-                )}
-              </Typography>
-            </CardContent>
-          </Suspense>
-        </CardContent>
+  const handleReadMoreClick = () => {
+    navigate(`/document/${pdf.id}`);
+  };
 
-        <CardActions
-          sx={{ textAlign: "left", display: "flex", alignItems: "flex-start" }}
-        >
-          <Button
-            size="small"
-            disabled={loading}
-            onClick={() => {
-              navigate("/document/" + pdf.id.toString());
-            }}
-          >
-            Leer mas
-          </Button>
-        </CardActions>
-      </Card>
-    </React.Suspense>
+  return (
+    <Card sx={{ maxWidth: 365, maxHeight: 465, margin: "auto" }}>
+      <CardMedia
+        component="img"
+        ref={cardMediaRef}
+        src={
+          isVisible
+            ? process.env.REACT_APP_BACK_URL + pdf.img
+            : process.env.REACT_APP_BACK_URL + pdf.thumbnail
+        }
+        alt={pdf.title}
+        title={pdf.title}
+        loading="lazy"
+        sx={{ height: 140 }}
+      />
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+          {pdf.title}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {pdf.abstract}
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <Button size="small" onClick={handleReadMoreClick}>
+          Leer más
+        </Button>
+      </CardActions>
+    </Card>
   );
-}
+};
 
 export default InfoCard;

@@ -1,4 +1,4 @@
-import React, { useState, Suspense } from "react";
+import React, { Suspense } from "react";
 import {
   useCommonsString,
   useRegisterCardString,
@@ -26,18 +26,12 @@ import { useService } from "../contexts/ServiceContext.js";
 import { cardRegisterStyle, centerButtonsStyle } from "../theme.jsx";
 import { formatDate } from "../utiles.js";
 
-const InfoDataCard = React.lazy(() => import("../fragments/form/InfoDataCard"));
-const AddressDataCard = React.lazy(() =>
-  import("../fragments/form/AddressDataCard")
-);
-const ExtraDataCard = React.lazy(() =>
-  import("../fragments/form/ExtraDataCard")
-);
-const FileAttachCard = React.lazy(() =>
-  import("../fragments/form/FileAttachCard")
-);
-const SuccessAE = React.lazy(() => import("../fragments/SuccessFragment"));
-const ErrorAE = React.lazy(() => import("../fragments/ErrorFragment"));
+import InfoDataCard from "../fragments/form/InfoDataCard";
+import AddressDataCard from "../fragments/form/AddressDataCard";
+import ExtraDataCard from "../fragments/form/ExtraDataCard";
+import FileAttachCard from "../fragments/form/FileAttachCard";
+import SuccessAE from "../fragments/SuccessFragment";
+import ErrorAE from "../fragments/ErrorFragment";
 
 const sx = {
   border: `1px solid #999999`,
@@ -104,9 +98,9 @@ const RenewalCard = (props) => {
       navigate("/");
     }
     fetch_user_data().then((response) => {
-      let user_data = response.data;
-      if (response.data !== null) {
+      if (response && response.data) {
         //console.log(user_data);
+        let user_data = response.data;
         setStepData([
           {
             name: user_data.name,
