@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
  * This function is a React component that displays a PDF document.
  * @param {object} props - The properties of the component.
  */
-const PDFViewer = (props) => {
+const PDFViewer = () => {
   const [pdf, setPdf] = React.useState([]);
 
   const { id } = useParams();

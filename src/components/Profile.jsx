@@ -6,6 +6,7 @@ import { useProfileString } from "../contexts/TextProvider";
 import ProfileAEdata from "../fragments/ProfileIconData";
 import Calendar from "../fragments/calendar/Calendar";
 import { centeringStyles } from "../theme";
+import { grey } from "@mui/material/colors";
 
 // Importar los componentes de Material-UI de forma perezosa
 const Alert = React.lazy(() => import("@mui/material/Alert"));
@@ -22,7 +23,7 @@ const Stack = React.lazy(() => import("@mui/material/Stack"));
  * @param {object} props - The props passed to the component
  * @returns {JSX.Element} The Profile component
  */
-const Profile = (props) => {
+const Profile = () => {
   const { User, getAEdates, serverDates, AE } = useService();
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();

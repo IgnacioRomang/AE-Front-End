@@ -9,7 +9,7 @@ import Question from "../fragments/Question";
  * @param {object} props - component properties
  * @returns {JSX.Element} - the FAQ page
  */
-const FAQ = (props) => {
+const FAQ = () => {
   const [questions, setQuestions] = React.useState([]);
   const labels = useFAQString();
 

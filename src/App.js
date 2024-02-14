@@ -18,6 +18,16 @@ import { ServiceProvider } from "./contexts/ServiceContext.js";
 import ErrorPage from "./routes/error-page";
 import News from "./routes/news";
 import Root from "./routes/root";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+
+// Crea un nuevo tema con el color primario modificado
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "rgb(230,97,32)",
+    },
+  },
+});
 
 function App() {
   React.useEffect(() => {
@@ -28,37 +38,47 @@ function App() {
   }, []);
   return (
     <div className="App app-container">
-      <ServiceProvider>
-        <Router>
-          <Routes>
-            <Route path="/" element={<News />} errorElement={<ErrorPage />} />
+      <ThemeProvider theme={theme}>
+        <ServiceProvider>
+          <Router>
+            <Routes>
+              <Route path="/" element={<News />} errorElement={<ErrorPage />} />
 
-            <Route path="/" element={<Root />} errorElement={<ErrorPage />}>
-              <Route path="faq" element={<FAQcard />} />
-              <Route path="document/:id" element={<PDFViewer />} />
-            </Route>
+              <Route path="/" element={<Root />} errorElement={<ErrorPage />}>
+                <Route path="faq" element={<FAQcard />} />
+                <Route path="document/:id" element={<PDFViewer />} />
+              </Route>
 
-            <Route path="/auth" element={<Root />} errorElement={<ErrorPage />}>
-              <Route path="login" element={<Login />} />
-              <Route path="register" element={<RegisterCard />} />
-              <Route path="forgot-password" element={<ForgotPassword />} />
-            </Route>
-
-            <Route path="/user" element={<Root />} errorElement={<ErrorPage />}>
-              <Route path="ae-finalize" element={<FinalizeCard />} />
-              <Route path="ae-renewal" element={<RenewalCard />} />
-              <Route path="profile" element={<Profile />} />
-              <Route path="reset-password" element={<ResetPassword />} />
-              <Route path="email-change" element={<EmailChange />} />
               <Route
-                path="verify-email/:id/:hash"
-                element={<VerificationCard />}
-              />
-            </Route>
-            <Route path="*" element={<ErrorPage />} />
-          </Routes>
-        </Router>
-      </ServiceProvider>
+                path="/auth"
+                element={<Root />}
+                errorElement={<ErrorPage />}
+              >
+                <Route path="login" element={<Login />} />
+                <Route path="register" element={<RegisterCard />} />
+                <Route path="forgot-password" element={<ForgotPassword />} />
+              </Route>
+
+              <Route
+                path="/user"
+                element={<Root />}
+                errorElement={<ErrorPage />}
+              >
+                <Route path="ae-finalize" element={<FinalizeCard />} />
+                <Route path="ae-renewal" element={<RenewalCard />} />
+                <Route path="profile" element={<Profile />} />
+                <Route path="reset-password" element={<ResetPassword />} />
+                <Route path="email-change" element={<EmailChange />} />
+                <Route
+                  path="verify-email/:id/:hash"
+                  element={<VerificationCard />}
+                />
+              </Route>
+              <Route path="*" element={<ErrorPage />} />
+            </Routes>
+          </Router>
+        </ServiceProvider>
+      </ThemeProvider>
     </div>
   );
 }

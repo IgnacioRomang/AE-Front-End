@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { useCommonsString, useLoginString } from "../contexts/TextProvider.jsx";
 import {
   boxLoginSyle,
+  buttonTopStyle,
   cardLoginStyle,
   centerButtonsStyle,
   linksStyle,
@@ -36,7 +37,7 @@ const Login = () => {
   const [labels, assets] = useLoginString();
   const commonlabels = useCommonsString();
 
-  const { User, authenticate } = useService();
+  const { User, authenticate, getAEdates } = useService();
 
   const [loginSuccess, setLoginSuccess] = React.useState(false);
   const [loginFail, setLoginFail] = React.useState(false);
@@ -73,14 +74,14 @@ const Login = () => {
    *
    * @param {Event} event The event object.
    */
-  const handleLogin = async (event) => {
+  const handleLogin = async () => {
     let result = await authenticate(formattedCUIL, passwordsd);
-
+    await getAEdates();
     if (result) {
       setLoginSuccess(true);
       setLoginFail(false);
 
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      //await new Promise((resolve) => setTimeout(resolve, 50));
 
       navigate("/user/profile", {
         replace: true,
@@ -96,7 +97,7 @@ const Login = () => {
    *
    * @param {Event} event The event object.
    */
-  const handleCancel = (event) => {
+  const handleCancel = () => {
     navigate(-1);
   };
 
@@ -163,7 +164,7 @@ const Login = () => {
               onClick={() => {
                 navigate("/auth/forgot-password");
               }}
-              style={loginSuccess ? linksStyle : null}
+              style={loginSuccess ? linksStyle : buttonTopStyle}
             >
               {labels.links.labels.password}
             </Link>
@@ -176,7 +177,7 @@ const Login = () => {
               onClick={() => {
                 navigate("/faq");
               }}
-              style={loginSuccess ? linksStyle : null}
+              style={loginSuccess ? linksStyle : buttonTopStyle}
             >
               {labels.links.labels.faq}
             </Link>
@@ -189,7 +190,7 @@ const Login = () => {
                 navigate("/auth/register");
               }}
               underline="hover"
-              style={loginSuccess ? linksStyle : null}
+              style={loginSuccess ? linksStyle : buttonTopStyle}
             >
               {labels.links.labels.account}
             </Link>
@@ -205,7 +206,12 @@ const Login = () => {
             >
               {commonlabels.button.cancel}
             </Button>
-            <Button size="small" onClick={handleLogin} disabled={loginSuccess}>
+            <Button
+              size="small"
+              sx={buttonTopStyle}
+              onClick={handleLogin}
+              disabled={loginSuccess}
+            >
               {commonlabels.button.ok}
             </Button>
           </CardActions>

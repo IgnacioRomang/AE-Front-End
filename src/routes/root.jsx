@@ -54,11 +54,14 @@ export default function Root() {
           size="medium"
           aria-label="Ayuda"
           variant="extended"
+          onClick={() => navigate("/faq")}
           style={{
             backgroundColor: blue[800],
             color: "white",
+            position: "fixed",
+            bottom: 16,
+            right: 16,
           }}
-          onClick={() => navigate("/faq")}
         >
           <HelpOutlineIcon sx={{ mr: 1 }} />
           {"Ayuda"}

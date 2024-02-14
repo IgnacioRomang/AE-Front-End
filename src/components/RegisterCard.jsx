@@ -69,7 +69,7 @@ const RegisterCard = () => {
   const stepperRef = useRef(null);
 
   const dataRef = useRef(null);
-  const { registerRequest, start_ae } = useService();
+  const { registerRequest } = useService();
 
   const [stepData, setStepData] = useState([
     {
@@ -140,7 +140,7 @@ const RegisterCard = () => {
    * @param {object} labels - an object containing the translated strings for the component
    * @returns {JSX.Element} the component to render for the current step
    */
-  const getStepperStage = (viewid, labels) => {
+  const getStepperStage = (viewid) => {
     switch (viewid) {
       case 0:
         return (
@@ -297,7 +297,6 @@ const RegisterCard = () => {
           >
             {!errors[5] &&
               steps.map((label, index) => {
-                const stepProps = {};
                 const labelProps = {};
                 labelProps.error = errors[index];
                 return (

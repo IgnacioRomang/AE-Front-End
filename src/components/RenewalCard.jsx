@@ -14,10 +14,10 @@ import {
   AlertTitle,
   Button,
   Card,
-  CircularProgress,
   CardActions,
   CardContent,
   CardHeader,
+  CircularProgress,
   Typography,
 } from "@mui/material";
 import { grey } from "@mui/material/colors";
@@ -26,12 +26,12 @@ import { useService } from "../contexts/ServiceContext.js";
 import { cardRegisterStyle, centerButtonsStyle } from "../theme.jsx";
 import { formatDate } from "../utiles.js";
 
-import InfoDataCard from "../fragments/form/InfoDataCard";
+import ErrorAE from "../fragments/ErrorFragment";
+import SuccessAE from "../fragments/SuccessFragment";
 import AddressDataCard from "../fragments/form/AddressDataCard";
 import ExtraDataCard from "../fragments/form/ExtraDataCard";
 import FileAttachCard from "../fragments/form/FileAttachCard";
-import SuccessAE from "../fragments/SuccessFragment";
-import ErrorAE from "../fragments/ErrorFragment";
+import InfoDataCard from "../fragments/form/InfoDataCard";
 
 const sx = {
   border: `1px solid #999999`,
@@ -56,7 +56,7 @@ const sx_de = {
  * @param {object} props The properties of the component.
  * @return {JSX.Element} The component.
  */
-const RenewalCard = (props) => {
+const RenewalCard = () => {
   const labels = useRegisterCardString();
   const commonlabels = useCommonsString();
   const renewalstring = useRenewalCardString();

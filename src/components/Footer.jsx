@@ -7,7 +7,6 @@ import {
   containerChipsFooterStyle,
   containerChipsFooterStyleSm,
   footerPaperStyle,
-  imgLogoLoteStyle,
   imgLogoProvStyle,
 } from "../theme.jsx";
 
@@ -56,13 +55,6 @@ const Footer = () => {
           alt=""
           href={assets.imgProv.href}
           style={imgLogoProvStyle}
-        />
-        <img
-          src={assets.imgLotes.src}
-          loading="lazy"
-          alt="" //todo alt
-          href={assets.imgLotes.href}
-          style={imgLogoLoteStyle}
         />
 
         <Container sx={containerChipsFooterStyle}>

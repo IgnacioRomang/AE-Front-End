@@ -134,7 +134,7 @@ export const cardLoginStyle = {
 };
 
 export const backdropLoginStyle = {
-  color: "#fff",
+  color: "#ffff",
   zIndex: (theme) => theme.zIndex.drawer + 1,
 };
 export const centerButtonsStyle = {
@@ -185,7 +185,6 @@ export const logoTopStyle = {
 };
 
 export const buttonTopStyle = {
-  color: "white",
   display: "flex",
   flexDirection: "row",
   alignItems: "center",

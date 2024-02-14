@@ -7,7 +7,6 @@ import {
   Grid,
   TextField,
 } from "@mui/material";
-import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext";
@@ -25,7 +24,7 @@ import { centerButtonsStyle } from "../theme";
  *
  * @returns {JSX.Element} The EmailChange component.
  */
-const EmailChange = (props) => {
+const EmailChange = () => {
   const commonlabels = useCommonsString();
   const labels = useEmailChangeString();
   const [code, setCode] = useState("");

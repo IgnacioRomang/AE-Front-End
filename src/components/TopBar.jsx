@@ -122,7 +122,7 @@ const TopBar = (props) => {
   };
 
   return (
-    <AppBar position="static" sx={{ height: "10vh" }}>
+    <AppBar position="static" color={"inherit"} sx={{ height: "10vh" }}>
       <Container>
         <Toolbar disableGutters>
           <Box sx={boxXLmenu}>
@@ -143,7 +143,6 @@ const TopBar = (props) => {
                       key={page.label}
                       disabled={page.disabled}
                       onClick={(e) => handleoOnClickMenu(e, page.id)}
-                      sx={buttonTopStyle}
                     >
                       {page.label}
                     </Button>

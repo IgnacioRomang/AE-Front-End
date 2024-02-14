@@ -38,13 +38,18 @@
 }
 
 .app-container {
-  /* Color gris claro */
-  background: linear-gradient(
-    90deg,
-    rgba(199, 136, 136, 0.654) 0%,
-    rgba(232, 227, 232, 1) 50%,
-    rgba(84, 84, 152, 0.618) 100%
-  );
+  background: 
+    /* Degradado lineal */ linear-gradient(
+      90deg,
+      rgba(199, 136, 136, 0.654) 0%,
+      rgba(232, 227, 232, 1) 50%,
+      rgba(84, 84, 152, 0.618) 100%
+    ),
+    /* Superposición oscuro */
+      linear-gradient(
+        rgba(0, 0, 0, 0.6),
+        /* Color negro con una opacidad del 30% */ rgba(0, 0, 0, 0.6)
+      );
   min-height: 100vh; /* Asegura que el fondo se extienda al menos al 100% de la altura de la ventana */
   display: flex;
   flex-direction: column;

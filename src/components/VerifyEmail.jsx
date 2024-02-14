@@ -5,7 +5,6 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
-import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext";
@@ -19,13 +18,13 @@ import { useEmailVerifyString } from "../contexts/TextProvider";
  * @param {string} hash - The cryptographic hash of the email verification request.
  * @returns {JSX.Element} The `VerificationCard` component.
  */
-const VerificationCard = (props) => {
+const VerificationCard = () => {
   const [loading, setLoading] = useState(true);
   const [success, setSuccess] = useState(false);
   const labels = useEmailVerifyString();
   const navigate = useNavigate();
   const { id, hash } = useParams();
-  const {send_confirmation_verify} = useService();
+  const { send_confirmation_verify } = useService();
   /**
    * The function `verifyEmail` is an asynchronous function that sends a POST request to verify an email
    * using the provided `id` and `hash`, and updates the verification result accordingly.
@@ -35,8 +34,8 @@ const VerificationCard = (props) => {
   const verifyEmail = React.useCallback(async () => {
     //TODO Work in progress
     try {
-      let result = send_confirmation_verify(id,hash);
-      setSuccess(result)
+      let result = send_confirmation_verify(id, hash);
+      setSuccess(result);
     } catch (error) {
       console.error("Error al verificar el email", error);
     } finally {

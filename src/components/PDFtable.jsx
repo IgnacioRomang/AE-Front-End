@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { Box, Grid, Pagination, Skeleton } from "@mui/material";
+import { Box, Grid, Pagination } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import InfoCard from "./InfoCard";
+import React, { useState } from "react";
 import { centeringStyles } from "../theme";
+import InfoCard from "./InfoCard";
 /**
  * This function takes in an array of PDFs and returns a view of 3 PDFs in a row.
  * @param {PDF[]} pdfs - An array of PDFs.
@@ -22,10 +22,10 @@ const PdfTable = ({ pdfs }) => {
 
   /**
    * This function handles the page change event for the pagination component.
-   * @param {React.ChangeEvent} event - The page change event.
+   * @param {React.ChangeEvent} _event - The page change event.
    * @param {number} page - The new page number.
    */
-  const handlePageChange = (event, page) => {
+  const handlePageChange = (_event, page) => {
     setCurrentPage(page);
   };
 

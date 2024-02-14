@@ -13,22 +13,21 @@ import React, { useState } from "react";
 
 import {
   useCommonsString,
-  useUnRegisterCardString,
   useLoginString,
+  useUnRegisterCardString,
 } from "../contexts/TextProvider.jsx";
 
 import AlertFragment from "../fragments/AlertFragmet.jsx";
 import ErrorAE from "../fragments/ErrorFragment.jsx";
-import LoginFragment from "../fragments/LoginFragment.jsx";
 import UnRegisterSuccessFragment from "../fragments/UnRegisterSuccessFragment.jsx";
 
+import { useNavigate } from "react-router-dom";
+import { useService } from "../contexts/ServiceContext.js";
 import {
   boxUnRegisterLogSyle,
   cardRegisterStyle,
   centerButtonsStyle,
 } from "../theme.jsx";
-import { useNavigate } from "react-router-dom";
-import { useService } from "../contexts/ServiceContext.js";
 
 /**
  * @brief This component is used to unregister the user from the system.

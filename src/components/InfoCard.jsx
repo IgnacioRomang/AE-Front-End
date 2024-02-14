@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import Skeleton from "@mui/material/Skeleton";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const InfoCard = ({ pdf }) => {
@@ -49,12 +48,15 @@ const InfoCard = ({ pdf }) => {
         src={
           isVisible
             ? process.env.REACT_APP_BACK_URL + pdf.img
-            : process.env.REACT_APP_BACK_URL + pdf.thumbnail
+            : process.env.REACT_APP_BACK_URL +
+              pdf.img +
+              "?tr=w-400,h-300,bl-30,q-50"
         }
         alt={pdf.title}
+        thubpmbnail={pdf.thubpmbnail}
         title={pdf.title}
         loading="lazy"
-        sx={{ height: 140 }}
+        sx={{ height: "20vh", maxWidth: 365 }}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">

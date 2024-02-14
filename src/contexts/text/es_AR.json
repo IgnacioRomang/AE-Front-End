@@ -277,10 +277,7 @@
     "components": {
       "footer": {
         "imgProv": {
-          "src": "/images/logo_prov.png"
-        },
-        "imgLotes": {
-          "src": "/images/logo_lote2.png"
+          "src": "/images/logo_cas_mas_pcia_2024_crop_2.webp"
         }
       },
       "loginCard": {
@@ -293,7 +290,7 @@
       },
       "topbar": {
         "logo": {
-          "src": "/images/logo.png"
+          "src": "/images/logo.webp"
         }
       }
     }

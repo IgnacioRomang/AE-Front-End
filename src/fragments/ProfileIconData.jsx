@@ -10,11 +10,20 @@ import { useService } from "../contexts/ServiceContext.js";
 const ProfileIconData = ({ iuser }) => {
   const labels = useProfileIconDataString();
   const nav = useNavigate();
-  const { AE, User, fetch_end_pdf } = useService();
+  const { AE, User, fetch_end_pdf, fetch_start_pdf } = useService();
 
   const handleEndPDF = async () => {
     try {
       const pdfUrl = await fetch_end_pdf();
+      window.open("data:application/pdf;base64," + pdfUrl, "_blank");
+    } catch (error) {
+      // Manejar el error, por ejemplo, mostrar un mensaje al usuario
+      console.error("Error al abrir el PDF:", error);
+    }
+  };
+  const handleStartPDF = async () => {
+    try {
+      const pdfUrl = await fetch_start_pdf();
       window.open("data:application/pdf;base64," + pdfUrl, "_blank");
     } catch (error) {
       // Manejar el error, por ejemplo, mostrar un mensaje al usuario
@@ -46,7 +55,9 @@ const ProfileIconData = ({ iuser }) => {
             </Link>
           )}
           {User.ae !== AE.NON_AE && User.ae !== AE.FINALIZED && (
-            <Link size="small">{labels.startPDF}</Link>
+            <Link size="small" onClick={handleStartPDF}>
+              {labels.startPDF}
+            </Link>
           )}
           <Link size="small" onClick={(e) => nav("/user/reset-password")}>
             {labels.password}

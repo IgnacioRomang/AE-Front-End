@@ -340,6 +340,17 @@ export const ServiceProvider = ({ children }) => {
     }
   };
 
+  const fetch_start_pdf = async () => {
+    let url = process.env.REACT_APP_BACK_URL;
+    try {
+      const response = await axios.get(url + "/api/ae/fetch-start-pdf");
+      console.log(response);
+      return response.data.content;
+    } catch (error) {
+      console.error("Error al obtener el PDF:", error);
+    }
+  };
+
   const fetch_user_data = async () => {
     let url = process.env.REACT_APP_BACK_URL;
     try {
@@ -406,6 +417,7 @@ export const ServiceProvider = ({ children }) => {
         start_ae_n,
         AE,
         fetch_user_data,
+        fetch_start_pdf,
         finalize_ae,
       }}
     >
