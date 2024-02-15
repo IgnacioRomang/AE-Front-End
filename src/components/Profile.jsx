@@ -57,8 +57,9 @@ const Profile = () => {
   const labels = useProfileString();
 
   return (
-    <>
-      {" "}
+    <Suspense
+      fallback={<Skeleton variant="rectangular" height={60} width={"100%"} />}
+    >
       {User !== null ? (
         <Grid
           container
@@ -220,7 +221,7 @@ const Profile = () => {
       ) : (
         <></>
       )}
-    </>
+    </Suspense>
   );
 };
 

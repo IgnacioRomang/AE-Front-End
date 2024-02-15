@@ -1,4 +1,4 @@
-import { Chip, Paper } from "@mui/material";
+import { Chip, Paper, useTheme } from "@mui/material";
 import { Container } from "@mui/system";
 import React from "react";
 import { useFooterString } from "../contexts/TextProvider.jsx";
@@ -10,15 +10,17 @@ import {
   imgLogoProvStyle,
 } from "../theme.jsx";
 
-const EmailIcon = React.lazy(() => import("@mui/icons-material/Email"));
-const PhoneIcon = React.lazy(() => import("@mui/icons-material/Phone"));
-const PlaceIcon = React.lazy(() => import("@mui/icons-material/Place"));
+import EmailIcon from "@mui/icons-material/Email";
+import PhoneIcon from "@mui/icons-material/Phone";
+import PlaceIcon from "@mui/icons-material/Place";
+import { isMobileDevice } from "../utiles.js";
 
 /**
  * React functional component for the Footer component
  * @returns {JSX.Element} The footer component
  */
 const Footer = () => {
+  const theme = useTheme();
   const [contact_info, assets] = useFooterString();
 
   const [hoveredChip, setHoveredChip] = React.useState(null);
@@ -36,8 +38,15 @@ const Footer = () => {
       // Abre la aplicación de correo electrónico predeterminada
       window.open("mailto:" + contact_info.email);
     } else if (contactType === "phone") {
-      // Abre la aplicación de teléfono
-      window.open("tel:" + contact_info.phone);
+      if (isMobileDevice()) {
+        // Si es un dispositivo móvil, abrir la aplicación de teléfono
+        window.open("tel:" + contact_info.phone);
+      } else {
+        // Si es un escritorio, abrir WhatsApp
+        window.open(
+          "https://web.whatsapp.com/send?phone=" + contact_info.phone
+        );
+      }
     } else if (contactType === "address") {
       // Busca la dirección en Google Maps
       window.open(
@@ -59,7 +68,13 @@ const Footer = () => {
 
         <Container sx={containerChipsFooterStyle}>
           <Chip
-            icon={<PlaceIcon />}
+            icon={
+              <PlaceIcon
+                style={{
+                  color: hoveredChip === "address" ? "#ffffff" : "inherit",
+                }}
+              />
+            }
             label={contact_info.address}
             onMouseEnter={() => handleMouseEnter("address")}
             onClick={() => handleSendMessage("address")}
@@ -67,11 +82,20 @@ const Footer = () => {
             style={{
               marginRight: "5px",
               backgroundColor:
-                hoveredChip === "address" ? "lightblue" : "inherit",
+                hoveredChip === "address"
+                  ? theme.palette.primary.main
+                  : "inherit",
+              color: hoveredChip === "address" ? "#ffffff" : "inherit",
             }}
           />
           <Chip
-            icon={<PhoneIcon />}
+            icon={
+              <PhoneIcon
+                style={{
+                  color: hoveredChip === "phone" ? "#ffffff" : "inherit",
+                }}
+              />
+            }
             label={contact_info.phone}
             onMouseEnter={() => handleMouseEnter("phone")}
             onClick={() => handleSendMessage("phone")}
@@ -79,11 +103,20 @@ const Footer = () => {
             style={{
               marginRight: "5px",
               backgroundColor:
-                hoveredChip === "phone" ? "lightblue" : "inherit",
+                hoveredChip === "phone"
+                  ? theme.palette.primary.main
+                  : "inherit",
+              color: hoveredChip === "phone" ? "#ffffff" : "inherit",
             }}
           />
           <Chip
-            icon={<EmailIcon />}
+            icon={
+              <EmailIcon
+                style={{
+                  color: hoveredChip === "email" ? "#ffffff" : "inherit",
+                }}
+              />
+            }
             label={contact_info.email}
             onMouseEnter={() => handleMouseEnter("email")}
             onMouseLeave={handleMouseLeave}
@@ -91,7 +124,10 @@ const Footer = () => {
             style={{
               marginRight: "5px",
               backgroundColor:
-                hoveredChip === "email" ? "lightblue" : "inherit",
+                hoveredChip === "email"
+                  ? theme.palette.primary.main
+                  : "inherit",
+              color: hoveredChip === "email" ? "#ffffff" : "inherit",
             }}
           />
         </Container>
@@ -100,7 +136,13 @@ const Footer = () => {
       <Container>
         <Container sx={containerChipsFooterStyleSm}>
           <Chip
-            icon={<PlaceIcon />}
+            icon={
+              <PlaceIcon
+                style={{
+                  color: hoveredChip === "address" ? "#ffffff" : "inherit",
+                }}
+              />
+            }
             label={contact_info.address}
             onMouseEnter={() => handleMouseEnter("address")}
             onClick={() => handleSendMessage("address")}
@@ -108,11 +150,20 @@ const Footer = () => {
             style={{
               marginRight: "5px",
               backgroundColor:
-                hoveredChip === "address" ? "lightblue" : "inherit",
+                hoveredChip === "address"
+                  ? theme.palette.primary.main
+                  : "inherit",
+              color: hoveredChip === "address" ? "#ffffff" : "inherit",
             }}
           />
           <Chip
-            icon={<PhoneIcon />}
+            icon={
+              <PhoneIcon
+                style={{
+                  color: hoveredChip === "phone" ? "#ffffff" : "inherit",
+                }}
+              />
+            }
             label={contact_info.phone}
             onMouseEnter={() => handleMouseEnter("phone")}
             onClick={() => handleSendMessage("phone")}
@@ -120,11 +171,20 @@ const Footer = () => {
             style={{
               marginRight: "5px",
               backgroundColor:
-                hoveredChip === "phone" ? "lightblue" : "inherit",
+                hoveredChip === "phone"
+                  ? theme.palette.primary.main
+                  : "inherit",
+              color: hoveredChip === "phone" ? "#ffffff" : "inherit",
             }}
           />
           <Chip
-            icon={<EmailIcon />}
+            icon={
+              <EmailIcon
+                style={{
+                  color: hoveredChip === "email" ? "#ffffff" : "inherit",
+                }}
+              />
+            }
             label={contact_info.email}
             onClick={() => handleSendMessage("email")}
             onMouseEnter={() => handleMouseEnter("email")}
@@ -132,7 +192,10 @@ const Footer = () => {
             style={{
               marginRight: "5px",
               backgroundColor:
-                hoveredChip === "email" ? "lightblue" : "inherit",
+                hoveredChip === "email"
+                  ? theme.palette.primary.main
+                  : "inherit",
+              color: hoveredChip === "email" ? "#ffffff" : "inherit",
             }}
           />
         </Container>

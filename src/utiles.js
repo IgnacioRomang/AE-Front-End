@@ -34,6 +34,68 @@ export const getDates = () => {
     lastMonth,
   };
 };
+export const isMobileDevice = () => {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  );
+};
+export const json_to_json_calendar = (dates) => {
+  let result = null;
+  if (dates.startDay !== null) {
+    //console.log(response.data.dates);
+    result = {};
+
+    if (dates.hasOwnProperty("startDay")) {
+      result.startDay = new Date(dates.startDay);
+    }
+
+    if (dates.hasOwnProperty("fifthMonth")) {
+      result.fifthMonth = new Date(dates.fifthMonth);
+    }
+
+    if (dates.hasOwnProperty("sixthMonth")) {
+      result.sixthMonth = new Date(dates.sixthMonth);
+    }
+
+    if (dates.hasOwnProperty("lastMonth")) {
+      result.lastMonth = new Date(dates.lastMonth);
+    }
+
+    if (dates.hasOwnProperty("renewalMonth")) {
+      result.endMonth = new Date(dates.renewalMonth);
+    }
+  }
+  return result;
+};
+export const dates_to_json_calendar = (dates) => {
+  let result = null;
+  if (dates.startDay !== null) {
+    //console.log(response.data.dates);
+    result = {};
+
+    if (dates.hasOwnProperty("startDay")) {
+      result.startDay = parseDate(dates.startDay);
+    }
+
+    if (dates.hasOwnProperty("fifthMonth")) {
+      result.fifthMonth = parseDate(dates.fifthMonth);
+    }
+
+    if (dates.hasOwnProperty("sixthMonth")) {
+      result.sixthMonth = parseDate(dates.sixthMonth);
+    }
+
+    if (dates.hasOwnProperty("lastMonth")) {
+      result.lastMonth = parseDate(dates.lastMonth);
+    }
+
+    if (dates.hasOwnProperty("renewalMonth")) {
+      result.endMonth = parseDate(dates.renewalMonth);
+    }
+  }
+  return result;
+};
+
 export const formatDate = (date) => {
   const year = date.getFullYear();
   let month = date.getMonth() + 1;

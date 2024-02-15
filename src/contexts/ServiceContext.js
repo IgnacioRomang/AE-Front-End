@@ -1,7 +1,11 @@
 // AuthContext.js
 import axios from "axios";
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { parseDate } from "../utiles";
+import {
+  dates_to_json_calendar,
+  json_to_json_calendar,
+  parseDate,
+} from "../utiles";
 
 const ServiceContext = createContext();
 
@@ -145,8 +149,8 @@ export const ServiceProvider = ({ children }) => {
     let user = null;
     let result = false;
     let auth = null;
-    await axios
-      .post(
+    try {
+      const response = await axios.post(
         `${url}/api/auth/login`,
         {
           cuil: username,
@@ -155,28 +159,65 @@ export const ServiceProvider = ({ children }) => {
         {
           withCredentials: true,
         }
-      )
-      .then((response) => {
-        auth = response.data.authorization;
-        setAuthorization(auth);
+      );
 
-        if (response.data !== null) {
-          user = {
-            name: response.data.user.name,
-            cuil: response.data.user.cuil,
-            ae: AE.NON_AE,
-          };
+      auth = response.data.authorization;
+      setAuthorization(auth);
+
+      axios.defaults.headers.common["XSRF-TOKEN"] = auth.X_CSRF_TOKEN;
+      axios.defaults.headers.common["User-Agent"] = "FRONT-END-REACT";
+      axios.defaults.headers.common["Authorization"] = auth.type + auth.token;
+
+      let aeResponse = null;
+      if (response.data !== null) {
+        user = {
+          name: response.data.user.name,
+          cuil: response.data.user.cuil,
+          ae: null,
+        };
+
+        aeResponse = await axios.get(`${url}/api/ae/aedates`);
+        user.ae = aeResponse.data.type;
+      }
+
+      setIsAuthenticated(true);
+      setUser(user);
+      if (aeResponse.data.dates.startDay !== null) {
+        //console.log(response.data.dates);
+        const newServerDates = {};
+
+        if (aeResponse.data.dates.hasOwnProperty("startDay")) {
+          newServerDates.startDay = parseDate(aeResponse.data.dates.startDay);
         }
-        setIsAuthenticated(true);
-        setUser(user);
-        result = true;
-        axios.defaults.headers.common["XSRF-TOKEN"] = auth.X_CSRF_TOKEN;
-        axios.defaults.headers.common["User-Agent"] = "FRONT-END-REACT";
-        axios.defaults.headers.common["Authorization"] = auth.type + auth.token;
-      })
-      .catch((e) => {
-        console.error("Error durante el inicio de sesión:", e);
-      });
+
+        if (aeResponse.data.dates.hasOwnProperty("fifthMonth")) {
+          newServerDates.fifthMonth = parseDate(
+            aeResponse.data.dates.fifthMonth
+          );
+        }
+
+        if (aeResponse.data.dates.hasOwnProperty("sixthMonth")) {
+          newServerDates.sixthMonth = parseDate(
+            aeResponse.data.dates.sixthMonth
+          );
+        }
+
+        if (aeResponse.data.dates.hasOwnProperty("lastMonth")) {
+          newServerDates.lastMonth = parseDate(aeResponse.data.dates.lastMonth);
+        }
+
+        if (aeResponse.data.dates.hasOwnProperty("renewalMonth")) {
+          newServerDates.endMonth = parseDate(
+            aeResponse.data.dates.renewalMonth
+          );
+        }
+        setServerDates(newServerDates);
+      }
+      result = true;
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+
     return result;
   };
 
@@ -254,36 +295,9 @@ export const ServiceProvider = ({ children }) => {
     let u = User;
     u.ae = response.data.type;
     setUser(u);
-
-    if (response.data.dates.startDay !== null) {
-      //console.log(response.data.dates);
-      const newServerDates = {};
-
-      if (response.data.dates.hasOwnProperty("startDay")) {
-        newServerDates.startDay = parseDate(response.data.dates.startDay);
-      }
-
-      if (response.data.dates.hasOwnProperty("fifthMonth")) {
-        newServerDates.fifthMonth = parseDate(response.data.dates.fifthMonth);
-      }
-
-      if (response.data.dates.hasOwnProperty("sixthMonth")) {
-        newServerDates.sixthMonth = parseDate(response.data.dates.sixthMonth);
-      }
-
-      if (response.data.dates.hasOwnProperty("lastMonth")) {
-        newServerDates.lastMonth = parseDate(response.data.dates.lastMonth);
-      }
-
-      if (response.data.dates.hasOwnProperty("renewalMonth")) {
-        newServerDates.endMonth = parseDate(response.data.dates.renewalMonth);
-      }
-      //console.log(newServerDates);
-      setServerDates(newServerDates);
-
-      result = true;
-    }
-    return result;
+    result = dates_to_json_calendar(response.data.dates);
+    setServerDates(result);
+    return result !== null;
   };
 
   const send_confirmation_code = async (code, email) => {
@@ -372,13 +386,8 @@ export const ServiceProvider = ({ children }) => {
     }
 
     if (storedDates !== null) {
-      let json = JSON.parse(storedDates);
-      setServerDatesState({
-        startDay: new Date(json.startDay),
-        fifthMonth: new Date(json.fifthMonth),
-        sixthMonth: new Date(json.sixthMonth),
-        lastMonth: new Date(json.lastMonth),
-      });
+      let dates_calendar = json_to_json_calendar(JSON.parse(storedDates));
+      setServerDatesState(dates_calendar);
     }
 
     if (storedAuthorization !== null) {

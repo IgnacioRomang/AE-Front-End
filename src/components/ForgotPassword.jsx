@@ -35,11 +35,6 @@ const ForgotPassword = () => {
   const [error, setError] = React.useState(false);
 
   const { User } = useService();
-  React.useEffect(() => {
-    if (User === null) {
-      nav("/");
-    }
-  }, [nav, User]);
 
   /**
    * The handleAcept function checks if the formattedCUIL is valid and if it is, it sets the error

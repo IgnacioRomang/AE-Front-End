@@ -76,12 +76,11 @@ const Login = () => {
    */
   const handleLogin = async () => {
     let result = await authenticate(formattedCUIL, passwordsd);
-    await getAEdates();
     if (result) {
       setLoginSuccess(true);
       setLoginFail(false);
 
-      //await new Promise((resolve) => setTimeout(resolve, 50));
+      await new Promise((resolve) => setTimeout(resolve, 500));
 
       navigate("/user/profile", {
         replace: true,
