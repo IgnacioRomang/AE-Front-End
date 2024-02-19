@@ -80,7 +80,8 @@
       },
       "forgotpassword": {
         "title": "Recuperar contraña",
-        "textFieldLabels": "CUIL",
+        "cuil": "CUIL",
+        "email": "Email",
         "alert": {
           "title": "Requisitos",
           "body": [

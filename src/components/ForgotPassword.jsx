@@ -12,12 +12,13 @@ import {
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext";
+import CodeFragment from "../fragments/CodeFragment";
 import {
   useCommonsString,
   useForgotPasswordString,
 } from "../contexts/TextProvider";
 import { boxLoginSyle, cardLoginStyle, centerButtonsStyle } from "../theme";
-import { doformatCUIL } from "../utiles";
+import { doEmail, doformatCUIL } from "../utiles";
 /**
  * The ForgotPassword function is a React component that renders a form for users to enter their CUIL
  * (Argentinian identification number) and handles the submission and validation of the form.
@@ -29,13 +30,15 @@ import { doformatCUIL } from "../utiles";
  */
 const ForgotPassword = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const nav = useNavigate();
   const labelbutton = useCommonsString();
   const label = useForgotPasswordString();
   const [error, setError] = React.useState(false);
-
-  const { User } = useService();
-
+  const [code, setCode] = useState("");
+  const [icon, setIcon] = useState(false);
+  const { send_forgot_password_email } = useService();
+  const [send, setSend] = useState(false);
+  //const [result, setResult] = useState(false);
+  const navigate = useNavigate();
   /**
    * The handleAcept function checks if the formattedCUIL is valid and if it is, it sets the error
    * state to false and either navigates to the login page or toggles the isSubmitted state.
@@ -43,22 +46,38 @@ const ForgotPassword = () => {
    */
   const handleAcept = (e) => {
     e.preventDefault();
-    if (!formattedCUIL.trim() || formattedCUIL.length !== 13) {
-      setError(true);
-    } else {
-      setError(false);
-      if (isSubmitted) {
-        nav("/auth/login");
-      }
-      setIsSubmitted(!isSubmitted);
+    let error = !formattedCUIL.trim() || formattedCUIL.length !== 13;
+    setError(error);
+    if (!error && !send) {
+      //enviar
+      send_forgot_password_email(formattedCUIL);
+      setSend(true);
     }
+  };
+
+  const handleBack = () => {
+    if (send) {
+      setSend(false);
+    } else {
+      navigate(-1);
+    }
+  };
+  const sendEmail = async () => {
+    //await send_confirmation_email(password, email);
   };
 
   /**
    * The handleBack function navigates back to the login page.
    */
-  const handleBack = () => {
-    nav(-1);
+
+  const handleConfirmCode = async () => {
+    let response = null;
+    if (response) {
+      setError(false);
+      navigate("/user/profile");
+    } else {
+      setError(true);
+    }
   };
 
   const [formattedCUIL, setFormattedCUIL] = useState("");
@@ -68,7 +87,7 @@ const ForgotPassword = () => {
    * and sets the formatted value in the state variable formattedCUIL.
    * @param {Event} event - the input event object
    */
-  const handleInputChange = (event) => {
+  const handleCUILChange = (event) => {
     const inputValue = event.target.value;
     let formatted = doformatCUIL(inputValue);
 
@@ -81,25 +100,29 @@ const ForgotPassword = () => {
       <CardContent container sx={boxLoginSyle}>
         <CardContent item sx={12} sm={8}>
           <TextField
-            sx={{
-              width: "100%", // Ancho completo en pantallas móviles
-              "@media (min-width: 600px)": {
-                // Ajusta según sea necesario para tamaños mayores
-                width: "25vw",
-              },
-            }}
             id="cuil"
             size="small"
-            label={label.textFieldLabels}
+            label={label.cuil}
             required
-            disabled={null}
-            error={null}
+            disabled={send}
+            error={error}
             value={formattedCUIL}
-            onChange={handleInputChange}
+            onChange={handleCUILChange}
             variant="standard"
           />
         </CardContent>
         <CardContent item sx={12} sm={8}>
+          {send && (
+            <CodeFragment
+              error={error}
+              code={code}
+              setCode={setCode}
+              icon={icon}
+              setIcon={setIcon}
+              resend={sendEmail}
+            />
+          )}
+
           <Alert
             severity="info"
             style={{ textAlign: "left", marginTop: "16px" }}
@@ -117,11 +140,14 @@ const ForgotPassword = () => {
         <Button size="small" onClick={handleBack} color="inherit">
           {labelbutton.button.back}
         </Button>
-        <Button size="small" onClick={handleAcept}>
-          {!isSubmitted ? labelbutton.button.ok : labelbutton.button.login}
+        <Button
+          size="small"
+          onClick={code === "" ? handleAcept : handleConfirmCode}
+        >
+          {code !== "" ? labelbutton.button.send : labelbutton.button.ok}
         </Button>
       </CardActions>
-      <Collapse in={isSubmitted}>
+      <Collapse in={send}>
         <Alert severity="success">
           <AlertTitle>{label.success.title}</AlertTitle>
           {label.success.body}

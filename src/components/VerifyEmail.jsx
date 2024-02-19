@@ -31,24 +31,24 @@ const VerificationCard = () => {
    *
    * @async
    */
-  const verifyEmail = React.useCallback(async () => {
+  const verifyEmail = async () => {
     //TODO Work in progress
     try {
-      let result = send_confirmation_verify(id, hash);
-      setSuccess(result);
-    } catch (error) {
-      console.error("Error al verificar el email", error);
-    } finally {
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await send_confirmation_verify(id, hash);
+      setSuccess(true);
       setLoading(false);
+    } catch (error) {
+      setSuccess(false);
+      setLoading(false);
+    } finally {
       await new Promise((resolve) => setTimeout(resolve, 500));
       navigate("/");
     }
-  }, [id, hash, setLoading]);
+  };
 
   React.useEffect(() => {
     verifyEmail();
-  }, [navigate, verifyEmail]);
+  }, []);
 
   return (
     <Card>

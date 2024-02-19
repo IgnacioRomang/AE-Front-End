@@ -7,7 +7,7 @@ const CodeFragment = ({ code, error, setCode, icon, setIcon, resend }) => {
   const [click, setClick] = React.useState(false);
   const [timeLeft, setTimeLeft] = React.useState(31);
   const handleCode = (value) => {
-    if (value.length <= 6) {
+    if (value.length <= 10) {
       setCode(value.toUpperCase());
     }
   };

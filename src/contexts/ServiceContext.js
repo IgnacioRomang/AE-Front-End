@@ -247,7 +247,12 @@ export const ServiceProvider = ({ children }) => {
       .post(`${url}/api/auth/register`, register_user)
       .then((response) => {
         console.log("Datos enviados correctamente");
-        result = true;
+        if (
+          response.data &&
+          response.data.message == "User created successfully"
+        ) {
+          result = true;
+        }
       })
       .catch((e) => {
         console.log(e);
@@ -335,13 +340,17 @@ export const ServiceProvider = ({ children }) => {
 
   const send_confirmation_verify = async (id, hash) => {
     let url = process.env.REACT_APP_BACK_URL;
-    const response = await axios.get(`${url}/api/auth/email/verify-link`, {
-      params: {
-        hash: hash,
-        id: id,
-      },
-    });
-    return response.data.message !== null;
+    await axios
+      .get(`${url}/api/auth/email/verify-link`, {
+        params: {
+          hash: hash,
+          id: id,
+        },
+      })
+      .catch((e) => {
+        console.log(e);
+        throw new Error(e.response.data);
+      });
   };
 
   const fetch_end_pdf = async () => {
@@ -374,6 +383,39 @@ export const ServiceProvider = ({ children }) => {
       console.error("Error al obtener el UserData:", error);
     }
   };
+
+  const send_forgot_password_code = async (code, email) => {
+    let result = false;
+    let url = process.env.REACT_APP_BACK_URL;
+    await axios
+      .post(url + "/api/auth/reset-password", {
+        code: code,
+        email: email,
+      })
+      .then((response) => {
+        if (response.data.message === "Email verified") {
+          result = true;
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    return result;
+  };
+
+  const send_forgot_password_email = async (cuil) => {
+    //let result = false;
+    let url = process.env.REACT_APP_BACK_URL;
+    await axios
+      .post(url + "/api/auth/forgot-password", {
+        cuil: cuil,
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    //return result;
+  };
+
   // REFRESCO
   useEffect(() => {
     const storedUser = sessionStorage.getItem("user");
@@ -409,6 +451,7 @@ export const ServiceProvider = ({ children }) => {
         setIsAuthenticated,
         User,
         setUser,
+        send_forgot_password_email,
         serverDates,
         setServerDates,
         setAuthorization,
