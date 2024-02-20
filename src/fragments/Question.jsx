@@ -30,11 +30,13 @@ const Question = ({ question, answer }) => {
     >
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
-        sx={{ background: "rgba(0, 0, 0, .03)" }}
+        sx={{ background: "rgba(0, 0, 0, .05)" }}
         aria-controls="panel1bh-content"
         id="panel1bh-header"
       >
-        <Typography variant="h6">{question}</Typography>
+        <Typography variant="h6" color={"primary"}>
+          {question}
+        </Typography>
       </AccordionSummary>
       <AccordionDetails
         sx={{

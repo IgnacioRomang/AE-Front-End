@@ -50,7 +50,7 @@ const TopBar = (props) => {
       id: 2,
       disabled:
         User !== null && User.ae === AE.FINISHABLE
-          ? today < serverDates.fifthMonth && today > serverDates.sixthMonth
+          ? today < serverDates.fifthMonth || today > serverDates.sixthMonth
           : true,
     },
   ]);
@@ -76,7 +76,7 @@ const TopBar = (props) => {
           id: 2,
           disabled:
             User !== null && User.ae === AE.FINISHABLE
-              ? today < serverDates.fifthMonth && today > serverDates.sixthMonth
+              ? today < serverDates.fifthMonth || today > serverDates.sixthMonth
               : true,
         },
       ]);
