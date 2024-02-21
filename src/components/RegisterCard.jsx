@@ -69,7 +69,7 @@ const RegisterCard = () => {
   const stepperRef = useRef(null);
 
   const dataRef = useRef(null);
-  const { registerRequest } = useService();
+  const { register_request } = useService();
 
   const [stepData, setStepData] = useState([
     {
@@ -121,7 +121,7 @@ const RegisterCard = () => {
         study: stepData[2].study,
         //email: stepData[2].email,
       };
-      let result = await registerRequest(register_user);
+      let result = await register_request(register_user);
 
       if (!result) {
         updateErrorAtIndex(5, true);

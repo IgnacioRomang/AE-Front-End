@@ -5,32 +5,31 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
-import PdfTable from "../components/PDFtable";
+import NewsTable from "../components/NewsTable";
 import TopBar from "../components/TopBar";
 import { centeringStyles } from "../theme";
-
-const API_URL = process.env.REACT_APP_BACK_URL;
+import { useService } from "../contexts/ServiceContext";
 
 const News = () => {
-  const [pdfs, setPdfs] = useState([]);
+  const [newss, setNews] = useState([]);
   const navigate = useNavigate();
+  const { fetch_news } = useService();
 
   const handleHelpClick = () => {
     navigate("/faq");
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`${API_URL}/api/resources/getpdflist`);
-        setPdfs(response.data);
-      } catch (error) {
-        console.error("Error fetching PDF:", error);
-        // Handle error if needed
-      }
-    };
-
-    fetchData();
+    try {
+      fetch_news().then((response) => {
+        if (response.status === 200) {
+          setNews(response.data);
+        }
+      });
+    } catch (error) {
+      console.error("Error fetching News:", error);
+      // Handle error if needed
+    }
   }, []);
 
   return (
@@ -45,7 +44,7 @@ const News = () => {
           ...centeringStyles,
         }}
       >
-        {pdfs.length > 0 && <PdfTable pdfs={pdfs} />}
+        {newss.length > 0 && <NewsTable newss={newss} />}
       </Box>
       <Footer />
       <Fab

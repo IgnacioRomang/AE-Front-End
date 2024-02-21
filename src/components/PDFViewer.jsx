@@ -2,6 +2,7 @@ import { Paper, Typography } from "@mui/material";
 import axios from "axios";
 import React from "react";
 import { useParams } from "react-router-dom";
+import { useService } from "../contexts/ServiceContext";
 
 /**
  * This function is a React component that displays a PDF document.
@@ -9,25 +10,20 @@ import { useParams } from "react-router-dom";
  */
 const PDFViewer = () => {
   const [pdf, setPdf] = React.useState([]);
+  const { fetch_news_pdf } = useService();
 
   const { id } = useParams();
-  console.log(id);
   React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        let url = process.env.REACT_APP_BACK_URL;
-        const response = await axios.post(url + "/api/resources/getpdf", {
-          id: id,
-        });
-        console.log(response.data);
-        setPdf(response.data);
-      } catch (error) {
-        console.error("Error fetching PDF viewer:", error);
-        // Handle error if needed
-      }
-    };
-
-    fetchData();
+    try {
+      fetch_news_pdf(id).then((res) => {
+        if (res.status === 200) {
+          setPdf(res.data);
+        }
+      });
+    } catch (error) {
+      console.error("Error fetching PDF viewer:", error);
+      // Handle error if needed
+    }
   }, [id]);
 
   return (
@@ -37,7 +33,7 @@ const PDFViewer = () => {
       </Typography>
       <iframe
         title="PDF Viewer"
-        src={`data:application/pdf;base64,${pdf.content}`}
+        src={process.env.REACT_APP_BACK_URL + pdf.pdf}
         width="100%"
         height="100%"
         style={{ border: "none" }}
