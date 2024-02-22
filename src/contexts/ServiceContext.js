@@ -357,8 +357,16 @@ export const ServiceProvider = ({ children }) => {
     }
   };
 
+  /**
+   * Sends confirmation code to the specified email address for verification
+   * @async
+   * @param {string} code - The confirmation code to send
+   * @param {string} email - The email address to send the confirmation code to
+   * @returns {boolean} - True if the confirmation code was successfully sent, otherwise false
+   */
   const send_confirmation_code = async (code, email) => {
     try {
+      // Send a POST request to the backend API to confirm the email verification
       const response = await axios.post(
         `${URL_BACKEND}/api/auth/email/verify/confirm`,
         {
@@ -367,28 +375,40 @@ export const ServiceProvider = ({ children }) => {
         }
       );
       const { message } = response.data;
-      if (message === "Email Email") {
+      if (message === "Email sent") {
         return true;
       }
       return false;
     } catch (error) {
+      // Log an error message if there was an error during email verification
       console.error("Error during email verification:", error);
       return false;
     }
   };
 
+  /**
+   * Send confirmation email
+   * @param {string} password - The password to use for verification
+   * @param {string} email - The email address to send the confirmation email to
+   * @returns {boolean} - True if confirmation is successful, otherwise false
+   */
   const send_confirmation_email = async (password, email) => {
-    //let result = false;
-    let url = process.env.REACT_APP_BACK_URL;
-    await axios
-      .post(url + "/api/auth/email/verify/send", {
-        password: password,
-        email: email,
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-    //return result;
+    try {
+      // Send a post request to the backend API to send the confirmation email
+      const result = await axios.post(
+        `${URL_BACKEND}/api/auth/email/verify/send`,
+        {
+          password: password,
+          email: email,
+        }
+      );
+      const { message } = result.data;
+      return message === "Confirmation successful";
+    } catch (error) {
+      // Log and return false if there's an error during the confirmation process
+      console.log("Error during code verification: ", error);
+      return false;
+    }
   };
 
   const send_confirmation_verify = async (id, hash) => {

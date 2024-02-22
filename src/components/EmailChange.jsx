@@ -17,13 +17,6 @@ import {
 import CodeFragment from "../fragments/CodeFragment";
 import { centerButtonsStyle } from "../theme";
 
-/**
- * @brief This component handles the email change process.
- *
- * @param {object} props - The props passed to the component.
- *
- * @returns {JSX.Element} The EmailChange component.
- */
 const EmailChange = () => {
   const commonlabels = useCommonsString();
   const labels = useEmailChangeString();
@@ -32,7 +25,7 @@ const EmailChange = () => {
   const [reemail, setReEmail] = useState("");
   const [password, setPassword] = useState("");
   const [send, setSend] = useState(false);
-  //const [result, setResult] = useState(false);
+
   const [error, setError] = useState(false);
   const [errorEmail, setErrorEmail] = useState(false);
   const [icon, setIcon] = useState(false);
@@ -46,34 +39,21 @@ const EmailChange = () => {
     }
   }, [navigate, User]);
 
-  /**
-   * @brief Sends an email with the verification code to the given email address.
-   *
-   * @returns {void}
-   */
   const sendEmail = async () => {
-    await send_confirmation_email(password, email);
+    try {
+      const response = await send_confirmation_code(code, email);
+      setSend(response);
+    } catch (error) {
+      console.error("Error sending email:", error);
+      setSend(false);
+    }
   };
 
-  /**
-   * @brief Handles the change of the email input field.
-   *
-   * @param {object} event - The event object.
-   *
-   * @returns {void}
-   */
   const handleChangeEmail = (event) => {
     setSend(false);
     setEmail(event.target.value);
   };
 
-  /**
-   * @brief Handles the change of the re-email input field.
-   *
-   * @param {object} event - The event object.
-   *
-   * @returns {void}
-   */
   const handleChangeReEmail = (event) => {
     setReEmail(event.target.value);
   };
@@ -81,12 +61,6 @@ const EmailChange = () => {
   const handleChangePassword = (event) => {
     setPassword(event.target.value);
   };
-
-  /**
-   * @brief Handles the click of the back button.
-   *
-   * @returns {void}
-   */
   const handleBack = () => {
     if (send) {
       setSend(false);
@@ -97,7 +71,6 @@ const EmailChange = () => {
 
   const handleConfirm = () => {
     if (reemail === email) {
-      setSend(true);
       setErrorEmail(false);
       sendEmail();
     } else {
