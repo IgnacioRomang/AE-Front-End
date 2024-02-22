@@ -6,10 +6,10 @@ import { centeringStyles } from "../theme";
 import InfoCard from "./InfoCard";
 /**
  * This function takes in an array of PDFs and returns a view of 3 PDFs in a row.
- * @param {PDF[]} pdfs - An array of PDFs.
+ * @param {PDF[]} news - An array of news objects, each representing a PDFs.
  * @returns {JSX.Element} A view of 3 PDFs in a row.
  */
-const PdfTable = ({ pdfs }) => {
+const NewsTable = ({ news }) => {
   const theme = useTheme();
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("lg"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
@@ -17,7 +17,7 @@ const PdfTable = ({ pdfs }) => {
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const totalItems = pdfs.length;
+  const totalItems = news.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   /**
@@ -31,16 +31,16 @@ const PdfTable = ({ pdfs }) => {
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const visiblePdfs = pdfs.slice(startIndex, endIndex);
+  const visibleNewss = news.slice(startIndex, endIndex);
 
   return (
     <Box
       sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
       <Grid container spacing={3} style={{ ...centeringStyles, width: "90vw" }}>
-        {visiblePdfs.map((pdf, index) => (
+        {visibleNewss.map((element, index) => (
           <Grid item key={index}>
-            <InfoCard pdf={pdf} />
+            <InfoCard anews={element} />
           </Grid>
         ))}
       </Grid>
@@ -58,4 +58,4 @@ const PdfTable = ({ pdfs }) => {
   );
 };
 
-export default PdfTable;
+export default NewsTable;

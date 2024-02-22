@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const InfoCard = ({ pdf }) => {
+const InfoCard = ({ anews }) => {
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
   const cardMediaRef = useRef(null);
@@ -37,7 +37,7 @@ const InfoCard = ({ pdf }) => {
   }, []);
 
   const handleReadMoreClick = () => {
-    navigate(`/document/${pdf.id}`);
+    navigate(`/document/${anews.id}`);
   };
 
   return (
@@ -47,23 +47,21 @@ const InfoCard = ({ pdf }) => {
         ref={cardMediaRef}
         src={
           isVisible
-            ? process.env.REACT_APP_BACK_URL + pdf.img
-            : process.env.REACT_APP_BACK_URL +
-              pdf.img +
-              "?tr=w-400,h-300,bl-30,q-50"
+            ? `${process.env.REACT_APP_BACK_URL}${anews.image}`
+            : `${process.env.REACT_APP_BACK_URL}${anews.image}?tr=w-400,h-300,bl-30,q-50`
         }
-        alt={pdf.title}
-        thubpmbnail={pdf.thubpmbnail}
-        title={pdf.title}
+        alt={anews.title}
+        thubpmbnail={anews.thubpmbnail}
+        title={anews.title}
         loading="lazy"
         sx={{ height: "20vh", maxWidth: 365 }}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {pdf.title}
+          {anews.title}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {pdf.abstract}
+          {anews.abstract}
         </Typography>
       </CardContent>
       <CardActions>

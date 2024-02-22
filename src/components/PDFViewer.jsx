@@ -1,7 +1,8 @@
 import { Paper, Typography } from "@mui/material";
 import axios from "axios";
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useService } from "../contexts/ServiceContext";
 
 /**
  * This function is a React component that displays a PDF document.
@@ -11,23 +12,20 @@ const PDFViewer = () => {
   const [pdf, setPdf] = React.useState([]);
 
   const { id } = useParams();
-  console.log(id);
-  React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        let url = process.env.REACT_APP_BACK_URL;
-        const response = await axios.post(url + "/api/resources/getpdf", {
-          id: id,
-        });
-        console.log(response.data);
-        setPdf(response.data);
-      } catch (error) {
-        console.error("Error fetching PDF viewer:", error);
-        // Handle error if needed
-      }
-    };
+  const { fetch_news_pdf } = useService();
 
-    fetchData();
+  useEffect(() => {
+    (async () => {
+      try {
+        const news_pdf = await fetch_news_pdf(id);
+        if (news_pdf) {
+          setPdf(news_pdf);
+        }
+      } catch (error) {
+        // // handle error
+        console.log(error);
+      }
+    })();
   }, [id]);
 
   return (
@@ -37,7 +35,7 @@ const PDFViewer = () => {
       </Typography>
       <iframe
         title="PDF Viewer"
-        src={`data:application/pdf;base64,${pdf.content}`}
+        src={`${process.env.REACT_APP_BACK_URL}${pdf.pdf}`}
         width="100%"
         height="100%"
         style={{ border: "none" }}

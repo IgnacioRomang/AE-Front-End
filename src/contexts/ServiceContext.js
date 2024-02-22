@@ -7,6 +7,8 @@ import {
   parseDate,
 } from "../utiles";
 
+const URL_BACKEND = process.env.REACT_APP_BACK_URL;
+
 const ServiceContext = createContext();
 
 export const ServiceProvider = ({ children }) => {
@@ -416,6 +418,32 @@ export const ServiceProvider = ({ children }) => {
     //return result;
   };
 
+  const fetch_news_list = async () => {
+    try {
+      const response = await axios.post(
+        `${URL_BACKEND}/api/resources/get-news-list`
+      );
+      return response.data;
+    } catch (error) {
+      // handle error
+      return null;
+    }
+  };
+
+  const fetch_news_pdf = async (id) => {
+    try {
+      const response = await axios.post(
+        `${URL_BACKEND}/api/resources/get-news-pdf`,
+        {
+          id: id,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching PDF viewer:", error);
+      // Handle error if needed
+    }
+  };
   // REFRESCO
   useEffect(() => {
     const storedUser = sessionStorage.getItem("user");
@@ -450,6 +478,8 @@ export const ServiceProvider = ({ children }) => {
         isAuthenticated,
         setIsAuthenticated,
         User,
+        fetch_news_list,
+        fetch_news_pdf,
         setUser,
         send_forgot_password_email,
         serverDates,
