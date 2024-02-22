@@ -5,7 +5,9 @@ Este es el frontend de la aplicación de auto gestión para apostadores, la cual
 ## Instalación Asegúrate de tener Node.js y npm instalados.
 
 Luego, puedes instalar las dependencias y lanzar la aplicación con los siguientes comandos:
+
 `bash npm install npm start `
+
 Esto iniciará la aplicación en modo de desarrollo.
 
 ## Enlace al Backend en Desarrollo
@@ -17,12 +19,13 @@ Directorio:
 - /AE-Front-End
 - /AE-Back-end
 - /auditoria_casinos
-  Nota: audioria_casinos es un fork de un proyecto en Laravel 5 , por lo tanto usa PHP7.0
-  El backend de la aplicación se encuentra en desarrollo. Puedes encontrar más información y contribuir al desarrollo del backend en el siguiente enlace: [Backend en Desarrollo](https://github.com/IgnacioRomang/AE-Back-end)
+
+Nota: audioria_casinos es un fork de un proyecto en Laravel 5 , por lo tanto usa PHP7.0
+El backend de la aplicación se encuentra en desarrollo. Puedes encontrar más información y contribuir al desarrollo del backend en el siguiente enlace: [Backend en Desarrollo](https://github.com/IgnacioRomang/AE-Back-end)
 
 ## Estado de Desarrollo
 
-Esta aplicación está en desarrollo y se encuentra en una etapa temprana. Si deseas contribuir o seguir su progreso, ¡no dudes en unirte al proyecto!
+Esta aplicación está en desarrollo y se encuentra en una etapa temprana. Si deseas contribuir o seguir su progreso.
 
 ## Biblioteca MUI
 

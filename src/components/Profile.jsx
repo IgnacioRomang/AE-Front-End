@@ -24,13 +24,13 @@ const Stack = React.lazy(() => import("@mui/material/Stack"));
  * @returns {JSX.Element} The Profile component
  */
 const Profile = () => {
-  const { User, getAEdates, serverDates, AE } = useService();
+  const { User, get_ae_dates, serverDates, AE } = useService();
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const fetchData = async () => {
     try {
       setLoading(true);
-      let result = await getAEdates();
+      let result = await get_ae_dates();
       setLoading(!result);
     } catch (error) {
       // Manejar errores aquí
@@ -52,7 +52,7 @@ const Profile = () => {
     } else {
       setLoading(false);
     }
-  }, [User, getAEdates, navigate, serverDates]);
+  }, [User, get_ae_dates, navigate, serverDates]);
 
   const labels = useProfileString();
 
