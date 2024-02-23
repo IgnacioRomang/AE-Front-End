@@ -98,9 +98,8 @@ const RenewalCard = () => {
       navigate("/");
     }
     fetch_user_data().then((response) => {
-      if (response && response.data) {
-        //console.log(user_data);
-        let user_data = response.data;
+      if (response) {
+        let user_data = response;
         setStepData([
           {
             name: user_data.name,
@@ -110,8 +109,9 @@ const RenewalCard = () => {
             selectedGender: user_data.gender,
           },
           {
-            address:
-              user_data.address + ", " + user_data.nro_address.toString(),
+            address: `${
+              user_data.address
+            }, ${user_data.nro_address.toString()}`,
             floor: user_data.floor,
             apartment: user_data.apartment,
             state: user_data.state,

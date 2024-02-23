@@ -119,7 +119,6 @@ const RegisterCard = () => {
         startdate: formatDate(new Date()),
         occupation: stepData[2].occupation,
         study: stepData[2].study,
-        //email: stepData[2].email,
       };
       let result = await registerRequest(register_user);
 
@@ -311,14 +310,25 @@ const RegisterCard = () => {
               <Box sx={finalboxStyle}>
                 <Box sx={{ flex: "1 1 auto" }} />
                 {errors[5] ? (
-                  <Button
-                    size="small"
-                    disabled={activeStep === 0}
-                    onClick={handleRegister}
-                    sx={{ mr: 1 }}
-                  >
-                    {bottonslabel.button.restart}
-                  </Button>
+                  <>
+                    <Button
+                      size="small"
+                      color="inherit"
+                      disabled={activeStep === 0}
+                      onClick={handleBack}
+                      sx={{ mr: 1 }}
+                    >
+                      {bottonslabel.button.back}
+                    </Button>
+                    <Button
+                      size="small"
+                      disabled={activeStep === 0}
+                      onClick={handleRegister}
+                      sx={{ mr: 1 }}
+                    >
+                      {bottonslabel.button.restart}
+                    </Button>
+                  </>
                 ) : (
                   <Button
                     size="small"

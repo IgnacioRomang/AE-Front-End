@@ -17,73 +17,89 @@ import {
 import CodeFragment from "../fragments/CodeFragment";
 import { centerButtonsStyle } from "../theme";
 
+/**
+ * Function for handling email change form submission and user interaction.
+ *  - Handles form submission
+ *  - Handles user interaction with form fields
+ *  - Handles email sending and confirmation
+ * @return {JSX.Element} The JSX element for the email change form
+ */
 const EmailChange = () => {
   const commonlabels = useCommonsString();
   const labels = useEmailChangeString();
-  const [code, setCode] = useState("");
-  const [email, setEmail] = useState("");
-  const [reemail, setReEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [send, setSend] = useState(false);
+  const [formData, setFormData] = useState({
+    code: "",
+    email: "",
+    reemail: "",
+    password: "",
+    send: false,
+    error: false,
+    errorEmail: false,
+    icon: false,
+  });
 
-  const [error, setError] = useState(false);
-  const [errorEmail, setErrorEmail] = useState(false);
-  const [icon, setIcon] = useState(false);
   const navigate = useNavigate();
-
   const { User, send_confirmation_code, send_confirmation_email } =
     useService();
+
   React.useEffect(() => {
     if (User === null) {
       navigate("/");
     }
   }, [navigate, User]);
 
+  /**
+   * Asynchronous function to send an email.
+   * @async
+   * @return {Promise} - A Promise that resolves when the email is sent successfully, and rejects with an error if the email fails to send.
+   */
   const sendEmail = async () => {
     try {
-      const response = await send_confirmation_code(code, email);
-      setSend(response);
+      const response = await send_confirmation_email(
+        formData.password,
+        formData.email
+      );
+      setFormData({ ...formData, send: response });
     } catch (error) {
       console.error("Error sending email:", error);
-      setSend(false);
+      setFormData({ ...formData, send: false });
     }
   };
 
-  const handleChangeEmail = (event) => {
-    setSend(false);
-    setEmail(event.target.value);
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
   };
 
-  const handleChangeReEmail = (event) => {
-    setReEmail(event.target.value);
-  };
-
-  const handleChangePassword = (event) => {
-    setPassword(event.target.value);
-  };
   const handleBack = () => {
-    if (send) {
-      setSend(false);
+    if (formData.send) {
+      setFormData({ ...formData, send: false });
     } else {
       navigate(-1);
     }
   };
 
   const handleConfirm = () => {
-    if (reemail === email) {
-      setErrorEmail(false);
+    if (formData.reemail === formData.email) {
+      setFormData({ ...formData, errorEmail: false });
       sendEmail();
     } else {
-      setErrorEmail(true);
+      setFormData({ ...formData, errorEmail: true });
     }
   };
+
+  /**
+   * Asynchronous function to handle sending confirmation code.
+   * @async
+   * @return {Promise<void>} Promise that resolves once the confirmation code is sent
+   */
   const handleSend = async () => {
-    let response = await send_confirmation_code(code, email);
+    let response = await send_confirmation_code(formData.code, formData.email);
     if (response) {
-      setError(false);
+      setFormData({ ...formData, error: false });
       navigate("/user/profile");
     } else {
-      setError(true);
+      setFormData({ ...formData, error: true });
     }
   };
 
@@ -100,59 +116,66 @@ const EmailChange = () => {
         </Grid>
         <Grid item>
           <TextField
+            name="email"
             variant="standard"
-            value={email}
+            value={formData.email}
             autoComplete="off"
-            disabled={send}
-            error={errorEmail}
-            onChange={handleChangeEmail}
+            disabled={formData.send}
+            error={formData.errorEmail}
+            onChange={handleChange}
             label={labels.textField.email}
           />
         </Grid>
-        {!send && (
+        {!formData.send ? (
+          <>
+            <Grid item>
+              <TextField
+                name="reemail"
+                autoComplete="off"
+                variant="standard"
+                error={formData.errorEmail}
+                value={formData.reemail}
+                onChange={handleChange}
+                label={labels.textField.reemail}
+              />
+            </Grid>
+            <Grid item>
+              <TextField
+                name="password"
+                autoComplete="new-password"
+                variant="standard"
+                error={formData.errorEmail}
+                value={formData.password}
+                type="password"
+                onChange={handleChange}
+                label={labels.textField.password}
+              />
+            </Grid>
+          </>
+        ) : (
           <Grid item>
-            <TextField
-              autoComplete="off"
-              variant="standard"
-              error={errorEmail}
-              value={reemail}
-              onChange={handleChangeReEmail}
-              label={labels.textField.reemail}
-            />
-          </Grid>
-        )}
-        {!send && (
-          <Grid item>
-            <TextField
-              autoComplete="new-password"
-              variant="standard"
-              error={errorEmail}
-              value={password}
-              type="password"
-              onChange={handleChangePassword}
-              label={labels.textField.password}
-            />
-          </Grid>
-        )}
-        <Grid item>
-          {send && (
             <CodeFragment
-              error={error}
-              code={code}
-              setCode={setCode}
-              icon={icon}
-              setIcon={setIcon}
+              error={formData.error}
+              code={formData.code}
+              setCode={(value) => setFormData({ ...formData, code: value })}
+              icon={formData.icon}
+              setIcon={(value) => setFormData({ ...formData, icon: value })}
               resend={sendEmail}
             />
-          )}
-        </Grid>
+          </Grid>
+        )}
       </Grid>
       <CardActions sx={centerButtonsStyle}>
         <Button size="small" onClick={handleBack}>
           {commonlabels.button.back}
         </Button>
-        <Button size="small" onClick={code === "" ? handleConfirm : handleSend}>
-          {code !== "" ? commonlabels.button.send : commonlabels.button.ok}
+        <Button
+          size="small"
+          onClick={formData.code === "" ? handleConfirm : handleSend}
+        >
+          {formData.code !== ""
+            ? commonlabels.button.send
+            : commonlabels.button.ok}
         </Button>
       </CardActions>
     </Card>

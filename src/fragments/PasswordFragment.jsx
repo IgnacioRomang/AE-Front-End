@@ -18,16 +18,16 @@ const PasswordFragment = React.forwardRef((props, ref) => {
 
   const sendData = () => {
     setError(!testpassword(passwordChange.newps, passwordChange.renewps));
-    return [
+    return {
       error,
-      error
+      data: !error
         ? {
             current_password: passwordChange.password,
             new_password: passwordChange.newps,
             new_password_confirmation: passwordChange.renewps,
           }
         : null,
-    ];
+    };
   };
 
   React.useImperativeHandle(ref, () => ({

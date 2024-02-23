@@ -211,7 +211,7 @@ export const ServiceProvider = ({ children }) => {
         let user_data = {
           name: user.name,
           cuil: user.cuil,
-          ae: null,
+          ae: AE.NON_AE,
         };
 
         try {
@@ -375,7 +375,7 @@ export const ServiceProvider = ({ children }) => {
         }
       );
       const { message } = response.data;
-      if (message === "Email sent") {
+      if (message === "Confirmation successful") {
         return true;
       }
       return false;
@@ -390,7 +390,7 @@ export const ServiceProvider = ({ children }) => {
    * Send confirmation email
    * @param {string} password - The password to use for verification
    * @param {string} email - The email address to send the confirmation email to
-   * @returns {boolean} - True if confirmation is successful, otherwise false
+   * @returns {Promise<boolean>} - True if confirmation is successful, otherwise false
    */
   const send_confirmation_email = async (password, email) => {
     try {
@@ -403,7 +403,7 @@ export const ServiceProvider = ({ children }) => {
         }
       );
       const { message } = result.data;
-      return message === "Confirmation successful";
+      return message === "Email sent";
     } catch (error) {
       // Log and return false if there's an error during the confirmation process
       console.log("Error during code verification: ", error);
@@ -411,49 +411,77 @@ export const ServiceProvider = ({ children }) => {
     }
   };
 
+  /**
+   * Sends a  hash to the backend API to verify the confirmation verification email
+   * @async
+   * @param {string} id - Id of verification
+   * @param {string} hash - The verification hash
+   * @returns {Promise<boolean>} - True if the email is verified, false otherwise
+   */
   const send_confirmation_verify = async (id, hash) => {
-    let url = process.env.REACT_APP_BACK_URL;
-    await axios
-      .get(`${url}/api/auth/email/verify-link`, {
-        params: {
-          hash: hash,
-          id: id,
-        },
-      })
-      .catch((e) => {
-        console.log(e);
-        throw new Error(e.response.data);
-      });
+    try {
+      const response = await axios.get(
+        `${URL_BACKEND}/api/auth/email/verify-link`,
+        {
+          params: {
+            hash: hash,
+            id: id,
+          },
+        }
+      );
+      const { message } = response.data;
+      return message === "Email verified";
+    } catch (error) {
+      console.error("Error during email verification:", error);
+      return false;
+    }
   };
 
+  /**
+   * Fetches a certificate of the end of the AE in format PDF.
+   * @async
+   * @returns {Promise<string>} The content of the end PDF on base64.
+   */
   const fetch_end_pdf = async () => {
-    let url = process.env.REACT_APP_BACK_URL;
     try {
-      const response = await axios.get(url + "/api/ae/fetch-end-pdf");
-      return response.data.content;
+      const response = await axios.get(`${URL_BACKEND}/api/ae/fetch-end-pdf`);
+      const { content } = response.data;
+      return content;
     } catch (error) {
       console.error("Error al obtener el PDF:", error);
+      return null;
     }
   };
 
+  /**
+   * Fetches  a certificate of the start of the AE in format PDF.
+   * @async
+   * @return {Promise<string>} The content of the PDF on base64.
+   */
   const fetch_start_pdf = async () => {
-    let url = process.env.REACT_APP_BACK_URL;
     try {
-      const response = await axios.get(url + "/api/ae/fetch-start-pdf");
-      console.log(response);
-      return response.data.content;
+      const response = await axios.get(`${URL_BACKEND}/api/ae/fetch-start-pdf`);
+      const { content } = response.data;
+      return content;
     } catch (error) {
       console.error("Error al obtener el PDF:", error);
+      return null;
     }
   };
 
+  /**
+   * Function to fetch user data asynchronously.
+   *
+   * @return {Promise<Object>} the response from the fetch
+   */
   const fetch_user_data = async () => {
-    let url = process.env.REACT_APP_BACK_URL;
     try {
-      const response = await axios.get(url + "/api/ae/fetch-user-data");
-      return response;
+      const response = await axios.get(`${URL_BACKEND}/api/ae/fetch-user-data`);
+      const { data } = response;
+      return data;
     } catch (error) {
       console.error("Error al obtener el UserData:", error);
+      return null;
     }
   };
 
@@ -489,6 +517,11 @@ export const ServiceProvider = ({ children }) => {
     //return result;
   };
 
+  /**
+   * Fetches the news list from the backend API.
+   * @async
+   * @return {Promise<Array>} the response data from the backend API
+   */
   const fetch_news_list = async () => {
     try {
       const response = await axios.post(
@@ -496,11 +529,17 @@ export const ServiceProvider = ({ children }) => {
       );
       return response.data;
     } catch (error) {
-      // handle error
+      console.error("Error fetching news list:", error);
       return null;
     }
   };
 
+  /**
+   * Fetches the news PDF for a given ID.
+   *
+   * @param {type} id - The ID of the news PDF to fetch
+   * @return {Promise<string>} The url of the PDF
+   */
   const fetch_news_pdf = async (id) => {
     try {
       const response = await axios.post(
@@ -512,36 +551,53 @@ export const ServiceProvider = ({ children }) => {
       return response.data;
     } catch (error) {
       console.error("Error fetching PDF viewer:", error);
-      // Handle error if needed
+      return null;
     }
   };
-  // REFRESCO
+
+  const change_user_password = async (data) => {
+    try {
+      const response = await axios.post(
+        `${URL_BACKEND}/api/auth/change-password`,
+        data
+      );
+      const { message } = response.data;
+      return message == "Password changed successfully";
+    } catch (error) {
+      console.error("Error al cambiar la contraseña:", error);
+      return false;
+    }
+  };
+
   useEffect(() => {
     const storedUser = sessionStorage.getItem("user");
     const storedDates = sessionStorage.getItem("dates");
     const storedAuthorization = sessionStorage.getItem("authorization");
 
-    if (storedUser !== null) {
-      setUserState(JSON.parse(storedUser));
-      setIsAuthenticated(true); // Actualiza el estado directamente
+    const parsedUser = storedUser !== null ? JSON.parse(storedUser) : null;
+    const parsedDates =
+      storedDates !== null
+        ? json_to_json_calendar(JSON.parse(storedDates))
+        : null;
+    const parsedAuthorization =
+      storedAuthorization !== null ? JSON.parse(storedAuthorization) : null;
+
+    if (parsedUser) {
+      setUserState(parsedUser);
+      setIsAuthenticated(true);
     }
 
-    if (storedDates !== null) {
-      let dates_calendar = json_to_json_calendar(JSON.parse(storedDates));
-      setServerDatesState(dates_calendar);
+    if (parsedDates) {
+      setServerDatesState(parsedDates);
     }
 
-    if (storedAuthorization !== null) {
-      let addressuthorization_json = JSON.parse(storedAuthorization);
-      setAuthorizationState(addressuthorization_json);
-      axios.defaults.headers.common["XSRF-TOKEN"] =
-        addressuthorization_json.X_CSRF_TOKEN;
+    if (parsedAuthorization) {
+      const { X_CSRF_TOKEN, type, token } = parsedAuthorization;
+      axios.defaults.headers.common["XSRF-TOKEN"] = X_CSRF_TOKEN;
       axios.defaults.headers.common["User-Agent"] = "FRONT-END-REACT";
-      axios.defaults.headers.common["Authorization"] =
-        addressuthorization_json.type + addressuthorization_json.token;
+      axios.defaults.headers.common["Authorization"] = type + token;
     }
   }, []);
-
   return (
     <ServiceContext.Provider
       value={{
@@ -556,6 +612,7 @@ export const ServiceProvider = ({ children }) => {
         serverDates,
         setServerDates,
         setAuthorization,
+        change_user_password,
         Authorization,
         authenticate,
         unauthenticate,

@@ -33,6 +33,7 @@ const ResetPassword = () => {
   const { User, setUser, setIsAuthenticated } = useService();
   const ref = React.useRef(null);
   const [error, setError] = React.useState(false);
+  const { change_user_password } = useService();
   /**
    * Sends a POST request to the server to change the user's password and handles the response.
    * @param {object} data - The data to be sent in the POST request.
@@ -48,19 +49,33 @@ const ResetPassword = () => {
       nav("/");
     }
   }, [nav, User]);
-  const handleAcept = (data) => {
-    let result = ref.current.sendData(data);
-    setError(!result[0]);
-    if (result[0]) {
+  const handleAcept = (input) => {
+    const { error, data } = ref.current.sendData(input);
+    setError(error);
+    if (!error) {
+      try {
+        console.log(data);
+        const response = change_user_password(data);
+        setError(!response);
+        if (response) {
+          setUser(null);
+          setIsAuthenticated(false);
+          nav("/auth/login", { replace: true });
+        }
+      } catch (error) {
+        console.error("Error en la solicitud:", error);
+        console.error("Detalles del error:", error.response.data);
+        setError(true);
+      }
+      /*
       let url = process.env.REACT_APP_BACK_URL;
       axios
-        .post(url + "/api/auth/change_password", result[1])
+        .post(url + "/api/auth/change-password", result[1])
         .then((response) => {
           console.log(response.data);
           setError(false);
           setUser(null);
           setIsAuthenticated(false);
-
           nav("/auth/login", { replace: true });
         })
         .catch((error) => {
@@ -68,6 +83,7 @@ const ResetPassword = () => {
           console.error("Detalles del error:", error.response.data);
           setError(true);
         });
+        */
     }
   };
   const handleBack = () => {
