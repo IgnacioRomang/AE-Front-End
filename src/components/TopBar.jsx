@@ -1,6 +1,5 @@
 import MenuIcon from "@mui/icons-material/Menu";
 import AppBar from "@mui/material/AppBar";
-
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import IconButton from "@mui/material/IconButton";
@@ -9,7 +8,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { Box } from "@mui/system";
-import React from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import IconUserMenu from "../fragments/IconUserMenuFragment.jsx";
 
 import { useNavigate } from "react-router-dom";
@@ -18,90 +17,48 @@ import { useTopBarString } from "../contexts/TextProvider.jsx";
 import {
   boxSMmenu,
   boxXLmenu,
-  buttonTopStyle,
   iconButtonTopStyle,
   logoTopStyle,
   menuStyles,
 } from "../theme.jsx";
 
-/**
- * The `TopBar` component is a React functional component that represents the top navigation bar of a
- * web application. It displays a logo, menu options, and a user menu.
- *
- * @param {object} props - The properties of the component
- * @param {boolean} props.userAuth - A boolean indicating whether the user is authenticated or not
- */
 const TopBar = (props) => {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = useState(null);
   const [labels, assets] = useTopBarString();
-  const { User, serverDates, isAuthenticated, AE } = useService();
+  const { User, serverDates, isAuthenticated, AE } = useService(); //states context
   const navigate = useNavigate();
-  const today = React.useMemo(() => new Date(), []);
-  const [pages, setPages] = React.useState([
-    { label: labels.opctions[0], id: 0, disabled: false },
-    { label: labels.opctions[1], id: 3, disabled: false },
-    {
-      label: labels.opctions[2],
-      id: 1,
-      disabled: User !== null ? User.ae !== AE.NON_AE : false,
-    },
-    {
-      label: labels.opctions[3],
-      id: 2,
-      disabled:
-        User !== null && User.ae === AE.FINISHABLE
-          ? today < serverDates.fifthMonth || today > serverDates.sixthMonth
-          : true,
-    },
-  ]);
-  /**
-   * React.useEffect hook is used to perform side effects in a functional component.
-   * In this case, the effect is triggered whenever the User or serverDates variables change.
-   *
-   * @param {object} prevProps - previous props of the component
-   * @param {object} prevState - previous state of the component
-   */
-  React.useEffect(() => {
-    if (serverDates !== null) {
-      setPages([
-        { label: labels.opctions[0], id: 0, disabled: false },
-        { label: labels.opctions[1], id: 3, disabled: false },
-        {
-          label: labels.opctions[2],
-          id: 1,
-          disabled: User !== null ? User.ae !== AE.NON_AE : false,
-        },
-        {
-          label: labels.opctions[3],
-          id: 2,
-          disabled:
-            User !== null && User.ae === AE.FINISHABLE
-              ? today < serverDates.fifthMonth || today > serverDates.sixthMonth
-              : true,
-        },
-      ]);
-    }
-  }, [User, serverDates, labels, today]);
+  const today = useMemo(() => new Date(), []);
+  const pages = useMemo(
+    () => [
+      { label: labels.opctions[0], disabled: false },
+      { label: labels.opctions[1], disabled: false },
+      {
+        label: labels.opctions[2],
+        disabled: User !== null ? User.ae !== AE.NON_AE : false,
+      },
+      {
+        label: labels.opctions[3],
+        disabled:
+          User !== null && User.ae === AE.FINISHABLE
+            ? today < serverDates.fifthMonth || today > serverDates.sixthMonth
+            : true,
+      },
+    ],
+    [User, serverDates, labels, today, AE]
+  );
 
-  /**
-   * The function `handleoOnClickMenu` is used to navigate to different pages based on the provided `id`
-   * parameter.
-   *
-   * @param {Event} e - The event object
-   * @param {number} id - The id of the page to navigate to
-   */
-  const handleoOnClickMenu = (e, id) => {
-    switch (id) {
-      case pages[1].id:
+  const handleoOnClickMenu = (e, index) => {
+    switch (index) {
+      case 1:
         navigate("/user/profile");
         break;
-      case pages[2].id:
+      case 2:
         navigate("/user/ae-renewal");
         break;
-      case pages[3].id:
+      case 3:
         navigate("/user/ae-finalize");
         break;
-      case pages[0].id:
+      case 0:
         navigate("/");
         break;
       default:
@@ -136,13 +93,13 @@ const TopBar = (props) => {
 
             {isAuthenticated &&
               pages.map(
-                (page) =>
+                (page, index) =>
                   !page.disabled && (
                     <Button
                       size="small"
                       key={page.label}
                       disabled={page.disabled}
-                      onClick={(e) => handleoOnClickMenu(e, page.id)}
+                      onClick={(e) => handleoOnClickMenu(e, index)}
                     >
                       {page.label}
                     </Button>
@@ -165,12 +122,12 @@ const TopBar = (props) => {
                   onClose={handleCloseNavMenu}
                 >
                   {pages.map(
-                    (page) =>
+                    (page, index) =>
                       !page.disabled && (
                         <MenuItem
                           key={page.label}
                           disabled={page.disabled}
-                          onClick={(e) => handleoOnClickMenu(e, page.id)}
+                          onClick={(e) => handleoOnClickMenu(e, index)}
                         >
                           <Typography
                             textAlign="center"

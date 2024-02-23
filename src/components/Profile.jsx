@@ -1,5 +1,5 @@
 import { Skeleton, Typography } from "@mui/material";
-import { default as React, Suspense, useState } from "react";
+import React, { useEffect, Suspense, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext";
 import { useProfileString } from "../contexts/TextProvider";
@@ -8,7 +8,6 @@ import Calendar from "../fragments/calendar/Calendar";
 import { centeringStyles } from "../theme";
 import { grey } from "@mui/material/colors";
 
-// Importar los componentes de Material-UI de forma perezosa
 const Alert = React.lazy(() => import("@mui/material/Alert"));
 const AlertTitle = React.lazy(() => import("@mui/material/AlertTitle"));
 const Divider = React.lazy(() => import("@mui/material/Divider"));
@@ -16,13 +15,6 @@ const Grid = React.lazy(() => import("@mui/material/Grid"));
 const Paper = React.lazy(() => import("@mui/material/Paper"));
 const Stack = React.lazy(() => import("@mui/material/Stack"));
 
-/**
- * The `Profile` component is a functional component in JavaScript React. It is responsible for
- * rendering the user's profile page.
- *
- * @param {object} props - The props passed to the component
- * @returns {JSX.Element} The Profile component
- */
 const Profile = () => {
   const { User, get_ae_dates, serverDates, AE } = useService();
   const [loading, setLoading] = useState(true);
@@ -33,14 +25,11 @@ const Profile = () => {
       let result = await get_ae_dates();
       setLoading(!result);
     } catch (error) {
-      // Manejar errores aquí
-      // ... (código existente)
+      console.log("Error fetching data:", error);
+      return false;
     }
   };
-  /**
-   * The `React.useEffect` hook is used to perform side effects in a functional component. In this case,
-   * it is used to fetch data from an API endpoint when the component mounts.
-   */
+
   React.useEffect(() => {
     if (User === null) {
       navigate("/");

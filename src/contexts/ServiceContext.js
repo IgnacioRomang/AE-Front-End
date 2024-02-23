@@ -555,6 +555,12 @@ export const ServiceProvider = ({ children }) => {
     }
   };
 
+  /**
+   * Asynchronously changes the user's password
+   * @async
+   * @param {Object} data - the data containing the new password
+   * @return {boolean} true if the password was changed successfully, false otherwise
+   */
   const change_user_password = async (data) => {
     try {
       const response = await axios.post(
