@@ -12,13 +12,13 @@ import {
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext";
-import CodeFragment from "../fragments/CodeFragment";
 import {
   useCommonsString,
   useForgotPasswordString,
 } from "../contexts/TextProvider";
+import CodeFragment from "../fragments/CodeFragment";
 import { boxLoginSyle, cardLoginStyle, centerButtonsStyle } from "../theme";
-import { doEmail, doformatCUIL } from "../utiles";
+import { doformatCUIL } from "../utiles";
 /**
  * The ForgotPassword function is a React component that renders a form for users to enter their CUIL
  * (Argentinian identification number) and handles the submission and validation of the form.
@@ -29,7 +29,7 @@ import { doEmail, doformatCUIL } from "../utiles";
  * error messages.
  */
 const ForgotPassword = () => {
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  //const [isSubmitted, setIsSubmitted] = useState(false);
   const labelbutton = useCommonsString();
   const label = useForgotPasswordString();
   const [error, setError] = React.useState(false);

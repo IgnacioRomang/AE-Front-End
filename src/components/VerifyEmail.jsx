@@ -5,7 +5,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext";
 import { useEmailVerifyString } from "../contexts/TextProvider";
@@ -46,9 +46,9 @@ const VerificationCard = () => {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     verifyEmail();
-  }, []);
+  }, [verifyEmail]);
 
   return (
     <Card>

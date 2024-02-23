@@ -37,7 +37,7 @@ const Login = () => {
   const [labels, assets] = useLoginString();
   const commonlabels = useCommonsString();
 
-  const { User, authenticate, getAEdates } = useService();
+  const { User, authenticate } = useService();
 
   const [loginSuccess, setLoginSuccess] = React.useState(false);
   const [loginFail, setLoginFail] = React.useState(false);

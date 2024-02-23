@@ -8,7 +8,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { Box } from "@mui/system";
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import IconUserMenu from "../fragments/IconUserMenuFragment.jsx";
 
 import { useNavigate } from "react-router-dom";

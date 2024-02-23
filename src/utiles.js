@@ -227,7 +227,7 @@ export const doPhone = (phonein) => {
   if (phone.length < 10) {
     return phone;
   }
-  if (phone.length == 10) {
+  if (phone.length === 10) {
     return `+54 (${phone.slice(0, 2)}) ${phone.slice(2, 6)}-${phone.slice(
       6,
       10
@@ -241,7 +241,7 @@ export const testpassword = (password1, password2) => {
   return password1 === password2 ? re.test(password1) : false;
 };
 
-export default {
+const utiles = {
   isNum,
   testpassword,
   shortFileName,
@@ -257,3 +257,4 @@ export default {
   parseDate,
   formatDate,
 };
+export default utiles;

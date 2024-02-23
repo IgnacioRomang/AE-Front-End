@@ -1,11 +1,7 @@
 // AuthContext.js
 import axios from "axios";
 import React, { createContext, useContext, useState, useEffect } from "react";
-import {
-  dates_to_json_calendar,
-  json_to_json_calendar,
-  parseDate,
-} from "../utiles";
+import { dates_to_json_calendar, json_to_json_calendar } from "../utiles";
 
 const URL_BACKEND = process.env.REACT_APP_BACK_URL;
 const URL_GEOREF = process.env.REACT_APP_GEOREF_URL;
@@ -23,7 +19,6 @@ const AE = {
   /** Non-finishable */
   NON_FINISHABLE: 2,
 };
-
 const ServiceContext = createContext();
 
 export const ServiceProvider = ({ children }) => {
@@ -221,7 +216,7 @@ export const ServiceProvider = ({ children }) => {
           user_data.ae = type;
           if (dates.startDay) {
             // Convert dates to calendar format and set it in the state
-            const dates_calendar = json_to_json_calendar(dates);
+            const dates_calendar = dates_to_json_calendar(dates);
             setServerDates(dates_calendar);
           }
         } catch (error) {
@@ -568,7 +563,7 @@ export const ServiceProvider = ({ children }) => {
         data
       );
       const { message } = response.data;
-      return message == "Password changed successfully";
+      return message === "Password changed successfully";
     } catch (error) {
       console.error("Error al cambiar la contraseña:", error);
       return false;
@@ -619,6 +614,7 @@ export const ServiceProvider = ({ children }) => {
         setServerDates,
         setAuthorization,
         change_user_password,
+        send_forgot_password_code,
         Authorization,
         authenticate,
         unauthenticate,

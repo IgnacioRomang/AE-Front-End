@@ -344,7 +344,8 @@ export const gridProfileInfoStyle = {
 };
 // AddressDataCArd fragment
 // Exportar todas las constantes
-export default {
+
+const themeStyles = {
   Xl,
   Sm,
   imgLogoStyle,
@@ -373,3 +374,4 @@ export default {
   superCenter,
   gridProfileInfoStyle,
 };
+export default themeStyles;

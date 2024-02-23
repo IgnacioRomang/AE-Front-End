@@ -12,7 +12,6 @@ import {
 } from "@mui/material";
 import { blue, grey, red } from "@mui/material/colors";
 import React from "react";
-import { imgLogoLoteStyle } from "../../theme";
 
 /**
  * The `Calendar` component is a React component that displays a calendar table. It takes three props
@@ -47,7 +46,7 @@ const Calendar = ({ intStart, intEnd, msg }) => {
    */
   const getTableCel = (day, rowIndex, cellIndex) => {
     let msg_active = false;
-    let isToday = day == intStart.getDate() || day == intEnd.getDate();
+    let isToday = day === intStart.getDate() || day === intEnd.getDate();
     let sizes = false;
     let range_start = false;
     let range_end = false;
@@ -67,8 +66,8 @@ const Calendar = ({ intStart, intEnd, msg }) => {
           day >= intStart.getDate() && day <= intEnd.getDate()
             ? red[200]
             : grey[50];
-        range_start = day == intStart.getDate();
-        range_end = day == intEnd.getDate();
+        range_start = day === intStart.getDate();
+        range_end = day === intEnd.getDate();
       } else if (intStart < intEnd) {
         // periodo de un mes
         if (day >= intStart.getDate()) {

@@ -63,7 +63,7 @@ const RegisterCard = () => {
     false,
     false,
   ]);
-  const [sendError, setSendError] = useState(false);
+  //const [sendError, setSendError] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set());
   const stepperRef = useRef(null);
@@ -124,7 +124,6 @@ const RegisterCard = () => {
 
       if (!result) {
         updateErrorAtIndex(5, true);
-        setSendError(true);
       }
     } catch (e) {
       console.log(e);

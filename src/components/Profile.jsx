@@ -1,19 +1,18 @@
 import { Skeleton, Typography } from "@mui/material";
-import React, { useEffect, Suspense, useState } from "react";
+import React, { Suspense, lazy, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext";
 import { useProfileString } from "../contexts/TextProvider";
 import ProfileAEdata from "../fragments/ProfileIconData";
 import Calendar from "../fragments/calendar/Calendar";
 import { centeringStyles } from "../theme";
-import { grey } from "@mui/material/colors";
 
-const Alert = React.lazy(() => import("@mui/material/Alert"));
-const AlertTitle = React.lazy(() => import("@mui/material/AlertTitle"));
-const Divider = React.lazy(() => import("@mui/material/Divider"));
-const Grid = React.lazy(() => import("@mui/material/Grid"));
-const Paper = React.lazy(() => import("@mui/material/Paper"));
-const Stack = React.lazy(() => import("@mui/material/Stack"));
+const Alert = lazy(() => import("@mui/material/Alert"));
+const AlertTitle = lazy(() => import("@mui/material/AlertTitle"));
+const Divider = lazy(() => import("@mui/material/Divider"));
+const Grid = lazy(() => import("@mui/material/Grid"));
+const Paper = lazy(() => import("@mui/material/Paper"));
+const Stack = lazy(() => import("@mui/material/Stack"));
 
 const Profile = () => {
   const { User, get_ae_dates, serverDates, AE } = useService();
@@ -30,18 +29,18 @@ const Profile = () => {
     }
   };
 
-  React.useEffect(() => {
-    if (User === null) {
+  useEffect(() => {
+    if (!User) {
       navigate("/");
     }
-    if (serverDates === null) {
+    if (!serverDates) {
       setLoading(true);
       fetchData();
       setLoading(false);
     } else {
       setLoading(false);
     }
-  }, [User, get_ae_dates, navigate, serverDates]);
+  }, [User, fetchData, navigate, serverDates]);
 
   const labels = useProfileString();
 
@@ -49,7 +48,7 @@ const Profile = () => {
     <Suspense
       fallback={<Skeleton variant="rectangular" height={60} width={"100%"} />}
     >
-      {User !== null ? (
+      {User ? (
         <Grid
           container
           spacing={2}
