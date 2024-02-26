@@ -54,11 +54,7 @@ const FinalizeCard = () => {
       navigate("/");
     }
   }, [navigate, User]);
-  /**
-   * @brief This function is used to handle the send button.
-   *
-   * @return {undefined}
-   */
+
   const handleSend = async () => {
     let result = await finalize_ae(passwordsd);
     setError(!result);
@@ -69,11 +65,6 @@ const FinalizeCard = () => {
     }
   };
 
-  /**
-   * @brief This function is used to handle the close button.
-   *
-   * @return {undefined}
-   */
   const handleClose = () => {
     if (!open) {
       navigate(-1);

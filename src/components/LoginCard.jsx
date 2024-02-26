@@ -28,11 +28,6 @@ import { TextField } from "@mui/material";
 import { useService } from "../contexts/ServiceContext.js";
 import { doformatCUIL } from "../utiles.js";
 
-/**
- * @brief This function is the login component for the user authentication system.
- *
- * @return {JSX.Element} The login component.
- */
 const Login = () => {
   const [labels, assets] = useLoginString();
   const commonlabels = useCommonsString();
@@ -50,7 +45,6 @@ const Login = () => {
   const handleInputChange = (event) => {
     const inputValue = event.target.value;
     let formatted = doformatCUIL(inputValue);
-
     setFormattedCUIL(formatted);
   };
 
@@ -76,26 +70,15 @@ const Login = () => {
    */
   const handleLogin = async () => {
     let result = await authenticate(formattedCUIL, passwordsd);
+    setLoginSuccess(result);
+    setLoginFail(!result);
     if (result) {
-      setLoginSuccess(true);
-      setLoginFail(false);
-
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
       navigate("/user/profile", {
         replace: true,
       });
-    } else {
-      setLoginSuccess(false);
-      setLoginFail(true);
     }
   };
 
-  /**
-   * @brief This function is used to cancel the login process.
-   *
-   * @param {Event} event The event object.
-   */
   const handleCancel = () => {
     navigate(-1);
   };

@@ -19,19 +19,13 @@ const NewsTable = ({ news }) => {
 
   const totalItems = news.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
-
-  /**
-   * This function handles the page change event for the pagination component.
-   * @param {React.ChangeEvent} _event - The page change event.
-   * @param {number} page - The new page number.
-   */
-  const handlePageChange = (_event, page) => {
-    setCurrentPage(page);
-  };
-
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const visibleNewss = news.slice(startIndex, endIndex);
+
+  const handlePageChange = (_event, page) => {
+    setCurrentPage(page);
+  };
 
   return (
     <Box
