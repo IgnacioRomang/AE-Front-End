@@ -119,7 +119,10 @@ const RegisterCard = () => {
         startdate: formatDate(new Date()),
         occupation: stepData[2].occupation,
         study: stepData[2].study,
+        dni1: stepData[3].files[0],
+        dni2: stepData[3].files[1],
       };
+      console.log(register_user);
       let result = await registerRequest(register_user);
 
       if (!result) {

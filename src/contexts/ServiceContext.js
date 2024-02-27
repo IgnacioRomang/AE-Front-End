@@ -268,8 +268,14 @@ export const ServiceProvider = ({ children }) => {
       // Send a POST request to the backend API to register the user
       const response = await axios.post(
         `${URL_BACKEND}/api/auth/register`,
-        register_user
+        register_user,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
+      console.log(response);
       const { message } = response.data;
       return message === "User created successfully";
     } catch (error) {
