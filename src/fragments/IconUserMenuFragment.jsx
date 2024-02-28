@@ -46,33 +46,40 @@ const IconUserMenu = (props) => {
     setAnchorElUser(null);
   };
 
-  const logout = async () => {
-    try {
-      let result = await unauthenticate();
-      if (result) {
-        navigate("/", { replace: true });
-        setAnchorElUser(null);
-      }
-    } catch (e) {
-      console.log(e);
-    }
+  const logout = () => {
+    unauthenticate()
+      .then(() => navigate("/", { replace: true }))
+      .catch((e) => console.log("Error during logout: ", e))
+      .finally(() => setAnchorElUser(null));
   };
+
+  const loginPath = "/auth/login";
+  const registerPath = "/auth/register";
+
   const onClickMenu = (e, id) => {
-    switch (id) {
-      case settings_login[0].id:
-        navigate("/auth/login");
-        setAnchorElUser(null);
-        break;
-      case settings_login[1].id:
-        navigate("/auth/register");
-        setAnchorElUser(null);
-        break;
-      case settings[0].id:
-        logout();
-        break;
-      default:
-        navigate("error");
-    }
+    const actions = {
+      [settings_login[0].id]: () => {
+        if (window.location.pathname === loginPath) {
+          window.location.reload();
+        } else {
+          navigate(loginPath);
+          setAnchorElUser(null);
+        }
+      },
+      [settings_login[1].id]: () => {
+        if (window.location.pathname === registerPath) {
+          window.location.reload();
+        } else {
+          navigate(registerPath);
+          setAnchorElUser(null);
+        }
+      },
+      [settings[0].id]: logout,
+      default: () => navigate("error"),
+    };
+
+    const action = actions[id] || actions.default;
+    action();
   };
   const avatarname = isAuthenticated
     ? stringAvatar(User.name + " " + User.lastname)
