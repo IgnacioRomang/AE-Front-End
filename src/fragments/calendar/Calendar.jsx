@@ -66,6 +66,7 @@ const Calendar = ({ intStart, intEnd, msg }) => {
           day >= intStart.getDate() && day <= intEnd.getDate()
             ? red[200]
             : grey[50];
+        msg_active = true;
         range_start = day === intStart.getDate();
         range_end = day === intEnd.getDate();
       } else if (intStart < intEnd) {
@@ -73,11 +74,13 @@ const Calendar = ({ intStart, intEnd, msg }) => {
         if (day >= intStart.getDate()) {
           color = red[200];
           range_start = isToday;
+          msg_active = true;
         }
       } else {
         if (day <= intStart.getDate()) {
           color = red[200];
           range_end = isToday;
+          msg_active = true;
         }
         //tramo de dos meses
       }
