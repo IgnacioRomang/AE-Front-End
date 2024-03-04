@@ -64,6 +64,7 @@ const TopBar = (props) => {
       default:
         navigate("error");
     }
+    handleCloseNavMenu();
   };
 
   const handleOpenNavMenu = (event) => {

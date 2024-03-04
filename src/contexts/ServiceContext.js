@@ -5,6 +5,7 @@ import { dates_to_json_calendar, json_to_json_calendar } from "../utiles";
 
 const URL_BACKEND = process.env.REACT_APP_BACK_URL;
 const URL_GEOREF = process.env.REACT_APP_GEOREF_URL;
+const APP_KEY = process.env.REACT_APP_KEY;
 
 /**
  * Enum representing the status of AE
@@ -185,6 +186,7 @@ export const ServiceProvider = ({ children }) => {
           password: password,
         },
         {
+          headers: { "X-API-Key": APP_KEY },
           withCredentials: true,
         }
       );
@@ -200,6 +202,7 @@ export const ServiceProvider = ({ children }) => {
           ...axios.defaults.headers.common,
           "XSRF-TOKEN": authorization.X_CSRF_TOKEN,
           "User-Agent": "FRONT-END-REACT",
+          "X-API-Key": APP_KEY,
           Authorization: authorization.type + authorization.token,
         };
 
@@ -271,6 +274,7 @@ export const ServiceProvider = ({ children }) => {
         register_user,
         {
           headers: {
+            "X-API-Key": APP_KEY,
             "Content-Type": "multipart/form-data",
           },
         }
@@ -296,7 +300,8 @@ export const ServiceProvider = ({ children }) => {
       // Send a POST request to start the AE process
       const response = await axios.post(
         `${URL_BACKEND}/api/ae/start-n`,
-        register_user
+        register_user,
+        { headers: { "X-API-Key": APP_KEY } }
       );
       const { message } = response.data;
       if (message === "Agregado") {
@@ -319,9 +324,13 @@ export const ServiceProvider = ({ children }) => {
    */
   const finalize_ae = async (password) => {
     try {
-      const response = await axios.post(`${URL_BACKEND}/api/ae/finalize`, {
-        password: password,
-      });
+      const response = await axios.post(
+        `${URL_BACKEND}/api/ae/finalize`,
+        {
+          password: password,
+        },
+        { headers: { "X-API-Key": APP_KEY } }
+      );
       const { message } = response.data;
       return message === "Finalizado";
     } catch (error) {
@@ -338,7 +347,9 @@ export const ServiceProvider = ({ children }) => {
   const get_ae_dates = async () => {
     try {
       // Fetch AE dates from the backend API
-      const response = await axios.get(`${URL_BACKEND}/api/ae/dates`);
+      const response = await axios.get(`${URL_BACKEND}/api/ae/dates`, {
+        headers: { "X-API-Key": APP_KEY },
+      });
       const { type, dates } = response.data;
       // Update user state with AE type
       setUser((prevUser) => {
@@ -373,7 +384,8 @@ export const ServiceProvider = ({ children }) => {
         {
           code: code,
           email: email,
-        }
+        },
+        { headers: { "X-API-Key": APP_KEY } }
       );
       const { message } = response.data;
       if (message === "Confirmation successful") {
@@ -401,7 +413,8 @@ export const ServiceProvider = ({ children }) => {
         {
           password: password,
           email: email,
-        }
+        },
+        { headers: { "X-API-Key": APP_KEY } }
       );
       const { message } = result.data;
       return message === "Email sent";
@@ -428,7 +441,8 @@ export const ServiceProvider = ({ children }) => {
             hash: hash,
             id: id,
           },
-        }
+        },
+        { headers: { "X-API-Key": APP_KEY } }
       );
       const { message } = response.data;
       return message === "Email verified";
@@ -445,7 +459,11 @@ export const ServiceProvider = ({ children }) => {
    */
   const fetch_end_pdf = async () => {
     try {
-      const response = await axios.get(`${URL_BACKEND}/api/ae/fetch-end-pdf`);
+      const response = await axios.get(
+        `${URL_BACKEND}/api/ae/fetch-end-pdf`,
+        {},
+        { headers: { "X-API-Key": APP_KEY } }
+      );
       const { content } = response.data;
       return content;
     } catch (error) {
@@ -461,7 +479,11 @@ export const ServiceProvider = ({ children }) => {
    */
   const fetch_start_pdf = async () => {
     try {
-      const response = await axios.get(`${URL_BACKEND}/api/ae/fetch-start-pdf`);
+      const response = await axios.get(
+        `${URL_BACKEND}/api/ae/fetch-start-pdf`,
+        {},
+        { headers: { "X-API-Key": APP_KEY } }
+      );
       const { content } = response.data;
       return content;
     } catch (error) {
@@ -477,7 +499,11 @@ export const ServiceProvider = ({ children }) => {
    */
   const fetch_user_data = async () => {
     try {
-      const response = await axios.get(`${URL_BACKEND}/api/ae/fetch-user-data`);
+      const response = await axios.get(
+        `${URL_BACKEND}/api/ae/fetch-user-data`,
+        {},
+        { headers: { "X-API-Key": APP_KEY } }
+      );
       const { data } = response;
       return data;
     } catch (error) {
@@ -490,10 +516,14 @@ export const ServiceProvider = ({ children }) => {
     let result = false;
     let url = process.env.REACT_APP_BACK_URL;
     await axios
-      .post(url + "/api/auth/reset-password", {
-        code: code,
-        email: email,
-      })
+      .post(
+        url + "/api/auth/reset-password",
+        {
+          code: code,
+          email: email,
+        },
+        { headers: { "X-API-Key": APP_KEY } }
+      )
       .then((response) => {
         if (response.data.message === "Email verified") {
           result = true;
@@ -509,9 +539,13 @@ export const ServiceProvider = ({ children }) => {
     //let result = false;
     let url = process.env.REACT_APP_BACK_URL;
     await axios
-      .post(url + "/api/auth/forgot-password", {
-        cuil: cuil,
-      })
+      .post(
+        url + "/api/auth/forgot-password",
+        {
+          cuil: cuil,
+        },
+        { headers: { "X-API-Key": APP_KEY } }
+      )
       .catch((e) => {
         console.log(e);
       });
@@ -526,7 +560,9 @@ export const ServiceProvider = ({ children }) => {
   const fetch_news_list = async () => {
     try {
       const response = await axios.post(
-        `${URL_BACKEND}/api/resources/get-news-list`
+        `${URL_BACKEND}/api/resources/get-news-list`,
+        {},
+        { headers: { "X-API-Key": APP_KEY } }
       );
       return response.data;
     } catch (error) {
@@ -547,7 +583,8 @@ export const ServiceProvider = ({ children }) => {
         `${URL_BACKEND}/api/resources/get-news-pdf`,
         {
           id: id,
-        }
+        },
+        { headers: { "X-API-Key": APP_KEY } }
       );
       return response.data;
     } catch (error) {
@@ -566,7 +603,8 @@ export const ServiceProvider = ({ children }) => {
     try {
       const response = await axios.post(
         `${URL_BACKEND}/api/auth/change-password`,
-        data
+        data,
+        { headers: { "X-API-Key": APP_KEY } }
       );
       const { message } = response.data;
       return message === "Password changed successfully";
@@ -603,6 +641,7 @@ export const ServiceProvider = ({ children }) => {
       axios.defaults.headers.common["XSRF-TOKEN"] = X_CSRF_TOKEN;
       axios.defaults.headers.common["User-Agent"] = "FRONT-END-REACT";
       axios.defaults.headers.common["Authorization"] = type + token;
+      axios.defaults.headers.common["X-API-Key"] = APP_KEY;
     }
   }, []);
   return (
