@@ -38,14 +38,22 @@ const NewsTable = ({ news }) => {
           </Grid>
         ))}
       </Grid>
-      <Box mt={3}>
+      <Box
+        mt={3}
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          backgroundColor: "white",
+          borderRadius: "10px",
+          padding: "5px",
+        }}
+      >
         <Pagination
           count={totalPages}
           page={currentPage}
           onChange={handlePageChange}
           color="primary"
           shape="rounded"
-          variant="outlined"
         />
       </Box>
     </Box>

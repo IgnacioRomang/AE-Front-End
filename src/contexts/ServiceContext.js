@@ -434,13 +434,11 @@ export const ServiceProvider = ({ children }) => {
    */
   const send_confirmation_verify = async (id, hash) => {
     try {
-      const response = await axios.get(
+      const response = await axios.post(
         `${URL_BACKEND}/api/auth/email/verify-link`,
         {
-          params: {
-            hash: hash,
-            id: id,
-          },
+          hash: hash,
+          id: id,
         },
         { headers: { "X-API-Key": APP_KEY } }
       );
@@ -536,20 +534,20 @@ export const ServiceProvider = ({ children }) => {
   };
 
   const send_forgot_password_email = async (cuil) => {
-    //let result = false;
-    let url = process.env.REACT_APP_BACK_URL;
-    await axios
-      .post(
-        url + "/api/auth/forgot-password",
+    try {
+      const response = await axios.post(
+        `${URL_BACKEND}/api/auth/forgot-password`,
         {
           cuil: cuil,
         },
         { headers: { "X-API-Key": APP_KEY } }
-      )
-      .catch((e) => {
-        console.log(e);
-      });
-    //return result;
+      );
+      const { message } = response.data;
+      return message === "Password reset successful. Check your email.";
+    } catch (error) {
+      console.error("Error during password reset:", error);
+      return false;
+    }
   };
 
   /**

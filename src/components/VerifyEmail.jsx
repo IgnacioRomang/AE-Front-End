@@ -34,9 +34,9 @@ const VerificationCard = () => {
   const verifyEmail = async () => {
     //TODO Work in progress
     try {
-      await send_confirmation_verify(id, hash);
-      setSuccess(true);
-      setLoading(false);
+      const result = await send_confirmation_verify(id, hash);
+      setSuccess(result);
+      setLoading(result);
     } catch (error) {
       setSuccess(false);
       setLoading(false);
@@ -48,7 +48,7 @@ const VerificationCard = () => {
 
   useEffect(() => {
     verifyEmail();
-  }, [verifyEmail]);
+  }, []);
 
   return (
     <Card>

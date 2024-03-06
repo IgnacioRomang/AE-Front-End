@@ -44,14 +44,15 @@ const ForgotPassword = () => {
    * state to false and either navigates to the login page or toggles the isSubmitted state.
    * @param {Event} e - the event object
    */
-  const handleAcept = (e) => {
+  const handleAcept = async (e) => {
     e.preventDefault();
     let error = !formattedCUIL.trim() || formattedCUIL.length !== 13;
     setError(error);
     if (!error && !send) {
       //enviar
-      send_forgot_password_email(formattedCUIL);
-      setSend(true);
+      const resul = await send_forgot_password_email(formattedCUIL);
+      setSend(resul);
+      setError(!resul);
     }
   };
 
