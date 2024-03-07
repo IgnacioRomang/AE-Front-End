@@ -23,8 +23,14 @@ const VerificationCard = () => {
   const [success, setSuccess] = useState(false);
   const labels = useEmailVerifyString();
   const navigate = useNavigate();
+
   const { id, hash } = useParams();
-  const { send_confirmation_verify } = useService();
+  const expires = new URLSearchParams(window.location.search).get("expires");
+  const signature = new URLSearchParams(window.location.search).get(
+    "signature"
+  );
+
+  const { send_confirmation_verify, isAuthenticated } = useService();
   /**
    * The function `verifyEmail` is an asynchronous function that sends a POST request to verify an email
    * using the provided `id` and `hash`, and updates the verification result accordingly.
@@ -32,9 +38,13 @@ const VerificationCard = () => {
    * @async
    */
   const verifyEmail = async () => {
-    //TODO Work in progress
     try {
-      const result = await send_confirmation_verify(id, hash);
+      const result = await send_confirmation_verify(
+        id,
+        hash,
+        expires,
+        signature
+      );
       setSuccess(result);
       setLoading(result);
     } catch (error) {
@@ -47,8 +57,10 @@ const VerificationCard = () => {
   };
 
   useEffect(() => {
-    verifyEmail();
-  }, []);
+    if (isAuthenticated) {
+      verifyEmail();
+    }
+  }, [isAuthenticated]);
 
   return (
     <Card>

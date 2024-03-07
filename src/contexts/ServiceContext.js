@@ -36,9 +36,9 @@ export const ServiceProvider = ({ children }) => {
   const setAuthorization = (newval) => {
     setAuthorizationState(newval); // Set the authorization state
     if (newval === null) {
-      sessionStorage.removeItem("authorization"); // Remove the "authorization" item from sessionStorage if newval is null
+      localStorage.removeItem("authorization"); // Remove the "authorization" item from sessionStorage if newval is null
     } else {
-      sessionStorage.setItem("authorization", JSON.stringify(newval)); // Store the newval in sessionStorage as a JSON string
+      localStorage.setItem("authorization", JSON.stringify(newval)); // Store the newval in sessionStorage as a JSON string
     }
   };
 
@@ -50,9 +50,9 @@ export const ServiceProvider = ({ children }) => {
   const setUser = (newval) => {
     setUserState(newval);
     if (newval === null) {
-      sessionStorage.removeItem("user");
+      //localStorage.removeItem("user");
     } else {
-      sessionStorage.setItem("user", JSON.stringify(newval));
+      //localStorage.setItem("user", JSON.stringify(newval));
     }
   };
 
@@ -64,9 +64,9 @@ export const ServiceProvider = ({ children }) => {
   const setServerDates = (newval) => {
     setServerDatesState(newval);
     if (newval === null) {
-      sessionStorage.removeItem("dates");
+      //localStorage.removeItem("dates");
     } else {
-      sessionStorage.setItem("dates", JSON.stringify(newval));
+      //localStorage.setItem("dates", JSON.stringify(newval));
     }
   };
 
@@ -432,18 +432,18 @@ export const ServiceProvider = ({ children }) => {
    * @param {string} hash - The verification hash
    * @returns {Promise<boolean>} - True if the email is verified, false otherwise
    */
-  const send_confirmation_verify = async (id, hash) => {
+  const send_confirmation_verify = async (id, hash, expires, signature) => {
     try {
       const response = await axios.post(
-        `${URL_BACKEND}/api/auth/email/verify-link`,
-        {
-          hash: hash,
-          id: id,
-        },
+        `${URL_BACKEND}/api/email/verify/${id}/${hash}?expires=${expires}&signature=${signature}`,
+        {},
         { headers: { "X-API-Key": APP_KEY } }
       );
       const { message } = response.data;
-      return message === "Email verified";
+      console.log(message);
+      return (
+        message === "Email verified" || message === "Email already verified"
+      );
     } catch (error) {
       console.error("Error during email verification:", error);
       return false;
@@ -612,19 +612,43 @@ export const ServiceProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    const storedUser = sessionStorage.getItem("user");
-    const storedDates = sessionStorage.getItem("dates");
-    const storedAuthorization = sessionStorage.getItem("authorization");
+  const refesh = async () => {
+    try {
+      const response = await axios.post(
+        `${URL_BACKEND}/api/auth/refresh`,
+        {},
+        { headers: { "X-API-Key": APP_KEY } }
+      );
+      const { user } = response.data;
+      if (user) {
+        setUser(user);
+        await get_ae_dates();
+        setIsAuthenticated(true);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      return false;
+    }
+  };
 
-    const parsedUser = storedUser !== null ? JSON.parse(storedUser) : null;
-    const parsedDates =
-      storedDates !== null
-        ? json_to_json_calendar(JSON.parse(storedDates))
-        : null;
+  useEffect(() => {
+    //const storedUser = localStorage.getItem("user");
+    //const storedDates = localStorage.getItem("dates");
+    const storedAuthorization = localStorage.getItem("authorization");
+
     const parsedAuthorization =
       storedAuthorization !== null ? JSON.parse(storedAuthorization) : null;
 
+    if (parsedAuthorization) {
+      const { X_CSRF_TOKEN, type, token } = parsedAuthorization;
+      axios.defaults.headers.common["XSRF-TOKEN"] = X_CSRF_TOKEN;
+      axios.defaults.headers.common["User-Agent"] = "FRONT-END-REACT";
+      axios.defaults.headers.common["Authorization"] = type + token;
+      axios.defaults.headers.common["X-API-Key"] = APP_KEY;
+    }
+    refesh();
+    /*
     if (parsedUser) {
       setUserState(parsedUser);
       setIsAuthenticated(true);
@@ -634,13 +658,12 @@ export const ServiceProvider = ({ children }) => {
       setServerDatesState(parsedDates);
     }
 
-    if (parsedAuthorization) {
-      const { X_CSRF_TOKEN, type, token } = parsedAuthorization;
-      axios.defaults.headers.common["XSRF-TOKEN"] = X_CSRF_TOKEN;
-      axios.defaults.headers.common["User-Agent"] = "FRONT-END-REACT";
-      axios.defaults.headers.common["Authorization"] = type + token;
-      axios.defaults.headers.common["X-API-Key"] = APP_KEY;
-    }
+    const parsedUser = storedUser !== null ? JSON.parse(storedUser) : null;
+    const parsedDates =
+      storedDates !== null
+        ? json_to_json_calendar(JSON.parse(storedDates))
+        : null;
+    */
   }, []);
   return (
     <ServiceContext.Provider

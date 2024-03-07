@@ -70,7 +70,7 @@ function App() {
                 <Route path="reset-password" element={<ResetPassword />} />
                 <Route path="email-change" element={<EmailChange />} />
                 <Route
-                  path="verify-email/:id/:hash"
+                  path="email/verify/:id/:hash"
                   element={<VerificationCard />}
                 />
               </Route>
