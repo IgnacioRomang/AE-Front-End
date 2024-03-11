@@ -192,7 +192,7 @@ export const ServiceProvider = ({ children }) => {
       );
 
       const { authorization, user } = response.data;
-
+      console.log(user);
       if (user && authorization) {
         // Save the authorization token for future requests
         setAuthorization(authorization);
@@ -279,7 +279,6 @@ export const ServiceProvider = ({ children }) => {
           },
         }
       );
-      console.log(response);
       const { message } = response.data;
       return message === "User created successfully";
     } catch (error) {
@@ -420,7 +419,7 @@ export const ServiceProvider = ({ children }) => {
       return message === "Email sent";
     } catch (error) {
       // Log and return false if there's an error during the confirmation process
-      console.log("Error during code verification: ", error);
+      console.error("Error during code verification: ", error);
       return false;
     }
   };
@@ -440,7 +439,6 @@ export const ServiceProvider = ({ children }) => {
         { headers: { "X-API-Key": APP_KEY } }
       );
       const { message } = response.data;
-      console.log(message);
       return (
         message === "Email verified" || message === "Email already verified"
       );
@@ -528,7 +526,7 @@ export const ServiceProvider = ({ children }) => {
         }
       })
       .catch((e) => {
-        console.log(e);
+        console.error(e);
       });
     return result;
   };
@@ -612,16 +610,22 @@ export const ServiceProvider = ({ children }) => {
     }
   };
 
+  /**
+   * Refreshes the user's token and retrieves fresh user data
+   * @async
+   * @return {Promise<boolean>} true if the token refresh was successful, false otherwise
+   */
   const refesh = async () => {
     try {
       const response = await axios.post(
         `${URL_BACKEND}/api/auth/refresh`,
-        {},
+        {}, // No request body needed
         { headers: { "X-API-Key": APP_KEY } }
       );
       const { user } = response.data;
       if (user) {
         setUser(user);
+        //TODO: do it all in one , get the user data and dates
         await get_ae_dates();
         setIsAuthenticated(true);
         return true;
@@ -632,6 +636,19 @@ export const ServiceProvider = ({ children }) => {
     }
   };
 
+  const resend_verify_email = async () => {
+    try {
+      const response = await axios.post(
+        `${URL_BACKEND}/api/email/verification-notification`,
+        {},
+        { headers: { "X-API-Key": APP_KEY } }
+      );
+      return true;
+    } catch (error) {
+      console.error("Error al reenviar el correo:", error);
+      return false;
+    }
+  };
   useEffect(() => {
     //const storedUser = localStorage.getItem("user");
     //const storedDates = localStorage.getItem("dates");
@@ -692,6 +709,7 @@ export const ServiceProvider = ({ children }) => {
         get_citys_name,
         get_address_names,
         send_confirmation_verify,
+        resend_verify_email,
         start_ae_n,
         AE,
         fetch_user_data,

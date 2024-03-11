@@ -177,7 +177,8 @@
         "endPDF": "Constancia de fin de exclusion ",
         "startPDF": "Constancia de exclusión",
         "password": "Cambio de Contraseña",
-        "email": "Cambio de Email"
+        "email": "Cambio de Email",
+        "verify": "Renviar Email de Verificación"
       },
       "unregistersuccess": {
         "title": "¡Baja de auto-exclusión completada!",
