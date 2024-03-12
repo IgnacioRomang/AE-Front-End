@@ -534,14 +534,15 @@ export const ServiceProvider = ({ children }) => {
   const send_forgot_password_email = async (cuil) => {
     try {
       const response = await axios.post(
-        `${URL_BACKEND}/api/auth/forgot-password`,
+        `${URL_BACKEND}/api/password/forgot`,
         {
           cuil: cuil,
         },
         { headers: { "X-API-Key": APP_KEY } }
       );
-      const { message } = response.data;
-      return message === "Password reset successful. Check your email.";
+      const { status } = response.data;
+      console.log(status);
+      return status === "Password reset successful. Check your email.";
     } catch (error) {
       console.error("Error during password reset:", error);
       return false;

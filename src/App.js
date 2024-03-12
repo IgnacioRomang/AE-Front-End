@@ -68,11 +68,14 @@ function App() {
                 <Route path="ae-renewal" element={<RenewalCard />} />
                 <Route path="profile" element={<Profile />} />
                 <Route path="reset-password" element={<ResetPassword />} />
-                <Route path="email-change" element={<EmailChange />} />
-                <Route
-                  path="email/verify/:id/:hash"
-                  element={<VerificationCard />}
-                />
+              </Route>
+              <Route
+                path="/email"
+                element={<Root />}
+                errorElement={<ErrorPage />}
+              >
+                <Route path="change" element={<EmailChange />} />
+                <Route path="verify/:id/:hash" element={<VerificationCard />} />
               </Route>
               <Route path="*" element={<ErrorPage />} />
             </Routes>

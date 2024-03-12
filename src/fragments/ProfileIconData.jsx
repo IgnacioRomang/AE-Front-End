@@ -129,7 +129,7 @@ const ProfileIconData = ({ iuser }) => {
             }
             onClick={
               User.email_verified_at
-                ? (e) => handleGoTo("/user/email-change")
+                ? (e) => handleGoTo("/email/change")
                 : handleClick
             }
           >
@@ -157,7 +157,10 @@ const ProfileIconData = ({ iuser }) => {
             {loading ? (
               <CircularProgress />
             ) : (
-              <CheckIcon fontSize="large" color="success" />
+              <Stack sx={centeringStyles}>
+                <CheckIcon fontSize="large" color="success" />
+                <Typography> Email enviado </Typography>
+              </Stack>
             )}
           </Box>
         </Paper>

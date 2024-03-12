@@ -52,7 +52,7 @@ const VerificationCard = () => {
       setLoading(false);
     } finally {
       await new Promise((resolve) => setTimeout(resolve, 500));
-      navigate("/");
+      navigate("/", { replace: true });
     }
   };
 
