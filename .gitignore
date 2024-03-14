@@ -25,4 +25,4 @@ yarn-error.log*
 node_modules
 node_modules
 
-.pack
+node_modules/.cache/default-development/*.pack
