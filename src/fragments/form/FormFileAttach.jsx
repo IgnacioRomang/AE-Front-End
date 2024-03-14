@@ -25,7 +25,7 @@ import { shortFileName } from "../../utiles.js";
  * @param {array} props.files - An array of files uploaded by the user.
  * @returns {JSX.Element} - Returns the FileAttachCard component.
  */
-const FileAttachCard = React.forwardRef((props, ref) => {
+const FormFileAttach = React.forwardRef((props, ref) => {
   const labels = useFileAttachCardString();
 
   const labelsFile = useFileUploadSectionString();
@@ -177,4 +177,4 @@ const FileAttachCard = React.forwardRef((props, ref) => {
   );
 });
 
-export default FileAttachCard;
+export default FormFileAttach;

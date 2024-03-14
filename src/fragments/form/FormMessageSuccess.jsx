@@ -1,10 +1,10 @@
 import DownloadIcon from "@mui/icons-material/Download";
 import { Alert, Box, IconButton, Typography } from "@mui/material";
 import React from "react";
-import { useSuccessAEString } from "../contexts/TextProvider.jsx";
-import { superCenter } from "../theme.jsx";
-import { getDates } from "../utiles.js";
-const SuccessAE = ({ first }) => {
+import { useSuccessAEString } from "../../contexts/TextProvider.jsx";
+import { superCenter } from "../../theme.jsx";
+import { getDates } from "../../utiles.js";
+const FormMessageSuccess = ({ first }) => {
   const { startDay, fthMonth, sixMonth, lastMonth } = getDates();
   const labels = useSuccessAEString();
   return (
@@ -41,4 +41,4 @@ const SuccessAE = ({ first }) => {
     </Box>
   );
 };
-export default SuccessAE;
+export default FormMessageSuccess;

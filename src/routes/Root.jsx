@@ -3,8 +3,8 @@ import { Box, Fab } from "@mui/material";
 import { blue } from "@mui/material/colors";
 import React from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import Footer from "../components/Footer";
-import TopBar from "../components/TopBar";
+import RootFooter from "../components/RootFooter";
+import RootTopBar from "../components/RootTopBar";
 import { centeringStyles } from "../theme";
 
 export default function Root() {
@@ -12,7 +12,7 @@ export default function Root() {
 
   return (
     <React.Fragment>
-      <TopBar />
+      <RootTopBar />
       <Box
         id="scrollable-content"
         sx={{
@@ -25,7 +25,7 @@ export default function Root() {
       >
         <Outlet />
       </Box>
-      <Footer />
+      <RootFooter />
       <div style={{ position: "fixed", bottom: 16, right: 16 }}>
         <Fab
           size="medium"

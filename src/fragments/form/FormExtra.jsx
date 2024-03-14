@@ -39,7 +39,7 @@ const studys = [
  * @param {string} props.email - The email of the user.
  * @returns {JSX.Element} - Returns the ExtraDataCard component.
  */
-const ExtraDataCard = React.forwardRef(
+const FormExtra = React.forwardRef(
   ({ occupation, study, phone, email }, ref) => {
     const labels = useExtraDataCardString();
 
@@ -190,4 +190,4 @@ const ExtraDataCard = React.forwardRef(
   }
 );
 
-export default ExtraDataCard;
+export default FormExtra;

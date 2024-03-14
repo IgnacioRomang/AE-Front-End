@@ -10,41 +10,22 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext";
 import { useEmailVerifyString } from "../contexts/TextProvider";
 
-/**
- * The `VerificationCard` component is a React component that displays a card with a loading spinner
- * and a verification result message.
- *
- * @param {string} id - The unique identifier of the email verification request.
- * @param {string} hash - The cryptographic hash of the email verification request.
- * @returns {JSX.Element} The `VerificationCard` component.
- */
-const VerificationCard = () => {
+const PasswordReset = () => {
   const [loading, setLoading] = useState(true);
   const [success, setSuccess] = useState(false);
   const labels = useEmailVerifyString();
   const navigate = useNavigate();
 
-  const { id, hash } = useParams();
-  const expires = new URLSearchParams(window.location.search).get("expires");
-  const signature = new URLSearchParams(window.location.search).get(
-    "signature"
-  );
+  const token = new URLSearchParams(window.location.search).get("token");
 
-  const { send_confirmation_verify, isAuthenticated } = useService();
-  /**
-   * The function `verifyEmail` is an asynchronous function that sends a POST request to verify an email
-   * using the provided `id` and `hash`, and updates the verification result accordingly.
-   *
-   * @async
-   */
-  const verifyEmail = async () => {
+  const { send_reset_password } = useService();
+
+  const { cuil, setCuil } = useState();
+  const { password, setPassword } = useState();
+
+  const sendData = async () => {
     try {
-      const result = await send_confirmation_verify(
-        id,
-        hash,
-        expires,
-        signature
-      );
+      const result = await send_reset_password(token, cuil, password);
       setSuccess(result);
       setLoading(result);
     } catch (error) {
@@ -57,19 +38,18 @@ const VerificationCard = () => {
   };
 
   useEffect(() => {
-    if (isAuthenticated) {
-      verifyEmail();
-    }
-  }, [isAuthenticated]);
+    sendData();
+  }, []);
 
   return (
     <Card>
+      <CardContent sx={{ padding: 4 }}></CardContent>
       <CardContent sx={{ padding: 4 }}>
         <>
           {loading ? (
             <Stack spacing={2} sx={{ display: "flex", alignItems: "center" }}>
               <CircularProgress />
-              <Typography variant="body1">{"Verificando email..."}</Typography>
+              <Typography variant="body1">{"Enviando datos..."}</Typography>
             </Stack>
           ) : (
             <Stack spacing={2} sx={{ display: "flex", alignItems: "center" }}>
@@ -90,4 +70,4 @@ const VerificationCard = () => {
   );
 };
 
-export default VerificationCard;
+export default PasswordReset;

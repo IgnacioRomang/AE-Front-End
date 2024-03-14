@@ -1,4 +1,4 @@
 // fragments/index.js
 
-export { default as ErrorAE } from "./ErrorFragment";
-export { default as SuccessAE } from "./SuccessFragment";
+export { default as FormMessageError } from "./form/FormMessageError";
+export { default as FormMessageSuccess } from "./form/FormMessageSuccess";

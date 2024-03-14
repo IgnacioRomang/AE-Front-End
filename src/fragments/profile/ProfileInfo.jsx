@@ -9,14 +9,14 @@ import {
 import { Box, Stack } from "@mui/system";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useProfileIconDataString } from "../contexts/TextProvider";
-import { centeringStyles, gridProfileInfoStyle } from "../theme.jsx";
-import UserBadge from "./UserBadgeFragment";
-import { useService } from "../contexts/ServiceContext.js";
-
+import { useProfileIconDataString } from "../../contexts/TextProvider.jsx";
+import { centeringStyles, gridProfileInfoStyle } from "../../theme.jsx";
+import IconUserBadge from "./ProfileIconUserBadge.jsx";
+import { useService } from "../../contexts/ServiceContext.js";
+import EmailBackdrop from "../EmailBackdrop.jsx";
 import CheckIcon from "@mui/icons-material/Check";
 
-const ProfileIconData = ({ iuser }) => {
+const ProfileInfo = () => {
   const labels = useProfileIconDataString();
   const nav = useNavigate();
   const { AE, User, fetch_end_pdf, fetch_start_pdf, resend_verify_email } =
@@ -70,8 +70,6 @@ const ProfileIconData = ({ iuser }) => {
       setOpen(false);
     }
   };
-  // tamaño del padding , referencia a famosa pelicula paddingTon
-  const ton = 4;
 
   const sendEmail = async () => {
     setLoading(true);
@@ -90,12 +88,15 @@ const ProfileIconData = ({ iuser }) => {
     >
       <Paper elevation={1} sx={gridProfileInfoStyle}>
         <Stack sx={centeringStyles}>
-          <UserBadge username={iuser.name} isActive={iuser.ae !== AE.NON_AE} />
+          <IconUserBadge
+            username={User.name}
+            isActive={User.ae !== AE.NON_AE}
+          />
           <Typography variant="body1" paddingRight={17} fontSize={10}>
             {labels.cuil}
           </Typography>
-          <Typography variant="h5">{iuser.cuil}</Typography>
-          <Typography variant="body1">{iuser.name}</Typography>
+          <Typography variant="h5">{User.cuil}</Typography>
+          <Typography variant="body1">{User.name}</Typography>
           {/** ingresar botones de ojito y descarga*/}
         </Stack>
         <Stack padding={2} spacing={1} sx={centeringStyles}>
@@ -109,10 +110,7 @@ const ProfileIconData = ({ iuser }) => {
               {labels.startPDF}
             </Link>
           )}
-          <Link
-            size="small"
-            onClick={(e) => handleGoTo("/user/reset-password")}
-          >
+          <Link size="small" onClick={(e) => handleGoTo("/password/change")}>
             {labels.password}
           </Link>
           <Link
@@ -150,23 +148,9 @@ const ProfileIconData = ({ iuser }) => {
           </Link>
         </Stack>
       </Paper>
-      <Backdrop open={open}>
-        <Paper>
-          <Box padding={ton}>
-            {/*animacion de enviado*/}
-            {loading ? (
-              <CircularProgress />
-            ) : (
-              <Stack sx={centeringStyles}>
-                <CheckIcon fontSize="large" color="success" />
-                <Typography> Email enviado </Typography>
-              </Stack>
-            )}
-          </Box>
-        </Paper>
-      </Backdrop>
+      <EmailBackdrop open={open} loading={loading} />
     </Box>
   );
 };
 
-export default ProfileIconData;
+export default ProfileInfo;

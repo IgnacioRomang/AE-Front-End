@@ -24,14 +24,16 @@ import {
 } from "../contexts/TextProvider.jsx";
 
 // Fragments
-import { ErrorAE, SuccessAE } from "../fragments";
+import { ErrorAE, SuccessAE } from "../fragments/index.js";
 import {
-  AddressDataCard,
-  DatePlanAE,
-  ExtraDataCard,
-  FileAttachCard,
-  InfoDataCard,
-} from "../fragments/form";
+  FormAddress,
+  FormDatePlan,
+  FormExtra,
+  FormFileAttach,
+  FormInfo,
+  FormMessageError,
+  FormMessageSuccess,
+} from "../fragments/form/index.js";
 // Styles
 import { useNavigate } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext.js";
@@ -49,7 +51,7 @@ import { formatDate } from "../utiles.js";
  * @function
  * @returns {JSX.Element} The RegisterCard component.
  */
-const RegisterCard = () => {
+const AuthRegister = () => {
   const labels = useRegisterCardString();
   const bottonslabel = useCommonsString();
   const navigate = useNavigate();
@@ -145,7 +147,7 @@ const RegisterCard = () => {
     switch (viewid) {
       case 0:
         return (
-          <InfoDataCard
+          <FormInfo
             name={stepData[0].name}
             registerState={true}
             lastName={stepData[0].lastName}
@@ -158,7 +160,7 @@ const RegisterCard = () => {
         );
       case 1:
         return (
-          <AddressDataCard
+          <FormAddress
             address={stepData[1].address}
             floor={stepData[1].floor}
             apartment={stepData[1].apartment}
@@ -170,7 +172,7 @@ const RegisterCard = () => {
         );
       case 2:
         return (
-          <ExtraDataCard
+          <FormExtra
             occupation={stepData[2].occupation}
             study={stepData[2].study}
             phone={stepData[2].phone}
@@ -179,16 +181,16 @@ const RegisterCard = () => {
           />
         );
       case 3:
-        return <FileAttachCard ref={dataRef} files={stepData[3].files} />;
+        return <FormFileAttach ref={dataRef} files={stepData[3].files} />;
       case 4:
         return (
-          <DatePlanAE first={true} ref={dataRef} email={stepData[2].email} />
+          <FormDatePlan first={true} ref={dataRef} email={stepData[2].email} />
         );
       case 5:
         if (!errors[5]) {
-          return <SuccessAE first={true} />;
+          return <FormMessageSuccess first={true} />;
         } else {
-          return <ErrorAE padding={8} />;
+          return <FormMessageError padding={8} />;
         }
       default:
         return <CircularProgress padding={15} />;
@@ -371,4 +373,4 @@ const RegisterCard = () => {
   );
 };
 
-export default RegisterCard;
+export default AuthRegister;

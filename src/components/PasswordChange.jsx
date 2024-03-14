@@ -25,7 +25,7 @@ import { boxLoginSyle, cardLoginStyle, centerButtonsStyle } from "../theme";
  * with various child components such as `CardHeader`, `CardContent`, `Collapse`, `Alert`, and
  * `CardActions`.
  */
-const ResetPassword = () => {
+const PasswordChange = () => {
   const labelbutton = useCommonsString();
   const label = useResetPasswordCardString();
   const nav = useNavigate();
@@ -98,4 +98,4 @@ const ResetPassword = () => {
   );
 };
 
-export default ResetPassword;
+export default PasswordChange;

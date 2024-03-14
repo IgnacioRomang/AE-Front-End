@@ -2,12 +2,12 @@ import React from "react";
 import Badge from "@mui/material/Badge";
 import Avatar from "@mui/material/Avatar";
 import { Box } from "@mui/material";
-import { stringAvatar } from "../utiles";
-import { useUserBadgeString } from "../contexts/TextProvider";
-import { badgeUserAnchorStyle, boxUserbadgeStyle } from "../theme";
+import { stringAvatar } from "../../utiles";
+import { useUserBadgeString } from "../../contexts/TextProvider";
+import { badgeUserAnchorStyle, boxUserbadgeStyle } from "../../theme";
 import { grey } from "@mui/material/colors";
 
-function UserBadge({ username, isActive }) {
+function IconUserBadge({ username, isActive }) {
   const statusColor =
     isActive !== null ? (isActive ? "success" : "error") : "secondary";
   const badgeString = useUserBadgeString();
@@ -26,4 +26,4 @@ function UserBadge({ username, isActive }) {
   );
 }
 
-export default UserBadge;
+export default IconUserBadge;

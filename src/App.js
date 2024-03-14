@@ -1,24 +1,23 @@
-import React from "react";
-import "./App.css";
-
-import Profile from "./components/Profile";
-import RegisterCard from "./components/RegisterCard.jsx";
-import RenewalCard from "./components/RenewalCard.jsx";
-
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import EmailChange from "./components/EmailChange.jsx";
-import FAQcard from "./components/FAQ.jsx";
-import FinalizeCard from "./components/FinalizeCard.jsx";
-import ForgotPassword from "./components/ForgotPassword.jsx";
-import Login from "./components/LoginCard.jsx";
-import PDFViewer from "./components/PDFViewer.jsx";
-import ResetPassword from "./components/ResetPassword.jsx";
-import VerificationCard from "./components/VerifyEmail.jsx";
-import { ServiceProvider } from "./contexts/ServiceContext.js";
-import ErrorPage from "./routes/error-page";
-import News from "./routes/news";
-import Root from "./routes/root";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import React from "react";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import "./App.css";
+import AECreate from "./components/AECreate.jsx";
+import AEFinalize from "./components/AEFinalize.jsx";
+import AEProfile from "./components/AEProfile.jsx";
+import AuthLogin from "./components/AuthLogin.jsx";
+import AuthRegister from "./components/AuthRegister.jsx";
+import EmailChange from "./components/EmailChange.jsx";
+import EmailVerify from "./components/EmailVerify.jsx";
+import FAQcard from "./components/FAQ.jsx";
+import NewsView from "./components/NewsView.jsx";
+import PasswordChange from "./components/PasswordChange.jsx";
+import ForgotPassword from "./components/PasswordForgot.jsx";
+import PasswordReset from "./components/PasswordReset.jsx";
+import { ServiceProvider } from "./contexts/ServiceContext.js";
+import ErrorPage from "./routes/ErrorPage.jsx";
+import Root from "./routes/Root.jsx";
+import NewsTable from "./components/NewsTable.jsx";
 
 // Crea un nuevo tema con el color primario modificado
 const theme = createTheme({
@@ -42,40 +41,43 @@ function App() {
         <ServiceProvider>
           <Router>
             <Routes>
-              <Route path="/" element={<News />} errorElement={<ErrorPage />} />
-
               <Route path="/" element={<Root />} errorElement={<ErrorPage />}>
+                <Route index element={<NewsTable />} />
                 <Route path="faq" element={<FAQcard />} />
-                <Route path="document/:id" element={<PDFViewer />} />
+                <Route path="document/:id" element={<NewsView />} />
               </Route>
-
               <Route
                 path="/auth"
                 element={<Root />}
                 errorElement={<ErrorPage />}
               >
-                <Route path="login" element={<Login />} />
-                <Route path="register" element={<RegisterCard />} />
-                <Route path="forgot-password" element={<ForgotPassword />} />
+                <Route path="login" element={<AuthLogin />} />
+                <Route path="register" element={<AuthRegister />} />
+              </Route>
+
+              <Route path="/ae" element={<Root />} errorElement={<ErrorPage />}>
+                <Route path="finalize" element={<AEFinalize />} />
+                <Route path="create" element={<AECreate />} />
+                <Route path="profile" element={<AEProfile />} />
               </Route>
 
               <Route
-                path="/user"
+                path="/password"
                 element={<Root />}
                 errorElement={<ErrorPage />}
               >
-                <Route path="ae-finalize" element={<FinalizeCard />} />
-                <Route path="ae-renewal" element={<RenewalCard />} />
-                <Route path="profile" element={<Profile />} />
-                <Route path="reset-password" element={<ResetPassword />} />
+                <Route path="change" element={<PasswordChange />} />
+                <Route path="forgot" element={<ForgotPassword />} />
+                <Route path="reset" element={<PasswordReset />} />
               </Route>
+
               <Route
                 path="/email"
                 element={<Root />}
                 errorElement={<ErrorPage />}
               >
                 <Route path="change" element={<EmailChange />} />
-                <Route path="verify/:id/:hash" element={<VerificationCard />} />
+                <Route path="verify/:id/:hash" element={<EmailVerify />} />
               </Route>
               <Route path="*" element={<ErrorPage />} />
             </Routes>

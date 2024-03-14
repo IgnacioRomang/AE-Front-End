@@ -3,9 +3,10 @@ import React, { Suspense, lazy, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext";
 import { useProfileString } from "../contexts/TextProvider";
-import ProfileAEdata from "../fragments/ProfileIconData";
-import Calendar from "../fragments/calendar/Calendar";
+import ProfileAEdata from "../fragments/profile/ProfileInfo";
+import Calendar from "../fragments/profile/Calendar";
 import { centeringStyles } from "../theme";
+import AlertFragment from "../fragments/AlertFragmet";
 
 const Alert = lazy(() => import("@mui/material/Alert"));
 const AlertTitle = lazy(() => import("@mui/material/AlertTitle"));
@@ -14,7 +15,7 @@ const Grid = lazy(() => import("@mui/material/Grid"));
 const Paper = lazy(() => import("@mui/material/Paper"));
 const Stack = lazy(() => import("@mui/material/Stack"));
 
-const Profile = () => {
+const AEProfile = () => {
   const { User, get_ae_dates, serverDates, AE } = useService();
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -69,16 +70,11 @@ const Profile = () => {
                     />
                   }
                 >
-                  <Alert severity="warning">
-                    <AlertTitle variant="h5">
-                      {labels.warningfinish.title}
-                    </AlertTitle>
-                    {labels.warningfinish.body.map((label, index) => (
-                      <Typography key={index} paddingTop={1}>
-                        {label}
-                      </Typography>
-                    ))}
-                  </Alert>
+                  <AlertFragment
+                    type={"warning"}
+                    title={labels.warningfinish.title}
+                    body={labels.warningfinish.body}
+                  />
                 </Suspense>
               )}
             </Stack>
@@ -194,14 +190,11 @@ const Profile = () => {
                   <Skeleton variant="rectangular" height={60} width={"100%"} />
                 }
               >
-                <Alert padding={5} severity="warning">
-                  <AlertTitle variant="h4"> {labels.warning.title} </AlertTitle>
-                  {labels.warning.body.map((label, index) => (
-                    <Typography key={index} paddingTop={1}>
-                      {label}
-                    </Typography>
-                  ))}
-                </Alert>
+                <AlertFragment
+                  type={"warning"}
+                  title={labels.warning.title}
+                  body={labels.warning.body}
+                />
               </Suspense>
             </Grid>
           )}
@@ -213,4 +206,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default AEProfile;

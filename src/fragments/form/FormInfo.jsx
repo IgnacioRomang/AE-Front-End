@@ -27,7 +27,7 @@ const genders = [
   { label: "Ninguno", id: "-1" },
 ];
 
-const InfoDataCard = React.forwardRef((props, ref) => {
+const FormInfo = React.forwardRef((props, ref) => {
   const labels = useInfoDataCardString();
 
   const labelAlert = useResetPasswordCardString().alert;
@@ -337,4 +337,4 @@ const InfoDataCard = React.forwardRef((props, ref) => {
   );
 });
 
-export default InfoDataCard;
+export default FormInfo;

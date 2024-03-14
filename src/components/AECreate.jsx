@@ -1,5 +1,6 @@
 import React, { Suspense } from "react";
 import {
+  useCommonsButtonString,
   useCommonsString,
   useRegisterCardString,
   useRenewalCardString,
@@ -26,12 +27,12 @@ import { useService } from "../contexts/ServiceContext.js";
 import { cardRegisterStyle, centerButtonsStyle } from "../theme.jsx";
 import { formatDate } from "../utiles.js";
 
-import ErrorAE from "../fragments/ErrorFragment";
-import SuccessAE from "../fragments/SuccessFragment";
-import AddressDataCard from "../fragments/form/AddressDataCard";
-import ExtraDataCard from "../fragments/form/ExtraDataCard";
-import FileAttachCard from "../fragments/form/FileAttachCard";
-import InfoDataCard from "../fragments/form/InfoDataCard";
+import FormMessageError from "../fragments/form/FormMessageError.jsx";
+import FormMessageSuccess from "../fragments/form/FormMessageSuccess.jsx";
+import FormAddress from "../fragments/form/FormAddress.jsx";
+import FormExtra from "../fragments/form/FormExtra.jsx";
+import FormFileAttach from "../fragments/form/FormFileAttach.jsx";
+import FormInfo from "../fragments/form/FormInfo.jsx";
 
 const sx = {
   border: `1px solid #999999`,
@@ -56,9 +57,10 @@ const sx_de = {
  * @param {object} props The properties of the component.
  * @return {JSX.Element} The component.
  */
-const RenewalCard = () => {
+const AECreate = () => {
+  const buttonlabels = useCommonsButtonString();
+
   const labels = useRegisterCardString();
-  const commonlabels = useCommonsString();
   const renewalstring = useRenewalCardString();
 
   const [expanded, setExpanded] = React.useState("");
@@ -224,7 +226,13 @@ const RenewalCard = () => {
         />
         <CardContent>
           {open ? (
-            <>{!errorSend ? <SuccessAE first={false} /> : <ErrorAE />}</>
+            <>
+              {!errorSend ? (
+                <FormMessageSuccess first={false} />
+              ) : (
+                <FormMessageError />
+              )}
+            </>
           ) : (
             <>
               <Alert severity={"info"}>
@@ -253,7 +261,7 @@ const RenewalCard = () => {
                 </AccordionSummary>
                 <AccordionDetails sx={sx_de}>
                   {expanded === 0 && (
-                    <InfoDataCard
+                    <FormInfo
                       name={stepData[0].name}
                       lastName={stepData[0].lastName}
                       cuil={stepData[0].formattedCUIL}
@@ -283,7 +291,7 @@ const RenewalCard = () => {
                 </AccordionSummary>
                 <AccordionDetails sx={sx_de}>
                   {expanded === 1 && (
-                    <AddressDataCard
+                    <FormAddress
                       address={stepData[1].address}
                       floor={stepData[1].floor}
                       apartment={stepData[1].apartment}
@@ -313,7 +321,7 @@ const RenewalCard = () => {
                 </AccordionSummary>
                 <AccordionDetails sx={sx_de}>
                   {expanded === 2 && (
-                    <ExtraDataCard
+                    <FormExtra
                       occupation={stepData[2].occupation}
                       study={stepData[2].study}
                       phone={stepData[2].phone}
@@ -341,7 +349,7 @@ const RenewalCard = () => {
                 </AccordionSummary>
                 <AccordionDetails sx={sx_de}>
                   {expanded === 3 && (
-                    <FileAttachCard ref={refs} files={stepData[3].files} />
+                    <FormFileAttach ref={refs} files={stepData[3].files} />
                   )}
                 </AccordionDetails>
               </Accordion>
@@ -351,7 +359,7 @@ const RenewalCard = () => {
 
         <CardActions sx={centerButtonsStyle}>
           <Button size="small" color="inherit" onClick={handleBack}>
-            {commonlabels.button.cancel}
+            {buttonlabels.cancel}
           </Button>
 
           <Button
@@ -362,7 +370,7 @@ const RenewalCard = () => {
                 : handleSend
             }
           >
-            {errorSend ? commonlabels.button.restart : commonlabels.button.ok}
+            {errorSend ? buttonlabels.restart : buttonlabels.ok}
           </Button>
         </CardActions>
       </Card>
@@ -370,4 +378,4 @@ const RenewalCard = () => {
   );
 };
 
-export default RenewalCard;
+export default AECreate;

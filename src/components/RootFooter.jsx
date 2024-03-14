@@ -19,7 +19,7 @@ import { isMobileDevice } from "../utiles.js";
  * React functional component for the Footer component
  * @returns {JSX.Element} The footer component
  */
-const Footer = () => {
+const RootFooter = () => {
   const theme = useTheme();
   const [contact_info, assets] = useFooterString();
 
@@ -204,4 +204,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default RootFooter;

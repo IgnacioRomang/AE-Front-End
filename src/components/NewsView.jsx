@@ -8,7 +8,7 @@ import { useService } from "../contexts/ServiceContext";
  * This function is a React component that displays a PDF document.
  * @param {object} props - The properties of the component.
  */
-const PDFViewer = () => {
+const NewsView = () => {
   const [pdf, setPdf] = React.useState([]);
 
   const { id } = useParams();
@@ -44,4 +44,4 @@ const PDFViewer = () => {
   );
 };
 
-export default PDFViewer;
+export default NewsView;

@@ -28,7 +28,7 @@ import { TextField } from "@mui/material";
 import { useService } from "../contexts/ServiceContext.js";
 import { doformatCUIL } from "../utiles.js";
 
-const Login = () => {
+const AuthLogin = () => {
   const [labels, assets] = useLoginString();
   const commonlabels = useCommonsString();
 
@@ -144,7 +144,7 @@ const Login = () => {
               disabled={loginSuccess}
               underline="hover"
               onClick={() => {
-                navigate("/auth/forgot-password");
+                navigate("/password/forgot");
               }}
               style={loginSuccess ? linksStyle : buttonTopStyle}
             >
@@ -219,4 +219,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default AuthLogin;

@@ -28,7 +28,7 @@ import { doformatCUIL } from "../utiles";
  * buttons for navigating back or submitting the form. Additionally, there are two Collapse components that display success or
  * error messages.
  */
-const ForgotPassword = () => {
+const PasswordForgot = () => {
   //const [isSubmitted, setIsSubmitted] = useState(false);
   const labelbutton = useCommonsString();
   const label = useForgotPasswordString();
@@ -166,4 +166,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default PasswordForgot;

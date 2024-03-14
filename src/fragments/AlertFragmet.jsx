@@ -1,4 +1,6 @@
-import { Alert, AlertTitle, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
+const Alert = lazy(() => import("@mui/material/Alert"));
+const AlertTitle = lazy(() => import("@mui/material/AlertTitle"));
 import React from "react";
 import { textJustifyStyle } from "../theme";
 
@@ -8,9 +10,11 @@ const AlertFragment = ({ type, title, body }) => {
       {" "}
       <Alert severity={type}>
         <AlertTitle>{title}</AlertTitle>
-        <Typography sx={textJustifyStyle}>{body[0]}</Typography>
-        <Typography sx={textJustifyStyle}>{body[1]}</Typography>
-        <Typography sx={textJustifyStyle}>{body[2]}</Typography>
+        {body.map((label, index) => (
+          <Typography key={index} sx={textJustifyStyle}>
+            {label}
+          </Typography>
+        ))}
       </Alert>
     </>
   );

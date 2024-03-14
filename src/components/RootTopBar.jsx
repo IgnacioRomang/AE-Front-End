@@ -9,11 +9,11 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { Box } from "@mui/system";
 import React, { useMemo, useState } from "react";
-import IconUserMenu from "../fragments/IconUserMenuFragment.jsx";
+import IconUserMenu from "../fragments/topbar/IconUserMenu.jsx";
 
 import { useNavigate } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext.js";
-import { useTopBarString } from "../contexts/TextProvider.jsx";
+import { useRootTopbarString } from "../contexts/TextProvider.jsx";
 import {
   boxSMmenu,
   boxXLmenu,
@@ -22,22 +22,23 @@ import {
   menuStyles,
 } from "../theme.jsx";
 
-const TopBar = (props) => {
+const RootTopBar = (props) => {
+  const labels = useRootTopbarString;
   const [anchorElNav, setAnchorElNav] = useState(null);
-  const [labels, assets] = useTopBarString();
+  //const [labels, assets] = useTopBarString();
   const { User, serverDates, isAuthenticated, AE } = useService(); //states context
   const navigate = useNavigate();
   const today = useMemo(() => new Date(), []);
   const pages = useMemo(
     () => [
-      { label: labels.opctions[0], disabled: false },
-      { label: labels.opctions[1], disabled: false },
+      { label: labels.titles[0], disabled: false },
+      { label: labels.titles[1], disabled: false },
       {
-        label: labels.opctions[2],
+        label: labels.titles[2],
         disabled: User !== null ? User.ae !== AE.NON_AE : false,
       },
       {
-        label: labels.opctions[3],
+        label: labels.titles[3],
         disabled:
           User !== null && User.ae === AE.FINISHABLE
             ? today < serverDates.fifthMonth || today > serverDates.sixthMonth
@@ -64,7 +65,7 @@ const TopBar = (props) => {
       default:
         navigate("error");
     }
-    handleCloseNavMenu( );
+    handleCloseNavMenu();
   };
 
   const handleOpenNavMenu = (event) => {
@@ -85,7 +86,7 @@ const TopBar = (props) => {
         <Toolbar disableGutters>
           <Box sx={boxXLmenu}>
             <img
-              src={assets.logo.src}
+              src={labels.logo.src}
               loading="lazy"
               alt="" //todo alt
               onClick={handleLogoClick}
@@ -143,7 +144,7 @@ const TopBar = (props) => {
               </>
             )}
             <img
-              src={assets.logo.src}
+              src={labels.logo.src}
               loading="lazy"
               alt="" //todo alt
               onClick={handleLogoClick}
@@ -158,4 +159,4 @@ const TopBar = (props) => {
   );
 };
 
-export default TopBar;
+export default RootTopBar;

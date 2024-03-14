@@ -1,8 +1,8 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
-import { useUnRegisterSuccessString } from "../contexts/TextProvider.jsx";
-import { superCenter } from "../theme.jsx";
-const UnRegisterSuccessFragment = ({ first }) => {
+import { useUnRegisterSuccessString } from "../../contexts/TextProvider.jsx";
+import { superCenter } from "../../theme.jsx";
+const FormMessageFinalizeSuccess = ({ first }) => {
   const labels = useUnRegisterSuccessString();
   return (
     <Box container="true" sx={{ ...superCenter, paddingBottom: 5 }}>
@@ -16,4 +16,4 @@ const UnRegisterSuccessFragment = ({ first }) => {
     </Box>
   );
 };
-export default UnRegisterSuccessFragment;
+export default FormMessageFinalizeSuccess;

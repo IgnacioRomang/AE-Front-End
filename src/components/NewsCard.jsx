@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const InfoCard = ({ anews }) => {
+const NewsCard = ({ anews }) => {
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
   const cardMediaRef = useRef(null);
@@ -73,4 +73,4 @@ const InfoCard = ({ anews }) => {
   );
 };
 
-export default InfoCard;
+export default NewsCard;

@@ -1,9 +1,9 @@
 import { Alert, Box, Typography } from "@mui/material";
 import React from "react";
-import { useErrorAEString } from "../contexts/TextProvider.jsx";
-import { boxErrorAESyle } from "../theme.jsx";
+import { useErrorAEString } from "../../contexts/TextProvider.jsx";
+import { boxErrorAESyle } from "../../theme.jsx";
 
-const ErrorAE = () => {
+const FormMessageError = () => {
   const labels = useErrorAEString();
   return (
     <Box sx={boxErrorAESyle}>
@@ -22,4 +22,4 @@ const ErrorAE = () => {
   );
 };
 
-export default ErrorAE;
+export default FormMessageError;

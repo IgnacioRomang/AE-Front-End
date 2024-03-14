@@ -16,7 +16,7 @@ import { doApartment, doFloor, doPostalCode } from "../../utiles.js";
  * @param {string} props.postalCode - The initial postal code.
  * @returns {JSX.Element} - Returns the `AddressDataCard` component.
  */
-const AddressDataCard = React.forwardRef(
+const FormAddress = React.forwardRef(
   ({ address, floor, apartment, province, city, postalCode }, ref) => {
     const labels = useAddressDataCardString();
     const { get_province_names, get_citys_name, get_address_names } =
@@ -344,4 +344,4 @@ const AddressDataCard = React.forwardRef(
   }
 );
 
-export default AddressDataCard;
+export default FormAddress;

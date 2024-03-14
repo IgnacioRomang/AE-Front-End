@@ -18,11 +18,11 @@ import {
 } from "../contexts/TextProvider.jsx";
 
 import AlertFragment from "../fragments/AlertFragmet.jsx";
-import ErrorAE from "../fragments/ErrorFragment.jsx";
-import UnRegisterSuccessFragment from "../fragments/UnRegisterSuccessFragment.jsx";
 
 import { useNavigate } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext.js";
+import FormMessageFinalizeSuccess from "../fragments/form/FormMessageFinalizeSuccess.jsx";
+import { FormMessageError } from "../fragments/index.js";
 import {
   boxUnRegisterLogSyle,
   cardRegisterStyle,
@@ -34,7 +34,7 @@ import {
  *
  * @return {JSX.Element} The component.
  */
-const FinalizeCard = () => {
+const AEFinalize = () => {
   const commonlabels = useCommonsString();
   const renewalstring = useUnRegisterCardString();
   const [open, setOpen] = useState(false);
@@ -82,7 +82,9 @@ const FinalizeCard = () => {
         />
         <CardContent>
           {open ? (
-            <>{!error ? <UnRegisterSuccessFragment /> : <ErrorAE />}</>
+            <>
+              {!error ? <FormMessageFinalizeSuccess /> : <FormMessageError />}
+            </>
           ) : (
             <>
               <AlertFragment
@@ -128,4 +130,4 @@ const FinalizeCard = () => {
   );
 };
 
-export default FinalizeCard;
+export default AEFinalize;

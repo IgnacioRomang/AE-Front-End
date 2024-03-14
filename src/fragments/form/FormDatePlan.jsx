@@ -8,7 +8,7 @@ import { getDates } from "../../utiles.js";
 
 /* The code defines a React functional component called `DatePlanAE`. It is a form component that
 displays information about dates and allows the user to enter a code. */
-const DatePlanAE = React.forwardRef((props, ref) => {
+const FormDatePlan = React.forwardRef((props, ref) => {
   const { startDay, fthMonth, sixMonth, lastMonth } = getDates();
   const labels = useDatePlanAEString();
   const [codeverf, setCodeverf] = React.useState(true);
@@ -146,4 +146,4 @@ const DatePlanAE = React.forwardRef((props, ref) => {
     </Box>
   );
 });
-export default DatePlanAE;
+export default FormDatePlan;
