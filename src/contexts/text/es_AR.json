@@ -47,6 +47,9 @@
         "help": "Ayuda",
         "warning": "¡Advertencia!",
         "important": "¡Importante!",
+        "success": "Exito",
+        "error": "Error",
+        "thanks": "¡Muchas Gracias!",
         "send": {
           "success": "Enviado correctamente",
           "error": "Error al enviar"
@@ -57,7 +60,7 @@
       "auth": {
         "login": {
           "title": "Iniciar sesión",
-          "link-label": {
+          "link_label": {
             "password": "¿Recupera tu contraseña ó Cuenta?",
             "account": "¿No tienes cuenta?",
             "faq": "Preguntas Frecuentes"
@@ -65,19 +68,19 @@
           "alert": {
             "success": {
               "title": "Éxito",
-              "body": "Has iniciado sesión con éxito en tu cuenta -",
+              "body": "Has iniciado sesión con éxito en tu cuenta _",
               "strong": "¡Bienvenido!"
             },
             "error": {
               "title": "Error",
-              "body": "Oops, algo salió mal con inicio de sesión -",
+              "body": "Oops, algo salió mal con inicio de sesión _",
               "strong": "¡Reitente nuevamente!"
             }
           }
         },
         "register": {
           "title": "Registro",
-          "step-title": [
+          "step_title": [
             "Información",
             "Dirección",
             "Otros",
@@ -85,44 +88,15 @@
             "Prevista"
           ],
           "step": {
-            "info": {
-              "name": "Nombre",
-              "lastname": "Apellido",
-              "birthdate": "Fecha de nacimiento",
-              "gender": "Género",
-              "helper-text": {
-                "insert": "Ingresa tu ",
-                "birthdate": ["Dato obligatirio", "Debe ser mayor de 18 años"],
-                "gender": "Seleccione un genero"
-              }
-            },
             "address": {
               "street": "Domicilio",
               "floor": "Piso",
               "apartment": "Departamento",
               "state": "Provincia",
               "city": "Localidad",
-              "postal-code": "Código Postal"
+              "postal_code": "Código Postal"
             },
-            "extra": {
-              "phone": "Teléfono",
-              "email": "Email",
-              "occupation": "Ocupación",
-              "capacity": "Estudios"
-            },
-            "file-attach": {
-              "title": "Subir Imágenes del DNI",
-              "body": [
-                "Por favor, sube imágenes claras del frente y el reverso de tu DNI.",
-                "Asegúrate de que ambos lados sean visibles y legibles.",
-                "Puedes subir hasta dos archivos en total."
-              ],
-              "files-selected": {
-                "title": "Imágenes del DNI (*)",
-                "list": "Archivos seleccionados: "
-              }
-            },
-            "date-plane": {
+            "date_plane": {
               "title": "¡Atención!",
               "body": [
                 "Tu autoexclusión comienzaria el ",
@@ -132,6 +106,35 @@
                 "Y durará hasta ",
                 "¿Esta seguro que desea continuar?"
               ]
+            },
+            "extra": {
+              "phone": "Teléfono",
+              "email": "Email",
+              "occupation": "Ocupación",
+              "capacity": "Estudios"
+            },
+            "file_attach": {
+              "title": "Subir Imágenes del DNI",
+              "body": [
+                "Por favor, sube imágenes claras del frente y el reverso de tu DNI.",
+                "Asegúrate de que ambos lados sean visibles y legibles.",
+                "Puedes subir hasta dos archivos en total."
+              ],
+              "files_selected": {
+                "title": "Imágenes del DNI (*)",
+                "list": "Archivos seleccionados: "
+              }
+            },
+            "info": {
+              "name": "Nombre",
+              "lastname": "Apellido",
+              "birthdate": "Fecha de nacimiento",
+              "gender": "Género",
+              "helper_text": {
+                "insert": "Ingresa tu ",
+                "birthdate": ["Dato obligatirio", "Debe ser mayor de 18 años"],
+                "gender": "Seleccione un genero"
+              }
             }
           }
         }
@@ -141,12 +144,12 @@
           "badge": {
             "status": ["Excluido", "Finalizada"]
           },
-          "link-label": {
-            "end-of-ae-certificate": "Constancia de fin de exclusion ",
-            "start-of-ae-certificate": "Constancia de exclusión",
-            "password-change": "Cambiar Contraseña",
-            "email-change": "Cambiar Email",
-            "email-verify": "Renviar Email de Verificación"
+          "link_label": {
+            "end_of_ae_certificate": "Constancia de fin de exclusion ",
+            "start_of_ae_certificate": "Constancia de exclusión",
+            "password_change": "Cambiar Contraseña",
+            "email_change": "Cambiar Email",
+            "email_verify": "Renviar Email de Verificación"
           },
           "calendar": {
             "title": "Cronograma de Autoexclusión",
@@ -155,14 +158,14 @@
               "Periodo de Baja",
               "Fin de autoexclusión"
             ],
-            "alert-warning-finalize-onprocess": {
+            "alert_warning_finalize_onprocess": {
               "title": "En Proceso de Finalizacion",
               "body": [
                 "Usted dio de baja la exclusion",
                 "Podrá ingresar libremente al casino a partir de la finalizacion del periodo de baja marcado en rojo en su Cronograma"
               ]
             },
-            "alert-warning-finish": {
+            "alert_warning_finish": {
               "title": "Autoexclusión Finalizada",
               "body": [
                 "Actualmente, puede acceder a los casinos libremente ya que no dispone de ninguna autoexclusión activa.",
@@ -175,23 +178,19 @@
         },
         "create": {
           "title": "Nueva Autoexclusión",
-          "alert": {
-            "info": {
-              "title": "Informacion y Actualización de Datos",
-              "body": [
-                "Por favor, para actualizar su exclusión debemos verificar sus datos",
-                "En los siguientes campos podra actualizar sus datos personales de ser necesario",
-                "Ten en cuenta que esta exclusión tendra la duracion de un año"
-              ]
-            },
-            "warning": {
-              "body": "En el caso de renovación, la normativa establece un período de exclusión de 12 meses sin la opción de cancelación. ¿Desea proceder con la solicitud?"
-            }
+          "alert_info": {
+            "title": "Informacion y Actualización de Datos",
+            "body": [
+              "Por favor, para actualizar su exclusión debemos verificar sus datos",
+              "En los siguientes campos podra actualizar sus datos personales de ser necesario",
+              "Ten en cuenta que esta exclusión tendra la duracion de un año"
+            ]
           }
         },
         "finalize": {
-          "title": "Dar de baja auto-exclusión",
-          "alert-info": {
+          "title": "Dar de baja auto exclusión",
+          "alert_warning": {
+            "title": "¡Advertencia!",
             "body": [
               "El proceso de  baja de una autoexclusión solo puede completarse durante la primera autoexclusión.",
               "A partir de las siguientes auto exclusiones esto ya no es posible y la exclusion tendra un periodo de 12 meses.",
@@ -201,25 +200,46 @@
         }
       },
       "email": {
-        "verify": {
+        "send": {
           "alert": {
             "success": {
-              "title": "Éxito",
               "body": "El mensaje fue enviado -",
               "strong": "¡Revisa tu correo!"
             },
             "fail": {
-              "title": "Error",
               "body": "Oops, algo salió mal -",
-              "strong": "Parece que ha habido un problema, debes ingresar un CUIL"
+              "strong": "¡Reitente nuevamente!"
+            }
+          }
+        },
+        "verify": {
+          "loading": "Verificando email...",
+          "alert": {
+            "success": {
+              "body": "Su email fue verificado exitosamente -",
+              "strong": "¡Muchas Gracias!"
+            },
+            "fail": {
+              "body": "Oops, algo salió mal -",
+              "strong": "¡Reitente nuevamente!"
             }
           }
         },
         "change": {
-          "alert-info": {
-            "title": "Importancia de la Verificación de Correo Electrónico",
-            "strong": "¡Verifica tu correo!",
-            "body": "Protege tu cuenta, Facilita la recuperación y mejora la comunicación con nuestro servicio."
+          "title": "Procesando verificación de correo...",
+          "alert": {
+            "warning": {
+              "title": "Requisitos",
+              "body": [
+                "El email asociado a tu cuenta debe estar verificado. De lo contrario, no podemos asegurar que resivas el correo"
+              ],
+              "strong": "De lo contrario comunicate con servicio de soporte"
+            },
+            "info": {
+              "title": "Importancia de la Verificación de Correo Electrónico",
+              "strong": "¡Verifica tu correo!",
+              "body": "Protege tu cuenta, Facilita la recuperación y mejora la comunicación con nuestro servicio."
+            }
           }
         }
       },
@@ -230,17 +250,31 @@
               "title": "La Contraseña debe tener: ",
               "body": [
                 "Al menos 8 caracteres de longitud.",
-                "Al menos un dígito (0-9).",
+                "Al menos un dígito (0_9).",
                 "Al menos una letra minúscula.",
                 "Al menos una letra mayúscula."
               ]
             },
-            "verify": {
+            "change": {
               "title": "Requisitos",
               "body": [
                 "El email asociado a tu cuenta debe estar verificado. De lo contrario, no podemos asegurar que resivas el correo"
               ],
               "strong": "De lo contrario comunicate con servicio de soporte"
+            }
+          }
+        },
+        "reset": {
+          "title": "Procesando Cambio de Contrasenia",
+          "loading": "Enviando datos...",
+          "alert": {
+            "success": {
+              "body": "La contraseña fue cambiada exitosamente -",
+              "strong": "¡Ingresa con tu nueva contraseña!"
+            },
+            "fail": {
+              "body": "Oops, algo salió mal con el cambio de contraseña -",
+              "strong": "¡Reitente nuevamente!"
             }
           }
         },
@@ -256,8 +290,8 @@
           "success": {
             "create": {
               "title": {
-                "first-ae": "¡Felicidades, tu registro está completo!",
-                "n-ae": "¡Felicidades, tu nueva está completa!"
+                "first_ae": "¡Felicidades, tu registro está completo!",
+                "n_ae": "¡Felicidades, tu nueva está completa!"
               },
               "body": [
                 "Tu autoexclusión comienza el ",
@@ -268,20 +302,19 @@
               ],
               "alert": {
                 "body": [
-                  "Recibirás un correo electrónico en cuanto confirmemos tus datos.",
-                  "Descarga una copia del acta de exclusión."
+                  "Recibirás un correo electrónico en cuanto confirmemos tus datos."
                 ]
               }
             },
             "finalize": {
-              "title": "¡Baja de auto-exclusión completada!",
+              "title": "¡Baja de auto_exclusión completada!",
               "body": "La solicitud se realizo correctamente. \n Recuerda si necesitas asistencia, no dudes en comunicarte +54 (342) 4815660"
             }
           },
           "error": {
             "title": "¡Ups! Algo salió mal",
             "body": "Hubo un error al procesar la solicitud.",
-            "alert-info": {
+            "alert_info": {
               "body": [
                 "Por favor, inténtalo de nuevo más tarde.",
                 "Es posible que este problema esté vinculado con nuestro servicio. Sin embargo, también podría ser consecuencia de que ya esté registrado. Le recomendamos iniciar sesión de manera convencional. Si se registró de forma presencial mediante un formulario escrito y desea acceder a su cuenta a través de la web, le sugerimos recuperar su cuenta. Vaya al apartado 'Recuperar mi cuenta' en la sección de inicio de sesión para obtener información detallada. Además, puede consultar las preguntas frecuentes en la parte inferior de la pantalla para obtener asistencia adicional.",

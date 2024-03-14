@@ -1,19 +1,19 @@
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { Stack } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
-import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext";
-import { useEmailVerifyString } from "../contexts/TextProvider";
+import { useComponentPasswordResetString } from "../contexts/TextProvider";
+import AlertFragment from "../fragments/AlertFragmet";
 
 const PasswordReset = () => {
   const [loading, setLoading] = useState(true);
   const [success, setSuccess] = useState(false);
-  const labels = useEmailVerifyString();
+
+  const passwordresetlabels = useComponentPasswordResetString();
   const navigate = useNavigate();
 
   const token = new URLSearchParams(window.location.search).get("token");
@@ -49,19 +49,27 @@ const PasswordReset = () => {
           {loading ? (
             <Stack spacing={2} sx={{ display: "flex", alignItems: "center" }}>
               <CircularProgress />
-              <Typography variant="body1">{"Enviando datos..."}</Typography>
+              <Typography variant="body1">
+                {passwordresetlabels.loading}
+              </Typography>
             </Stack>
           ) : (
             <Stack spacing={2} sx={{ display: "flex", alignItems: "center" }}>
               {success ? (
-                <CheckCircleOutlineIcon sx={{ fontSize: 40, color: "green" }} />
+                <AlertFragment
+                  type="success"
+                  title={passwordresetlabels.title}
+                  body={passwordresetlabels.success.body}
+                  strong={passwordresetlabels.success.strong}
+                />
               ) : (
-                <HighlightOffIcon sx={{ fontSize: 40, color: "red" }} />
+                <AlertFragment
+                  type="error"
+                  title={passwordresetlabels.title}
+                  body={passwordresetlabels.fail.body}
+                  strong={passwordresetlabels.v.strong}
+                />
               )}
-
-              <Typography paddingTop={3} variant="body1">
-                {success ? labels.success : labels.error}
-              </Typography>
             </Stack>
           )}
         </>

@@ -1,7 +1,7 @@
 import { Paper, Typography } from "@mui/material";
 import axios from "axios";
-import React from "react";
-import { useFAQString } from "../contexts/TextProvider";
+import React, { useEffect, useState } from "react";
+import { useRootFAQString } from "../contexts/TextProvider";
 import Question from "../fragments/Question";
 /**
  * React functional component for the FAQ page.
@@ -10,13 +10,13 @@ import Question from "../fragments/Question";
  * @returns {JSX.Element} - the FAQ page
  */
 const FAQ = () => {
-  const [questions, setQuestions] = React.useState([]);
-  const labels = useFAQString();
+  const [questions, setQuestions] = useState([]);
+  const rootfaq = useRootFAQString();
 
   /**
    * Adds the middleware that fetches and sets questions from React's back page
    */
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       try {
         let url = process.env.REACT_APP_BACK_URL;
@@ -51,7 +51,7 @@ const FAQ = () => {
   return (
     <Paper>
       <Typography variant="h5" padding={5}>
-        {labels.title}
+        {rootfaq.title}
       </Typography>
       {questions.map((faq, index) => (
         <Question

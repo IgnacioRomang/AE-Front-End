@@ -1,7 +1,7 @@
 import { Chip, Paper, useTheme } from "@mui/material";
 import { Container } from "@mui/system";
-import React from "react";
-import { useFooterString } from "../contexts/TextProvider.jsx";
+import React, { useState } from "react";
+import { useRootFooterString } from "../contexts/TextProvider.jsx";
 import {
   Xl,
   containerChipsFooterStyle,
@@ -21,9 +21,9 @@ import { isMobileDevice } from "../utiles.js";
  */
 const RootFooter = () => {
   const theme = useTheme();
-  const [contact_info, assets] = useFooterString();
+  const rootfooterlabels = useRootFooterString();
 
-  const [hoveredChip, setHoveredChip] = React.useState(null);
+  const [hoveredChip, setHoveredChip] = useState(null);
 
   const handleMouseEnter = (chip) => {
     setHoveredChip(chip);
@@ -36,22 +36,22 @@ const RootFooter = () => {
   const handleSendMessage = (contactType) => {
     if (contactType === "email") {
       // Abre la aplicación de correo electrónico predeterminada
-      window.open("mailto:" + contact_info.email);
+      window.open("mailto:" + rootfooterlabels.email);
     } else if (contactType === "phone") {
       if (isMobileDevice()) {
         // Si es un dispositivo móvil, abrir la aplicación de teléfono
-        window.open("tel:" + contact_info.phone);
+        window.open("tel:" + rootfooterlabels.phone);
       } else {
         // Si es un escritorio, abrir WhatsApp
         window.open(
-          "https://web.whatsapp.com/send?phone=" + contact_info.phone
+          "https://web.whatsapp.com/send?phone=" + rootfooterlabels.phone
         );
       }
     } else if (contactType === "address") {
       // Busca la dirección en Google Maps
       window.open(
         "https://www.google.com/maps/search/?api=1&query=" +
-          contact_info.address
+          rootfooterlabels.address
       );
     }
   };
@@ -59,10 +59,9 @@ const RootFooter = () => {
     <Paper elevation={2} sx={footerPaperStyle}>
       <Container sx={Xl}>
         <img
-          src={assets.imgProv.src}
+          src={rootfooterlabels.logo.src}
           loading="lazy"
           alt=""
-          href={assets.imgProv.href}
           style={imgLogoProvStyle}
         />
 
@@ -75,7 +74,7 @@ const RootFooter = () => {
                 }}
               />
             }
-            label={contact_info.address}
+            label={rootfooterlabels.address}
             onMouseEnter={() => handleMouseEnter("address")}
             onClick={() => handleSendMessage("address")}
             onMouseLeave={handleMouseLeave}
@@ -96,7 +95,7 @@ const RootFooter = () => {
                 }}
               />
             }
-            label={contact_info.phone}
+            label={rootfooterlabels.phone}
             onMouseEnter={() => handleMouseEnter("phone")}
             onClick={() => handleSendMessage("phone")}
             onMouseLeave={handleMouseLeave}
@@ -117,7 +116,7 @@ const RootFooter = () => {
                 }}
               />
             }
-            label={contact_info.email}
+            label={rootfooterlabels.email}
             onMouseEnter={() => handleMouseEnter("email")}
             onMouseLeave={handleMouseLeave}
             onClick={() => handleSendMessage("email")}
@@ -143,7 +142,7 @@ const RootFooter = () => {
                 }}
               />
             }
-            label={contact_info.address}
+            label={rootfooterlabels.address}
             onMouseEnter={() => handleMouseEnter("address")}
             onClick={() => handleSendMessage("address")}
             onMouseLeave={handleMouseLeave}
@@ -164,7 +163,7 @@ const RootFooter = () => {
                 }}
               />
             }
-            label={contact_info.phone}
+            label={rootfooterlabels.phone}
             onMouseEnter={() => handleMouseEnter("phone")}
             onClick={() => handleSendMessage("phone")}
             onMouseLeave={handleMouseLeave}
@@ -185,7 +184,7 @@ const RootFooter = () => {
                 }}
               />
             }
-            label={contact_info.email}
+            label={rootfooterlabels.email}
             onClick={() => handleSendMessage("email")}
             onMouseEnter={() => handleMouseEnter("email")}
             onMouseLeave={handleMouseLeave}

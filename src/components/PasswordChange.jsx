@@ -8,12 +8,13 @@ import {
   CardHeader,
   Collapse,
 } from "@mui/material";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext";
 import {
-  useCommonsString,
-  useResetPasswordCardString,
+  useCommonsButtonString,
+  useComponentPasswordAlertString,
+  useComponentPasswordChangeString,
 } from "../contexts/TextProvider";
 import PasswordFragment from "../fragments/PasswordFragment";
 import { boxLoginSyle, cardLoginStyle, centerButtonsStyle } from "../theme";
@@ -26,8 +27,9 @@ import { boxLoginSyle, cardLoginStyle, centerButtonsStyle } from "../theme";
  * `CardActions`.
  */
 const PasswordChange = () => {
-  const labelbutton = useCommonsString();
-  const label = useResetPasswordCardString();
+  const commonbutton = useCommonsButtonString();
+  const passwordchange = useComponentPasswordChangeString();
+  const passwordalert = useComponentPasswordAlertString();
   const nav = useNavigate();
   const { User, setUser, setIsAuthenticated } = useService();
   const ref = useRef(null);
@@ -55,7 +57,6 @@ const PasswordChange = () => {
         }
       } catch (error) {
         console.error("Error en la solicitud:", error);
-        console.error("Detalles del error:", error.response.data);
         setError(true);
       }
     }
@@ -65,7 +66,7 @@ const PasswordChange = () => {
   };
   return (
     <Card sx={cardLoginStyle}>
-      <CardHeader title={label.title} />
+      <CardHeader title={passwordchange.title} />
       <CardContent container sx={boxLoginSyle}>
         <CardContent item sx={12} sm={8}>
           <PasswordFragment ref={ref} />
@@ -76,9 +77,9 @@ const PasswordChange = () => {
               severity="error"
               style={{ textAlign: "left", marginTop: "16px" }}
             >
-              <AlertTitle>{label.alert.title}</AlertTitle>
+              <AlertTitle>{passwordalert.info.requirements.title}</AlertTitle>
               <ul>
-                {label.alert.body.map((lablel, index) => (
+                {passwordalert.info.requirements.body.map((lablel, index) => (
                   <li key={index}>{lablel}</li>
                 ))}
               </ul>
@@ -88,10 +89,10 @@ const PasswordChange = () => {
       </CardContent>
       <CardActions sx={centerButtonsStyle}>
         <Button size="small" onClick={handleBack} color="inherit">
-          {labelbutton.button.back}
+          {commonbutton.back}
         </Button>
         <Button size="small" onClick={handleAcept}>
-          {labelbutton.button.ok}
+          {commonbutton.ok}
         </Button>
       </CardActions>
     </Card>

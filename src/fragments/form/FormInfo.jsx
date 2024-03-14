@@ -12,8 +12,9 @@ import {
 } from "@mui/material";
 import React, { useCallback, useImperativeHandle, useState } from "react";
 import {
-  useInfoDataCardString,
-  useResetPasswordCardString,
+  useCommonsFieldString,
+  useComponentPasswordAlertString,
+  useFormInfoString,
 } from "../../contexts/TextProvider.jsx";
 import { centeringStyles } from "../../theme.jsx";
 import { datecontrol, doformatCUIL, testpassword } from "../../utiles.js";
@@ -28,9 +29,11 @@ const genders = [
 ];
 
 const FormInfo = React.forwardRef((props, ref) => {
-  const labels = useInfoDataCardString();
+  const forminfolabels = useFormInfoString();
+  const passwordalertlabels =
+    useComponentPasswordAlertString().alert.info.requirements;
+  const useCommonfieldslables = useCommonsFieldString();
 
-  const labelAlert = useResetPasswordCardString().alert;
   const [userData, setUserData] = useState({
     name: props.name,
     lastName: props.lastName,
@@ -157,7 +160,7 @@ const FormInfo = React.forwardRef((props, ref) => {
           <Grid item xs={12} sm={4}>
             <TextField
               id="name"
-              label={labels.name}
+              label={forminfolabels.name}
               required
               disabled={false}
               value={userData.name}
@@ -176,7 +179,7 @@ const FormInfo = React.forwardRef((props, ref) => {
           <Grid item xs={12} sm={4}>
             <TextField
               id="lastname"
-              label={labels.lastname}
+              label={forminfolabels.lastname}
               required
               size="small"
               disabled={false}
@@ -196,7 +199,7 @@ const FormInfo = React.forwardRef((props, ref) => {
             <Grid item xs={12} sm={4}>
               <TextField
                 id="cuil"
-                label={labels.cuil}
+                label={useCommonfieldslables.cuil}
                 required
                 size="small"
                 autoComplete="true"
@@ -216,7 +219,7 @@ const FormInfo = React.forwardRef((props, ref) => {
             <Grid item xs={12} sm={4}>
               <TextField
                 id="dates"
-                label={labels.birthdate}
+                label={forminfolabels.birthdate}
                 required
                 disabled={false}
                 value={userData.selectedBirthdate}
@@ -241,7 +244,7 @@ const FormInfo = React.forwardRef((props, ref) => {
                 variant="standard"
                 htmlFor="gender"
               >
-                {labels.gender}
+                {useCommonfieldslables.gender}
               </InputLabel>
               <NativeSelect
                 value={userData.selectedGender}
@@ -275,7 +278,7 @@ const FormInfo = React.forwardRef((props, ref) => {
                   <TextField
                     id="password"
                     size="small"
-                    label={labels.password}
+                    label={useCommonfieldslables.password}
                     required
                     type="password"
                     error={errors.password}
@@ -294,7 +297,7 @@ const FormInfo = React.forwardRef((props, ref) => {
                 <Grid item xs={12} sm={4}>
                   <TextField
                     id="passwordrep"
-                    label={"Repita la " + labels.password}
+                    label={"Repita la " + useCommonfieldslables.password}
                     required
                     error={errors.password}
                     size="small"
@@ -316,12 +319,11 @@ const FormInfo = React.forwardRef((props, ref) => {
                       severity="error"
                       style={{ textAlign: "left", marginTop: "16px" }}
                     >
-                      <AlertTitle>{labelAlert.title}</AlertTitle>
+                      <AlertTitle>{passwordalertlabels.title}</AlertTitle>
                       <ul>
-                        <li>{labelAlert.body[0]}</li>
-                        <li>{labelAlert.body[1]}</li>
-                        <li>{labelAlert.body[2]}</li>
-                        <li>{labelAlert.body[3]}</li>
+                        {passwordalertlabels.body.map((label) => (
+                          <li key={label}>{label}</li>
+                        ))}
                       </ul>
                     </Alert>
                   </Collapse>

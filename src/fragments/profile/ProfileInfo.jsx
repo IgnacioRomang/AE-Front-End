@@ -9,7 +9,10 @@ import {
 import { Box, Stack } from "@mui/system";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useProfileIconDataString } from "../../contexts/TextProvider.jsx";
+import {
+  useCommonsFieldString,
+  useComponentAEProfileString,
+} from "../../contexts/TextProvider.jsx";
 import { centeringStyles, gridProfileInfoStyle } from "../../theme.jsx";
 import IconUserBadge from "./ProfileIconUserBadge.jsx";
 import { useService } from "../../contexts/ServiceContext.js";
@@ -17,7 +20,8 @@ import EmailBackdrop from "../EmailBackdrop.jsx";
 import CheckIcon from "@mui/icons-material/Check";
 
 const ProfileInfo = () => {
-  const labels = useProfileIconDataString();
+  const aeprofilestring = useComponentAEProfileString();
+  const commonfields = useCommonsFieldString();
   const nav = useNavigate();
   const { AE, User, fetch_end_pdf, fetch_start_pdf, resend_verify_email } =
     useService();
@@ -45,10 +49,10 @@ const ProfileInfo = () => {
     nav(url);
   };
 
-  const [open, setOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(true);
-  const [click, setClick] = React.useState(false);
-  const [timeLeft, setTimeLeft] = React.useState(31);
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [click, setClick] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(31);
 
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -93,7 +97,7 @@ const ProfileInfo = () => {
             isActive={User.ae !== AE.NON_AE}
           />
           <Typography variant="body1" paddingRight={17} fontSize={10}>
-            {labels.cuil}
+            {commonfields.cuil}
           </Typography>
           <Typography variant="h5">{User.cuil}</Typography>
           <Typography variant="body1">{User.name}</Typography>
@@ -102,16 +106,16 @@ const ProfileInfo = () => {
         <Stack padding={2} spacing={1} sx={centeringStyles}>
           {User.ae === AE.FINALIZED && (
             <Link size="small" onClick={handleEndPDF}>
-              {labels.endPDF}
+              {aeprofilestring.link_label.end_of_ae_certificate}
             </Link>
           )}
           {User.ae !== AE.NON_AE && User.ae !== AE.FINALIZED && (
             <Link size="small" onClick={handleStartPDF}>
-              {labels.startPDF}
+              {aeprofilestring.link_label.start_of_ae_certificate}
             </Link>
           )}
           <Link size="small" onClick={(e) => handleGoTo("/password/change")}>
-            {labels.password}
+            {aeprofilestring.link_label.password_change}
           </Link>
           <Link
             size="small"
@@ -132,10 +136,10 @@ const ProfileInfo = () => {
             }
           >
             {User.email_verified_at ? (
-              labels.email
+              aeprofilestring.link_label.email_change
             ) : (
               <>
-                {labels.verify}
+                {aeprofilestring.link_label.email_verify}
                 {click ? (
                   <span style={{ marginLeft: "9px", color: "#d6dbdf " }}>
                     {timeLeft}s

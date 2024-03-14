@@ -1,19 +1,13 @@
-import {
-  Alert,
-  AlertTitle,
-  Button,
-  Card,
-  CardActions,
-  Grid,
-  TextField,
-} from "@mui/material";
+import { Button, Card, CardActions, Grid, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext";
 import {
-  useCommonsString,
-  useEmailChangeString,
+  useCommonsButtonString,
+  useCommonsFieldString,
+  useComponentEmailChangeString,
 } from "../contexts/TextProvider";
+import AlertFragment from "../fragments/AlertFragmet";
 import CodeFragment from "../fragments/CodeFragment";
 import { centerButtonsStyle } from "../theme";
 
@@ -25,8 +19,10 @@ import { centerButtonsStyle } from "../theme";
  * @return {JSX.Element} The JSX element for the email change form
  */
 const EmailChange = () => {
-  const commonlabels = useCommonsString();
-  const labels = useEmailChangeString();
+  const emailchange = useComponentEmailChangeString();
+  const commonbuttons = useCommonsButtonString();
+  const commonfields = useCommonsFieldString();
+
   const [formData, setFormData] = useState({
     code: "",
     email: "",
@@ -107,12 +103,18 @@ const EmailChange = () => {
     <Card>
       <Grid container spacing={2} direction={"column"} padding={5}>
         <Grid item>
-          <Alert severity="info">
-            <AlertTitle>{labels.alert.title}</AlertTitle>
-            <strong>{labels.alert.strong}</strong>
-            <br />
-            {labels.alert.body}
-          </Alert>
+          <AlertFragment
+            type={"info"}
+            title={emailchange.alert.info.title}
+            body={emailchange.alert.info.body}
+            strong={emailchange.alert.info.strong}
+          />
+          <AlertFragment
+            type={"warning"}
+            title={emailchange.alert.warning.title}
+            body={emailchange.alert.warning.body}
+            strong={emailchange.alert.warning.strong}
+          />
         </Grid>
         <Grid item>
           <TextField
@@ -123,7 +125,7 @@ const EmailChange = () => {
             disabled={formData.send}
             error={formData.errorEmail}
             onChange={handleChange}
-            label={labels.textField.email}
+            label={commonfields.email}
           />
         </Grid>
         {!formData.send ? (
@@ -136,7 +138,7 @@ const EmailChange = () => {
                 error={formData.errorEmail}
                 value={formData.reemail}
                 onChange={handleChange}
-                label={labels.textField.reemail}
+                label={commonfields.renewemail}
               />
             </Grid>
             <Grid item>
@@ -148,7 +150,7 @@ const EmailChange = () => {
                 value={formData.password}
                 type="password"
                 onChange={handleChange}
-                label={labels.textField.password}
+                label={commonfields.password}
               />
             </Grid>
           </>
@@ -167,15 +169,13 @@ const EmailChange = () => {
       </Grid>
       <CardActions sx={centerButtonsStyle}>
         <Button size="small" onClick={handleBack}>
-          {commonlabels.button.back}
+          {commonbuttons.back}
         </Button>
         <Button
           size="small"
           onClick={formData.code === "" ? handleConfirm : handleSend}
         >
-          {formData.code !== ""
-            ? commonlabels.button.send
-            : commonlabels.button.ok}
+          {formData.code !== "" ? commonbuttons.send : commonbuttons.ok}
         </Button>
       </CardActions>
     </Card>

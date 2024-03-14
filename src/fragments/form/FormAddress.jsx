@@ -2,7 +2,10 @@ import { CardContent, Grid, TextField, Typography } from "@mui/material";
 import { blue } from "@mui/material/colors";
 import React, { useCallback, useImperativeHandle, useState } from "react";
 import { useService } from "../../contexts/ServiceContext.js";
-import { useAddressDataCardString } from "../../contexts/TextProvider.jsx";
+import {
+  useFormAddressString,
+  useCommonsFieldString,
+} from "../../contexts/TextProvider.jsx";
 import { doApartment, doFloor, doPostalCode } from "../../utiles.js";
 
 /**
@@ -18,7 +21,8 @@ import { doApartment, doFloor, doPostalCode } from "../../utiles.js";
  */
 const FormAddress = React.forwardRef(
   ({ address, floor, apartment, province, city, postalCode }, ref) => {
-    const labels = useAddressDataCardString();
+    const commonfields = useCommonsFieldString();
+    const formaddresslables = useFormAddressString();
     const { get_province_names, get_citys_name, get_address_names } =
       useService();
     const [userData, setUserData] = useState({
@@ -146,7 +150,7 @@ const FormAddress = React.forwardRef(
           <Grid item xs={12} sm={3}>
             <TextField
               id="province"
-              label={labels.province}
+              label={formaddresslables.province}
               required
               size="small"
               disabled={false}
@@ -166,7 +170,7 @@ const FormAddress = React.forwardRef(
                   variant="body1"
                   style={{ alignItems: "left", fontSize: "10px" }}
                 >
-                  {labels.suggest}
+                  {commonfields.suggest}
                 </Typography>
                 <div style={{ display: "inline-flex", alignItems: "center" }}>
                   {suggestions.province.map((suggestion, index) => (
@@ -196,7 +200,7 @@ const FormAddress = React.forwardRef(
           <Grid item xs={12} sm={6}>
             <TextField
               id="city"
-              label={labels.city}
+              label={formaddresslables.city}
               required
               disabled={false}
               size="small"
@@ -216,7 +220,7 @@ const FormAddress = React.forwardRef(
                   variant="body1"
                   style={{ alignItems: "left", fontSize: "10px" }}
                 >
-                  {labels.suggest}
+                  {commonfields.suggest}
                 </Typography>
                 <div style={{ display: "inline-flex", alignItems: "center" }}>
                   {suggestions.city.map((suggestion, index) => (
@@ -244,7 +248,7 @@ const FormAddress = React.forwardRef(
           <Grid item xs={12} sm={3}>
             <TextField
               id="postalCode"
-              label={labels.postalCode}
+              label={formaddresslables.postal_code}
               disabled={false}
               error={errors.postalCode}
               size="small"
@@ -261,7 +265,7 @@ const FormAddress = React.forwardRef(
           <Grid item xs={12} sm={7}>
             <TextField
               id="address"
-              label={labels.street}
+              label={formaddresslables.street}
               size="small"
               required
               disabled={false}
@@ -281,7 +285,7 @@ const FormAddress = React.forwardRef(
                   variant="body1"
                   style={{ alignItems: "left", fontSize: "10px" }}
                 >
-                  {labels.suggest}
+                  {commonfields.suggest}
                 </Typography>
                 <div style={{ display: "inline-flex", alignItems: "center" }}>
                   {suggestions.address.map((suggestion, index) => (
@@ -311,7 +315,7 @@ const FormAddress = React.forwardRef(
           <Grid item xs={12} sm={2}>
             <TextField
               id="floor"
-              label={labels.floor}
+              label={formaddresslables.floor}
               size="small"
               disabled={false}
               onChange={(event) => handleChange(event, "floor", doFloor)}
@@ -325,7 +329,7 @@ const FormAddress = React.forwardRef(
           <Grid item xs={12} sm={2}>
             <TextField
               id="apartment"
-              label={labels.apartment}
+              label={formaddresslables.apartment}
               size="small"
               disabled={false}
               onChange={(event) =>

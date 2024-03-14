@@ -9,12 +9,12 @@ import {
   TextField,
 } from "@mui/material";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
-  useCommonsString,
-  useLoginString,
-  useUnRegisterCardString,
+  useCommonsButtonString,
+  useCommonsFieldString,
+  useComponentAEFinalizeString,
 } from "../contexts/TextProvider.jsx";
 
 import AlertFragment from "../fragments/AlertFragmet.jsx";
@@ -35,28 +35,29 @@ import {
  * @return {JSX.Element} The component.
  */
 const AEFinalize = () => {
-  const commonlabels = useCommonsString();
-  const renewalstring = useUnRegisterCardString();
+  const commonbuttons = useCommonsButtonString();
+  const aefinalizelabels = useComponentAEFinalizeString();
+  const commonfields = useCommonsFieldString();
+
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
   const navigate = useNavigate();
-  const [labels] = useLoginString();
 
-  const [passwordsd, setPassword] = React.useState("");
+  const [password, setPassword] = useState("");
 
   const handleOnChangePassword = (event) => {
     setPassword(event.target.value);
   };
 
   const { User, finalize_ae } = useService();
-  React.useEffect(() => {
+  useEffect(() => {
     if (User === null) {
       navigate("/");
     }
   }, [navigate, User]);
 
   const handleSend = async () => {
-    let result = await finalize_ae(passwordsd);
+    let result = await finalize_ae(password);
     setError(!result);
     if (!result) {
       setOpen(!result);
@@ -78,7 +79,7 @@ const AEFinalize = () => {
         <CardHeader
           avatar={<BlockIcon />}
           titleTypographyProps={{ variant: "h6" }}
-          title={renewalstring.mainTitle}
+          title={aefinalizelabels.title}
         />
         <CardContent>
           {open ? (
@@ -89,8 +90,8 @@ const AEFinalize = () => {
             <>
               <AlertFragment
                 type={"warning"}
-                title={renewalstring.warning.title}
-                body={renewalstring.warning.body}
+                title={aefinalizelabels.alert_warning.title}
+                body={aefinalizelabels.alert_warning.body}
               />
               <Box container="true" paddingTop={3} sx={boxUnRegisterLogSyle}>
                 <TextField
@@ -104,10 +105,10 @@ const AEFinalize = () => {
                   size="small"
                   autoComplete="new-password"
                   id="password"
-                  label={labels.textFieldLabels.password}
+                  label={commonfields.password}
                   type="password"
                   required
-                  value={passwordsd}
+                  value={password}
                   onChange={handleOnChangePassword}
                   error={error}
                   //disabled={loginSuccess}
@@ -119,10 +120,10 @@ const AEFinalize = () => {
         </CardContent>
         <CardActions sx={centerButtonsStyle}>
           <Button size="small" color="inherit" onClick={handleClose}>
-            {commonlabels.button.cancel}
+            {commonbuttons.cancel}
           </Button>
           <Button size="small" onClick={handleSend}>
-            {error ? commonlabels.button.restart : commonlabels.button.ok}
+            {error ? commonbuttons.restart : commonbuttons.ok}
           </Button>
         </CardActions>
       </Card>

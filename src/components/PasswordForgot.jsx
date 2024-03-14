@@ -13,12 +13,16 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext";
 import {
-  useCommonsString,
-  useForgotPasswordString,
+  useCommonsButtonString,
+  useCommonsFieldString,
+  useComponentPasswordAlertString,
+  useComponentPasswordForgotString,
+  useComponentEmailSendString,
 } from "../contexts/TextProvider";
 import CodeFragment from "../fragments/CodeFragment";
 import { boxLoginSyle, cardLoginStyle, centerButtonsStyle } from "../theme";
 import { doformatCUIL } from "../utiles";
+import AlertFragment from "../fragments/AlertFragmet";
 /**
  * The ForgotPassword function is a React component that renders a form for users to enter their CUIL
  * (Argentinian identification number) and handles the submission and validation of the form.
@@ -30,9 +34,13 @@ import { doformatCUIL } from "../utiles";
  */
 const PasswordForgot = () => {
   //const [isSubmitted, setIsSubmitted] = useState(false);
-  const labelbutton = useCommonsString();
-  const label = useForgotPasswordString();
-  const [error, setError] = React.useState(false);
+  const commonbutton = useCommonsButtonString();
+  const passwordforgot = useComponentPasswordForgotString();
+  const passwordalert = useComponentPasswordAlertString();
+  const commonfields = useCommonsFieldString();
+  const emailsend = useComponentEmailSendString();
+
+  const [error, setError] = useState(false);
   const [code, setCode] = useState("");
   const [icon, setIcon] = useState(false);
   const { send_forgot_password_email } = useService();
@@ -97,13 +105,13 @@ const PasswordForgot = () => {
 
   return (
     <Card sx={cardLoginStyle}>
-      <CardHeader title={label.title} />
+      <CardHeader title={passwordforgot.title} />
       <CardContent container sx={boxLoginSyle}>
         <CardContent item sx={12} sm={8}>
           <TextField
             id="cuil"
             size="small"
-            label={label.cuil}
+            label={commonfields.cuil}
             required
             disabled={send}
             error={error}
@@ -128,9 +136,9 @@ const PasswordForgot = () => {
             severity="info"
             style={{ textAlign: "left", marginTop: "16px" }}
           >
-            <AlertTitle>{label.alert.title}</AlertTitle>
+            <AlertTitle>{passwordalert.info.requirements.title}</AlertTitle>
             <ul>
-              {label.alert.body.map((lablel, index) => (
+              {passwordalert.info.requirements.body.map((lablel, index) => (
                 <li key={index}>{lablel}</li>
               ))}
             </ul>
@@ -139,28 +147,30 @@ const PasswordForgot = () => {
       </CardContent>
       <CardActions sx={centerButtonsStyle}>
         <Button size="small" onClick={handleBack} color="inherit">
-          {labelbutton.button.back}
+          {commonbutton.back}
         </Button>
         <Button
           size="small"
           onClick={code === "" ? handleAcept : handleConfirmCode}
         >
-          {code !== "" ? labelbutton.button.send : labelbutton.button.ok}
+          {code !== "" ? commonbutton.send : commonbutton.ok}
         </Button>
       </CardActions>
       <Collapse in={send}>
-        <Alert severity="success">
-          <AlertTitle>{label.success.title}</AlertTitle>
-          {label.success.body}
-          <strong> {label.success.strong}</strong>
-        </Alert>
+        <AlertFragment
+          type={"success"}
+          title={commonfields.email}
+          body={emailsend.alert.success.body}
+          strong={emailsend.alert.success.strong}
+        />
       </Collapse>
       <Collapse in={error}>
-        <Alert severity="error">
-          <AlertTitle>{label.fail.title}</AlertTitle>
-          {label.fail.body}
-          <strong>{label.fail.strong}</strong>
-        </Alert>
+        <AlertFragment
+          type={"error"}
+          title={commonfields.email}
+          body={emailsend.alert.fail.body}
+          strong={emailsend.alert.fail.strong}
+        />
       </Collapse>
     </Card>
   );

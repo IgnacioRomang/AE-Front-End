@@ -3,14 +3,14 @@ import Badge from "@mui/material/Badge";
 import Avatar from "@mui/material/Avatar";
 import { Box } from "@mui/material";
 import { stringAvatar } from "../../utiles";
-import { useUserBadgeString } from "../../contexts/TextProvider";
+import { useComponentAEProfileString } from "../../contexts/TextProvider";
 import { badgeUserAnchorStyle, boxUserbadgeStyle } from "../../theme";
 import { grey } from "@mui/material/colors";
 
 function IconUserBadge({ username, isActive }) {
   const statusColor =
     isActive !== null ? (isActive ? "success" : "error") : "secondary";
-  const badgeString = useUserBadgeString();
+  const badgeString = useComponentAEProfileString().badge;
   const statusText = isActive ? badgeString.status[0] : badgeString.status[1];
 
   return (

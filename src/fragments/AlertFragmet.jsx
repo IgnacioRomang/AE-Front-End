@@ -1,10 +1,10 @@
+import React, { lazy } from "react";
 import { Typography } from "@mui/material";
+import { textJustifyStyle } from "../theme";
 const Alert = lazy(() => import("@mui/material/Alert"));
 const AlertTitle = lazy(() => import("@mui/material/AlertTitle"));
-import React from "react";
-import { textJustifyStyle } from "../theme";
 
-const AlertFragment = ({ type, title, body }) => {
+const AlertFragment = ({ type, title, body, strong }) => {
   return (
     <>
       {" "}
@@ -15,6 +15,7 @@ const AlertFragment = ({ type, title, body }) => {
             {label}
           </Typography>
         ))}
+        {strong ? <strong>{strong}</strong> : null}
       </Alert>
     </>
   );

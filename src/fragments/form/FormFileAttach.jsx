@@ -1,7 +1,7 @@
 import React, { useImperativeHandle, useState } from "react";
 import {
-  useFileAttachCardString,
-  useFileUploadSectionString,
+  useCommonsButtonString,
+  useFormFileAttachString,
 } from "../../contexts/TextProvider.jsx";
 
 import {
@@ -26,9 +26,9 @@ import { shortFileName } from "../../utiles.js";
  * @returns {JSX.Element} - Returns the FileAttachCard component.
  */
 const FormFileAttach = React.forwardRef((props, ref) => {
-  const labels = useFileAttachCardString();
+  const formfileattachlabels = useFormFileAttachString();
+  const commonbuttonlabels = useCommonsButtonString();
 
-  const labelsFile = useFileUploadSectionString();
   const [userData, setUserData] = useState(props.files);
   const [isButtonDisabled, setButtonDisabled] = useState(false);
 
@@ -126,15 +126,15 @@ const FormFileAttach = React.forwardRef((props, ref) => {
         <Grid item xs={12} md={6}>
           <Box>
             <Alert severity="info">
-              <AlertTitle>{labels.info_title}</AlertTitle>
+              <AlertTitle>{formfileattachlabels.title}</AlertTitle>
               <Typography sx={textJustifyStyle}>
-                {labels.info_body[0]}
+                {formfileattachlabels.body[0]}
               </Typography>
               <Typography sx={textJustifyStyle}>
-                {labels.info_body[1]}
+                {formfileattachlabels.body[1]}
               </Typography>
               <Typography sx={textJustifyStyle}>
-                {labels.info_body[2]}
+                {formfileattachlabels.body[2]}
               </Typography>
             </Alert>
           </Box>
@@ -144,7 +144,7 @@ const FormFileAttach = React.forwardRef((props, ref) => {
             <TextField
               fullWidth
               id="fileInput"
-              label={labelsFile.label}
+              label={formfileattachlabels.files_selected.title}
               type="file"
               InputLabelProps={{ shrink: true }}
               variant="outlined"
@@ -157,13 +157,13 @@ const FormFileAttach = React.forwardRef((props, ref) => {
             />
             {userData.length > 0 && (
               <div>
-                <p>{labelsFile.selected_label}</p>
+                <p>{formfileattachlabels.files_selected.list}</p>
                 <ul>
                   {userData.map((file, index) => (
                     <li key={index}>
                       {shortFileName(file.name)}
                       <Button onClick={() => handleRemoveFile(index)}>
-                        {labelsFile.selected_delete}
+                        {commonbuttonlabels.delete}
                       </Button>
                     </li>
                   ))}

@@ -7,7 +7,7 @@ import {
   TextField,
 } from "@mui/material";
 import React, { useImperativeHandle, useState } from "react";
-import { useExtraDataCardString } from "../../contexts/TextProvider";
+import { useFormExtraString } from "../../contexts/TextProvider";
 import { doEmail, doPhone } from "../../utiles";
 
 const occupations = [
@@ -41,7 +41,7 @@ const studys = [
  */
 const FormExtra = React.forwardRef(
   ({ occupation, study, phone, email }, ref) => {
-    const labels = useExtraDataCardString();
+    const formextralabels = useFormExtraString();
 
     const [userData, setUserData] = useState({
       occupation,
@@ -119,7 +119,9 @@ const FormExtra = React.forwardRef(
         <Grid container padding={3} spacing={3}>
           <Grid item xs={12} sm={4}>
             <FormControl fullWidth>
-              <InputLabel htmlFor="occupation">{labels.occupation}</InputLabel>
+              <InputLabel htmlFor="occupation">
+                {formextralabels.occupation}
+              </InputLabel>
               <NativeSelect
                 value={userData.occupation}
                 size="small"
@@ -141,7 +143,9 @@ const FormExtra = React.forwardRef(
           </Grid>
           <Grid item xs={12} sm={4}>
             <FormControl fullWidth>
-              <InputLabel htmlFor="Study">{labels.capacity}</InputLabel>
+              <InputLabel htmlFor="Study">
+                {formextralabels.capacity}
+              </InputLabel>
               <NativeSelect
                 value={userData.study}
                 size="small"
@@ -162,7 +166,7 @@ const FormExtra = React.forwardRef(
           <Grid item xs={12} sm={4}>
             <TextField
               id="phone"
-              label={labels.phone}
+              label={formextralabels.phone}
               disabled={false}
               error={errors.phone}
               size="small"
@@ -174,7 +178,7 @@ const FormExtra = React.forwardRef(
           <Grid item xs={12} sm={4}>
             <TextField
               id="email"
-              label={labels.email}
+              label={formextralabels.email}
               required
               disabled={null}
               size="small"

@@ -1,7 +1,5 @@
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import {
-  Alert,
-  AlertTitle,
   Button,
   Card,
   CardActions,
@@ -12,9 +10,13 @@ import {
   Link,
   Stack,
 } from "@mui/material";
-import * as React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useCommonsString, useLoginString } from "../contexts/TextProvider.jsx";
+import {
+  useCommonsButtonString,
+  useCommonsFieldString,
+  useComponentAuthLoginString,
+} from "../contexts/TextProvider.jsx";
 import {
   boxLoginSyle,
   buttonTopStyle,
@@ -26,19 +28,21 @@ import {
 import { TextField } from "@mui/material";
 
 import { useService } from "../contexts/ServiceContext.js";
+import AlertFragment from "../fragments/AlertFragmet.jsx";
 import { doformatCUIL } from "../utiles.js";
 
 const AuthLogin = () => {
-  const [labels, assets] = useLoginString();
-  const commonlabels = useCommonsString();
+  const authloginlabels = useComponentAuthLoginString();
+  const commonbuttons = useCommonsButtonString();
+  const commonfields = useCommonsFieldString();
 
   const { User, authenticate } = useService();
 
-  const [loginSuccess, setLoginSuccess] = React.useState(false);
-  const [loginFail, setLoginFail] = React.useState(false);
+  const [loginSuccess, setLoginSuccess] = useState(false);
+  const [loginFail, setLoginFail] = useState(false);
 
-  const [formattedCUIL, setFormattedCUIL] = React.useState("");
-  const [passwordsd, setPassword] = React.useState("");
+  const [formattedCUIL, setFormattedCUIL] = useState("");
+  const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
 
@@ -69,7 +73,7 @@ const AuthLogin = () => {
    * @param {Event} event The event object.
    */
   const handleLogin = async () => {
-    let result = await authenticate(formattedCUIL, passwordsd);
+    let result = await authenticate(formattedCUIL, password);
     setLoginSuccess(result);
     setLoginFail(!result);
     if (result) {
@@ -88,7 +92,7 @@ const AuthLogin = () => {
       <CardHeader
         titleTypographyProps={{ variant: "h6" }}
         avatar={<LockOpenIcon />}
-        title={labels.title}
+        title={authloginlabels.title}
       />
       <CardContent sx={boxLoginSyle}>
         <Stack spacing={2}>
@@ -102,7 +106,7 @@ const AuthLogin = () => {
             }}
             size="small"
             id="cuil"
-            label={labels.textFieldLabels.user}
+            label={commonfields.cuil}
             required
             disabled={loginSuccess}
             error={loginFail}
@@ -120,10 +124,10 @@ const AuthLogin = () => {
             }}
             size="small"
             id="password"
-            label={labels.textFieldLabels.password}
+            label={commonfields.password}
             type="password"
             required
-            value={passwordsd}
+            value={password}
             onChange={handleOnChangePassword}
             error={loginFail}
             disabled={loginSuccess}
@@ -140,7 +144,6 @@ const AuthLogin = () => {
             <Link
               size="small"
               component="button"
-              href={assets.links.password}
               disabled={loginSuccess}
               underline="hover"
               onClick={() => {
@@ -148,12 +151,11 @@ const AuthLogin = () => {
               }}
               style={loginSuccess ? linksStyle : buttonTopStyle}
             >
-              {labels.links.labels.password}
+              {authloginlabels.link_label.password}
             </Link>
             <Link
               size="small"
               component="button"
-              href={assets.links.account}
               disabled={loginSuccess}
               underline="hover"
               onClick={() => {
@@ -161,12 +163,11 @@ const AuthLogin = () => {
               }}
               style={loginSuccess ? linksStyle : buttonTopStyle}
             >
-              {labels.links.labels.faq}
+              {authloginlabels.link_label.faq}
             </Link>
             <Link
               size="small"
               component="button"
-              href={assets.links.account}
               disabled={loginSuccess}
               onClick={() => {
                 navigate("/auth/register");
@@ -174,7 +175,7 @@ const AuthLogin = () => {
               underline="hover"
               style={loginSuccess ? linksStyle : buttonTopStyle}
             >
-              {labels.links.labels.account}
+              {authloginlabels.link_label.account}
             </Link>
           </Stack>
           <Divider></Divider>
@@ -186,7 +187,7 @@ const AuthLogin = () => {
               onClick={handleCancel}
               disabled={loginSuccess}
             >
-              {commonlabels.button.cancel}
+              {commonbuttons.cancel}
             </Button>
             <Button
               size="small"
@@ -194,26 +195,28 @@ const AuthLogin = () => {
               onClick={handleLogin}
               disabled={loginSuccess}
             >
-              {commonlabels.button.ok}
+              {commonbuttons.ok}
             </Button>
           </CardActions>
         </Stack>
       </CardContent>
       {/* Notificvacion de exito */}
       <Collapse in={loginSuccess}>
-        <Alert severity="success">
-          <AlertTitle>{labels.alerts.success.title}</AlertTitle>
-          {labels.alerts.success.body}
-          <strong>{labels.alerts.success.strong}</strong>
-        </Alert>
+        <AlertFragment
+          type="success"
+          title={authloginlabels.alert.success.title}
+          body={authloginlabels.alert.success.body}
+          strong={authloginlabels.alert.success.strong}
+        />
       </Collapse>
       {/* Notificacion de error */}
       <Collapse in={loginFail}>
-        <Alert severity="error">
-          <AlertTitle>{labels.alerts.fail.title}</AlertTitle>
-          {labels.alerts.fail.body}
-          <strong>{labels.alerts.fail.strong}</strong>
-        </Alert>
+        <AlertFragment
+          type="error"
+          title={authloginlabels.alert.error.title}
+          body={authloginlabels.alert.error.body}
+          strong={authloginlabels.alert.error.strong}
+        />
       </Collapse>
     </Card>
   );

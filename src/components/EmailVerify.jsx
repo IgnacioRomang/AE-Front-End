@@ -1,14 +1,16 @@
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import { Stack } from "@mui/material";
+import { Backdrop, Stack } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext";
-import { useEmailVerifyString } from "../contexts/TextProvider";
+import {
+  useCommonsTextString,
+  useComponentEmailVerifyString,
+} from "../contexts/TextProvider";
+import AlertFragment from "../fragments/AlertFragmet";
 
 /**
  * The `VerificationCard` component is a React component that displays a card with a loading spinner
@@ -21,7 +23,9 @@ import { useEmailVerifyString } from "../contexts/TextProvider";
 const EmailVerify = () => {
   const [loading, setLoading] = useState(true);
   const [success, setSuccess] = useState(false);
-  const labels = useEmailVerifyString();
+
+  const emailverifylabels = useComponentEmailVerifyString();
+
   const navigate = useNavigate();
 
   const { id, hash } = useParams();
@@ -63,30 +67,36 @@ const EmailVerify = () => {
   }, [isAuthenticated]);
 
   return (
-    <Card>
-      <CardContent sx={{ padding: 4 }}>
-        <>
-          {loading ? (
-            <Stack spacing={2} sx={{ display: "flex", alignItems: "center" }}>
-              <CircularProgress />
-              <Typography variant="body1">{"Verificando email..."}</Typography>
-            </Stack>
-          ) : (
-            <Stack spacing={2} sx={{ display: "flex", alignItems: "center" }}>
-              {success ? (
-                <CheckCircleOutlineIcon sx={{ fontSize: 40, color: "green" }} />
-              ) : (
-                <HighlightOffIcon sx={{ fontSize: 40, color: "red" }} />
-              )}
-
-              <Typography paddingTop={3} variant="body1">
-                {success ? labels.success : labels.error}
-              </Typography>
-            </Stack>
-          )}
-        </>
-      </CardContent>
-    </Card>
+    <Backdrop open={true}>
+      <Card>
+        <CardContent sx={{ padding: 4 }}>
+          <>
+            {loading ? (
+              <Stack spacing={5} sx={{ display: "flex", alignItems: "center" }}>
+                <CircularProgress />
+                <Typography variant="body1">
+                  {emailverifylabels.loading}
+                </Typography>
+              </Stack>
+            ) : success ? (
+              <AlertFragment
+                type={"success"}
+                title={emailverifylabels.title}
+                body={emailverifylabels.alert.success.body}
+                strong={emailverifylabels.alert.success.strong}
+              />
+            ) : (
+              <AlertFragment
+                type={"error"}
+                title={emailverifylabels.title}
+                body={emailverifylabels.alert.fail.body}
+                strong={emailverifylabels.alert.fail.strong}
+              />
+            )}
+          </>
+        </CardContent>
+      </Card>
+    </Backdrop>
   );
 };
 

@@ -1,6 +1,6 @@
 import { Paper, Typography } from "@mui/material";
 import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext";
 
@@ -9,7 +9,7 @@ import { useService } from "../contexts/ServiceContext";
  * @param {object} props - The properties of the component.
  */
 const NewsView = () => {
-  const [pdf, setPdf] = React.useState([]);
+  const [pdf, setPdf] = useState([]);
 
   const { id } = useParams();
   const { fetch_news_pdf } = useService();

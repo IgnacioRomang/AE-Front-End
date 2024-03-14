@@ -23,9 +23,9 @@ import {
 } from "../theme.jsx";
 
 const RootTopBar = (props) => {
-  const labels = useRootTopbarString;
+  const labels = useRootTopbarString();
+
   const [anchorElNav, setAnchorElNav] = useState(null);
-  //const [labels, assets] = useTopBarString();
   const { User, serverDates, isAuthenticated, AE } = useService(); //states context
   const navigate = useNavigate();
   const today = useMemo(() => new Date(), []);

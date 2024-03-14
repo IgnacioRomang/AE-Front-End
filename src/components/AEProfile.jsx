@@ -2,14 +2,12 @@ import { Skeleton, Typography } from "@mui/material";
 import React, { Suspense, lazy, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext";
-import { useProfileString } from "../contexts/TextProvider";
-import ProfileAEdata from "../fragments/profile/ProfileInfo";
-import Calendar from "../fragments/profile/Calendar";
-import { centeringStyles } from "../theme";
+import { useComponentAEProfileString } from "../contexts/TextProvider";
 import AlertFragment from "../fragments/AlertFragmet";
+import Calendar from "../fragments/profile/Calendar";
+import ProfileInfo from "../fragments/profile/ProfileInfo";
+import { centeringStyles } from "../theme";
 
-const Alert = lazy(() => import("@mui/material/Alert"));
-const AlertTitle = lazy(() => import("@mui/material/AlertTitle"));
 const Divider = lazy(() => import("@mui/material/Divider"));
 const Grid = lazy(() => import("@mui/material/Grid"));
 const Paper = lazy(() => import("@mui/material/Paper"));
@@ -41,9 +39,9 @@ const AEProfile = () => {
     } else {
       setLoading(false);
     }
-  }, [User, fetchData, navigate, serverDates]);
+  }, [User, navigate, serverDates]);
 
-  const labels = useProfileString();
+  const labels = useComponentAEProfileString();
 
   return (
     <Suspense
@@ -58,7 +56,7 @@ const AEProfile = () => {
         >
           <Grid item xs={12} md={3}>
             <Stack spacing={2} sx={centeringStyles}>
-              <ProfileAEdata iuser={User} />
+              <ProfileInfo />
 
               {User.ae === AE.FINALIZED && (
                 <Suspense
@@ -72,8 +70,8 @@ const AEProfile = () => {
                 >
                   <AlertFragment
                     type={"warning"}
-                    title={labels.warningfinish.title}
-                    body={labels.warningfinish.body}
+                    title={labels.alert_warning_finalize_onprocess.title}
+                    body={labels.alert_warning_finalize_onprocess.body}
                   />
                 </Suspense>
               )}
@@ -91,7 +89,7 @@ const AEProfile = () => {
                         <Skeleton variant="text" sx={{ fontSize: "3rem" }} />
                       ) : (
                         <Typography padding={1} variant="h5">
-                          {labels.calendar}
+                          {labels.calendar.title}
                         </Typography>
                       )}
                       <Divider />
@@ -113,7 +111,7 @@ const AEProfile = () => {
                           <Calendar
                             intStart={serverDates.startDay}
                             intEnd={serverDates.startDay}
-                            msg={labels.msg[0]}
+                            msg={labels.calendar.tooltip[0]}
                           />
                         )}
                       </Grid>
@@ -129,7 +127,7 @@ const AEProfile = () => {
                             <Calendar
                               intStart={serverDates.fifthMonth}
                               intEnd={serverDates.sixthMonth}
-                              msg={labels.msg[1]}
+                              msg={labels.calendar.tooltip[1]}
                             />
                           )}
                         </Grid>
@@ -157,7 +155,7 @@ const AEProfile = () => {
                                 key={3}
                                 intStart={serverDates.sixthMonth}
                                 intEnd={serverDates.fifthMonth}
-                                msg={labels.msg[1]}
+                                msg={labels.calendar.tooltip[1]}
                               />
                             )}
                           </Grid>
@@ -174,7 +172,7 @@ const AEProfile = () => {
                             key={3}
                             intStart={serverDates.lastMonth}
                             intEnd={serverDates.lastMonth}
-                            msg={labels.msg[2]}
+                            msg={labels.calendar.tooltip[2]}
                           />
                         )}
                       </Grid>
@@ -192,8 +190,8 @@ const AEProfile = () => {
               >
                 <AlertFragment
                   type={"warning"}
-                  title={labels.warning.title}
-                  body={labels.warning.body}
+                  title={labels.alert_warning_finish.title}
+                  body={labels.alert_warning_finish.body}
                 />
               </Suspense>
             </Grid>

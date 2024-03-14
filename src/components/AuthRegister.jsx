@@ -19,12 +19,11 @@ import HowToRegIcon from "@mui/icons-material/HowToReg";
 
 // Contexts
 import {
-  useCommonsString,
-  useRegisterCardString,
+  useCommonsButtonString,
+  useComponentAuthRegisterString,
 } from "../contexts/TextProvider.jsx";
 
 // Fragments
-import { ErrorAE, SuccessAE } from "../fragments/index.js";
 import {
   FormAddress,
   FormDatePlan,
@@ -52,10 +51,10 @@ import { formatDate } from "../utiles.js";
  * @returns {JSX.Element} The RegisterCard component.
  */
 const AuthRegister = () => {
-  const labels = useRegisterCardString();
-  const bottonslabel = useCommonsString();
+  const commonButtons = useCommonsButtonString();
+  const authregisterlabels = useComponentAuthRegisterString();
   const navigate = useNavigate();
-  const steps = labels.titles;
+
   const [errors, setErrors] = useState([
     false,
     false,
@@ -196,6 +195,7 @@ const AuthRegister = () => {
         return <CircularProgress padding={15} />;
     }
   };
+
   /**
    * The handleBack function is a click handler that decrements the activeStep state by 1.
    * @function
@@ -278,6 +278,7 @@ const AuthRegister = () => {
       setSkipped(newSkipped);
     }
   };
+
   const handleLogin = () => {
     navigate("/auth/login");
   };
@@ -288,9 +289,9 @@ const AuthRegister = () => {
         <CardHeader
           avatar={<HowToRegIcon />}
           titleTypographyProps={{ variant: "h6" }}
-          title={labels.mainTitle}
+          title={authregisterlabels.title}
         />
-        {getStepperStage(activeStep, labels)}
+        {getStepperStage(activeStep)}
         <Box sx={{ width: "100%" }}>
           <Stepper
             ref={stepperRef}
@@ -299,8 +300,8 @@ const AuthRegister = () => {
             sx={centeringStyles}
           >
             {!errors[5] &&
-              steps.map((label, index) => {
-                const labelProps = {};
+              authregisterlabels.step_title.map((label, index) => {
+                let labelProps = {};
                 labelProps.error = errors[index];
                 return (
                   <Step key={label} sx={stepStyle}>
@@ -309,8 +310,8 @@ const AuthRegister = () => {
                 );
               })}
           </Stepper>
-          {activeStep === steps.length ? (
-            <React.Fragment>
+          {activeStep === authregisterlabels.step_title.length ? (
+            <>
               <Box sx={finalboxStyle}>
                 <Box sx={{ flex: "1 1 auto" }} />
                 {errors[5] ? (
@@ -322,7 +323,7 @@ const AuthRegister = () => {
                       onClick={handleBack}
                       sx={{ mr: 1 }}
                     >
-                      {bottonslabel.button.back}
+                      {commonButtons.back}
                     </Button>
                     <Button
                       size="small"
@@ -330,7 +331,7 @@ const AuthRegister = () => {
                       onClick={handleRegister}
                       sx={{ mr: 1 }}
                     >
-                      {bottonslabel.button.restart}
+                      {commonButtons.restart}
                     </Button>
                   </>
                 ) : (
@@ -340,13 +341,13 @@ const AuthRegister = () => {
                     onClick={handleLogin}
                     sx={{ mr: 1 }}
                   >
-                    {bottonslabel.button.login}
+                    {commonButtons.login}
                   </Button>
                 )}
               </Box>
-            </React.Fragment>
+            </>
           ) : (
-            <React.Fragment>
+            <>
               <Box sx={boxbottonsSteppStyle}>
                 <Button
                   size="small"
@@ -355,17 +356,17 @@ const AuthRegister = () => {
                   onClick={handleBack}
                   sx={{ mr: 1 }}
                 >
-                  {bottonslabel.button.back}
+                  {commonButtons.back}
                 </Button>
                 <Box sx={{ flex: "1 1 auto" }} />
 
                 <Button size="small" onClick={handleNext}>
-                  {activeStep === steps.length - 1
-                    ? bottonslabel.button.ok
-                    : bottonslabel.button.next}
+                  {activeStep === authregisterlabels.step_title.length - 1
+                    ? commonButtons.ok
+                    : commonButtons.next}
                 </Button>
               </Box>
-            </React.Fragment>
+            </>
           )}
         </Box>
       </Card>

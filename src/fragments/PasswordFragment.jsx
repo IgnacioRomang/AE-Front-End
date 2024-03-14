@@ -1,16 +1,16 @@
 import { Stack, TextField } from "@mui/material";
-import React from "react";
-import { useResetPasswordString } from "../contexts/TextProvider";
+import React, { forwardRef, useState, useImperativeHandle } from "react";
+import { useCommonsFieldString } from "../contexts/TextProvider";
 import { testpassword } from "../utiles";
 
-const PasswordFragment = React.forwardRef((props, ref) => {
-  const [passwordChange, setPasswordChange] = React.useState({
+const PasswordFragment = forwardRef((props, ref) => {
+  const [passwordChange, setPasswordChange] = useState({
     password: "",
     newps: "",
     renewps: "",
   });
-  const [error, setError] = React.useState(false);
-  const labels = useResetPasswordString();
+  const [error, setError] = useState(false);
+  const commonfields = useCommonsFieldString();
 
   const handleChange = (field, value) => {
     setPasswordChange((prev) => ({ ...prev, [field]: value }));
@@ -30,7 +30,7 @@ const PasswordFragment = React.forwardRef((props, ref) => {
     };
   };
 
-  React.useImperativeHandle(ref, () => ({
+  useImperativeHandle(ref, () => ({
     sendData,
   }));
   return (
@@ -38,7 +38,7 @@ const PasswordFragment = React.forwardRef((props, ref) => {
       <TextField
         id="password"
         sx={{ width: "25vw" }}
-        label={labels.textFieldLabels[0]}
+        label={commonfields.oldpassword}
         size="small"
         required
         autoComplete="off"
@@ -51,7 +51,7 @@ const PasswordFragment = React.forwardRef((props, ref) => {
       />
       <TextField
         id="password"
-        label={labels.textFieldLabels[1]}
+        label={commonfields.password}
         size="small"
         type="password"
         sx={{ width: "25vw" }}
@@ -66,7 +66,7 @@ const PasswordFragment = React.forwardRef((props, ref) => {
       />
       <TextField
         id="passwordres"
-        label={labels.textFieldLabels[2]}
+        label={commonfields.password}
         size="small"
         type="password"
         sx={{ width: "25vw" }}

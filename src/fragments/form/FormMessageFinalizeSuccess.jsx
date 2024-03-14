@@ -1,18 +1,20 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
-import { useUnRegisterSuccessString } from "../../contexts/TextProvider.jsx";
+import { useComponentMessageSuccessString } from "../../contexts/TextProvider.jsx";
 import { superCenter } from "../../theme.jsx";
-const FormMessageFinalizeSuccess = ({ first }) => {
-  const labels = useUnRegisterSuccessString();
+const FormMessageFinalizeSuccess = () => {
+  const menssagesuccesslabels = useComponentMessageSuccessString();
   return (
     <Box container="true" sx={{ ...superCenter, paddingBottom: 5 }}>
       {/* Your component content */}
 
       <Typography variant="h4" color="success.main" gutterBottom>
-        {first ? labels.title1 : labels.title}
+        {menssagesuccesslabels.finalize.title}
       </Typography>
 
-      <Typography variant="h6">{labels.body}</Typography>
+      <Typography variant="h6">
+        {menssagesuccesslabels.finalize.body}
+      </Typography>
     </Box>
   );
 };

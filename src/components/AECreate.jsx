@@ -1,9 +1,8 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import {
   useCommonsButtonString,
-  useCommonsString,
-  useRegisterCardString,
-  useRenewalCardString,
+  useComponentAECreateString,
+  useComponentAuthRegisterString,
 } from "../contexts/TextProvider.jsx";
 
 import { ExpandMore, HowToReg } from "@mui/icons-material";
@@ -11,8 +10,6 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Alert,
-  AlertTitle,
   Button,
   Card,
   CardActions,
@@ -27,12 +24,13 @@ import { useService } from "../contexts/ServiceContext.js";
 import { cardRegisterStyle, centerButtonsStyle } from "../theme.jsx";
 import { formatDate } from "../utiles.js";
 
-import FormMessageError from "../fragments/form/FormMessageError.jsx";
-import FormMessageSuccess from "../fragments/form/FormMessageSuccess.jsx";
+import AlertFragment from "../fragments/AlertFragmet.jsx";
 import FormAddress from "../fragments/form/FormAddress.jsx";
 import FormExtra from "../fragments/form/FormExtra.jsx";
 import FormFileAttach from "../fragments/form/FormFileAttach.jsx";
 import FormInfo from "../fragments/form/FormInfo.jsx";
+import FormMessageError from "../fragments/form/FormMessageError.jsx";
+import FormMessageSuccess from "../fragments/form/FormMessageSuccess.jsx";
 
 const sx = {
   border: `1px solid #999999`,
@@ -59,14 +57,13 @@ const sx_de = {
  */
 const AECreate = () => {
   const buttonlabels = useCommonsButtonString();
+  const aecreatelabels = useComponentAECreateString();
+  const onlytitles = useComponentAuthRegisterString()["step-title"];
 
-  const labels = useRegisterCardString();
-  const renewalstring = useRenewalCardString();
-
-  const [expanded, setExpanded] = React.useState("");
-  const [open, setOpen] = React.useState(false);
-  const [errorSend, setSendError] = React.useState(false);
-  const [stepData, setStepData] = React.useState([
+  const [expanded, setExpanded] = useState("");
+  const [open, setOpen] = useState(false);
+  const [errorSend, setSendError] = useState(false);
+  const [stepData, setStepData] = useState([
     {
       name: "",
       lastName: "",
@@ -91,11 +88,11 @@ const AECreate = () => {
     { files: [] },
   ]);
 
-  const refs = React.useRef(null);
+  const refs = useRef(null);
   const { User, fetch_user_data, start_ae_n } = useService();
   const navigate = useNavigate();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (User === null) {
       navigate("/");
     }
@@ -210,6 +207,7 @@ const AECreate = () => {
       navigate(-1);
     }
   };
+
   return (
     <Suspense
       fallback={
@@ -222,7 +220,7 @@ const AECreate = () => {
         <CardHeader
           avatar={<HowToReg />}
           titleTypographyProps={{ variant: "h6" }}
-          title={renewalstring.mainTitle}
+          title={aecreatelabels.title}
         />
         <CardContent>
           {open ? (
@@ -235,14 +233,11 @@ const AECreate = () => {
             </>
           ) : (
             <>
-              <Alert severity={"info"}>
-                <AlertTitle>{renewalstring.info.title}</AlertTitle>
-                {renewalstring.info.body.map((line) => (
-                  <>
-                    <Typography>{line}</Typography>
-                  </>
-                ))}
-              </Alert>
+              <AlertFragment
+                type="info"
+                title={aecreatelabels.alert_info.title}
+                body={aecreatelabels.alert_info.body}
+              />
 
               <Accordion
                 sx={sx}
@@ -256,7 +251,7 @@ const AECreate = () => {
                   id="panel1d-header"
                 >
                   <Typography variant="h7" color={grey[600]} component="div">
-                    {labels.titles[0]}
+                    {onlytitles[0]}
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails sx={sx_de}>
@@ -286,7 +281,7 @@ const AECreate = () => {
                   id="panel2d-header"
                 >
                   <Typography variant="h7" color={grey[600]} component="div">
-                    {labels.titles[1]}
+                    {onlytitles[1]}
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails sx={sx_de}>
@@ -316,7 +311,7 @@ const AECreate = () => {
                   id="panel3d-header"
                 >
                   <Typography variant="h7" color={grey[600]} component="div">
-                    {labels.titles[2]}
+                    {onlytitles[2]}
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails sx={sx_de}>
@@ -344,7 +339,7 @@ const AECreate = () => {
                   id="panel5d-header"
                 >
                   <Typography variant="h7" color={grey[600]} component="div">
-                    {labels.titles[3]}
+                    {onlytitles[3]}
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails sx={sx_de}>
