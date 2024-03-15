@@ -1,4 +1,4 @@
-import { Backdrop, Stack } from "@mui/material";
+import { Backdrop, Paper, Stack } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -55,7 +55,7 @@ const EmailVerify = () => {
       setSuccess(false);
       setLoading(false);
     } finally {
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       navigate("/", { replace: true });
     }
   };
@@ -68,34 +68,32 @@ const EmailVerify = () => {
 
   return (
     <Backdrop open={true}>
-      <Card>
-        <CardContent sx={{ padding: 4 }}>
-          <>
-            {loading ? (
-              <Stack spacing={5} sx={{ display: "flex", alignItems: "center" }}>
-                <CircularProgress />
-                <Typography variant="body1">
-                  {emailverifylabels.loading}
-                </Typography>
-              </Stack>
-            ) : success ? (
-              <AlertFragment
-                type={"success"}
-                title={emailverifylabels.title}
-                body={emailverifylabels.alert.success.body}
-                strong={emailverifylabels.alert.success.strong}
-              />
-            ) : (
-              <AlertFragment
-                type={"error"}
-                title={emailverifylabels.title}
-                body={emailverifylabels.alert.fail.body}
-                strong={emailverifylabels.alert.fail.strong}
-              />
-            )}
-          </>
-        </CardContent>
-      </Card>
+      {loading ? (
+        <Paper>
+          <Stack
+            padding={4}
+            spacing={5}
+            sx={{ display: "flex", alignItems: "center" }}
+          >
+            <CircularProgress />
+            <Typography variant="body1">{emailverifylabels.loading}</Typography>
+          </Stack>
+        </Paper>
+      ) : success && !loading ? (
+        <AlertFragment
+          type={"success"}
+          title={emailverifylabels.title}
+          body={emailverifylabels.alert.success.body}
+          strong={emailverifylabels.alert.success.strong}
+        />
+      ) : (
+        <AlertFragment
+          type={"error"}
+          title={emailverifylabels.title}
+          body={emailverifylabels.alert.fail.body}
+          strong={emailverifylabels.alert.fail.strong}
+        />
+      )}
     </Backdrop>
   );
 };

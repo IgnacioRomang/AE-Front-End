@@ -1,8 +1,18 @@
-import { Paper, Typography } from "@mui/material";
+import {
+  CircularProgress,
+  List,
+  ListItem,
+  Paper,
+  Typography,
+} from "@mui/material";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, lazy, useEffect, useState } from "react";
 import { useRootFAQString } from "../contexts/TextProvider";
-import Question from "../fragments/Question";
+//import Question from "../fragments/Question";
+import HelpIcon from "@mui/icons-material/Help";
+
+const Question = lazy(() => import("../fragments/Question"));
+
 /**
  * React functional component for the FAQ page.
  *
@@ -53,15 +63,37 @@ const FAQ = () => {
       <Typography variant="h5" padding={5}>
         {rootfaq.title}
       </Typography>
-      {questions.map((faq, index) => (
-        <Question
-          key={index}
-          question={faq.question}
-          answer={faq.answers}
-          open={faq.isOpen}
-          onToggle={() => handleQuestionToggle(index)}
-        />
-      ))}
+
+      <List
+        sx={{
+          width: "100%",
+          bgcolor: "background.paper",
+          position: "relative",
+          overflow: "auto",
+          maxHeight: "100vh",
+          "& ul": { padding: 0 },
+        }}
+      >
+        <Suspense
+          fallback={
+            <div style={{ padding: 20 }}>
+              <CircularProgress />
+            </div>
+          }
+        >
+          {questions.map((faq, index) => (
+            <ListItem key={index}>
+              <Question
+                key={index + "q"}
+                question={faq.question}
+                answer={faq.answers}
+                open={faq.isOpen}
+                onToggle={() => handleQuestionToggle(index)}
+              />
+            </ListItem>
+          ))}
+        </Suspense>
+      </List>
     </Paper>
   );
 };

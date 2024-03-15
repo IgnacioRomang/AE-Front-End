@@ -31,7 +31,7 @@ const genders = [
 const FormInfo = React.forwardRef((props, ref) => {
   const forminfolabels = useFormInfoString();
   const passwordalertlabels =
-    useComponentPasswordAlertString().alert.info.requirements;
+    useComponentPasswordAlertString().info.requirements;
   const useCommonfieldslables = useCommonsFieldString();
 
   const [userData, setUserData] = useState({

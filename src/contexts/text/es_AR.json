@@ -31,6 +31,7 @@
         "next": "Siguiente",
         "restart": "Reintentar",
         "send": "Enviar",
+        "resend": "Reenviar",
         "delete": "Eliminar"
       },
       "field": {
@@ -68,12 +69,12 @@
           "alert": {
             "success": {
               "title": "Éxito",
-              "body": "Has iniciado sesión con éxito en tu cuenta _",
+              "body": ["Has iniciado sesión con éxito en tu cuenta -"],
               "strong": "¡Bienvenido!"
             },
             "error": {
               "title": "Error",
-              "body": "Oops, algo salió mal con inicio de sesión _",
+              "body": ["Oops, algo salió mal con inicio de sesión -"],
               "strong": "¡Reitente nuevamente!"
             }
           }
@@ -203,11 +204,11 @@
         "send": {
           "alert": {
             "success": {
-              "body": "El mensaje fue enviado -",
+              "body": ["El mensaje fue enviado -"],
               "strong": "¡Revisa tu correo!"
             },
             "fail": {
-              "body": "Oops, algo salió mal -",
+              "body": ["Oops, algo salió mal -"],
               "strong": "¡Reitente nuevamente!"
             }
           }
@@ -216,11 +217,11 @@
           "loading": "Verificando email...",
           "alert": {
             "success": {
-              "body": "Su email fue verificado exitosamente -",
+              "body": ["Su email fue verificado exitosamente -"],
               "strong": "¡Muchas Gracias!"
             },
             "fail": {
-              "body": "Oops, algo salió mal -",
+              "body": ["Oops, algo salió mal -"],
               "strong": "¡Reitente nuevamente!"
             }
           }
@@ -233,12 +234,14 @@
               "body": [
                 "El email asociado a tu cuenta debe estar verificado. De lo contrario, no podemos asegurar que resivas el correo"
               ],
-              "strong": "De lo contrario comunicate con servicio de soporte"
+              "strong": "¡De lo contrario comunicate con servicio de soporte!"
             },
             "info": {
               "title": "Importancia de la Verificación de Correo Electrónico",
               "strong": "¡Verifica tu correo!",
-              "body": "Protege tu cuenta, Facilita la recuperación y mejora la comunicación con nuestro servicio."
+              "body": [
+                "Protege tu cuenta, Facilita la recuperación y mejora la comunicación con nuestro servicio."
+              ]
             }
           }
         }
@@ -250,12 +253,12 @@
               "title": "La Contraseña debe tener: ",
               "body": [
                 "Al menos 8 caracteres de longitud.",
-                "Al menos un dígito (0_9).",
+                "Al menos un dígito (0-9).",
                 "Al menos una letra minúscula.",
                 "Al menos una letra mayúscula."
               ]
             },
-            "change": {
+            "verify": {
               "title": "Requisitos",
               "body": [
                 "El email asociado a tu cuenta debe estar verificado. De lo contrario, no podemos asegurar que resivas el correo"
@@ -269,11 +272,11 @@
           "loading": "Enviando datos...",
           "alert": {
             "success": {
-              "body": "La contraseña fue cambiada exitosamente -",
+              "body": ["La contraseña fue cambiada exitosamente -"],
               "strong": "¡Ingresa con tu nueva contraseña!"
             },
             "fail": {
-              "body": "Oops, algo salió mal con el cambio de contraseña -",
+              "body": ["Oops, algo salió mal con el cambio de contraseña -"],
               "strong": "¡Reitente nuevamente!"
             }
           }
@@ -286,41 +289,39 @@
         }
       },
       "message": {
-        "ae": {
-          "success": {
-            "create": {
-              "title": {
-                "first_ae": "¡Felicidades, tu registro está completo!",
-                "n_ae": "¡Felicidades, tu nueva está completa!"
-              },
-              "body": [
-                "Tu autoexclusión comienza el ",
-                "Puedes darte de baja desde ",
-                " hasta ",
-                "De lo contrario, la exclusión durará hasta ",
-                "Durará hasta "
-              ],
-              "alert": {
-                "body": [
-                  "Recibirás un correo electrónico en cuanto confirmemos tus datos."
-                ]
-              }
+        "success": {
+          "create": {
+            "title": {
+              "first_ae": "¡Felicidades, tu registro está completo!",
+              "n_ae": "¡Felicidades, tu nueva está completa!"
             },
-            "finalize": {
-              "title": "¡Baja de auto_exclusión completada!",
-              "body": "La solicitud se realizo correctamente. \n Recuerda si necesitas asistencia, no dudes en comunicarte +54 (342) 4815660"
-            }
-          },
-          "error": {
-            "title": "¡Ups! Algo salió mal",
-            "body": "Hubo un error al procesar la solicitud.",
-            "alert_info": {
+            "body": [
+              "Tu autoexclusión comienza el ",
+              "Puedes darte de baja desde ",
+              " hasta ",
+              "De lo contrario, la exclusión durará hasta ",
+              "Durará hasta "
+            ],
+            "alert": {
               "body": [
-                "Por favor, inténtalo de nuevo más tarde.",
-                "Es posible que este problema esté vinculado con nuestro servicio. Sin embargo, también podría ser consecuencia de que ya esté registrado. Le recomendamos iniciar sesión de manera convencional. Si se registró de forma presencial mediante un formulario escrito y desea acceder a su cuenta a través de la web, le sugerimos recuperar su cuenta. Vaya al apartado 'Recuperar mi cuenta' en la sección de inicio de sesión para obtener información detallada. Además, puede consultar las preguntas frecuentes en la parte inferior de la pantalla para obtener asistencia adicional.",
-                "Si el problema persiste, contacta al soporte."
+                "Recibirás un correo electrónico en cuanto confirmemos tus datos."
               ]
             }
+          },
+          "finalize": {
+            "title": "¡Baja de auto_exclusión completada!",
+            "body": "La solicitud se realizo correctamente. \n Recuerda si necesitas asistencia, no dudes en comunicarte +54 (342) 4815660"
+          }
+        },
+        "error": {
+          "title": "¡Ups! Algo salió mal",
+          "body": "Hubo un error al procesar la solicitud.",
+          "alert_info": {
+            "body": [
+              "Por favor, inténtalo de nuevo más tarde.",
+              "Es posible que este problema esté vinculado con nuestro servicio. Sin embargo, también podría ser consecuencia de que ya esté registrado. Le recomendamos iniciar sesión de manera convencional. Si se registró de forma presencial mediante un formulario escrito y desea acceder a su cuenta a través de la web, le sugerimos recuperar su cuenta. Vaya al apartado 'Recuperar mi cuenta' en la sección de inicio de sesión para obtener información detallada. Además, puede consultar las preguntas frecuentes en la parte inferior de la pantalla para obtener asistencia adicional.",
+              "Si el problema persiste, contacta al soporte."
+            ]
           }
         }
       }

@@ -1,7 +1,7 @@
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-import { Box, Fab } from "@mui/material";
+import { Box, CircularProgress, Fab, Paper } from "@mui/material";
 import { blue } from "@mui/material/colors";
-import React from "react";
+import React, { Suspense } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import RootFooter from "../components/RootFooter";
 import RootTopBar from "../components/RootTopBar";
@@ -16,14 +16,24 @@ export default function Root() {
       <Box
         id="scrollable-content"
         sx={{
-          minHeight: "75vh",
+          minHeight: "70vh",
           maxHeight: "150vh",
           padding: 5,
           display: "flex",
           ...centeringStyles,
         }}
       >
-        <Outlet />
+        <Suspense
+          fallback={
+            <Paper>
+              <div style={{ padding: 20 }}>
+                <CircularProgress />
+              </div>
+            </Paper>
+          }
+        >
+          <Outlet />
+        </Suspense>
       </Box>
       <RootFooter />
       <div style={{ position: "fixed", bottom: 16, right: 16 }}>

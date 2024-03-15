@@ -19,7 +19,7 @@ import {
   useComponentPasswordForgotString,
   useComponentEmailSendString,
 } from "../contexts/TextProvider";
-import CodeFragment from "../fragments/CodeFragment";
+
 import { boxLoginSyle, cardLoginStyle, centerButtonsStyle } from "../theme";
 import { doformatCUIL } from "../utiles";
 import AlertFragment from "../fragments/AlertFragmet";
@@ -41,28 +41,13 @@ const PasswordForgot = () => {
   const emailsend = useComponentEmailSendString();
 
   const [error, setError] = useState(false);
-  const [code, setCode] = useState("");
-  const [icon, setIcon] = useState(false);
-  const { send_forgot_password_email } = useService();
+
   const [send, setSend] = useState(false);
-  //const [result, setResult] = useState(false);
+  const { send_forgot_password_email } = useService();
+
+  const [formattedCUIL, setFormattedCUIL] = useState("");
+
   const navigate = useNavigate();
-  /**
-   * The handleAcept function checks if the formattedCUIL is valid and if it is, it sets the error
-   * state to false and either navigates to the login page or toggles the isSubmitted state.
-   * @param {Event} e - the event object
-   */
-  const handleAcept = async (e) => {
-    e.preventDefault();
-    let error = !formattedCUIL.trim() || formattedCUIL.length !== 13;
-    setError(error);
-    if (!error && !send) {
-      //enviar
-      const resul = await send_forgot_password_email(formattedCUIL);
-      setSend(resul);
-      setError(!resul);
-    }
-  };
 
   const handleBack = () => {
     if (send) {
@@ -71,35 +56,25 @@ const PasswordForgot = () => {
       navigate(-1);
     }
   };
-  const sendEmail = async () => {
-    //await send_confirmation_email(password, email);
-  };
 
-  /**
-   * The handleBack function navigates back to the login page.
-   */
-
-  const handleConfirmCode = async () => {
-    let response = null;
-    if (response) {
-      setError(false);
-      navigate("/user/profile");
-    } else {
+  const send_email = async () => {
+    if (!formattedCUIL.trim() || formattedCUIL.length !== 13) {
       setError(true);
+      return;
+    }
+    const response = await send_forgot_password_email(formattedCUIL);
+    if (response) {
+      setSend(true);
     }
   };
 
-  const [formattedCUIL, setFormattedCUIL] = useState("");
+  const handleReSend = () => {
+    send_email();
+  };
 
-  /**
-   * The handleInputChange function takes an input value, formats it using the doformatCUIL function,
-   * and sets the formatted value in the state variable formattedCUIL.
-   * @param {Event} event - the input event object
-   */
   const handleCUILChange = (event) => {
     const inputValue = event.target.value;
     let formatted = doformatCUIL(inputValue);
-
     setFormattedCUIL(formatted);
   };
 
@@ -121,39 +96,22 @@ const PasswordForgot = () => {
           />
         </CardContent>
         <CardContent item sx={12} sm={8}>
-          {send && (
-            <CodeFragment
-              error={error}
-              code={code}
-              setCode={setCode}
-              icon={icon}
-              setIcon={setIcon}
-              resend={sendEmail}
+          {!send && (
+            <AlertFragment
+              type={"info"}
+              title={passwordalert.info.verify.title}
+              body={passwordalert.info.verify.body}
+              strong={passwordalert.info.verify.strong}
             />
           )}
-
-          <Alert
-            severity="info"
-            style={{ textAlign: "left", marginTop: "16px" }}
-          >
-            <AlertTitle>{passwordalert.info.requirements.title}</AlertTitle>
-            <ul>
-              {passwordalert.info.requirements.body.map((lablel, index) => (
-                <li key={index}>{lablel}</li>
-              ))}
-            </ul>
-          </Alert>
         </CardContent>
       </CardContent>
       <CardActions sx={centerButtonsStyle}>
         <Button size="small" onClick={handleBack} color="inherit">
           {commonbutton.back}
         </Button>
-        <Button
-          size="small"
-          onClick={code === "" ? handleAcept : handleConfirmCode}
-        >
-          {code !== "" ? commonbutton.send : commonbutton.ok}
+        <Button size="small" onClick={handleReSend}>
+          {send ? commonbutton.resend : commonbutton.send}
         </Button>
       </CardActions>
       <Collapse in={send}>

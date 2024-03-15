@@ -93,7 +93,7 @@ const EmailChange = () => {
     let response = await send_confirmation_code(formData.code, formData.email);
     if (response) {
       setFormData({ ...formData, error: false });
-      navigate("/user/profile");
+      navigate("/ae/profile");
     } else {
       setFormData({ ...formData, error: true });
     }

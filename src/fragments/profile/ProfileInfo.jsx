@@ -29,7 +29,7 @@ const ProfileInfo = () => {
   const handleEndPDF = async () => {
     try {
       const pdfUrl = await fetch_end_pdf();
-      window.open("data:application/pdf;base64," + pdfUrl, "_blank");
+      await window.open("data:application/pdf;base64," + pdfUrl, "_blank");
     } catch (error) {
       // Manejar el error, por ejemplo, mostrar un mensaje al usuario
       console.error("Error al abrir el PDF:", error);
@@ -38,7 +38,7 @@ const ProfileInfo = () => {
   const handleStartPDF = async () => {
     try {
       const pdfUrl = await fetch_start_pdf();
-      window.open("data:application/pdf;base64," + pdfUrl, "_blank");
+      await window.open("data:application/pdf;base64," + pdfUrl, "_blank");
     } catch (error) {
       // Manejar el error, por ejemplo, mostrar un mensaje al usuario
       console.error("Error al abrir el PDF:", error);

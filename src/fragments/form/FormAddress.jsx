@@ -150,7 +150,7 @@ const FormAddress = React.forwardRef(
           <Grid item xs={12} sm={3}>
             <TextField
               id="province"
-              label={formaddresslables.province}
+              label={formaddresslables.state}
               required
               size="small"
               disabled={false}

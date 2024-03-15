@@ -62,7 +62,7 @@ const PasswordChange = () => {
     }
   };
   const handleBack = () => {
-    nav("/user/profile");
+    nav(-1);
   };
   return (
     <Card sx={cardLoginStyle}>

@@ -691,7 +691,12 @@ export const ServiceProvider = ({ children }) => {
    * @return {boolean} whether the password change was successful
    */
 
-  const send_reset_password = async (token, cuil, password) => {
+  const send_reset_password = async (
+    token,
+    cuil,
+    password,
+    password_confirmation
+  ) => {
     try {
       const response = await axios.post(
         `${URL_BACKEND}/api/password/reset`,
@@ -699,12 +704,13 @@ export const ServiceProvider = ({ children }) => {
           token: token,
           cuil: cuil,
           password: password,
-          password_confirmation: password,
+          password_confirmation: password_confirmation,
         },
         { headers: { "X-API-Key": APP_KEY } }
       );
       const { status } = response.data;
-      return status === "Password changed successfully.";
+      console.log(status);
+      return status === "Your password has been reset.";
     } catch (error) {
       console.error("Error during password reset:", error);
       return false;
@@ -733,10 +739,9 @@ export const ServiceProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const storedAuthorization = localStorage.getItem("authorization");
-
-    const parsedAuthorization =
-      storedAuthorization !== null ? JSON.parse(storedAuthorization) : null;
+    const parsedAuthorization = JSON.parse(
+      localStorage.getItem("authorization") || "null"
+    );
 
     if (parsedAuthorization) {
       const { X_CSRF_TOKEN, type, token } = parsedAuthorization;

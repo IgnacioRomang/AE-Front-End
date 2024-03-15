@@ -51,13 +51,13 @@ const RootTopBar = (props) => {
   const handleoOnClickMenu = (e, index) => {
     switch (index) {
       case 1:
-        navigate("/user/profile");
+        navigate("/ae/profile");
         break;
       case 2:
-        navigate("/user/ae-renewal");
+        navigate("/ae/create");
         break;
       case 3:
-        navigate("/user/ae-finalize");
+        navigate("/ae/finalize");
         break;
       case 0:
         navigate("/");

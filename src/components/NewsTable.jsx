@@ -49,7 +49,7 @@ const NewsTable = () => {
       sx={{
         display: "flex",
         ...centeringStyles,
-        minHeight: "75vh",
+        minHeight: "70vh",
         maxHeight: "100vh",
         padding: 5,
       }}
@@ -58,7 +58,7 @@ const NewsTable = () => {
         <>
           <Grid
             container
-            spacing={3}
+            spacing={2}
             style={{ ...centeringStyles, width: "90vw" }}
           >
             {visibleNewss.map((element, index) => (
@@ -68,7 +68,7 @@ const NewsTable = () => {
             ))}
           </Grid>
           <Box
-            mt={3}
+            mt={5}
             sx={{
               display: "flex",
               justifyContent: "center",

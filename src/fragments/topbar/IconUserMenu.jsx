@@ -7,7 +7,7 @@ import Avatar from "@mui/material/Avatar";
 import MenuItem from "@mui/material/MenuItem";
 import Tooltip from "@mui/material/Tooltip";
 
-import * as React from "react";
+import React, { useState } from "react";
 
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
@@ -27,7 +27,7 @@ const settings_login = [
 ];
 
 const IconUserMenu = (props) => {
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
   const navigate = useNavigate();
   const {
     setUser,
@@ -46,8 +46,8 @@ const IconUserMenu = (props) => {
     setAnchorElUser(null);
   };
 
-  const logout = () => {
-    unauthenticate()
+  const logout = async () => {
+    await unauthenticate()
       .then(() => navigate("/", { replace: true }))
       .catch((e) => console.log("Error during logout: ", e))
       .finally(() => setAnchorElUser(null));
@@ -56,7 +56,7 @@ const IconUserMenu = (props) => {
   const loginPath = "/auth/login";
   const registerPath = "/auth/register";
 
-  const onClickMenu = (e, id) => {
+  const onClickMenu = async (e, id) => {
     const actions = {
       [settings_login[0].id]: () => {
         if (window.location.pathname === loginPath) {
@@ -79,8 +79,9 @@ const IconUserMenu = (props) => {
     };
 
     const action = actions[id] || actions.default;
-    action();
+    await action();
   };
+
   const avatarname = isAuthenticated
     ? stringAvatar(User.name + " " + User.lastname)
     : stringAvatar("N N");

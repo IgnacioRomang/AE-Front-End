@@ -197,7 +197,7 @@ const AECreate = () => {
    * @brief This function is called when the user clicks the "Cancel" button.
    */
   const handleClose = () => {
-    navigate("/user/profile");
+    navigate("/ae/profile");
   };
 
   const handleBack = () => {

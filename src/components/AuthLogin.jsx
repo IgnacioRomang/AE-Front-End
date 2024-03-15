@@ -62,7 +62,7 @@ const AuthLogin = () => {
    */
   React.useEffect(() => {
     if (User != null) {
-      navigate("/user/profile");
+      navigate("/ae/profile");
     }
   }, [User, navigate]);
 
@@ -77,7 +77,7 @@ const AuthLogin = () => {
     setLoginSuccess(result);
     setLoginFail(!result);
     if (result) {
-      navigate("/user/profile", {
+      navigate("/ae/profile", {
         replace: true,
       });
     }

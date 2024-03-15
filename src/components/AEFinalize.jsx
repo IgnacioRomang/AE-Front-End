@@ -62,7 +62,7 @@ const AEFinalize = () => {
     if (!result) {
       setOpen(!result);
     } else {
-      navigate("/user/profile");
+      navigate("/ae/profile");
     }
   };
 
