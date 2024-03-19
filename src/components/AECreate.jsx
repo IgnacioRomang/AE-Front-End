@@ -58,7 +58,7 @@ const sx_de = {
 const AECreate = () => {
   const buttonlabels = useCommonsButtonString();
   const aecreatelabels = useComponentAECreateString();
-  const onlytitles = useComponentAuthRegisterString()["step-title"];
+  const onlytitles = useComponentAuthRegisterString().step_title;
 
   const [expanded, setExpanded] = useState("");
   const [open, setOpen] = useState(false);
@@ -85,7 +85,6 @@ const AECreate = () => {
       phone: "",
       email: "",
     },
-    { files: [] },
   ]);
 
   const refs = useRef(null);
@@ -123,7 +122,6 @@ const AECreate = () => {
             phone: user_data.phone,
             email: user_data.email,
           },
-          { files: [] },
         ]);
       }
     });
@@ -169,7 +167,8 @@ const AECreate = () => {
         study: stepData[2].study,
       };
       let result = await start_ae_n(register_user);
-      setSendError(!result);
+      await setSendError(!result);
+      await setOpen(true);
     } catch (e) {
       console.log(e);
     }
@@ -187,7 +186,6 @@ const AECreate = () => {
     }
     if (!data_error) {
       handleRegister();
-      setOpen(true);
     }
     //setSendError(false);
     //TODO SEND
@@ -326,8 +324,8 @@ const AECreate = () => {
                   )}
                 </AccordionDetails>
               </Accordion>
-
-              <Accordion
+              {/**
+               * <Accordion
                 sx={sx}
                 expanded={expanded === 3}
                 onChange={handleChange(3)}
@@ -348,6 +346,7 @@ const AECreate = () => {
                   )}
                 </AccordionDetails>
               </Accordion>
+              */}
             </>
           )}
         </CardContent>

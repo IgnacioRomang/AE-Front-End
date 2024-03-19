@@ -48,8 +48,8 @@ const Calendar = ({ intStart, intEnd, msg }) => {
     let msg_active = false;
     let isToday = day === intStart.getDate() || day === intEnd.getDate();
     let sizes = false;
-    let range_start = false;
-    let range_end = false;
+    let range_start = cellIndex == 0;
+    let range_end = cellIndex == 6;
     let color = grey[50];
 
     if (intStart === intEnd) {
@@ -63,7 +63,7 @@ const Calendar = ({ intStart, intEnd, msg }) => {
       // tramos
       if (intStart.getMonth() === intEnd.getMonth()) {
         color =
-          day >= intStart.getDate() && day <= intEnd.getDate()
+          day >= (intStart.getDate() && day <= intEnd.getDate()) || day == null
             ? red[200]
             : grey[50];
         msg_active = true;
@@ -85,6 +85,7 @@ const Calendar = ({ intStart, intEnd, msg }) => {
         //tramo de dos meses
       }
     }
+
     return (
       <>
         <TableCell
@@ -96,10 +97,10 @@ const Calendar = ({ intStart, intEnd, msg }) => {
             justifyContent: "center",
             textAlign: "center",
             padding: "5px",
-            borderTopLeftRadius: sizes || range_start ? "10px" : "0px",
-            borderBottomLeftRadius: sizes || range_start ? "10px" : "0px",
-            borderTopRightRadius: sizes || range_end ? "10px" : "0px",
-            borderBottomRightRadius: sizes || range_end ? "10px" : "0px",
+            borderTopLeftRadius: sizes || range_start ? "7px" : "0px",
+            borderBottomLeftRadius: sizes || range_start ? "7px" : "0px",
+            borderTopRightRadius: sizes || range_end ? "7px" : "0px",
+            borderBottomRightRadius: sizes || range_end ? "7px" : "0px",
             overflow: "hidden",
             backgroundColor: color,
             "&:hover": {
@@ -197,6 +198,9 @@ const getDaysInMonth = (date) => {
     daysInMonth.push(i);
   }
 
+  for (let i = lastDay.getDate(); i < 6; i++) {
+    daysInMonth.push(null);
+  }
   return daysInMonth;
 };
 

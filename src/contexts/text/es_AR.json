@@ -154,9 +154,13 @@
           },
           "calendar": {
             "title": "Cronograma de Autoexclusión",
+            "chip": [
+              "Fecha de Inicio y Fin",
+              "Periodo para Solicitar Fin de Autoexclusión"
+            ],
             "tooltip": [
               "Inicio de autoexclusión",
-              "Periodo de Baja",
+              "Periodo para Solicitar Fin de Autoexclusión",
               "Fin de autoexclusión"
             ],
             "alert_warning_finalize_onprocess": {

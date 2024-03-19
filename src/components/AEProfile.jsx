@@ -7,6 +7,8 @@ import AlertFragment from "../fragments/AlertFragmet";
 import Calendar from "../fragments/profile/Calendar";
 import ProfileInfo from "../fragments/profile/ProfileInfo";
 import { centeringStyles } from "../theme";
+import { blue, red } from "@mui/material/colors";
+import CustomChip from "../fragments/profile/PofileCustomChip";
 
 const Divider = lazy(() => import("@mui/material/Divider"));
 const Grid = lazy(() => import("@mui/material/Grid"));
@@ -132,14 +134,7 @@ const AEProfile = () => {
                           )}
                         </Grid>
                       )}
-                    </Grid>
-                    <Grid
-                      container
-                      paddingTop={3}
-                      paddingBottom={3}
-                      spacing={4}
-                      sx={centeringStyles}
-                    >
+
                       {serverDates.hasOwnProperty("fifthMonth") &&
                         serverDates.fifthMonth.getMonth() !==
                           serverDates.sixthMonth.getMonth() && (
@@ -177,6 +172,25 @@ const AEProfile = () => {
                         )}
                       </Grid>
                     </Grid>
+
+                    <Grid container padding={1}>
+                      <Grid item xs={12}>
+                        <Divider />
+                        <CustomChip
+                          paddingTop={3}
+                          text={labels.calendar.chip[0]}
+                          color={blue[200]}
+                        />
+                      </Grid>
+                      {serverDates.hasOwnProperty("fifthMonth") && (
+                        <Grid item xs={12}>
+                          <CustomChip
+                            text={labels.calendar.chip[1]}
+                            color={red[200]}
+                          />
+                        </Grid>
+                      )}
+                    </Grid>
                   </Grid>
                 </Paper>
               </Suspense>
@@ -190,8 +204,8 @@ const AEProfile = () => {
               >
                 <AlertFragment
                   type={"warning"}
-                  title={labels.alert_warning_finish.title}
-                  body={labels.alert_warning_finish.body}
+                  title={labels.calendar.alert_warning_finish.title}
+                  body={labels.calendar.alert_warning_finish.body}
                 />
               </Suspense>
             </Grid>

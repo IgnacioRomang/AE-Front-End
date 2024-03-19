@@ -34,11 +34,11 @@ const FormMessageSuccess = ({ first }) => {
           : menssagesuccesslabels.create.body[4]}
         {lastMonth.toLocaleDateString("en-GB")}.
       </Typography>
-      <Alert paddingbottom={5} severity="info">
-        {first && (
+      {first && (
+        <Alert paddingbottom={5} severity="info">
           <Typography>{menssagesuccesslabels.create.alert.body[0]}</Typography>
-        )}
-      </Alert>
+        </Alert>
+      )}
     </Box>
   );
 };

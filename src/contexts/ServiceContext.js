@@ -102,8 +102,7 @@ export const ServiceProvider = ({ children }) => {
         }
       );
 
-      const { authorization, user } = response.data;
-      console.log(user);
+      let { authorization, user } = response.data;
       if (user && authorization) {
         // Save the authorization token for future requests
         setAuthorization(authorization);
@@ -117,18 +116,11 @@ export const ServiceProvider = ({ children }) => {
           Authorization: authorization.type + authorization.token,
         };
 
-        let user_data = {
-          name: user.name,
-          cuil: user.cuil,
-          ae: AE.NON_AE,
-          email_verified_at: user.email_verified_at,
-        };
-
         try {
           // Get additional user data from the backend API
           const aeResponse = await axios.get(`${URL_BACKEND}/api/ae/dates`);
           const { type, dates } = aeResponse.data;
-          user_data.ae = type;
+          user.ae = type;
           if (dates.startDay) {
             // Convert dates to calendar format and set it in the state
             const dates_calendar = dates_to_json_calendar(dates);
@@ -139,7 +131,7 @@ export const ServiceProvider = ({ children }) => {
         }
         // Set user authentication status and user data in the state
         setIsAuthenticated(true);
-        setUser(user_data);
+        setUser(user);
         return true;
       }
       return false;
@@ -458,7 +450,8 @@ export const ServiceProvider = ({ children }) => {
         register_user,
         { headers: { "X-API-Key": APP_KEY } }
       );
-      const { message } = response.data;
+      console.log(response.data);
+      const message = response.data;
       if (message === "Agregado") {
         // Reset server dates
         setServerDates(null);
