@@ -2,9 +2,9 @@ import { Box, Grid, Pagination, Stack } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import React, { useEffect, useState } from "react";
+import { usePublicResources } from "../contexts/PublicResourcesContext";
 import { centeringStyles } from "../theme";
 import NewsCard from "./NewsCard";
-import { useService } from "../contexts/ServiceContext";
 /**
  * This function takes in an array of PDFs and returns a view of 3 PDFs in a row.
  * @param {PDF[]} news - An array of news objects, each representing a PDFs.
@@ -17,7 +17,7 @@ const NewsTable = () => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const itemsPerPage = isMediumScreen ? (isSmallScreen ? 1 : 2) : 3;
 
-  const { fetch_news_list } = useService();
+  const { fetch_news_list } = usePublicResources();
   useEffect(() => {
     (async () => {
       try {

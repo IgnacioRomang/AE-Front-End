@@ -9,6 +9,7 @@ import ProfileInfo from "../fragments/profile/ProfileInfo";
 import { centeringStyles } from "../theme";
 import { blue, red } from "@mui/material/colors";
 import CustomChip from "../fragments/profile/PofileCustomChip";
+import { EmailVerifyProvider } from "../contexts/EmailVerifyContext";
 
 const Divider = lazy(() => import("@mui/material/Divider"));
 const Grid = lazy(() => import("@mui/material/Grid"));
@@ -58,7 +59,9 @@ const AEProfile = () => {
         >
           <Grid item xs={12} md={3}>
             <Stack spacing={2} sx={centeringStyles}>
-              <ProfileInfo />
+              <EmailVerifyProvider>
+                <ProfileInfo />
+              </EmailVerifyProvider>
 
               {User.ae === AE.FINALIZED && (
                 <Suspense

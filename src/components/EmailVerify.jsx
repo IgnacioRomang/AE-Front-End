@@ -11,6 +11,7 @@ import {
   useComponentEmailVerifyString,
 } from "../contexts/TextProvider";
 import AlertFragment from "../fragments/AlertFragmet";
+import { useEmailVerify } from "../contexts/EmailVerifyContext";
 
 /**
  * The `VerificationCard` component is a React component that displays a card with a loading spinner
@@ -34,7 +35,8 @@ const EmailVerify = () => {
     "signature"
   );
 
-  const { send_confirmation_verify, isAuthenticated } = useService();
+  const { isAuthenticated } = useService();
+  const { send_confirmation_verify } = useEmailVerify();
   /**
    * The function `verifyEmail` is an asynchronous function that sends a POST request to verify an email
    * using the provided `id` and `hash`, and updates the verification result accordingly.

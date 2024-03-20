@@ -18,6 +18,8 @@ import { ServiceProvider } from "./contexts/ServiceContext.js";
 import ErrorPage from "./routes/ErrorPage.jsx";
 import Root from "./routes/Root.jsx";
 import NewsTable from "./components/NewsTable.jsx";
+import { PublicResourcesProvider } from "./contexts/PublicResourcesContext.js";
+import { EmailVerifyProvider } from "./contexts/EmailVerifyContext.js";
 
 // Crea un nuevo tema con el color primario modificado
 const theme = createTheme({
@@ -41,7 +43,15 @@ function App() {
         <ServiceProvider>
           <Router>
             <Routes>
-              <Route path="/" element={<Root />} errorElement={<ErrorPage />}>
+              <Route
+                path="/"
+                element={
+                  <PublicResourcesProvider>
+                    <Root />
+                  </PublicResourcesProvider>
+                }
+                errorElement={<ErrorPage />}
+              >
                 <Route index element={<NewsTable />} />
                 <Route path="faq" element={<FAQcard />} />
                 <Route path="document/:id" element={<NewsView />} />
@@ -52,12 +62,26 @@ function App() {
                 errorElement={<ErrorPage />}
               >
                 <Route path="login" element={<AuthLogin />} />
-                <Route path="register" element={<AuthRegister />} />
+                <Route
+                  path="register"
+                  element={
+                    <PublicResourcesProvider>
+                      <AuthRegister />
+                    </PublicResourcesProvider>
+                  }
+                />
               </Route>
 
               <Route path="/ae" element={<Root />} errorElement={<ErrorPage />}>
                 <Route path="finalize" element={<AEFinalize />} />
-                <Route path="create" element={<AECreate />} />
+                <Route
+                  path="create"
+                  element={
+                    <PublicResourcesProvider>
+                      <AECreate />
+                    </PublicResourcesProvider>
+                  }
+                />
                 <Route path="profile" element={<AEProfile />} />
               </Route>
 
@@ -73,7 +97,11 @@ function App() {
 
               <Route
                 path="/email"
-                element={<Root />}
+                element={
+                  <EmailVerifyProvider>
+                    <Root />
+                  </EmailVerifyProvider>
+                }
                 errorElement={<ErrorPage />}
               >
                 <Route path="change" element={<EmailChange />} />

@@ -53,36 +53,38 @@ const Calendar = ({ intStart, intEnd, msg }) => {
     let color = grey[50];
 
     if (intStart === intEnd) {
-      //Es un inicio o final
       if (day === intEnd.getDate()) {
         color = blue[200];
-        sizes = true;
         msg_active = true;
+        sizes = true;
       }
     } else {
-      // tramos
       if (intStart.getMonth() === intEnd.getMonth()) {
+        // es un solo calendar para el tramo
         color =
-          day >= (intStart.getDate() && day <= intEnd.getDate()) || day == null
+          day >= intStart.getDate() && day <= intEnd.getDate()
             ? red[200]
             : grey[50];
         msg_active = true;
-        range_start = day === intStart.getDate();
-        range_end = day === intEnd.getDate();
+        range_start = day === intStart.getDate() || cellIndex === 0;
+        range_end = day === intEnd.getDate() || cellIndex === 6;
       } else if (intStart < intEnd) {
-        // periodo de un mes
-        if (day >= intStart.getDate()) {
+        // se usan dos  calendar para el tramo
+        if (
+          day >= intStart.getDate() ||
+          (day == null && cellIndex + 7 * rowIndex >= intStart.getDate())
+        ) {
           color = red[200];
-          range_start = isToday;
+          range_start = isToday || cellIndex === 0;
+          range_end = cellIndex === 6;
           msg_active = true;
         }
       } else {
-        if (day <= intStart.getDate()) {
+        if (day <= intStart.getDate() || day == null) {
           color = red[200];
-          range_end = isToday;
+          range_end = isToday || cellIndex === 6;
           msg_active = true;
         }
-        //tramo de dos meses
       }
     }
 
@@ -197,10 +199,13 @@ const getDaysInMonth = (date) => {
   for (let i = 1; i <= lastDay.getDate(); i++) {
     daysInMonth.push(i);
   }
-
-  for (let i = lastDay.getDate(); i < 6; i++) {
-    daysInMonth.push(null);
+  if (daysInMonth.length % 7 != 0) {
+    const remainingDays = 7 - (daysInMonth.length % 7);
+    for (let i = 0; i < remainingDays; i++) {
+      daysInMonth.push(null);
+    }
   }
+  console.log(daysInMonth);
   return daysInMonth;
 };
 

@@ -5,11 +5,10 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import axios from "axios";
 import React, { Suspense, lazy, useEffect, useState } from "react";
 import { useRootFAQString } from "../contexts/TextProvider";
 //import Question from "../fragments/Question";
-import HelpIcon from "@mui/icons-material/Help";
+import { usePublicResources } from "../contexts/PublicResourcesContext";
 
 const Question = lazy(() => import("../fragments/Question"));
 
@@ -22,26 +21,21 @@ const Question = lazy(() => import("../fragments/Question"));
 const FAQ = () => {
   const [questions, setQuestions] = useState([]);
   const rootfaq = useRootFAQString();
+  const { fetch_faq } = usePublicResources();
 
   /**
    * Adds the middleware that fetches and sets questions from React's back page
    */
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        let url = process.env.REACT_APP_BACK_URL;
-        const response = await axios.get(url + "/api/resources/getQuestions");
-        setQuestions(
-          response.data.map((question) => ({
-            ...question,
-            isOpen: false,
-          }))
-        );
-      } catch (error) {
-        console.error("Error fetching questions:", error);
-      }
+      const response = await fetch_faq();
+      setQuestions(
+        response.map((question) => ({
+          ...question,
+          isOpen: false,
+        }))
+      );
     };
-
     fetchData();
   }, []);
 

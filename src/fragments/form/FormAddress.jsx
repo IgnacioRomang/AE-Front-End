@@ -7,6 +7,7 @@ import {
   useCommonsFieldString,
 } from "../../contexts/TextProvider.jsx";
 import { doApartment, doFloor, doPostalCode } from "../../utiles.js";
+import { usePublicResources } from "../../contexts/PublicResourcesContext.js";
 
 /**
  * The `AddressDataCard` component is a form component that displays fields for entering address data such as street address, floor, apartment, province, city, and postal code.
@@ -24,7 +25,7 @@ const FormAddress = React.forwardRef(
     const commonfields = useCommonsFieldString();
     const formaddresslables = useFormAddressString();
     const { get_province_names, get_citys_name, get_address_names } =
-      useService();
+      usePublicResources();
     const [userData, setUserData] = useState({
       address,
       floor,
