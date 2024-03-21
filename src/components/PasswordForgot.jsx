@@ -23,6 +23,7 @@ import {
 import { boxLoginSyle, cardLoginStyle, centerButtonsStyle } from "../theme";
 import { doformatCUIL } from "../utiles";
 import AlertFragment from "../fragments/AlertFragmet";
+import { usePasswordService } from "../contexts/PasswordContext";
 /**
  * The ForgotPassword function is a React component that renders a form for users to enter their CUIL
  * (Argentinian identification number) and handles the submission and validation of the form.
@@ -43,7 +44,7 @@ const PasswordForgot = () => {
   const [error, setError] = useState(false);
 
   const [send, setSend] = useState(false);
-  const { send_forgot_password_email } = useService();
+  const { send_forgot_password_email } = usePasswordService();
 
   const [formattedCUIL, setFormattedCUIL] = useState("");
 
@@ -62,13 +63,17 @@ const PasswordForgot = () => {
       setError(true);
       return;
     }
-    const response = await send_forgot_password_email(formattedCUIL);
-    if (response) {
-      setSend(true);
+    try {
+      const success = await send_forgot_password_email(formattedCUIL);
+      setSend(success);
+      setError(!success);
+    } catch (error) {
+      setError(true);
     }
   };
 
   const handleReSend = () => {
+    setSend(false);
     send_email();
   };
 

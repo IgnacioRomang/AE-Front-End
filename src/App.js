@@ -20,6 +20,7 @@ import Root from "./routes/Root.jsx";
 import NewsTable from "./components/NewsTable.jsx";
 import { PublicResourcesProvider } from "./contexts/PublicResourcesContext.js";
 import { EmailVerifyProvider } from "./contexts/EmailVerifyContext.js";
+import { PasswordServiceProvider } from "./contexts/PasswordContext.js";
 
 // Crea un nuevo tema con el color primario modificado
 const theme = createTheme({
@@ -87,7 +88,11 @@ function App() {
 
               <Route
                 path="/password"
-                element={<Root />}
+                element={
+                  <PasswordServiceProvider>
+                    <Root />
+                  </PasswordServiceProvider>
+                }
                 errorElement={<ErrorPage />}
               >
                 <Route path="change" element={<PasswordChange />} />

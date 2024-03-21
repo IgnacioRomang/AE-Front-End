@@ -57,7 +57,7 @@ const EmailVerify = () => {
       setSuccess(false);
       setLoading(false);
     } finally {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       navigate("/", { replace: true });
     }
   };

@@ -55,6 +55,21 @@
           "success": "Enviado correctamente",
           "error": "Error al enviar"
         }
+      },
+      "loading": {
+        "process": "Procesando la solicitud...",
+        "alert": {
+          "success": {
+            "title": "Estado de la solicitud",
+            "body": ["Pudimos procesar su solicitud con exito"],
+            "strong": "¡Muchas Gracias!"
+          },
+          "error": {
+            "title": "Estado de la solicitud",
+            "body": ["Hubo un error al procesar su solicitud"],
+            "strong": "¡Reitente nuevamente!"
+          }
+        }
       }
     },
     "component": {

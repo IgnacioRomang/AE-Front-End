@@ -51,10 +51,11 @@ const Calendar = ({ intStart, intEnd, msg }) => {
     let range_start = cellIndex == 0;
     let range_end = cellIndex == 6;
     let color = grey[50];
-
+    let colorhover = blue[50];
     if (intStart === intEnd) {
       if (day === intEnd.getDate()) {
         color = blue[200];
+        colorhover = blue[300];
         msg_active = true;
         sizes = true;
       }
@@ -64,6 +65,10 @@ const Calendar = ({ intStart, intEnd, msg }) => {
         color =
           day >= intStart.getDate() && day <= intEnd.getDate()
             ? red[200]
+            : grey[50];
+        colorhover =
+          day >= intStart.getDate() && day <= intEnd.getDate()
+            ? red[300]
             : grey[50];
         msg_active = true;
         range_start = day === intStart.getDate() || cellIndex === 0;
@@ -75,6 +80,7 @@ const Calendar = ({ intStart, intEnd, msg }) => {
           (day == null && cellIndex + 7 * rowIndex >= intStart.getDate())
         ) {
           color = red[200];
+          colorhover = red[300];
           range_start = isToday || cellIndex === 0;
           range_end = cellIndex === 6;
           msg_active = true;
@@ -82,6 +88,7 @@ const Calendar = ({ intStart, intEnd, msg }) => {
       } else {
         if (day <= intStart.getDate() || day == null) {
           color = red[200];
+          colorhover = red[300];
           range_end = isToday || cellIndex === 6;
           msg_active = true;
         }
@@ -95,10 +102,10 @@ const Calendar = ({ intStart, intEnd, msg }) => {
           onMouseLeave={msg_active ? handleOver : null}
           //key={`${hash}-${rowIndex}-${cellIndex}`}
           sx={{
-            alignItems: "center",
-            justifyContent: "center",
             textAlign: "center",
+            textJustify: "center",
             padding: "5px",
+            borderBlock: "0px",
             borderTopLeftRadius: sizes || range_start ? "7px" : "0px",
             borderBottomLeftRadius: sizes || range_start ? "7px" : "0px",
             borderTopRightRadius: sizes || range_end ? "7px" : "0px",
@@ -106,7 +113,8 @@ const Calendar = ({ intStart, intEnd, msg }) => {
             overflow: "hidden",
             backgroundColor: color,
             "&:hover": {
-              backgroundColor: color,
+              border: "0.6px solid black",
+              backgroundColor: colorhover,
             },
           }}
         >
@@ -151,8 +159,9 @@ const Calendar = ({ intStart, intEnd, msg }) => {
                 (day, index) => (
                   <TableCell
                     sx={{
-                      backgroundColor: "#f2f2f2",
+                      backgroundColor: "#d9d9d9",
                       textAlign: "center",
+                      textJustify: "center",
                       padding: "2px",
                     }}
                     //key={day + hash + index}
