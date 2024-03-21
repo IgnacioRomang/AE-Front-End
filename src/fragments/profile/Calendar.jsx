@@ -205,7 +205,6 @@ const getDaysInMonth = (date) => {
       daysInMonth.push(null);
     }
   }
-  console.log(daysInMonth);
   return daysInMonth;
 };
 
