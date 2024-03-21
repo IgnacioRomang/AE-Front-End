@@ -108,6 +108,9 @@ export function useFormInfoString() {
   return useContext(baseTextContext).public.component.auth.register.step.info;
 }
 
+export function useLoadingAlertString() {
+  return useContext(baseTextContext).public.commons.loading;
+}
 export default {
   useRootFAQString,
   useRootFooterString,

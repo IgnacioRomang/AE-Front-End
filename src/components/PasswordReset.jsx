@@ -24,6 +24,8 @@ import AlertFragment from "../fragments/AlertFragmet";
 
 import { buttonTopStyle, centerButtonsStyle } from "../theme";
 import { doformatCUIL } from "../utiles";
+import { usePasswordService } from "../contexts/PasswordContext";
+import ProcessAlert from "../fragments/ProcessAlert";
 
 const PasswordReset = () => {
   const [loading, setLoading] = useState(true);
@@ -31,7 +33,6 @@ const PasswordReset = () => {
   const [error, setError] = useState(false);
   const [send, setSend] = useState(false);
 
-  const passwordresetlabels = useComponentPasswordResetString();
   const passwordreq = useComponentPasswordAlertString();
   const commonbuttons = useCommonsButtonString();
   const commonfields = useCommonsFieldString();
@@ -39,7 +40,7 @@ const PasswordReset = () => {
 
   const token = new URLSearchParams(window.location.search).get("token");
 
-  const { send_reset_password } = useService();
+  const { send_reset_password } = usePasswordService();
 
   const [cuil, setCuil] = useState();
   const [password, setPassword] = useState();
@@ -148,40 +149,7 @@ const PasswordReset = () => {
           </CardActions>
         </Card>
       ) : (
-        <Backdrop open>
-          {loading ? (
-            <Paper>
-              <Stack
-                padding={4}
-                spacing={2}
-                sx={{ display: "flex", alignItems: "center" }}
-              >
-                <CircularProgress />
-                <Typography variant="body1">
-                  {passwordresetlabels.loading}
-                </Typography>
-              </Stack>
-            </Paper>
-          ) : (
-            <Stack spacing={2} sx={{ display: "flex", alignItems: "center" }}>
-              {success ? (
-                <AlertFragment
-                  type="success"
-                  title={passwordresetlabels.title}
-                  body={passwordresetlabels.alert.success.body}
-                  strong={passwordresetlabels.alert.success.strong}
-                />
-              ) : (
-                <AlertFragment
-                  type="error"
-                  title={passwordresetlabels.title}
-                  body={passwordresetlabels.alert.fail.body}
-                  strong={passwordresetlabels.alert.fail.strong}
-                />
-              )}
-            </Stack>
-          )}
-        </Backdrop>
+        <ProcessAlert open={send} loading={loading} success={success} />
       )}
     </>
   );

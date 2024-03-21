@@ -18,14 +18,15 @@ import IconUserBadge from "./ProfileIconUserBadge.jsx";
 import { useService } from "../../contexts/ServiceContext.js";
 import EmailBackdrop from "../EmailBackdrop.jsx";
 import CheckIcon from "@mui/icons-material/Check";
+import { useEmailVerify } from "../../contexts/EmailVerifyContext.js";
 
 const ProfileInfo = () => {
   const aeprofilestring = useComponentAEProfileString();
   const commonfields = useCommonsFieldString();
   const nav = useNavigate();
-  const { AE, User, fetch_end_pdf, fetch_start_pdf, resend_verify_email } =
-    useService();
+  const { AE, User, fetch_end_pdf, fetch_start_pdf } = useService();
 
+  const { resend_verify_email } = useEmailVerify();
   const handleEndPDF = async () => {
     try {
       const pdfUrl = await fetch_end_pdf();
