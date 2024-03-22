@@ -12,7 +12,13 @@ import { useLoadingAlertString } from "../contexts/TextProvider";
 const ProcessAlert = ({ open, loading, success }) => {
   const loadingalert = useLoadingAlertString();
   return (
-    <Backdrop open={open}>
+    <Backdrop
+      open={open}
+      sx={{
+        zIndex: (theme) =>
+          Math.max.apply(Math, Object.values(theme.zIndex)) + 1,
+      }}
+    >
       {loading ? (
         <Paper>
           <Stack

@@ -95,15 +95,15 @@ export const EmailVerifyProvider = ({ children }) => {
     try {
       // Send a post request to the backend API to send the confirmation email
       const result = await axios.post(
-        `${URL_BACKEND}/api/auth/email/verify/send`,
+        `${URL_BACKEND}/api/email/change`,
         {
-          password: password,
+          current_password: password,
           email: email,
         },
         { headers: { "X-API-Key": APP_KEY } }
       );
       const { message } = result.data;
-      return message === "Email sent";
+      return message === "Verification sen";
     } catch (error) {
       // Log and return false if there's an error during the confirmation process
       console.error("Error during code verification: ", error);

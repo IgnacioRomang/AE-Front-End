@@ -1,5 +1,5 @@
 import { Button, Card, CardActions, Grid, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext";
 import {
@@ -10,6 +10,8 @@ import {
 import AlertFragment from "../fragments/AlertFragmet";
 import CodeFragment from "../fragments/CodeFragment";
 import { centerButtonsStyle } from "../theme";
+import { useEmailVerify } from "../contexts/EmailVerifyContext";
+import ProcessAlert from "../fragments/ProcessAlert";
 
 /**
  * Function for handling email change form submission and user interaction.
@@ -24,21 +26,20 @@ const EmailChange = () => {
   const commonfields = useCommonsFieldString();
 
   const [formData, setFormData] = useState({
-    code: "",
     email: "",
     reemail: "",
     password: "",
-    send: false,
-    error: false,
-    errorEmail: false,
-    icon: false,
   });
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [send, setSend] = useState(false);
+  const [errorEmail, setErrorEmail] = useState(false);
 
   const navigate = useNavigate();
-  const { User, send_confirmation_code, send_confirmation_email } =
-    useService();
+  const { User } = useService();
+  const { send_confirmation_email } = useEmailVerify();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (User === null) {
       navigate("/");
     }
@@ -55,10 +56,14 @@ const EmailChange = () => {
         formData.password,
         formData.email
       );
-      setFormData({ ...formData, send: response });
+      setSend(response);
+      setLoading(false);
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      navigate("/ae/profile");
     } catch (error) {
       console.error("Error sending email:", error);
-      setFormData({ ...formData, send: false });
+      setSend(false);
+      setLoading(false);
     }
   };
 
@@ -68,19 +73,21 @@ const EmailChange = () => {
   };
 
   const handleBack = () => {
-    if (formData.send) {
-      setFormData({ ...formData, send: false });
+    if (send) {
+      setSend(false);
     } else {
       navigate(-1);
     }
   };
 
-  const handleConfirm = () => {
-    if (formData.reemail === formData.email) {
-      setFormData({ ...formData, errorEmail: false });
-      sendEmail();
+  const handleConfirm = async () => {
+    if (formData.reemail === formData.email && formData.email !== "") {
+      setErrorEmail(false);
+      setOpen(true);
+      await sendEmail();
     } else {
-      setFormData({ ...formData, errorEmail: true });
+      setErrorEmail(true);
+      setOpen(false);
     }
   };
 
@@ -89,53 +96,44 @@ const EmailChange = () => {
    * @async
    * @return {Promise<void>} Promise that resolves once the confirmation code is sent
    */
-  const handleSend = async () => {
-    let response = await send_confirmation_code(formData.code, formData.email);
-    if (response) {
-      setFormData({ ...formData, error: false });
-      navigate("/ae/profile");
-    } else {
-      setFormData({ ...formData, error: true });
-    }
-  };
 
   return (
-    <Card>
-      <Grid container spacing={2} direction={"column"} padding={5}>
-        <Grid item>
-          <AlertFragment
-            type={"info"}
-            title={emailchange.alert.info.title}
-            body={emailchange.alert.info.body}
-            strong={emailchange.alert.info.strong}
-          />
-          <AlertFragment
-            type={"warning"}
-            title={emailchange.alert.warning.title}
-            body={emailchange.alert.warning.body}
-            strong={emailchange.alert.warning.strong}
-          />
-        </Grid>
-        <Grid item>
-          <TextField
-            name="email"
-            variant="standard"
-            value={formData.email}
-            autoComplete="off"
-            disabled={formData.send}
-            error={formData.errorEmail}
-            onChange={handleChange}
-            label={commonfields.email}
-          />
-        </Grid>
-        {!formData.send ? (
-          <>
+    <>
+      {!open && (
+        <Card>
+          <Grid container spacing={2} direction={"column"} padding={5}>
+            <Grid item>
+              <AlertFragment
+                type={"info"}
+                title={emailchange.alert.info.title}
+                body={emailchange.alert.info.body}
+                strong={emailchange.alert.info.strong}
+              />
+              <AlertFragment
+                type={"warning"}
+                title={emailchange.alert.warning.title}
+                body={emailchange.alert.warning.body}
+                strong={emailchange.alert.warning.strong}
+              />
+            </Grid>
+            <Grid item>
+              <TextField
+                name="email"
+                variant="standard"
+                value={formData.email}
+                autoComplete="off"
+                disabled={formData.send}
+                error={errorEmail}
+                onChange={handleChange}
+                label={commonfields.email}
+              />
+            </Grid>
             <Grid item>
               <TextField
                 name="reemail"
                 autoComplete="off"
                 variant="standard"
-                error={formData.errorEmail}
+                error={errorEmail}
                 value={formData.reemail}
                 onChange={handleChange}
                 label={commonfields.renewemail}
@@ -146,39 +144,26 @@ const EmailChange = () => {
                 name="password"
                 autoComplete="new-password"
                 variant="standard"
-                error={formData.errorEmail}
+                error={errorEmail}
                 value={formData.password}
                 type="password"
                 onChange={handleChange}
                 label={commonfields.password}
               />
             </Grid>
-          </>
-        ) : (
-          <Grid item>
-            <CodeFragment
-              error={formData.error}
-              code={formData.code}
-              setCode={(value) => setFormData({ ...formData, code: value })}
-              icon={formData.icon}
-              setIcon={(value) => setFormData({ ...formData, icon: value })}
-              resend={sendEmail}
-            />
           </Grid>
-        )}
-      </Grid>
-      <CardActions sx={centerButtonsStyle}>
-        <Button size="small" onClick={handleBack}>
-          {commonbuttons.back}
-        </Button>
-        <Button
-          size="small"
-          onClick={formData.code === "" ? handleConfirm : handleSend}
-        >
-          {formData.code !== "" ? commonbuttons.send : commonbuttons.ok}
-        </Button>
-      </CardActions>
-    </Card>
+          <CardActions sx={centerButtonsStyle}>
+            <Button size="small" onClick={handleBack}>
+              {commonbuttons.back}
+            </Button>
+            <Button size="small" onClick={handleConfirm}>
+              {commonbuttons.send}
+            </Button>
+          </CardActions>
+        </Card>
+      )}
+      <ProcessAlert open={open} loading={loading} success={send} />
+    </>
   );
 };
 
