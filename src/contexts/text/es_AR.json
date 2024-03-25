@@ -1,0 +1,349 @@
+{
+  "_lang": "es_AR",
+  "public": {
+    "root": {
+      "faq": {
+        "title": "Preguntas Frecuentes"
+      },
+      "footer": {
+        "address": "Primera Junta 2724,Santa Fe Ciudad",
+        "phone": "+54 (342) 4815660",
+        "email": "museo@loteriasantafe.gov.ar",
+        "logo": {
+          "src": "/images/logo_cas_mas_pcia_2024_crop_2.webp"
+        }
+      },
+      "topbar": {
+        "titles": ["Noticias", "Perfil", "Nueva Autoexclusión", "Finalización"],
+        "logo": {
+          "src": "/images/logo.webp"
+        }
+      }
+    },
+    "commons": {
+      "button": {
+        "ok": "Aceptar",
+        "cancel": "Cancelar",
+        "login": "Ingresar",
+        "skyp": "Saltar",
+        "logout": "Salir",
+        "back": "Atras",
+        "next": "Siguiente",
+        "restart": "Reintentar",
+        "send": "Enviar",
+        "resend": "Reenviar",
+        "delete": "Eliminar"
+      },
+      "field": {
+        "oldemail": "Email anterior",
+        "email": "Email",
+        "renewemail": "Reescriba Email",
+        "oldpassword": "Contraseña anterior",
+        "password": "Contraseña",
+        "repassword": "Reescriba contraseña",
+        "cuil": "CUIL",
+        "suggest": "Sugeridos: "
+      },
+      "text": {
+        "help": "Ayuda",
+        "warning": "¡Advertencia!",
+        "important": "¡Importante!",
+        "success": "Exito",
+        "error": "Error",
+        "thanks": "¡Muchas Gracias!",
+        "send": {
+          "success": "Enviado correctamente",
+          "error": "Error al enviar"
+        }
+      },
+      "loading": {
+        "process": "Procesando la solicitud...",
+        "alert": {
+          "success": {
+            "title": "Estado de la solicitud",
+            "body": ["Pudimos procesar su solicitud con exito"],
+            "strong": "¡Muchas Gracias!"
+          },
+          "error": {
+            "title": "Estado de la solicitud",
+            "body": ["Hubo un error al procesar su solicitud"],
+            "strong": "¡Reitente nuevamente!"
+          }
+        }
+      }
+    },
+    "component": {
+      "auth": {
+        "login": {
+          "title": "Iniciar sesión",
+          "link_label": {
+            "password": "¿Recupera tu contraseña ó Cuenta?",
+            "account": "¿No tienes cuenta?",
+            "faq": "Preguntas Frecuentes"
+          },
+          "alert": {
+            "success": {
+              "title": "Éxito",
+              "body": ["Has iniciado sesión con éxito en tu cuenta -"],
+              "strong": "¡Bienvenido!"
+            },
+            "error": {
+              "title": "Error",
+              "body": ["Oops, algo salió mal con inicio de sesión -"],
+              "strong": "¡Reitente nuevamente!"
+            }
+          }
+        },
+        "register": {
+          "title": "Registro",
+          "step_title": [
+            "Información",
+            "Dirección",
+            "Otros",
+            "Adjuntar",
+            "Prevista"
+          ],
+          "step": {
+            "address": {
+              "street": "Domicilio",
+              "floor": "Piso",
+              "apartment": "Departamento",
+              "state": "Provincia",
+              "city": "Localidad",
+              "postal_code": "Código Postal"
+            },
+            "date_plane": {
+              "title": "¡Atención!",
+              "body": [
+                "Tu autoexclusión comienzaria el ",
+                "Podría darte de baja desde ",
+                " hasta ",
+                "De lo contrario, la exclusión durará hasta ",
+                "Y durará hasta ",
+                "¿Esta seguro que desea continuar?"
+              ]
+            },
+            "extra": {
+              "phone": "Teléfono",
+              "email": "Email",
+              "occupation": "Ocupación",
+              "capacity": "Estudios"
+            },
+            "file_attach": {
+              "title": "Subir Imágenes del DNI",
+              "body": [
+                "Por favor, sube imágenes claras del frente y el reverso de tu DNI.",
+                "Asegúrate de que ambos lados sean visibles y legibles.",
+                "Puedes subir hasta dos archivos en total."
+              ],
+              "files_selected": {
+                "title": "Imágenes del DNI (*)",
+                "list": "Archivos seleccionados: "
+              }
+            },
+            "info": {
+              "name": "Nombre",
+              "lastname": "Apellido",
+              "birthdate": "Fecha de nacimiento",
+              "gender": "Género",
+              "helper_text": {
+                "insert": "Ingresa tu ",
+                "birthdate": ["Dato obligatirio", "Debe ser mayor de 18 años"],
+                "gender": "Seleccione un genero"
+              }
+            }
+          }
+        }
+      },
+      "ae": {
+        "profile": {
+          "badge": {
+            "status": ["Excluido", "Finalizada"]
+          },
+          "link_label": {
+            "end_of_ae_certificate": "Constancia de fin de exclusion ",
+            "start_of_ae_certificate": "Constancia de exclusión",
+            "password_change": "Cambiar Contraseña",
+            "email_change": "Cambiar Email",
+            "email_verify": "Renviar Email de Verificación"
+          },
+          "calendar": {
+            "title": "Cronograma de Autoexclusión",
+            "chip": [
+              "Fecha de Inicio y Fin",
+              "Periodo para Solicitar Fin de Autoexclusión"
+            ],
+            "tooltip": [
+              "Inicio de autoexclusión",
+              "Periodo para Solicitar Fin de Autoexclusión",
+              "Fin de autoexclusión"
+            ],
+            "alert_warning_finalize_onprocess": {
+              "title": "En Proceso de Finalizacion",
+              "body": [
+                "Usted dio de baja la exclusion",
+                "Podrá ingresar libremente al casino a partir de la finalizacion del periodo de baja marcado en rojo en su Cronograma"
+              ]
+            },
+            "alert_warning_finish": {
+              "title": "Autoexclusión Finalizada",
+              "body": [
+                "Actualmente, puede acceder a los casinos libremente ya que no dispone de ninguna autoexclusión activa.",
+                "Para renovarla, le instamos a visitar la sección Nueva Exclusión en el menú, ubicado en la esquina superior izquierda de nuestra página web.",
+                "Solo entonces podrá visualizar los calendarios con el cronograma correspondiente a su autoexclusión.",
+                "Agradecemos su atención y colaboración."
+              ]
+            }
+          }
+        },
+        "create": {
+          "title": "Nueva Autoexclusión",
+          "alert_info": {
+            "title": "Informacion y Actualización de Datos",
+            "body": [
+              "Por favor, para actualizar su exclusión debemos verificar sus datos",
+              "En los siguientes campos podra actualizar sus datos personales de ser necesario",
+              "Ten en cuenta que esta exclusión tendra la duracion de un año"
+            ]
+          }
+        },
+        "finalize": {
+          "title": "Dar de baja auto exclusión",
+          "alert_warning": {
+            "title": "¡Advertencia!",
+            "body": [
+              "El proceso de  baja de una autoexclusión solo puede completarse durante la primera autoexclusión.",
+              "A partir de las siguientes auto exclusiones esto ya no es posible y la exclusion tendra un periodo de 12 meses.",
+              "Después de finalizarlo, se restaurará tu acceso a los casinos. Si decides autoexcluirte nuevamente, por favor, dirígete a la sección de renovación, disponible después de concluir este procedimiento inicial."
+            ]
+          }
+        }
+      },
+      "email": {
+        "send": {
+          "alert": {
+            "success": {
+              "body": ["El mensaje fue enviado -"],
+              "strong": "¡Revisa tu correo!"
+            },
+            "fail": {
+              "body": ["Oops, algo salió mal -"],
+              "strong": "¡Reitente nuevamente!"
+            }
+          }
+        },
+        "verify": {
+          "loading": "Verificando email...",
+          "alert": {
+            "success": {
+              "body": ["Su email fue verificado exitosamente -"],
+              "strong": "¡Muchas Gracias!"
+            },
+            "fail": {
+              "body": ["Oops, algo salió mal -"],
+              "strong": "¡Reitente nuevamente!"
+            }
+          }
+        },
+        "change": {
+          "title": "Procesando verificación de correo...",
+          "alert": {
+            "warning": {
+              "title": "Requisitos",
+              "body": [
+                "El email asociado a tu cuenta debe estar verificado. De lo contrario, no podemos asegurar que resivas el correo"
+              ],
+              "strong": "¡De lo contrario comunicate con servicio de soporte!"
+            },
+            "info": {
+              "title": "Importancia de la Verificación de Correo Electrónico",
+              "strong": "¡Verifica tu correo!",
+              "body": [
+                "Protege tu cuenta, Facilita la recuperación y mejora la comunicación con nuestro servicio."
+              ]
+            }
+          }
+        }
+      },
+      "password": {
+        "alert": {
+          "info": {
+            "requirements": {
+              "title": "La Contraseña debe tener: ",
+              "body": [
+                "Al menos 8 caracteres de longitud.",
+                "Al menos un dígito (0-9).",
+                "Al menos una letra minúscula.",
+                "Al menos una letra mayúscula."
+              ]
+            },
+            "verify": {
+              "title": "Requisitos",
+              "body": [
+                "El email asociado a tu cuenta debe estar verificado. De lo contrario, no podemos asegurar que resivas el correo"
+              ],
+              "strong": "De lo contrario comunicate con servicio de soporte"
+            }
+          }
+        },
+        "reset": {
+          "title": "Procesando Cambio de Contrasenia",
+          "loading": "Enviando datos...",
+          "alert": {
+            "success": {
+              "body": ["La contraseña fue cambiada exitosamente -"],
+              "strong": "¡Ingresa con tu nueva contraseña!"
+            },
+            "fail": {
+              "body": ["Oops, algo salió mal con el cambio de contraseña -"],
+              "strong": "¡Reitente nuevamente!"
+            }
+          }
+        },
+        "change": {
+          "title": "Cambio de Contraseña"
+        },
+        "forgot": {
+          "title": "Recuperar contraña"
+        }
+      },
+      "message": {
+        "success": {
+          "create": {
+            "title": {
+              "first_ae": "¡Felicidades, tu registro está completo!",
+              "n_ae": "¡Felicidades, tu nueva está completa!"
+            },
+            "body": [
+              "Tu autoexclusión comienza el ",
+              "Puedes darte de baja desde ",
+              " hasta ",
+              "De lo contrario, la exclusión durará hasta ",
+              "Durará hasta "
+            ],
+            "alert": {
+              "body": [
+                "Recibirás un correo electrónico en cuanto confirmemos tus datos."
+              ]
+            }
+          },
+          "finalize": {
+            "title": "¡Baja de auto_exclusión completada!",
+            "body": "La solicitud se realizo correctamente. \n Recuerda si necesitas asistencia, no dudes en comunicarte +54 (342) 4815660"
+          }
+        },
+        "error": {
+          "title": "¡Ups! Algo salió mal",
+          "body": "Hubo un error al procesar la solicitud.",
+          "alert_info": {
+            "body": [
+              "Por favor, inténtalo de nuevo más tarde.",
+              "Es posible que este problema esté vinculado con nuestro servicio. Sin embargo, también podría ser consecuencia de que ya esté registrado. Le recomendamos iniciar sesión de manera convencional. Si se registró de forma presencial mediante un formulario escrito y desea acceder a su cuenta a través de la web, le sugerimos recuperar su cuenta. Vaya al apartado 'Recuperar mi cuenta' en la sección de inicio de sesión para obtener información detallada. Además, puede consultar las preguntas frecuentes en la parte inferior de la pantalla para obtener asistencia adicional.",
+              "Si el problema persiste, contacta al soporte."
+            ]
+          }
+        }
+      }
+    }
+  }
+}

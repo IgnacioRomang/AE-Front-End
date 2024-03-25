@@ -1,0 +1,5 @@
+{
+  "docwriter.progress.trackFunctions": false,
+  "docify.commentService.docstringFormat": "Google",
+  "docify.commentService.programmingLanguage": "javascript"
+}
