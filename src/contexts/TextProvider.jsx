@@ -111,7 +111,8 @@ export function useFormInfoString() {
 export function useLoadingAlertString() {
   return useContext(baseTextContext).public.commons.loading;
 }
-export default {
+
+const Strings = {
   useRootFAQString,
   useRootFooterString,
   useRootTopbarString,
@@ -137,3 +138,4 @@ export default {
   useFormFileAttachString,
   useFormInfoString,
 };
+export default Strings;

@@ -5,7 +5,7 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import React, { Suspense, lazy, useEffect, useState } from "react";
+import React, { Suspense, lazy, useEffect, useState, useCallback } from "react";
 import { useRootFAQString } from "../contexts/TextProvider";
 //import Question from "../fragments/Question";
 import { usePublicResources } from "../contexts/PublicResourcesContext";
@@ -23,21 +23,21 @@ const FAQ = () => {
   const rootfaq = useRootFAQString();
   const { fetch_faq } = usePublicResources();
 
+  const fetchData = useCallback(async () => {
+    const response = await fetch_faq();
+    setQuestions(
+      response.map((question) => ({
+        ...question,
+        isOpen: false,
+      }))
+    );
+  }, [setQuestions, fetch_faq]);
   /**
    * Adds the middleware that fetches and sets questions from React's back page
    */
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch_faq();
-      setQuestions(
-        response.map((question) => ({
-          ...question,
-          isOpen: false,
-        }))
-      );
-    };
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   /**
    * Toggles the state of the question at the given index. This is used to prevent an unintended change in the state

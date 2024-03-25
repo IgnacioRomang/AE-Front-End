@@ -7,7 +7,13 @@ import CheckIcon from "@mui/icons-material/Check";
 
 const EmailBackdrop = ({ open, loading }) => {
   return (
-    <Backdrop open={open}>
+    <Backdrop
+      open={open}
+      sx={{
+        zIndex: (theme) =>
+          Math.max.apply(Math, Object.values(theme.zIndex)) + 1,
+      }}
+    >
       <Paper>
         <Box padding={4}>
           {/*animacion de enviado*/}

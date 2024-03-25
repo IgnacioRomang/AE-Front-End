@@ -1,13 +1,12 @@
 import { CardContent, Grid, TextField, Typography } from "@mui/material";
 import { blue } from "@mui/material/colors";
 import React, { useCallback, useImperativeHandle, useState } from "react";
-import { useService } from "../../contexts/ServiceContext.js";
+import { usePublicResources } from "../../contexts/PublicResourcesContext.js";
 import {
-  useFormAddressString,
   useCommonsFieldString,
+  useFormAddressString,
 } from "../../contexts/TextProvider.jsx";
 import { doApartment, doFloor, doPostalCode } from "../../utiles.js";
-import { usePublicResources } from "../../contexts/PublicResourcesContext.js";
 
 /**
  * The `AddressDataCard` component is a form component that displays fields for entering address data such as street address, floor, apartment, province, city, and postal code.

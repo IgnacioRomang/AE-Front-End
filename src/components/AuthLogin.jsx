@@ -22,6 +22,7 @@ import {
   buttonTopStyle,
   cardLoginStyle,
   centerButtonsStyle,
+  centeringStyles,
   linksStyle,
 } from "../theme.jsx";
 
@@ -138,8 +139,8 @@ const AuthLogin = () => {
           {/* links */}
           <Stack
             direction={{ xs: "column", sm: "row" }}
-            justifyContent={"center"}
             spacing={1}
+            sx={centeringStyles}
           >
             <Link
               size="small"
@@ -178,8 +179,7 @@ const AuthLogin = () => {
               {authloginlabels.link_label.account}
             </Link>
           </Stack>
-          <Divider></Divider>
-          {/* BOTONES */}
+          <Divider />
           <CardActions sx={centerButtonsStyle}>
             <Button
               size="small"

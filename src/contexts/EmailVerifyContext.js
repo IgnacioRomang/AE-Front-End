@@ -16,7 +16,7 @@ export const EmailVerifyProvider = ({ children }) => {
    */
   const resend_verify_email = async () => {
     try {
-      const response = await axios.post(
+      await axios.post(
         `${URL_BACKEND}/api/email/notification`,
         {},
         { headers: { "X-API-Key": APP_KEY } }

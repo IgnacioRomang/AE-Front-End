@@ -1,6 +1,6 @@
 // AuthContext.js
 import axios from "axios";
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext } from "react";
 
 const URL_BACKEND = process.env.REACT_APP_BACK_URL;
 const APP_KEY = process.env.REACT_APP_KEY;

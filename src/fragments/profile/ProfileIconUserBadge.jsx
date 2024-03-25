@@ -1,11 +1,10 @@
-import React from "react";
-import Badge from "@mui/material/Badge";
-import Avatar from "@mui/material/Avatar";
 import { Box } from "@mui/material";
-import { stringAvatar } from "../../utiles";
+import Avatar from "@mui/material/Avatar";
+import Badge from "@mui/material/Badge";
+import React from "react";
 import { useComponentAEProfileString } from "../../contexts/TextProvider";
 import { badgeUserAnchorStyle, boxUserbadgeStyle } from "../../theme";
-import { grey } from "@mui/material/colors";
+import { stringAvatar } from "../../utiles";
 
 function IconUserBadge({ username, isActive }) {
   const statusColor =

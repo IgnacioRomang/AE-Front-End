@@ -1,6 +1,4 @@
 import {
-  Alert,
-  AlertTitle,
   Button,
   Card,
   CardActions,
@@ -11,19 +9,18 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useService } from "../contexts/ServiceContext";
 import {
   useCommonsButtonString,
   useCommonsFieldString,
+  useComponentEmailSendString,
   useComponentPasswordAlertString,
   useComponentPasswordForgotString,
-  useComponentEmailSendString,
 } from "../contexts/TextProvider";
 
+import { usePasswordService } from "../contexts/PasswordContext";
+import AlertFragment from "../fragments/AlertFragmet";
 import { boxLoginSyle, cardLoginStyle, centerButtonsStyle } from "../theme";
 import { doformatCUIL } from "../utiles";
-import AlertFragment from "../fragments/AlertFragmet";
-import { usePasswordService } from "../contexts/PasswordContext";
 /**
  * The ForgotPassword function is a React component that renders a form for users to enter their CUIL
  * (Argentinian identification number) and handles the submission and validation of the form.

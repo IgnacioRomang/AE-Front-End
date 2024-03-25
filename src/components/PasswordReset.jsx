@@ -1,31 +1,19 @@
-import {
-  Backdrop,
-  Button,
-  CardActions,
-  Grid,
-  Paper,
-  Stack,
-  TextField,
-} from "@mui/material";
+import { Button, CardActions, Stack, TextField } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CircularProgress from "@mui/material/CircularProgress";
-import Typography from "@mui/material/Typography";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useService } from "../contexts/ServiceContext";
 import {
-  useComponentPasswordResetString,
   useCommonsButtonString,
   useCommonsFieldString,
   useComponentPasswordAlertString,
 } from "../contexts/TextProvider";
 import AlertFragment from "../fragments/AlertFragmet";
 
-import { buttonTopStyle, centerButtonsStyle } from "../theme";
-import { doformatCUIL } from "../utiles";
 import { usePasswordService } from "../contexts/PasswordContext";
 import ProcessAlert from "../fragments/ProcessAlert";
+import { buttonTopStyle, centerButtonsStyle } from "../theme";
+import { doformatCUIL } from "../utiles";
 
 const PasswordReset = () => {
   const [loading, setLoading] = useState(true);

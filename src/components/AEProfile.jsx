@@ -1,5 +1,5 @@
 import { Skeleton, Typography } from "@mui/material";
-import React, { Suspense, lazy, useEffect, useState } from "react";
+import React, { Suspense, lazy, useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext";
 import { useComponentAEProfileString } from "../contexts/TextProvider";
@@ -20,7 +20,7 @@ const AEProfile = () => {
   const { User, get_ae_dates, serverDates, AE } = useService();
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       setLoading(true);
       let result = await get_ae_dates();
@@ -29,7 +29,7 @@ const AEProfile = () => {
       console.log("Error fetching data:", error);
       return false;
     }
-  };
+  }, [setLoading, get_ae_dates]);
 
   useEffect(() => {
     if (!User) {
@@ -42,7 +42,7 @@ const AEProfile = () => {
     } else {
       setLoading(false);
     }
-  }, [User, navigate, serverDates]);
+  }, [User, navigate, serverDates, fetchData]);
 
   const labels = useComponentAEProfileString();
 

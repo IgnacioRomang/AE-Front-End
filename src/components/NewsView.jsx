@@ -1,6 +1,5 @@
 import { Paper, Typography } from "@mui/material";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext";
 
@@ -14,19 +13,21 @@ const NewsView = () => {
   const { id } = useParams();
   const { fetch_news_pdf } = useService();
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const news_pdf = await fetch_news_pdf(id);
-        if (news_pdf) {
-          setPdf(news_pdf);
-        }
-      } catch (error) {
-        // // handle error
-        console.log(error);
+  const fetchData = useCallback(async () => {
+    try {
+      const news_pdf = await fetch_news_pdf(id);
+      if (news_pdf) {
+        setPdf(news_pdf);
       }
-    })();
-  }, [id]);
+    } catch (error) {
+      // // handle error
+      console.log(error);
+    }
+  }, [id, fetch_news_pdf, setPdf]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   return (
     <Paper sx={{ width: "98vw", height: "98vh" }}>

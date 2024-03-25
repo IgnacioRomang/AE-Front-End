@@ -1,6 +1,7 @@
 import { Button, Card, CardActions, Grid, TextField } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useEmailVerify } from "../contexts/EmailVerifyContext";
 import { useService } from "../contexts/ServiceContext";
 import {
   useCommonsButtonString,
@@ -8,10 +9,8 @@ import {
   useComponentEmailChangeString,
 } from "../contexts/TextProvider";
 import AlertFragment from "../fragments/AlertFragmet";
-import CodeFragment from "../fragments/CodeFragment";
-import { centerButtonsStyle } from "../theme";
-import { useEmailVerify } from "../contexts/EmailVerifyContext";
 import ProcessAlert from "../fragments/ProcessAlert";
+import { centerButtonsStyle } from "../theme";
 
 /**
  * Function for handling email change form submission and user interaction.

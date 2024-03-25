@@ -10,6 +10,7 @@ import {
   NativeSelect,
   TextField,
 } from "@mui/material";
+import { red } from "@mui/material/colors";
 import React, { useCallback, useImperativeHandle, useState } from "react";
 import {
   useCommonsFieldString,
@@ -18,8 +19,6 @@ import {
 } from "../../contexts/TextProvider.jsx";
 import { centeringStyles } from "../../theme.jsx";
 import { datecontrol, doformatCUIL, testpassword } from "../../utiles.js";
-import { useService } from "../../contexts/ServiceContext.js";
-import { red } from "@mui/material/colors";
 
 const genders = [
   { label: "Femenino", id: "F" },
@@ -137,7 +136,7 @@ const FormInfo = React.forwardRef((props, ref) => {
     setErrors(errors);
 
     return Object.values(errors).some(Boolean);
-  }, [userData, passrep]);
+  }, [userData, passrep, props]);
 
   const getData = () => {
     return userData;

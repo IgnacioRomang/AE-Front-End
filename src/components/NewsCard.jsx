@@ -4,37 +4,12 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 const NewsCard = ({ anews }) => {
   const navigate = useNavigate();
-  const [isVisible, setIsVisible] = useState(false);
   const cardMediaRef = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.5 }
-    );
-
-    if (cardMediaRef.current) {
-      observer.observe(cardMediaRef.current);
-    }
-
-    return () => {
-      if (cardMediaRef.current) {
-        observer.unobserve(cardMediaRef.current);
-      }
-    };
-  }, []);
 
   const handleReadMoreClick = () => {
     navigate(`/document/${anews.id}`);
@@ -45,11 +20,7 @@ const NewsCard = ({ anews }) => {
       <CardMedia
         component="img"
         ref={cardMediaRef}
-        src={
-          isVisible
-            ? `${process.env.REACT_APP_BACK_URL}${anews.image}`
-            : `${process.env.REACT_APP_BACK_URL}${anews.image}?tr=w-400,h-300,bl-30,q-50`
-        }
+        src={`${process.env.REACT_APP_BACK_URL}${anews.image}`}
         alt={anews.title}
         thubpmbnail={anews.thubpmbnail}
         title={anews.title}

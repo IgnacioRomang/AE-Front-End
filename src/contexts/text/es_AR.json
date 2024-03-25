@@ -77,7 +77,7 @@
         "login": {
           "title": "Iniciar sesión",
           "link_label": {
-            "password": "¿Recupera tu contraseña ó Cuenta?",
+            "password": "Recupera tu Cuenta",
             "account": "¿No tienes cuenta?",
             "faq": "Preguntas Frecuentes"
           },

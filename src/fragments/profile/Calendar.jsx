@@ -48,8 +48,8 @@ const Calendar = ({ intStart, intEnd, msg }) => {
     let msg_active = false;
     let isToday = day === intStart.getDate() || day === intEnd.getDate();
     let sizes = false;
-    let range_start = cellIndex == 0;
-    let range_end = cellIndex == 6;
+    let range_start = cellIndex === 0;
+    let range_end = cellIndex === 6;
     let color = grey[50];
     let colorhover = blue[50];
     if (intStart === intEnd) {
@@ -77,7 +77,7 @@ const Calendar = ({ intStart, intEnd, msg }) => {
         // se usan dos  calendar para el tramo
         if (
           day >= intStart.getDate() ||
-          (day == null && cellIndex + 7 * rowIndex >= intStart.getDate())
+          (day === null && cellIndex + 7 * rowIndex >= intStart.getDate())
         ) {
           color = red[200];
           colorhover = red[300];
@@ -86,7 +86,7 @@ const Calendar = ({ intStart, intEnd, msg }) => {
           msg_active = true;
         }
       } else {
-        if (day <= intStart.getDate() || day == null) {
+        if (day <= intStart.getDate() || day === null) {
           color = red[200];
           colorhover = red[300];
           range_end = isToday || cellIndex === 6;
@@ -208,7 +208,7 @@ const getDaysInMonth = (date) => {
   for (let i = 1; i <= lastDay.getDate(); i++) {
     daysInMonth.push(i);
   }
-  if (daysInMonth.length % 7 != 0) {
+  if (daysInMonth.length % 7 !== 0) {
     const remainingDays = 7 - (daysInMonth.length % 7);
     for (let i = 0; i < remainingDays; i++) {
       daysInMonth.push(null);

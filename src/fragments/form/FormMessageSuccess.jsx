@@ -1,5 +1,4 @@
-import DownloadIcon from "@mui/icons-material/Download";
-import { Alert, Box, IconButton, Typography } from "@mui/material";
+import { Alert, Box, Typography } from "@mui/material";
 import React from "react";
 import { useComponentMessageSuccessString } from "../../contexts/TextProvider.jsx";
 import { superCenter } from "../../theme.jsx";

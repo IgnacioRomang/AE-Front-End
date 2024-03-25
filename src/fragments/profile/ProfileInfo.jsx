@@ -1,24 +1,16 @@
-import {
-  Backdrop,
-  CircularProgress,
-  Link,
-  Paper,
-  Popper,
-  Typography,
-} from "@mui/material";
+import { Link, Paper, Typography } from "@mui/material";
 import { Box, Stack } from "@mui/system";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useEmailVerify } from "../../contexts/EmailVerifyContext.js";
+import { useService } from "../../contexts/ServiceContext.js";
 import {
   useCommonsFieldString,
   useComponentAEProfileString,
 } from "../../contexts/TextProvider.jsx";
 import { centeringStyles, gridProfileInfoStyle } from "../../theme.jsx";
-import IconUserBadge from "./ProfileIconUserBadge.jsx";
-import { useService } from "../../contexts/ServiceContext.js";
 import EmailBackdrop from "../EmailBackdrop.jsx";
-import CheckIcon from "@mui/icons-material/Check";
-import { useEmailVerify } from "../../contexts/EmailVerifyContext.js";
+import IconUserBadge from "./ProfileIconUserBadge.jsx";
 
 const ProfileInfo = () => {
   const aeprofilestring = useComponentAEProfileString();

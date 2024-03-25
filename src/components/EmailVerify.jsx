@@ -1,17 +1,12 @@
 import { Backdrop, Paper, Stack } from "@mui/material";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useService } from "../contexts/ServiceContext";
-import {
-  useCommonsTextString,
-  useComponentEmailVerifyString,
-} from "../contexts/TextProvider";
-import AlertFragment from "../fragments/AlertFragmet";
 import { useEmailVerify } from "../contexts/EmailVerifyContext";
+import { useService } from "../contexts/ServiceContext";
+import { useComponentEmailVerifyString } from "../contexts/TextProvider";
+import AlertFragment from "../fragments/AlertFragmet";
 
 /**
  * The `VerificationCard` component is a React component that displays a card with a loading spinner
@@ -43,7 +38,7 @@ const EmailVerify = () => {
    *
    * @async
    */
-  const verifyEmail = async () => {
+  const verifyEmail = useCallback(async () => {
     try {
       const result = await send_confirmation_verify(
         id,
@@ -60,13 +55,22 @@ const EmailVerify = () => {
       await new Promise((resolve) => setTimeout(resolve, 2000));
       navigate("/", { replace: true });
     }
-  };
+  }, [
+    id,
+    hash,
+    expires,
+    signature,
+    setSuccess,
+    setLoading,
+    navigate,
+    send_confirmation_verify,
+  ]);
 
   useEffect(() => {
     if (isAuthenticated) {
       verifyEmail();
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, verifyEmail]);
 
   return (
     <Backdrop open={true}>

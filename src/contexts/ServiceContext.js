@@ -1,11 +1,15 @@
 // AuthContext.js
 import axios from "axios";
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
 import { dates_to_json_calendar, json_to_json_calendar } from "../utiles";
-import { TryOutlined } from "@mui/icons-material";
 
 const URL_BACKEND = process.env.REACT_APP_BACK_URL;
-const URL_GEOREF = process.env.REACT_APP_GEOREF_URL;
 const APP_KEY = process.env.REACT_APP_KEY;
 
 /**
@@ -26,7 +30,7 @@ const ServiceContext = createContext();
 export const ServiceProvider = ({ children }) => {
   const [User, setUserState] = useState(null);
   const [Authorization, setAuthorizationState] = useState(null);
-  const [serverDates, setServerDatesState] = React.useState(null);
+  const [serverDates, setServerDatesState] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(User !== null);
 
   /**
@@ -48,28 +52,24 @@ export const ServiceProvider = ({ children }) => {
    * @param {any} newval - The new value to set for the user state
    * @returns {void}
    */
-  const setUser = (newval) => {
-    setUserState(newval);
-    if (newval === null) {
-      //localStorage.removeItem("user");
-    } else {
-      //localStorage.setItem("user", JSON.stringify(newval));
-    }
-  };
+  const setUser = useCallback(
+    (newval) => {
+      setUserState(newval);
+    },
+    [setUserState]
+  );
 
   /**
    * Set the dates and update the state.
    * @param {type} newval - The new value to set for server dates
    * @return {void}
    */
-  const setServerDates = (newval) => {
-    setServerDatesState(newval);
-    if (newval === null) {
-      //localStorage.removeItem("dates");
-    } else {
-      //localStorage.setItem("dates", JSON.stringify(newval));
-    }
-  };
+  const setServerDates = useCallback(
+    (newval) => {
+      setServerDatesState(newval);
+    },
+    [setServerDatesState]
+  );
 
   /**
    *
@@ -137,32 +137,6 @@ export const ServiceProvider = ({ children }) => {
       return false;
     } catch (error) {
       console.error("Error during login:", error);
-      return false;
-    }
-  };
-
-  /**
-   * Refreshes the user's token and retrieves fresh user data
-   * @async
-   * @return {Promise<boolean>} true if the token refresh was successful, false otherwise
-   */
-  const refesh = async () => {
-    try {
-      const response = await axios.post(
-        `${URL_BACKEND}/api/auth/refresh`,
-        {}, // No request body needed
-        { headers: { "X-API-Key": APP_KEY } }
-      );
-      const { user } = response.data;
-      if (user) {
-        setUser(user);
-        //TODO: do it all in one , get the user data and dates
-        await get_ae_dates();
-        setIsAuthenticated(true);
-        return true;
-      }
-      return false;
-    } catch (error) {
       return false;
     }
   };
@@ -253,7 +227,7 @@ export const ServiceProvider = ({ children }) => {
    * @async
    * @returns {Promise<boolean>} - Whether the dates' start day is not null
    */
-  const get_ae_dates = async () => {
+  const get_ae_dates = useCallback(async () => {
     try {
       // Fetch AE dates from the backend API
       const response = await axios.get(`${URL_BACKEND}/api/ae/dates`, {
@@ -276,7 +250,7 @@ export const ServiceProvider = ({ children }) => {
       // Return false if there's an error getting AE dates
       return false;
     }
-  };
+  }, [setUser, setServerDates]);
 
   /**
    * Function to start the AE process asynchronously
@@ -370,6 +344,32 @@ export const ServiceProvider = ({ children }) => {
     }
   };
 
+  /**
+   * Refreshes the user's token and retrieves fresh user data
+   * @async
+   * @return {Promise<boolean>} true if the token refresh was successful, false otherwise
+   */
+  const refesh = useCallback(async () => {
+    try {
+      const response = await axios.post(
+        `${URL_BACKEND}/api/auth/refresh`,
+        {}, // No request body needed
+        { headers: { "X-API-Key": APP_KEY } }
+      );
+      const { user } = response.data;
+      if (user) {
+        setUser(user);
+        //TODO: do it all in one , get the user data and dates
+        await get_ae_dates();
+        setIsAuthenticated(true);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      return false;
+    }
+  }, [get_ae_dates, setIsAuthenticated, setUser]);
+
   useEffect(() => {
     const parsedAuthorization = JSON.parse(
       localStorage.getItem("authorization") || "null"
@@ -383,7 +383,7 @@ export const ServiceProvider = ({ children }) => {
       axios.defaults.headers.common["X-API-Key"] = APP_KEY;
     }
     refesh();
-  }, []);
+  }, [refesh]);
   return (
     <ServiceContext.Provider
       value={{

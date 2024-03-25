@@ -1,7 +1,7 @@
 import { Box, Grid, Pagination, Stack } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { usePublicResources } from "../contexts/PublicResourcesContext";
 import { centeringStyles } from "../theme";
 import NewsCard from "./NewsCard";
@@ -18,19 +18,22 @@ const NewsTable = () => {
   const itemsPerPage = isMediumScreen ? (isSmallScreen ? 1 : 2) : 3;
 
   const { fetch_news_list } = usePublicResources();
-  useEffect(() => {
-    (async () => {
-      try {
-        const fetch_news = await fetch_news_list();
-        if (fetch_news) {
-          setFetchNews(fetch_news);
-        }
-      } catch (error) {
-        // // handle error
-        console.log(error);
+
+  const fetchData = useCallback(async () => {
+    try {
+      const fetch_news = await fetch_news_list();
+      if (fetch_news) {
+        setFetchNews(fetch_news);
       }
-    })();
-  }, []);
+    } catch (error) {
+      // // handle error
+      console.log(error);
+    }
+  }, [fetch_news_list, setFetchNews]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const [currentPage, setCurrentPage] = useState(1);
 
