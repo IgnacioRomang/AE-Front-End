@@ -103,7 +103,7 @@ export const EmailVerifyProvider = ({ children }) => {
         { headers: { "X-API-Key": APP_KEY } }
       );
       const { message } = result.data;
-      return message === "Verification sen";
+      return message === "Verification send successfully";
     } catch (error) {
       // Log and return false if there's an error during the confirmation process
       console.error("Error during code verification: ", error);
