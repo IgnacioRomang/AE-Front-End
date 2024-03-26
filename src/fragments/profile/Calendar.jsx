@@ -52,6 +52,7 @@ const Calendar = ({ intStart, intEnd, msg }) => {
     let range_end = cellIndex === 6;
     let color = grey[50];
     let colorhover = blue[50];
+    const radius = "7px";
     if (intStart === intEnd) {
       if (day === intEnd.getDate()) {
         color = blue[200];
@@ -102,14 +103,12 @@ const Calendar = ({ intStart, intEnd, msg }) => {
           onMouseLeave={msg_active ? handleOver : null}
           //key={`${hash}-${rowIndex}-${cellIndex}`}
           sx={{
-            textAlign: "center",
-            textJustify: "center",
-            padding: "5px",
+            padding: "2px",
             borderBlock: "0px",
-            borderTopLeftRadius: sizes || range_start ? "7px" : "0px",
-            borderBottomLeftRadius: sizes || range_start ? "7px" : "0px",
-            borderTopRightRadius: sizes || range_end ? "7px" : "0px",
-            borderBottomRightRadius: sizes || range_end ? "7px" : "0px",
+            borderTopLeftRadius: sizes || range_start ? radius : "0px",
+            borderBottomLeftRadius: sizes || range_start ? radius : "0px",
+            borderTopRightRadius: sizes || range_end ? radius : "0px",
+            borderBottomRightRadius: sizes || range_end ? radius : "0px",
             overflow: "hidden",
             backgroundColor: color,
             "&:hover": {
@@ -118,7 +117,16 @@ const Calendar = ({ intStart, intEnd, msg }) => {
             },
           }}
         >
-          {day || " "}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100%",
+            }}
+          >
+            {day === null ? "" : day.toString()}
+          </div>
         </TableCell>
         {msg_active && (
           <Popper //id={`${hash}-${rowIndex}`}
@@ -128,7 +136,6 @@ const Calendar = ({ intStart, intEnd, msg }) => {
             <Box
               sx={{
                 border: 1,
-                p: 1,
                 bgcolor: "background.paper",
               }}
             >

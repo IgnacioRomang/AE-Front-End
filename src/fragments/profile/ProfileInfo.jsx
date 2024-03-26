@@ -11,6 +11,8 @@ import {
 import { centeringStyles, gridProfileInfoStyle } from "../../theme.jsx";
 import EmailBackdrop from "../EmailBackdrop.jsx";
 import IconUserBadge from "./ProfileIconUserBadge.jsx";
+import SixtysecFragment from "../SixtysecFragment.jsx";
+import { sleep } from "../../utiles.js";
 
 const ProfileInfo = () => {
   const aeprofilestring = useComponentAEProfileString();
@@ -44,35 +46,15 @@ const ProfileInfo = () => {
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [click, setClick] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(31);
-
-  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-
-  const handleClick = async (event) => {
-    if (!click) {
-      setOpen(true);
-      await sendEmail();
-
-      setTimeLeft(30);
-      const intervalId = setInterval(() => {
-        setTimeLeft((prevTime) => prevTime - 1);
-      }, 1000);
-      setClick(true);
-      setTimeout(() => {
-        clearInterval(intervalId);
-        setClick(false);
-      }, 31000);
-
-      setOpen(false);
-    }
-  };
 
   const sendEmail = async () => {
+    setOpen(true);
     setLoading(true);
     await resend_verify_email();
     setLoading(false);
     await sleep(500);
+    setOpen(false);
+    return true;
   };
 
   return (
@@ -110,39 +92,18 @@ const ProfileInfo = () => {
           <Link size="small" onClick={(e) => handleGoTo("/password/change")}>
             {aeprofilestring.link_label.password_change}
           </Link>
-          <Link
-            size="small"
-            disable={click}
-            style={
-              click
-                ? {
-                    marginLeft: "9px",
-                    color: "#d6dbdf ",
-                    textDecorationColor: "#d6dbdf ",
-                  }
-                : null
-            }
-            onClick={
-              User.email_verified_at
-                ? (e) => handleGoTo("/email/change")
-                : handleClick
-            }
-          >
-            {User.email_verified_at ? (
-              aeprofilestring.link_label.email_change
-            ) : (
-              <>
-                {aeprofilestring.link_label.email_verify}
-                {click ? (
-                  <span style={{ marginLeft: "9px", color: "#d6dbdf " }}>
-                    {timeLeft}s
-                  </span>
-                ) : (
-                  <></>
-                )}
-              </>
-            )}
-          </Link>
+          {User.email_verified_at ? (
+            <Link size="small" onClick={(e) => handleGoTo("/email/change")}>
+              {aeprofilestring.link_label.email_change}
+            </Link>
+          ) : (
+            <SixtysecFragment
+              action={sendEmail}
+              label={aeprofilestring.link_label.email_verify}
+            >
+              <Link />
+            </SixtysecFragment>
+          )}
         </Stack>
       </Paper>
       <EmailBackdrop open={open} loading={loading} />

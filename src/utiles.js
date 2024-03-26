@@ -241,6 +241,8 @@ export const testpassword = (password1, password2) => {
   return password1 === password2 ? re.test(password1) : false;
 };
 
+export const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
 const utiles = {
   isNum,
   testpassword,
@@ -256,5 +258,6 @@ const utiles = {
   doEmail,
   parseDate,
   formatDate,
+  sleep,
 };
 export default utiles;

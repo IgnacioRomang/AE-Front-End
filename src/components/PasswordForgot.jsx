@@ -1,9 +1,11 @@
 import {
+  Backdrop,
   Button,
   Card,
   CardActions,
   CardContent,
   CardHeader,
+  CircularProgress,
   Collapse,
   TextField,
 } from "@mui/material";
@@ -21,6 +23,8 @@ import { usePasswordService } from "../contexts/PasswordContext";
 import AlertFragment from "../fragments/AlertFragmet";
 import { boxLoginSyle, cardLoginStyle, centerButtonsStyle } from "../theme";
 import { doformatCUIL } from "../utiles";
+import ProcessAlert from "../fragments/ProcessAlert";
+import SixtysecFragment from "../fragments/SixtysecFragment";
 /**
  * The ForgotPassword function is a React component that renders a form for users to enter their CUIL
  * (Argentinian identification number) and handles the submission and validation of the form.
@@ -39,7 +43,7 @@ const PasswordForgot = () => {
   const emailsend = useComponentEmailSendString();
 
   const [error, setError] = useState(false);
-
+  const [open, setOpen] = useState(false);
   const [send, setSend] = useState(false);
   const { send_forgot_password_email } = usePasswordService();
 
@@ -58,20 +62,25 @@ const PasswordForgot = () => {
   const send_email = async () => {
     if (!formattedCUIL.trim() || formattedCUIL.length !== 13) {
       setError(true);
-      return;
+      return false;
     }
     try {
       const success = await send_forgot_password_email(formattedCUIL);
       setSend(success);
       setError(!success);
+      return success;
     } catch (error) {
       setError(true);
+      return false;
     }
   };
 
-  const handleReSend = () => {
+  const handleReSend = async () => {
+    setOpen(true);
     setSend(false);
-    send_email();
+    const result = await send_email();
+    setOpen(false);
+    return result;
   };
 
   const handleCUILChange = (event) => {
@@ -81,58 +90,72 @@ const PasswordForgot = () => {
   };
 
   return (
-    <Card sx={cardLoginStyle}>
-      <CardHeader title={passwordforgot.title} />
-      <CardContent container sx={boxLoginSyle}>
-        <CardContent item sx={12} sm={8}>
-          <TextField
-            id="cuil"
-            size="small"
-            label={commonfields.cuil}
-            required
-            disabled={send}
-            error={error}
-            value={formattedCUIL}
-            onChange={handleCUILChange}
-            variant="standard"
-          />
-        </CardContent>
-        <CardContent item sx={12} sm={8}>
-          {!send && (
-            <AlertFragment
-              type={"info"}
-              title={passwordalert.info.verify.title}
-              body={passwordalert.info.verify.body}
-              strong={passwordalert.info.verify.strong}
+    <>
+      <Backdrop
+        open={open}
+        sx={{
+          zIndex: (theme) =>
+            Math.max.apply(Math, Object.values(theme.zIndex)) + 1,
+        }}
+      >
+        <CircularProgress />
+      </Backdrop>
+      <Card sx={cardLoginStyle}>
+        <CardHeader title={passwordforgot.title} />
+        <CardContent container sx={boxLoginSyle}>
+          <CardContent item sx={12} sm={8}>
+            <TextField
+              id="cuil"
+              size="small"
+              label={commonfields.cuil}
+              required
+              disabled={send}
+              error={error}
+              value={formattedCUIL}
+              onChange={handleCUILChange}
+              variant="standard"
             />
-          )}
+          </CardContent>
+          <CardContent item sx={12} sm={8}>
+            {!send && (
+              <AlertFragment
+                type={"info"}
+                title={passwordalert.info.verify.title}
+                body={passwordalert.info.verify.body}
+                strong={passwordalert.info.verify.strong}
+              />
+            )}
+          </CardContent>
         </CardContent>
-      </CardContent>
-      <CardActions sx={centerButtonsStyle}>
-        <Button size="small" onClick={handleBack} color="inherit">
-          {commonbutton.back}
-        </Button>
-        <Button size="small" onClick={handleReSend}>
-          {send ? commonbutton.resend : commonbutton.send}
-        </Button>
-      </CardActions>
-      <Collapse in={send}>
-        <AlertFragment
-          type={"success"}
-          title={commonfields.email}
-          body={emailsend.alert.success.body}
-          strong={emailsend.alert.success.strong}
-        />
-      </Collapse>
-      <Collapse in={error}>
-        <AlertFragment
-          type={"error"}
-          title={commonfields.email}
-          body={emailsend.alert.fail.body}
-          strong={emailsend.alert.fail.strong}
-        />
-      </Collapse>
-    </Card>
+        <CardActions sx={centerButtonsStyle}>
+          <Button size="small" onClick={handleBack} color="inherit">
+            {commonbutton.back}
+          </Button>
+          <SixtysecFragment
+            action={handleReSend}
+            label={send ? commonbutton.resend : commonbutton.send}
+          >
+            <Button />
+          </SixtysecFragment>
+        </CardActions>
+        <Collapse in={send}>
+          <AlertFragment
+            type={"success"}
+            title={commonfields.email}
+            body={emailsend.alert.success.body}
+            strong={emailsend.alert.success.strong}
+          />
+        </Collapse>
+        <Collapse in={error}>
+          <AlertFragment
+            type={"error"}
+            title={commonfields.email}
+            body={emailsend.alert.fail.body}
+            strong={emailsend.alert.fail.strong}
+          />
+        </Collapse>
+      </Card>
+    </>
   );
 };
 
