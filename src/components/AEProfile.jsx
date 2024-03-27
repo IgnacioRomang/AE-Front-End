@@ -75,8 +75,10 @@ const AEProfile = () => {
                 >
                   <AlertFragment
                     type={"warning"}
-                    title={labels.alert_warning_finalize_onprocess.title}
-                    body={labels.alert_warning_finalize_onprocess.body}
+                    title={
+                      labels.calendar.alert_warning_finalize_onprocess.title
+                    }
+                    body={labels.calendar.alert_warning_finalize_onprocess.body}
                   />
                 </Suspense>
               )}

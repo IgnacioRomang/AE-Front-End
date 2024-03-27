@@ -42,55 +42,71 @@ const Calendar = ({ intStart, intEnd, msg }) => {
    * Returns a table cell for a given date.
    *
    * @param {Date} day - The date to display in the table cell
-   * @param {number} rowIndex - The index of the roisSameMOnthining the given date
+   * @param {number} rowIndex - The index of the row containing the given date
+   * @param {number} cellIndex - The index of the cell in the row containing the
+   * given date
+   * @returns {*} A JSX element representing a table cell
    */
   const getTableCel = (day, rowIndex, cellIndex) => {
+    // Determine if the given date is the start date, end date, or falls within the
+    // range of the given dates
+    const isEnddate = day === intEnd.getDate();
+    const isStartdate = day === intStart.getDate();
+    const isToday = isEnddate || isStartdate;
+    const isSingleCalendar = intStart === intEnd;
+    const isSameMonth = intStart.getMonth() === intEnd.getMonth();
+    const isUsingTwoCalendars = intStart < intEnd;
+    const itsSunday = cellIndex === 0;
+    const itsSaturday = cellIndex === 6;
+
+    // Set default styles for the table cell
     let msg_active = false;
-    let isToday = day === intStart.getDate() || day === intEnd.getDate();
-    let sizes = false;
-    let range_start = cellIndex === 0;
-    let range_end = cellIndex === 6;
+    let range_start = itsSunday;
+    let range_end = itsSaturday;
     let color = grey[50];
     let colorhover = blue[50];
     const radius = "7px";
-    if (intStart === intEnd) {
+
+    // If the user is using a single calendar, highlight the end date
+    if (isSingleCalendar) {
       if (day === intEnd.getDate()) {
         color = blue[200];
         colorhover = blue[300];
         msg_active = true;
-        sizes = true;
+        range_start = true;
+        range_end = true;
       }
     } else {
-      if (intStart.getMonth() === intEnd.getMonth()) {
-        // es un solo calendar para el tramo
-        color =
-          day >= intStart.getDate() && day <= intEnd.getDate()
-            ? red[200]
-            : grey[50];
-        colorhover =
-          day >= intStart.getDate() && day <= intEnd.getDate()
-            ? red[300]
-            : grey[50];
+      // If the given dates are in the same month, highlight the dates within the
+      // range
+      if (isSameMonth) {
+        const between = day >= intStart.getDate() && day <= intEnd.getDate();
+        if (between) {
+          color = red[200];
+          colorhover = red[300];
+        }
         msg_active = true;
-        range_start = day === intStart.getDate() || cellIndex === 0;
-        range_end = day === intEnd.getDate() || cellIndex === 6;
-      } else if (intStart < intEnd) {
-        // se usan dos  calendar para el tramo
+        range_start = isStartdate || itsSunday;
+        range_end = isEnddate || itsSaturday;
+      } else if (isUsingTwoCalendars) {
+        // If the user is using two calendars, highlight the dates between the
+        // start and end dates
         if (
           day >= intStart.getDate() ||
           (day === null && cellIndex + 7 * rowIndex >= intStart.getDate())
         ) {
           color = red[200];
           colorhover = red[300];
-          range_start = isToday || cellIndex === 0;
-          range_end = cellIndex === 6;
+          range_start = isToday || itsSunday;
+          range_end = itsSaturday;
           msg_active = true;
         }
       } else {
+        // If the given dates are not in the same month, highlight the end date
         if (day <= intStart.getDate() || day === null) {
           color = red[200];
           colorhover = red[300];
-          range_end = isToday || cellIndex === 6;
+          range_end = isToday || itsSaturday;
           msg_active = true;
         }
       }
@@ -105,10 +121,10 @@ const Calendar = ({ intStart, intEnd, msg }) => {
           sx={{
             padding: "2px",
             borderBlock: "0px",
-            borderTopLeftRadius: sizes || range_start ? radius : "0px",
-            borderBottomLeftRadius: sizes || range_start ? radius : "0px",
-            borderTopRightRadius: sizes || range_end ? radius : "0px",
-            borderBottomRightRadius: sizes || range_end ? radius : "0px",
+            borderTopLeftRadius: range_start ? radius : "0px",
+            borderBottomLeftRadius: range_start ? radius : "0px",
+            borderTopRightRadius: range_end ? radius : "0px",
+            borderBottomRightRadius: range_end ? radius : "0px",
             overflow: "hidden",
             backgroundColor: color,
             "&:hover": {
