@@ -91,15 +91,8 @@ const PasswordForgot = () => {
 
   return (
     <>
-      <Backdrop
-        open={open}
-        sx={{
-          zIndex: (theme) =>
-            Math.max.apply(Math, Object.values(theme.zIndex)) + 1,
-        }}
-      >
-        <CircularProgress />
-      </Backdrop>
+      <ProcessAlert open={open} loading={send} success={!error} />
+
       <Card sx={cardLoginStyle}>
         <CardHeader title={passwordforgot.title} />
         <CardContent container sx={boxLoginSyle}>
@@ -138,22 +131,6 @@ const PasswordForgot = () => {
             <Button />
           </SixtysecFragment>
         </CardActions>
-        <Collapse in={send}>
-          <AlertFragment
-            type={"success"}
-            title={commonfields.email}
-            body={emailsend.alert.success.body}
-            strong={emailsend.alert.success.strong}
-          />
-        </Collapse>
-        <Collapse in={error}>
-          <AlertFragment
-            type={"error"}
-            title={commonfields.email}
-            body={emailsend.alert.fail.body}
-            strong={emailsend.alert.fail.strong}
-          />
-        </Collapse>
       </Card>
     </>
   );

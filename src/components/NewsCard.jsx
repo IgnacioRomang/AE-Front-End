@@ -4,12 +4,11 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import React, { useRef } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 
 const NewsCard = ({ anews }) => {
   const navigate = useNavigate();
-  const cardMediaRef = useRef(null);
 
   const handleReadMoreClick = () => {
     navigate(`/document/${anews.id}`);
@@ -18,14 +17,14 @@ const NewsCard = ({ anews }) => {
   return (
     <Card sx={{ maxWidth: 365, maxHeight: 465, margin: "auto" }}>
       <CardMedia
+        className=".MuiCardMedia-img"
         component="img"
-        ref={cardMediaRef}
         src={`${process.env.REACT_APP_BACK_URL}${anews.image}`}
         alt={anews.title}
         thubpmbnail={anews.thubpmbnail}
         title={anews.title}
         loading="lazy"
-        sx={{ height: "20vh", maxWidth: 365 }}
+        sx={{ height: "20vh" }}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">

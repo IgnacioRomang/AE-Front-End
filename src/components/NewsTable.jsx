@@ -13,6 +13,7 @@ import NewsCard from "./NewsCard";
 const NewsTable = () => {
   const [fetchNews, setFetchNews] = useState([]);
   const theme = useTheme();
+
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("lg"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const itemsPerPage = isMediumScreen ? (isSmallScreen ? 1 : 2) : 3;
@@ -26,8 +27,8 @@ const NewsTable = () => {
         setFetchNews(fetch_news);
       }
     } catch (error) {
-      // // handle error
-      console.log(error);
+      console.error(error);
+      setFetchNews([]);
     }
   }, [fetch_news_list, setFetchNews]);
 
@@ -43,9 +44,7 @@ const NewsTable = () => {
   const endIndex = startIndex + itemsPerPage;
   const visibleNewss = fetchNews.slice(startIndex, endIndex);
 
-  const handlePageChange = (_event, page) => {
-    setCurrentPage(page);
-  };
+  const handlePageChange = (_event, page) => setCurrentPage(page);
 
   return (
     <Stack
