@@ -107,6 +107,7 @@ const IconUserMenu = (props) => {
           }}
           keepMounted
           size="small"
+          overflow="hidden"
           transformOrigin={{
             vertical: "top",
             horizontal: "right",

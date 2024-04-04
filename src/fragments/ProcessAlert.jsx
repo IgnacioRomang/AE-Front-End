@@ -1,10 +1,8 @@
-import {
-  Backdrop,
-  CircularProgress,
-  Paper,
-  Stack,
-  Typography,
-} from "@mui/material";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
 import React from "react";
 import AlertFragment from "./AlertFragmet";
 import { useLoadingAlertString } from "../contexts/TextProvider";

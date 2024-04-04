@@ -1,7 +1,5 @@
 import {
-  Box,
   Paper,
-  Popper,
   Table,
   TableBody,
   TableCell,
@@ -119,7 +117,7 @@ const Calendar = ({ intStart, intEnd, msg }) => {
           onMouseLeave={msg_active ? handleOver : null}
           //key={`${hash}-${rowIndex}-${cellIndex}`}
           sx={{
-            padding: "2px",
+            padding: "5px",
             borderBlock: "0px",
             borderTopLeftRadius: range_start ? radius : "0px",
             borderBottomLeftRadius: range_start ? radius : "0px",

@@ -85,7 +85,7 @@ export const containerChipsFooterStyleSm = {
 export const footerPaperStyle = {
   position: "relative",
   bottom: 0,
-  height: "15vh",
+  height: "100%",
   width: "100%",
 };
 

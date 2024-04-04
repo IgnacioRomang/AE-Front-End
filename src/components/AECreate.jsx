@@ -1,23 +1,10 @@
-import React, { Suspense, useEffect, useRef, useState } from "react";
+import React, { Suspense, useEffect, useRef, useState, lazy } from "react";
 import {
   useCommonsButtonString,
   useComponentAECreateString,
   useComponentAuthRegisterString,
 } from "../contexts/TextProvider.jsx";
 
-import { ExpandMore, HowToReg } from "@mui/icons-material";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
-  CircularProgress,
-  Typography,
-} from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext.js";
@@ -30,6 +17,21 @@ import FormExtra from "../fragments/form/FormExtra.jsx";
 import FormInfo from "../fragments/form/FormInfo.jsx";
 import FormMessageError from "../fragments/form/FormMessageError.jsx";
 import FormMessageSuccess from "../fragments/form/FormMessageSuccess.jsx";
+
+const {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  CircularProgress,
+  Typography,
+} = lazy(() => import("@mui/material"));
+
+const { ExpandMore, HowToReg } = lazy(() => import("@mui/icons-material"));
 
 const sx = {
   border: `1px solid #999999`,

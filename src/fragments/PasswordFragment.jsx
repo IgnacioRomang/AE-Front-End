@@ -37,7 +37,6 @@ const PasswordFragment = forwardRef((props, ref) => {
     <Stack spacing={1}>
       <TextField
         id="password"
-        sx={{ width: "25vw" }}
         label={commonfields.oldpassword}
         size="small"
         required
@@ -54,7 +53,6 @@ const PasswordFragment = forwardRef((props, ref) => {
         label={commonfields.password}
         size="small"
         type="password"
-        sx={{ width: "25vw" }}
         required
         autoComplete="off"
         error={error}
@@ -69,7 +67,6 @@ const PasswordFragment = forwardRef((props, ref) => {
         label={commonfields.password}
         size="small"
         type="password"
-        sx={{ width: "25vw" }}
         required
         autoComplete="off"
         error={error}

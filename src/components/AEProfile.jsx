@@ -1,15 +1,15 @@
 import { Skeleton, Typography } from "@mui/material";
-import React, { Suspense, lazy, useEffect, useState, useCallback } from "react";
+import { blue, red } from "@mui/material/colors";
+import React, { Suspense, lazy, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { EmailVerifyProvider } from "../contexts/EmailVerifyContext";
 import { useService } from "../contexts/ServiceContext";
 import { useComponentAEProfileString } from "../contexts/TextProvider";
 import AlertFragment from "../fragments/AlertFragmet";
 import Calendar from "../fragments/profile/Calendar";
+import CustomChip from "../fragments/profile/PofileCustomChip";
 import ProfileInfo from "../fragments/profile/ProfileInfo";
 import { centeringStyles } from "../theme";
-import { blue, red } from "@mui/material/colors";
-import CustomChip from "../fragments/profile/PofileCustomChip";
-import { EmailVerifyProvider } from "../contexts/EmailVerifyContext";
 
 const Divider = lazy(() => import("@mui/material/Divider"));
 const Grid = lazy(() => import("@mui/material/Grid"));
@@ -91,7 +91,11 @@ const AEProfile = () => {
                       container
                       paddingTop={3}
                       spacing={4}
-                      sx={{ justifyContent: "center" }}
+                      sx={{
+                        justifyContent: "center",
+                        maxHeight: "90vh",
+                        overflow: "auto",
+                      }}
                     >
                       <Grid key={0} item xs={12} sm={7} md={6}>
                         {loading ? (

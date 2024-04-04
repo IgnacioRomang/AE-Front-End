@@ -1,4 +1,11 @@
-import { Button, Card, CardActions, Grid, TextField } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardActions,
+  Grid,
+  Stack,
+  TextField,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useEmailVerify } from "../contexts/EmailVerifyContext";
@@ -97,60 +104,52 @@ const EmailChange = () => {
    */
 
   return (
-    <>
+    <Stack spacing={2}>
+      <AlertFragment
+        type={"info"}
+        title={emailchange.alert.info.title}
+        body={emailchange.alert.info.body}
+        strong={emailchange.alert.info.strong}
+      />
+      <AlertFragment
+        type={"warning"}
+        title={emailchange.alert.warning.title}
+        body={emailchange.alert.warning.body}
+        strong={emailchange.alert.warning.strong}
+      />
       {!open && (
         <Card>
-          <Grid container spacing={2} direction={"column"} padding={5}>
-            <Grid item>
-              <AlertFragment
-                type={"info"}
-                title={emailchange.alert.info.title}
-                body={emailchange.alert.info.body}
-                strong={emailchange.alert.info.strong}
-              />
-              <AlertFragment
-                type={"warning"}
-                title={emailchange.alert.warning.title}
-                body={emailchange.alert.warning.body}
-                strong={emailchange.alert.warning.strong}
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                name="email"
-                variant="standard"
-                value={formData.email}
-                autoComplete="off"
-                disabled={formData.send}
-                error={errorEmail}
-                onChange={handleChange}
-                label={commonfields.email}
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                name="reemail"
-                autoComplete="off"
-                variant="standard"
-                error={errorEmail}
-                value={formData.reemail}
-                onChange={handleChange}
-                label={commonfields.renewemail}
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                name="password"
-                autoComplete="new-password"
-                variant="standard"
-                error={errorEmail}
-                value={formData.password}
-                type="password"
-                onChange={handleChange}
-                label={commonfields.password}
-              />
-            </Grid>
-          </Grid>
+          <Stack spacing={2} padding={5}>
+            <TextField
+              name="email"
+              variant="standard"
+              value={formData.email}
+              autoComplete="off"
+              disabled={formData.send}
+              error={errorEmail}
+              onChange={handleChange}
+              label={commonfields.email}
+            />
+            <TextField
+              name="reemail"
+              autoComplete="off"
+              variant="standard"
+              error={errorEmail}
+              value={formData.reemail}
+              onChange={handleChange}
+              label={commonfields.renewemail}
+            />
+            <TextField
+              name="password"
+              autoComplete="new-password"
+              variant="standard"
+              error={errorEmail}
+              value={formData.password}
+              type="password"
+              onChange={handleChange}
+              label={commonfields.password}
+            />
+          </Stack>
           <CardActions sx={centerButtonsStyle}>
             <Button size="small" onClick={handleBack}>
               {commonbuttons.back}
@@ -162,7 +161,7 @@ const EmailChange = () => {
         </Card>
       )}
       <ProcessAlert open={open} loading={loading} success={send} />
-    </>
+    </Stack>
   );
 };
 

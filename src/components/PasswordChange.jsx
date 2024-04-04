@@ -7,6 +7,7 @@ import {
   CardContent,
   CardHeader,
   Collapse,
+  Stack,
 } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -17,9 +18,15 @@ import {
   useComponentPasswordChangeString,
 } from "../contexts/TextProvider";
 import PasswordFragment from "../fragments/PasswordFragment";
-import { boxLoginSyle, cardLoginStyle, centerButtonsStyle } from "../theme";
+import {
+  boxLoginSyle,
+  cardLoginStyle,
+  centerButtonsStyle,
+  centeringStyles,
+} from "../theme";
 import { usePasswordService } from "../contexts/PasswordContext";
 import ProcessAlert from "../fragments/ProcessAlert";
+import AlertFragment from "../fragments/AlertFragmet";
 
 /**
  * The `ResetPassword` function is a React component that handles the process of resetting a user's
@@ -77,14 +84,13 @@ const PasswordChange = () => {
   const [loading, setLoading] = useState(true);
   return (
     <>
+      <ProcessAlert open={open} loading={loading} success={!error} />
       {!open && (
         <Card sx={cardLoginStyle}>
           <CardHeader title={passwordchange.title} />
           <CardContent container sx={boxLoginSyle}>
-            <CardContent item sx={12} sm={8}>
+            <Stack spacing={2} sx={centeringStyles}>
               <PasswordFragment ref={ref} />
-            </CardContent>
-            <CardContent item sx={12} sm={8}>
               <Collapse in={error}>
                 <Alert
                   severity="error"
@@ -102,7 +108,7 @@ const PasswordChange = () => {
                   </ul>
                 </Alert>
               </Collapse>
-            </CardContent>
+            </Stack>
           </CardContent>
           <CardActions sx={centerButtonsStyle}>
             <Button size="small" onClick={handleBack} color="inherit">
@@ -114,8 +120,6 @@ const PasswordChange = () => {
           </CardActions>
         </Card>
       )}
-
-      <ProcessAlert open={open} loading={loading} success={!error} />
     </>
   );
 };
