@@ -7,7 +7,11 @@ import React, {
   useState,
   useCallback,
 } from "react";
-import { dates_to_json_calendar, json_to_json_calendar } from "../utiles";
+import {
+  dates_to_json_calendar,
+  json_to_json_calendar,
+  sleep,
+} from "../utiles";
 
 const URL_BACKEND = process.env.REACT_APP_BACK_URL;
 const APP_KEY = process.env.REACT_APP_KEY;
@@ -28,9 +32,9 @@ const AE = {
 const ServiceContext = createContext();
 
 export const ServiceProvider = ({ children }) => {
-  const [User, setUserState] = useState(null);
+  const [User, setUser] = useState(null);
   const [Authorization, setAuthorizationState] = useState(null);
-  const [serverDates, setServerDatesState] = useState(null);
+  const [serverDates, setServerDates] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(User !== null);
 
   /**
@@ -47,39 +51,6 @@ export const ServiceProvider = ({ children }) => {
     }
   };
 
-  /**
-   * Set the user state and update the session storage accordingly
-   * @param {any} newval - The new value to set for the user state
-   * @returns {void}
-   */
-  const setUser = useCallback(
-    (newval) => {
-      setUserState(newval);
-    },
-    [setUserState]
-  );
-
-  /**
-   * Set the dates and update the state.
-   * @param {type} newval - The new value to set for server dates
-   * @return {void}
-   */
-  const setServerDates = useCallback(
-    (newval) => {
-      setServerDatesState(newval);
-    },
-    [setServerDatesState]
-  );
-
-  /**
-   *
-   *  ░█████╗░██╗░░░██╗████████╗██╗░░██╗
-   *  ██╔══██╗██║░░░██║╚══██╔══╝██║░░██║
-   *  ███████║██║░░░██║░░░██║░░░███████║
-   *  ██╔══██║██║░░░██║░░░██║░░░██╔══██║
-   *  ██║░░██║╚██████╔╝░░░██║░░░██║░░██║
-   *  ╚═╝░░╚═╝░╚═════╝░░░░╚═╝░░░╚═╝░░╚═╝
-   */
   /**
    * Authenticates the user with the provided username and password
    * @async
@@ -101,7 +72,6 @@ export const ServiceProvider = ({ children }) => {
           withCredentials: true,
         }
       );
-
       let { authorization, user } = response.data;
       if (user && authorization) {
         // Save the authorization token for future requests
@@ -193,16 +163,6 @@ export const ServiceProvider = ({ children }) => {
   };
 
   /**
-   *
-   * ██╗░░░██╗░██████╗███████╗██████╗░  ██████╗░███████╗░██████╗░█████╗░██╗░░░██╗██████╗░░█████╗░███████╗░██████╗
-   * ██║░░░██║██╔════╝██╔════╝██╔══██╗  ██╔══██╗██╔════╝██╔════╝██╔══██╗██║░░░██║██╔══██╗██╔══██╗██╔════╝██╔════╝
-   * ██║░░░██║╚█████╗░█████╗░░██████╔╝  ██████╔╝█████╗░░╚█████╗░██║░░██║██║░░░██║██████╔╝██║░░╚═╝█████╗░░╚█████╗░
-   * ██║░░░██║░╚═══██╗██╔══╝░░██╔══██╗  ██╔══██╗██╔══╝░░░╚═══██╗██║░░██║██║░░░██║██╔══██╗██║░░██╗██╔══╝░░░╚═══██╗
-   * ╚██████╔╝██████╔╝███████╗██║░░██║  ██║░░██║███████╗██████╔╝╚█████╔╝╚██████╔╝██║░░██║╚█████╔╝███████╗██████╔╝
-   * ░╚═════╝░╚═════╝░╚══════╝╚═╝░░╚═╝  ╚═╝░░╚═╝╚══════╝╚═════╝░░╚════╝░░╚═════╝░╚═╝░░╚═╝░╚════╝░╚══════╝╚═════╝░
-   */
-
-  /**
    * Function to fetch user data asynchronously.
    *
    * @return {Promise<Object>} the response from the fetch
@@ -221,36 +181,6 @@ export const ServiceProvider = ({ children }) => {
       return null;
     }
   };
-
-  /**
-   * Asynchronously fetches dates corresponding to the user's AE
-   * @async
-   * @returns {Promise<boolean>} - Whether the dates' start day is not null
-   */
-  const get_ae_dates = useCallback(async () => {
-    try {
-      // Fetch AE dates from the backend API
-      const response = await axios.get(`${URL_BACKEND}/api/ae/dates`, {
-        headers: { "X-API-Key": APP_KEY },
-      });
-      const { type, dates } = response.data;
-      // Update user state with AE type
-      setUser((prevUser) => {
-        return { ...prevUser, ae: type };
-      });
-      // If startDay exists, convert dates to JSON calendar and set serverDates state
-      if (dates.startDay) {
-        const dates_calendar = json_to_json_calendar(dates);
-        setServerDates(dates_calendar);
-      }
-      // Return whether the start day is not null
-      return dates.startDay !== null;
-    } catch (error) {
-      console.error("Error getting AE dates:", error);
-      // Return false if there's an error getting AE dates
-      return false;
-    }
-  }, [setUser, setServerDates]);
 
   /**
    * Function to start the AE process asynchronously
@@ -358,9 +288,20 @@ export const ServiceProvider = ({ children }) => {
       );
       const { user } = response.data;
       if (user) {
+        try {
+          // Get additional user data from the backend API
+          const aeResponse = await axios.get(`${URL_BACKEND}/api/ae/dates`);
+          const { type, dates } = aeResponse.data;
+          user.ae = type;
+          if (dates.startDay) {
+            // Convert dates to calendar format and set it in the state
+            const dates_calendar = dates_to_json_calendar(dates);
+            setServerDates(dates_calendar);
+          }
+        } catch (error) {
+          console.error("Error getting AE dates:", error);
+        }
         setUser(user);
-        //TODO: do it all in one , get the user data and dates
-        await get_ae_dates();
         setIsAuthenticated(true);
         return true;
       }
@@ -368,7 +309,7 @@ export const ServiceProvider = ({ children }) => {
     } catch (error) {
       return false;
     }
-  }, [get_ae_dates, setIsAuthenticated, setUser]);
+  }, [setIsAuthenticated, setUser]);
 
   useEffect(() => {
     const parsedAuthorization = JSON.parse(
@@ -382,6 +323,7 @@ export const ServiceProvider = ({ children }) => {
       axios.defaults.headers.common["Authorization"] = type + token;
       axios.defaults.headers.common["X-API-Key"] = APP_KEY;
     }
+    sleep(50);
     refesh();
   }, [refesh]);
   return (
@@ -399,7 +341,6 @@ export const ServiceProvider = ({ children }) => {
         authenticate,
         unauthenticate,
         registerRequest,
-        get_ae_dates,
         start_ae_n,
         AE,
         fetch_user_data,

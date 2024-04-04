@@ -144,21 +144,6 @@ const Calendar = ({ intStart, intEnd, msg }) => {
             {day === null ? "" : day.toString()}
           </div>
         </TableCell>
-        {msg_active && (
-          <Popper //id={`${hash}-${rowIndex}`}
-            open={open}
-            anchorEl={anchorEl}
-          >
-            <Box
-              sx={{
-                border: 1,
-                bgcolor: "background.paper",
-              }}
-            >
-              {msg}
-            </Box>
-          </Popper>
-        )}
       </>
     );
   };

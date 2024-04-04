@@ -17,32 +17,18 @@ const Paper = lazy(() => import("@mui/material/Paper"));
 const Stack = lazy(() => import("@mui/material/Stack"));
 
 const AEProfile = () => {
-  const { User, get_ae_dates, serverDates, AE } = useService();
+  const { User, serverDates, AE } = useService();
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const fetchData = useCallback(async () => {
-    try {
-      setLoading(true);
-      let result = await get_ae_dates();
-      setLoading(!result);
-    } catch (error) {
-      console.log("Error fetching data:", error);
-      return false;
-    }
-  }, [setLoading, get_ae_dates]);
 
   useEffect(() => {
     if (!User) {
       navigate("/");
     }
-    if (!serverDates) {
-      setLoading(true);
-      fetchData();
-      setLoading(false);
-    } else {
+    if (serverDates !== null) {
       setLoading(false);
     }
-  }, [User, navigate, serverDates, fetchData]);
+  }, [User, navigate, serverDates]);
 
   const labels = useComponentAEProfileString();
 
