@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useRef, useState, lazy } from "react";
+import React, { Suspense, lazy, useEffect, useRef, useState } from "react";
 import {
   useCommonsButtonString,
   useComponentAECreateString,
@@ -18,7 +18,7 @@ import FormInfo from "../fragments/form/FormInfo.jsx";
 import FormMessageError from "../fragments/form/FormMessageError.jsx";
 import FormMessageSuccess from "../fragments/form/FormMessageSuccess.jsx";
 
-const {
+import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
@@ -29,9 +29,11 @@ const {
   CardHeader,
   CircularProgress,
   Typography,
-} = lazy(() => import("@mui/material"));
+} from "@mui/material";
 
-const { ExpandMore, HowToReg } = lazy(() => import("@mui/icons-material"));
+import { ExpandMore, HowToReg } from "@mui/icons-material";
+
+//const  = lazy(() => import("@mui/icons-material"));
 
 const sx = {
   border: `1px solid #999999`,
@@ -56,7 +58,7 @@ const sx_de = {
  * @param {object} props The properties of the component.
  * @return {JSX.Element} The component.
  */
-const AECreate = () => {
+export const AECreate = () => {
   const buttonlabels = useCommonsButtonString();
   const aecreatelabels = useComponentAECreateString();
   const onlytitles = useComponentAuthRegisterString().step_title;
@@ -170,7 +172,7 @@ const AECreate = () => {
       let result = await start_ae_n(register_user);
       await setSendError(!result);
       await setOpen(true);
-    } catch (e) {
+    } catch (e) {     
       console.log(e);
     }
   };
@@ -188,15 +190,13 @@ const AECreate = () => {
     if (!data_error) {
       handleRegister();
     }
-    //setSendError(false);
-    //TODO SEND
   };
 
   /**
    * @brief This function is called when the user clicks the "Cancel" button.
    */
   const handleClose = () => {
-    navigate("/ae/profile");
+    navigate("/ae/profile", { replace: true });
   };
 
   const handleBack = () => {
@@ -325,29 +325,6 @@ const AECreate = () => {
                   )}
                 </AccordionDetails>
               </Accordion>
-              {/**
-               * <Accordion
-                sx={sx}
-                expanded={expanded === 3}
-                onChange={handleChange(3)}
-              >
-                <AccordionSummary
-                  sx={sx_summ}
-                  expandIcon={<ExpandMore />}
-                  aria-controls="panel3d-content"
-                  id="panel5d-header"
-                >
-                  <Typography variant="h7" color={grey[600]} component="div">
-                    {onlytitles[3]}
-                  </Typography>
-                </AccordionSummary>
-                <AccordionDetails sx={sx_de}>
-                  {expanded === 3 && (
-                    <FormFileAttach ref={refs} files={stepData[3].files} />
-                  )}
-                </AccordionDetails>
-              </Accordion>
-              */}
             </>
           )}
         </CardContent>

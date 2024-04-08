@@ -192,6 +192,7 @@ export const ServiceProvider = ({ children }) => {
         register_user,
         { headers: { "X-API-Key": APP_KEY } }
       );
+      console.log(response);
       const message = response.data;
       if (message === "Agregado") {
         // Reset server dates
@@ -315,7 +316,6 @@ export const ServiceProvider = ({ children }) => {
     if (parsedAuthorization) {
       const { X_CSRF_TOKEN, type, token } = parsedAuthorization;
       axios.defaults.headers.common["XSRF-TOKEN"] = X_CSRF_TOKEN;
-      axios.defaults.headers.common["User-Agent"] = "FRONT-END-REACT";
       axios.defaults.headers.common["Authorization"] = type + token;
       axios.defaults.headers.common["X-API-Key"] = APP_KEY;
     }
