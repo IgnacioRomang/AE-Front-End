@@ -4,12 +4,11 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableFooter,
   TableHead,
   TableRow,
   Typography,
 } from "@mui/material";
-import { blue, green, grey, purple, red } from "@mui/material/colors";
+import { blue, grey, red } from "@mui/material/colors";
 import React from "react";
 
 /**
