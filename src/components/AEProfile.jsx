@@ -89,7 +89,7 @@ const AEProfile = () => {
                     </Grid>
                     <Grid
                       container
-                      paddingTop={3}
+                      padding={2}
                       spacing={4}
                       sx={{
                         justifyContent: "center",
@@ -112,6 +112,7 @@ const AEProfile = () => {
                           />
                         )}
                       </Grid>
+
                       {serverDates.hasOwnProperty("fifthMonth") && (
                         <Grid key={1} item xs={12} sm={7} md={6}>
                           {loading ? (
@@ -150,6 +151,7 @@ const AEProfile = () => {
                             )}
                           </Grid>
                         )}
+
                       <Grid key={3} item xs={12} sm={7} md={6}>
                         {loading ? (
                           <Skeleton
@@ -168,7 +170,7 @@ const AEProfile = () => {
                       </Grid>
                     </Grid>
 
-                    <Grid container padding={1}>
+                    <Grid container paddingTop={2}>
                       <Grid item xs={12}>
                         <Divider />
                         <CustomChip

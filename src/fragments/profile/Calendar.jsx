@@ -4,11 +4,12 @@ import {
   TableBody,
   TableCell,
   TableContainer,
+  TableFooter,
   TableHead,
   TableRow,
   Typography,
 } from "@mui/material";
-import { blue, grey, red } from "@mui/material/colors";
+import { blue, green, grey, purple, red } from "@mui/material/colors";
 import React from "react";
 
 /**
@@ -19,7 +20,7 @@ import React from "react";
  * @param {Date} intEnd - The end date of the calendar range
  * @param {string} msg - The message to display when the user hovers over a date in the calendar
  */
-const Calendar = ({ intStart, intEnd, msg }) => {
+const Calendar = ({ intStart, intEnd }) => {
   const currentDate = intStart;
   //const hash = btoa(currentDate.toString() + intEnd.toString() + msg);
   const daysInMonth = getDaysInMonth(currentDate);
@@ -46,103 +47,86 @@ const Calendar = ({ intStart, intEnd, msg }) => {
    * @returns {*} A JSX element representing a table cell
    */
   const getTableCel = (day, rowIndex, cellIndex) => {
-    // Determine if the given date is the start date, end date, or falls within the
-    // range of the given dates
-    const isEnddate = day === intEnd.getDate();
-    const isStartdate = day === intStart.getDate();
-    const isToday = isEnddate || isStartdate;
     const isSingleCalendar = intStart === intEnd;
-    const isSameMonth = intStart.getMonth() === intEnd.getMonth();
-    const isUsingTwoCalendars = intStart < intEnd;
-    const itsSunday = cellIndex === 0;
-    const itsSaturday = cellIndex === 6;
-
     // Set default styles for the table cell
-    let msg_active = false;
-    let range_start = itsSunday;
-    let range_end = itsSaturday;
-    let color = grey[50];
-    let colorhover = blue[50];
+    let range_start = null;
+    let range_end = null;
     const radius = "7px";
 
     // If the user is using a single calendar, highlight the end date
     if (isSingleCalendar) {
-      if (day === intEnd.getDate()) {
-        color = blue[200];
-        colorhover = blue[300];
-        msg_active = true;
-        range_start = true;
-        range_end = true;
+      if (isToday(day, intEnd)) {
+        return (
+          <TableCell
+            size="small"
+            sx={{
+              padding: "5px",
+              borderRadius: radius,
+              backgroundColor: blue[200],
+            }}
+          >
+            <Typography sx={{ textAlign: "center" }}>
+              {day === null ? "" : day.toString()}
+            </Typography>
+          </TableCell>
+        );
       }
     } else {
-      // If the given dates are in the same month, highlight the dates within the
-      // range
-      if (isSameMonth) {
-        const between = day >= intStart.getDate() && day <= intEnd.getDate();
-        if (between) {
+      let color = grey[50];
+      range_start = isStartdate(day, intStart, cellIndex);
+      range_end = isEnddate(day, intEnd, cellIndex);
+      if (isSameMonth(intStart, intEnd)) {
+        if (dateBetween(intStart, day, intEnd)) {
           color = red[200];
-          colorhover = red[300];
-        }
-        msg_active = true;
-        range_start = isStartdate || itsSunday;
-        range_end = isEnddate || itsSaturday;
-      } else if (isUsingTwoCalendars) {
-        // If the user is using two calendars, highlight the dates between the
-        // start and end dates
-        if (
-          day >= intStart.getDate() ||
-          (day === null && cellIndex + 7 * rowIndex >= intStart.getDate())
-        ) {
-          color = red[200];
-          colorhover = red[300];
-          range_start = isToday || itsSunday;
-          range_end = itsSaturday;
-          msg_active = true;
+          range_start = range_start || isToday(day, intStart);
+          range_end = range_end || isToday(day, intEnd);
         }
       } else {
-        // If the given dates are not in the same month, highlight the end date
-        if (day <= intStart.getDate() || day === null) {
-          color = red[200];
-          colorhover = red[300];
-          range_end = isToday || itsSaturday;
-          msg_active = true;
+        if (monthGreater(intStart, intEnd)) {
+          // Primercalendar
+          if (dayGreaterEqual(day, intStart, cellIndex, rowIndex)) {
+            color = red[200];
+            range_start = range_start || isToday(day, intStart);
+          }
+        } else {
+          if (dayLessEqual(day, intStart, cellIndex, rowIndex)) {
+            color = red[200];
+            range_end = range_end || isToday(day, intStart);
+          }
         }
       }
+
+      return (
+        <TableCell
+          size="small"
+          sx={{
+            padding: "5px",
+            borderTopLeftRadius: range_start ? radius : 0,
+            borderBottomLeftRadius: range_start ? radius : 0,
+            borderTopRightRadius: range_end ? radius : 0,
+            borderBottomRightRadius: range_end ? radius : 0,
+            backgroundColor: color,
+          }}
+        >
+          <Typography sx={{ textAlign: "center" }}>
+            {day === null ? "" : day.toString()}
+          </Typography>
+        </TableCell>
+      );
     }
 
     return (
-      <>
-        <TableCell
-          onMouseEnter={msg_active ? handleOver : null}
-          onMouseLeave={msg_active ? handleOver : null}
-          //key={`${hash}-${rowIndex}-${cellIndex}`}
-          sx={{
-            padding: "5px",
-            borderBlock: "0px",
-            borderTopLeftRadius: range_start ? radius : "0px",
-            borderBottomLeftRadius: range_start ? radius : "0px",
-            borderTopRightRadius: range_end ? radius : "0px",
-            borderBottomRightRadius: range_end ? radius : "0px",
-            overflow: "hidden",
-            backgroundColor: color,
-            "&:hover": {
-              border: "0.6px solid black",
-              backgroundColor: colorhover,
-            },
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "100%",
-            }}
-          >
-            {day === null ? "" : day.toString()}
-          </div>
-        </TableCell>
-      </>
+      <TableCell
+        size="small"
+        sx={{
+          padding: "5px",
+          backgroundColor: grey[50],
+        }}
+      >
+        <Typography sx={{ textAlign: "center" }}>
+          {day === null ? "" : day.toString()}
+        </Typography>
+      </TableCell>
     );
   };
 
@@ -154,11 +138,8 @@ const Calendar = ({ intStart, intEnd, msg }) => {
           " " +
           currentDate.getFullYear()}
       </Typography>
-      <TableContainer
-        component={Paper}
-        sx={{ maxWidth: "300px", margin: "auto" }}
-      >
-        <Table>
+      <TableContainer component={Paper} elevation={3}>
+        <Table size="small">
           <TableHead>
             <TableRow>
               {["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"].map(
@@ -238,5 +219,46 @@ const chunkArray = (arr, size) => {
     chunkedArray.push(arr.slice(i, i + size));
   }
   return chunkedArray;
+};
+
+const isToday = (day, date) => {
+  return day === date.getDate();
+};
+
+const isStartdate = (day, date, cellIndex) => {
+  return cellIndex === 0;
+};
+
+const isEnddate = (day, date, cellIndex) => {
+  return cellIndex === 6;
+};
+
+const isSameMonth = (date1, date2) => {
+  return date1.getMonth() === date2.getMonth();
+};
+
+const dateBetween = (start, day, end) => {
+  return start.getDate() <= day && day <= end.getDate();
+};
+
+const monthGreater = (date1, date2) => {
+  return date1.getMonth() < date2.getMonth();
+};
+
+const realIndex = (cellIndex, rowIndex) => {
+  return cellIndex + 7 * rowIndex;
+};
+
+const dayGreaterEqual = (day, date1, cellIndex, rowIndex) => {
+  let dayg = date1.getDate();
+  return day >= dayg || (day === null && realIndex(cellIndex, rowIndex) > dayg);
+};
+
+const dayLessEqual = (day, date1, cellIndex, rowIndex) => {
+  let dayg = date1.getDate();
+  return (
+    (day <= dayg && day !== null) ||
+    (day === null && realIndex(cellIndex, rowIndex) < dayg)
+  );
 };
 export default Calendar;
