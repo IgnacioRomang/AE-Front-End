@@ -1,12 +1,28 @@
-import { CardContent, Grid, TextField, Typography } from "@mui/material";
+import {
+  CardContent,
+  FormControl,
+  Grid,
+  InputLabel,
+  NativeSelect,
+  TextField,
+  Typography,
+  Select,
+  OutlinedInput,
+  MenuItem,
+} from "@mui/material";
 import { blue } from "@mui/material/colors";
-import React, { useCallback, useImperativeHandle, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from "react";
 import { usePublicResources } from "../../contexts/PublicResourcesContext.js";
 import {
   useCommonsFieldString,
   useFormAddressString,
 } from "../../contexts/TextProvider.jsx";
-import { doApartment, doFloor, doPostalCode } from "../../utiles.js";
+import { doApartment, doFloor, doPostalCode, sleep } from "../../utiles.js";
 
 /**
  * The `AddressDataCard` component is a form component that displays fields for entering address data such as street address, floor, apartment, province, city, and postal code.
@@ -23,90 +39,93 @@ const FormAddress = React.forwardRef(
   ({ address, floor, apartment, province, city, postalCode }, ref) => {
     const commonfields = useCommonsFieldString();
     const formaddresslables = useFormAddressString();
-    const { get_province_names, get_citys_name, get_address_names } =
-      usePublicResources();
+    const {
+      get_province_names,
+      get_citys_name,
+      get_substate_names,
+      get_address_names,
+    } = usePublicResources();
+
     const [userData, setUserData] = useState({
-      address,
       floor,
       apartment,
-      province,
-      city,
       postalCode,
     });
+
+    const [provinceS, setProvince] = useState(province);
+    const [cityS, setCity] = useState(city);
+    const [substate, setSubstate] = useState("");
+    const [addressS, setAddress] = useState(address);
+
     const [suggestions, setSuggestions] = useState({
       province: [],
       city: [],
       postalCode: [],
       address: [],
+      substate: [],
     });
+
     const [errors, setErrors] = useState({
       address: false,
       province: false,
       city: false,
       postalCode: false,
+      substate: false,
     });
 
-    /**
-     * Updates the user data state by formatting the value of a specific field.
-     * @param {Event} event - The input event.
-     * @param {string} field - The field name.
-     * @param {function} formatter - The function used to format the value.
-     */
-    const handleChange = async (event, field, formatter) => {
-      const { value } = event.target;
-      setUserData((prevUserData) => ({
-        ...prevUserData,
-        [field]: formatter(value),
-      }));
-
-      if (
-        field === "province" ||
-        field === "city" ||
-        field === "postalCode" ||
-        field === "address"
-      ) {
-        const newSuggestions = await getSuggestions(field, value);
-        setSuggestions((prevSuggestions) => ({
-          ...prevSuggestions,
-          [field]: newSuggestions,
-        }));
+    const handleChange = async (value, field, formatter) => {
+      switch (field) {
+        case "province":
+          setProvince(value);
+          await getSuggestions("substate", value);
+          setSubstate("");
+          setCity("");
+          setAddress("");
+          break;
+        case "substate":
+          setSubstate(value);
+          await getSuggestions("city", value);
+          setCity("");
+          setAddress("");
+          break;
+        case "city":
+          setCity(value);
+          break;
+        case "address":
+          setAddress(value);
+          break;
+        default:
+          setUserData((prevUserData) => ({
+            ...prevUserData,
+            [field]: formatter(value),
+          }));
       }
     };
 
-    const getSuggestions = async (field, value) => {
+    const getSuggestions = async (field, value = "") => {
       let fields = [];
       switch (field) {
         default:
           fields = [];
           break;
         case "province":
-          fields = await get_province_names(value);
+          fields = await get_province_names();
           break;
         case "city":
-          fields = await get_citys_name(userData.province, value);
+          fields = await get_citys_name(provinceS);
           break;
         case "address":
-          fields = await get_address_names(
-            userData.province,
-            userData.city,
-            value
-          );
+          fields = await get_address_names(provinceS, substate, cityS);
           break;
+        case "substate":
+          fields = await get_substate_names(value);
       }
-      return fields
-        .filter((suggestion) => suggestion.toLowerCase())
-        .slice(0, 3);
-    };
 
-    const handleSuggestionClick = (field, suggestion) => {
-      setUserData((prevUserData) => ({
-        ...prevUserData,
-        [field]: suggestion,
-      }));
       setSuggestions((prevSuggestions) => ({
         ...prevSuggestions,
-        [field]: [],
+        [field]: fields,
       }));
+      return fields;
     };
     /**
       * The `handleErrors` function is a callback function created using the `useCallback` hook. It is
@@ -144,107 +163,91 @@ const FormAddress = React.forwardRef(
       getData,
     }));
 
+    useEffect(() => {
+      (async () => {
+        await getSuggestions("province");
+      })();
+    }, []);
     return (
       <CardContent>
         <Grid container spacing={3} padding={3}>
-          <Grid item xs={12} sm={3}>
-            <TextField
-              id="province"
-              label={formaddresslables.state}
-              required
+          <Grid item xs={12} sm={3.5}>
+            <FormControl
+              sx={{ m: 1, minWidth: 120 }}
               size="small"
-              disabled={false}
-              error={errors.province}
-              onChange={(event) =>
-                handleChange(event, "province", (value) => value)
-              }
-              variant="standard"
-              value={userData.province}
-              InputLabelProps={{
-                shrink: Boolean(userData.province !== ""),
-              }}
-            />
-            {suggestions.province.length > 0 && (
-              <>
-                <Typography
-                  variant="body1"
-                  style={{ alignItems: "left", fontSize: "10px" }}
-                >
-                  {commonfields.suggest}
-                </Typography>
-                <div style={{ display: "inline-flex", alignItems: "center" }}>
-                  {suggestions.province.map((suggestion, index) => (
-                    <React.Fragment key={index}>
-                      <Typography
-                        variant="body1"
-                        style={{
-                          fontSize: "12px",
-                          color: blue[500],
-                          //marginLeft: index > 0 ? "4px" : "0",
-                        }}
-                        onClick={() =>
-                          handleSuggestionClick("province", suggestion)
-                        }
-                      >
-                        {suggestion}
-                        {index < suggestions.province.length - 1 && (
-                          <span>, </span>
-                        )}
-                      </Typography>
-                    </React.Fragment>
-                  ))}
-                </div>
-              </>
-            )}
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              id="city"
-              label={formaddresslables.city}
               required
-              disabled={false}
-              size="small"
-              error={errors.city}
-              onChange={(event) =>
-                handleChange(event, "city", (value) => value)
-              }
-              variant="standard"
-              value={userData.city}
-              InputLabelProps={{
-                shrink: Boolean(userData.city !== ""),
-              }}
-            />
-            {suggestions.city.length > 0 && (
-              <>
-                <Typography
-                  variant="body1"
-                  style={{ alignItems: "left", fontSize: "10px" }}
-                >
-                  {commonfields.suggest}
-                </Typography>
-                <div style={{ display: "inline-flex", alignItems: "center" }}>
-                  {suggestions.city.map((suggestion, index) => (
-                    <React.Fragment key={index}>
-                      <Typography
-                        variant="body1"
-                        style={{
-                          fontSize: "12px",
-                          color: blue[500],
-                          //marginLeft: index > 0 ? "4px" : "0",
-                        }}
-                        onClick={() =>
-                          handleSuggestionClick("city", suggestion)
-                        }
-                      >
-                        {suggestion.split(",")[0]}
-                        {index < suggestions.city.length - 1 && <span>, </span>}
-                      </Typography>
-                    </React.Fragment>
-                  ))}
-                </div>
-              </>
-            )}
+              fullWidth
+            >
+              <InputLabel>Prov</InputLabel>
+              <Select
+                value={provinceS}
+                input={<OutlinedInput label="Name" />}
+                onChange={(event) =>
+                  handleChange(event.target.value, "province", (value) => value)
+                }
+                error={errors.province}
+              >
+                {suggestions.province.map((suggestion, index) => (
+                  <MenuItem key={suggestion} value={suggestion}>
+                    {suggestion}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Grid>
+
+          <Grid item xs={12} sm={3.5}>
+            <FormControl
+              sx={{ m: 1, minWidth: 120 }}
+              size="small"
+              required
+              fullWidth
+            >
+              <InputLabel>Depart</InputLabel>
+              <Select
+                disabled={provinceS === ""}
+                value={substate}
+                input={<OutlinedInput label="Name" />}
+                onChange={(event) =>
+                  handleChange(event.target.value, "substate", (value) => value)
+                }
+                error={errors.substate}
+              >
+                {suggestions.substate.map((suggestion, index) => (
+                  <MenuItem key={suggestion} value={suggestion}>
+                    {suggestion}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+
+          <Grid item xs={12} sm={3.5}>
+            <FormControl
+              sx={{ m: 1, minWidth: 120 }}
+              size="small"
+              required
+              fullWidth
+            >
+              <InputLabel>Localidad</InputLabel>
+              <Select
+                disabled={substate === "" || provinceS === ""}
+                value={cityS}
+                input={<OutlinedInput label="Name" />}
+                onChange={(event) =>
+                  handleChange(event.target.value, "city", (value) => value)
+                }
+                error={errors.city}
+              >
+                {suggestions.city.map((suggestion, index) => (
+                  <MenuItem key={suggestion} value={suggestion}>
+                    {suggestion}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+
           <Grid item xs={12} sm={3}>
             <TextField
               id="postalCode"
@@ -262,55 +265,20 @@ const FormAddress = React.forwardRef(
               }}
             />
           </Grid>
-          <Grid item xs={12} sm={7}>
+          <Grid item xs={12} sm={7}></Grid>
+          <Grid item xs={12} sm={2}>
             <TextField
-              id="address"
-              label={formaddresslables.street}
+              id="floor"
+              label={formaddresslables.floor}
               size="small"
-              required
               disabled={false}
-              error={errors.address}
+              onChange={(event) => handleChange(event, "floor", doFloor)}
               variant="standard"
-              value={userData.address}
-              onChange={(event) =>
-                handleChange(event, "address", (value) => value)
-              }
+              value={userData.floor}
               InputLabelProps={{
-                shrink: Boolean(userData.address !== ""),
+                shrink: Boolean(userData.floor !== ""),
               }}
             />
-            {suggestions.address.length > 0 && (
-              <>
-                <Typography
-                  variant="body1"
-                  style={{ alignItems: "left", fontSize: "10px" }}
-                >
-                  {commonfields.suggest}
-                </Typography>
-                <div style={{ display: "inline-flex", alignItems: "center" }}>
-                  {suggestions.address.map((suggestion, index) => (
-                    <React.Fragment key={index}>
-                      <Typography
-                        variant="body1"
-                        style={{
-                          fontSize: "12px",
-                          color: blue[500],
-                          //marginLeft: index > 0 ? "4px" : "0",
-                        }}
-                        onClick={() =>
-                          handleSuggestionClick("address", suggestion)
-                        }
-                      >
-                        {suggestion.split(",")[0]}
-                        {index < suggestions.address.length - 1 && (
-                          <span>, </span>
-                        )}
-                      </Typography>
-                    </React.Fragment>
-                  ))}
-                </div>
-              </>
-            )}
           </Grid>
           <Grid item xs={12} sm={2}>
             <TextField

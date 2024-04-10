@@ -14,25 +14,44 @@ export const PublicResourcesProvider = ({ children }) => {
    * @param {string} province - The name of the province(can be misspelled), it will be searched in the georef api
    * @returns {Promise<Array>}
    */
-  const get_province_names = async (province) => {
+  const get_province_names = async () => {
     try {
       const response = await axios.get(`${URL_GEOREF}/provincias`, {
         params: {
-          nombre: province,
+          //nombre: province,
           campos: "estandar",
           aplanar: true,
+          orden: "nombre",
         },
       });
       const { cantidad, provincias } = response.data;
-      return cantidad > 0
-        ? provincias.map((elemento) => elemento.nombre).sort()
-        : [];
+      return cantidad > 0 ? provincias.map((elemento) => elemento.nombre) : [];
     } catch (error) {
       console.error("Error al obtener las provincias:", error);
       return [];
     }
   };
 
+  const get_substate_names = async (province) => {
+    try {
+      const response = await axios.get(`${URL_GEOREF}/departamentos`, {
+        params: {
+          provincia: province,
+          campos: "estandar",
+          aplanar: true,
+          max: 5000,
+          orden: "nombre",
+        },
+      });
+      const { cantidad, departamentos } = response.data;
+      return cantidad > 0
+        ? departamentos.map((elemento) => elemento.nombre)
+        : [];
+    } catch (error) {
+      console.error("Error al obtener las provincias:", error);
+      return [];
+    }
+  };
   /**
    * Asynchronously fetches city names based on province and city names.
    * @async
@@ -40,22 +59,21 @@ export const PublicResourcesProvider = ({ children }) => {
    * @param {string} city - the name of the city in the province (can be misspelled)
    * @return {Array<string>} an array of city names with department names, or an empty array
    */
-  const get_citys_name = async (province, city) => {
+  const get_citys_name = async (province, substate) => {
     try {
       const response = await axios.get(`${URL_GEOREF}/localidades`, {
         params: {
           provincia: province,
-          nombre: city,
+          departamento: substate,
+          //nombre: city,
           campos: "estandar", // 'estandar' or 'basico'
           aplanar: true,
+          max: 5000,
+          orden: "nombre",
         },
       });
       const { cantidad, localidades } = response.data;
-      return cantidad > 0
-        ? localidades.map(
-            (elemento) => `${elemento.nombre},${elemento.departamento_nombre}`
-          )
-        : [];
+      return cantidad > 0 ? localidades.map((elemento) => elemento.nombre) : [];
     } catch (error) {
       console.error("Error al obtener las localidades:", error);
       return [];
@@ -168,6 +186,7 @@ export const PublicResourcesProvider = ({ children }) => {
         get_province_names,
         get_citys_name,
         get_address_names,
+        get_substate_names,
         fetch_faq,
       }}
     >

@@ -28,14 +28,6 @@ const Calendar = ({ intStart, intEnd }) => {
     currentDate
   );
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [open, setOpen] = React.useState(false);
-
-  const handleOver = (event) => {
-    setOpen(!open);
-    setAnchorEl(anchorEl ? null : event.currentTarget);
-  };
-
   /**
    * Returns a table cell for a given date.
    *
@@ -51,27 +43,13 @@ const Calendar = ({ intStart, intEnd }) => {
     let range_start = null;
     let range_end = null;
     const radius = "7px";
-
+    let color = grey[50];
     // If the user is using a single calendar, highlight the end date
     if (isSingleCalendar) {
       if (isToday(day, intEnd)) {
-        return (
-          <TableCell
-            size="small"
-            sx={{
-              padding: "5px",
-              borderRadius: radius,
-              backgroundColor: blue[200],
-            }}
-          >
-            <Typography sx={{ textAlign: "center" }}>
-              {day === null ? "" : day.toString()}
-            </Typography>
-          </TableCell>
-        );
+        color = blue[200];
       }
     } else {
-      let color = grey[50];
       range_start = isStartdate(day, intStart, cellIndex);
       range_end = isEnddate(day, intEnd, cellIndex);
       if (isSameMonth(intStart, intEnd)) {
@@ -82,7 +60,6 @@ const Calendar = ({ intStart, intEnd }) => {
         }
       } else {
         if (monthGreater(intStart, intEnd)) {
-          // Primercalendar
           if (dayGreaterEqual(day, intStart, cellIndex, rowIndex)) {
             color = red[200];
             range_start = range_start || isToday(day, intStart);
@@ -119,7 +96,8 @@ const Calendar = ({ intStart, intEnd }) => {
         size="small"
         sx={{
           padding: "5px",
-          backgroundColor: grey[50],
+          borderRadius: radius,
+          backgroundColor: color,
         }}
       >
         <Typography sx={{ textAlign: "center" }}>
