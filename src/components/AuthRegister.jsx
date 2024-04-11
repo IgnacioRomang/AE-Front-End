@@ -84,6 +84,7 @@ const AuthRegister = () => {
     {
       address: "",
       floor: "0",
+      number: "0",
       apartment: "0",
       province: "",
       city: "",
@@ -109,8 +110,8 @@ const AuthRegister = () => {
         lastname: stepData[0].lastName,
         birthdate: formatDate(new Date(stepData[0].selectedBirthdate)),
         gender: stepData[0].selectedGender,
-        address: stepData[1].address.split(", ")[0],
-        address_number: stepData[1].address.split(", ")[1],
+        address: stepData[1].address,
+        address_number: stepData[1].number,
         floor: stepData[1].floor,
         apartment: stepData[1].apartment,
         postalcode: stepData[1].postalCode,
@@ -164,6 +165,7 @@ const AuthRegister = () => {
             floor={stepData[1].floor}
             apartment={stepData[1].apartment}
             province={stepData[1].province}
+            number={stepData[1].number}
             city={stepData[1].city}
             postalCode={stepData[1].postalCode}
             ref={dataRef}

@@ -1,16 +1,4 @@
-import {
-  CardContent,
-  FormControl,
-  Grid,
-  InputLabel,
-  NativeSelect,
-  TextField,
-  Typography,
-  Select,
-  OutlinedInput,
-  MenuItem,
-} from "@mui/material";
-import { blue } from "@mui/material/colors";
+import { Autocomplete, CardContent, Grid, TextField } from "@mui/material";
 import React, {
   useCallback,
   useEffect,
@@ -18,11 +6,8 @@ import React, {
   useState,
 } from "react";
 import { usePublicResources } from "../../contexts/PublicResourcesContext.js";
-import {
-  useCommonsFieldString,
-  useFormAddressString,
-} from "../../contexts/TextProvider.jsx";
-import { doApartment, doFloor, doPostalCode, sleep } from "../../utiles.js";
+import { useFormAddressString } from "../../contexts/TextProvider.jsx";
+import { doApartment, doFloor, doPostalCode, itsNumber } from "../../utiles.js";
 
 /**
  * The `AddressDataCard` component is a form component that displays fields for entering address data such as street address, floor, apartment, province, city, and postal code.
@@ -36,8 +21,7 @@ import { doApartment, doFloor, doPostalCode, sleep } from "../../utiles.js";
  * @returns {JSX.Element} - Returns the `AddressDataCard` component.
  */
 const FormAddress = React.forwardRef(
-  ({ address, floor, apartment, province, city, postalCode }, ref) => {
-    const commonfields = useCommonsFieldString();
+  ({ address, floor, apartment, number, province, city, postalCode }, ref) => {
     const formaddresslables = useFormAddressString();
     const {
       get_province_names,
@@ -49,6 +33,7 @@ const FormAddress = React.forwardRef(
     const [userData, setUserData] = useState({
       floor,
       apartment,
+      number,
       postalCode,
     });
 
@@ -71,6 +56,7 @@ const FormAddress = React.forwardRef(
       city: false,
       postalCode: false,
       substate: false,
+      number: false,
     });
 
     const handleChange = async (value, field, formatter) => {
@@ -90,6 +76,8 @@ const FormAddress = React.forwardRef(
           break;
         case "city":
           setCity(value);
+          await getSuggestions("address", value);
+          setAddress("");
           break;
         case "address":
           setAddress(value);
@@ -102,58 +90,66 @@ const FormAddress = React.forwardRef(
       }
     };
 
-    const getSuggestions = async (field, value = "") => {
-      let fields = [];
-      switch (field) {
-        default:
-          fields = [];
-          break;
-        case "province":
-          fields = await get_province_names();
-          break;
-        case "city":
-          fields = await get_citys_name(provinceS);
-          break;
-        case "address":
-          fields = await get_address_names(provinceS, substate, cityS);
-          break;
-        case "substate":
-          fields = await get_substate_names(value);
-      }
+    const getSuggestions = useCallback(
+      async (field, value = "") => {
+        let fields = [];
+        switch (field) {
+          default:
+            fields = [];
+            break;
+          case "province":
+            fields = await get_province_names();
+            break;
+          case "substate":
+            fields = await get_substate_names(value);
+            break;
+          case "city":
+            fields = await get_citys_name(provinceS, value);
+            break;
+          case "address":
+            fields = await get_address_names(provinceS, substate, value);
+            break;
+        }
 
-      setSuggestions((prevSuggestions) => ({
-        ...prevSuggestions,
-        [field]: fields,
-      }));
-      return fields;
-    };
-    /**
-      * The `handleErrors` function is a callback function created using the `useCallback` hook. It is
-        responsible for validating the user data and updating the `errors` state accordingly.
-      * @returns {boolean} - Returns a boolean indicating whether any of the user data is invalid.
-    */
+        setSuggestions((prevSuggestions) => ({
+          ...prevSuggestions,
+          [field]: fields,
+        }));
+        return fields;
+      },
+      [
+        provinceS,
+        substate,
+        get_province_names,
+        get_substate_names,
+        get_citys_name,
+        get_address_names,
+      ]
+    );
+
     const handleErrors = useCallback(() => {
-      const { address, province, city, postalCode } = userData;
-
+      const newDate = {
+        ...userData,
+        province: provinceS,
+        city: cityS,
+        address: addressS,
+      };
+      setUserData(newDate);
       const errors = {
-        address:
-          address.trim() === "" ||
-          isNaN(parseInt(address.replace(/\s/g, "").split(",")[1])),
-        province: !province.trim(),
-        city: !city.trim(),
-        postalCode: !postalCode.trim() && postalCode.length !== 4,
+        address: newDate.address.trim() === "",
+        province: !newDate.province.trim(),
+        city: !newDate.city.trim(),
+        postalCode:
+          !newDate.postalCode.trim() && newDate.postalCode.length !== 4,
+        substate: !substate.trim(),
+        number: !newDate.number.trim() || !itsNumber(newDate.number),
       };
 
       setErrors(errors);
 
       return Object.values(errors).some(Boolean);
-    }, [userData]);
+    }, [userData, provinceS, cityS, addressS, substate]);
 
-    /**
-     * The function exports a `getData` function that returns `userData` and is accessible through the
-     * `ref` object.
-     * @returns {object} - Returns an object containing the user data.
-     */
     const getData = () => {
       return userData;
     };
@@ -164,129 +160,140 @@ const FormAddress = React.forwardRef(
     }));
 
     useEffect(() => {
-      (async () => {
-        await getSuggestions("province");
-      })();
-    }, []);
+      getSuggestions("province");
+    }, [getSuggestions]);
+
     return (
       <CardContent>
         <Grid container spacing={3} padding={3}>
-          <Grid item xs={12} sm={3.5}>
-            <FormControl
-              sx={{ m: 1, minWidth: 120 }}
+          <Grid item xs={12} sm={4}>
+            <Autocomplete
+              freeSolo
+              id="province"
               size="small"
-              required
-              fullWidth
-            >
-              <InputLabel>Prov</InputLabel>
-              <Select
-                value={provinceS}
-                input={<OutlinedInput label="Name" />}
-                onChange={(event) =>
-                  handleChange(event.target.value, "province", (value) => value)
-                }
-                error={errors.province}
-              >
-                {suggestions.province.map((suggestion, index) => (
-                  <MenuItem key={suggestion} value={suggestion}>
-                    {suggestion}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+              onChange={(event, newvalue) => {
+                handleChange(newvalue, "province", (value) => value);
+              }}
+              options={suggestions.province}
+              renderInput={(params) => (
+                <TextField
+                  variant="standard"
+                  required
+                  error={errors.province}
+                  {...params}
+                  label={formaddresslables.state}
+                  InputProps={{
+                    ...params.InputProps,
+                    type: "search",
+                  }}
+                />
+              )}
+            />
           </Grid>
 
-          <Grid item xs={12} sm={3.5}>
-            <FormControl
-              sx={{ m: 1, minWidth: 120 }}
+          <Grid item xs={12} sm={4}>
+            <Autocomplete
+              freeSolo
+              id="provincia"
               size="small"
-              required
-              fullWidth
-            >
-              <InputLabel>Depart</InputLabel>
-              <Select
-                disabled={provinceS === ""}
-                value={substate}
-                input={<OutlinedInput label="Name" />}
-                onChange={(event) =>
-                  handleChange(event.target.value, "substate", (value) => value)
-                }
-                error={errors.substate}
-              >
-                {suggestions.substate.map((suggestion, index) => (
-                  <MenuItem key={suggestion} value={suggestion}>
-                    {suggestion}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+              options={suggestions.substate}
+              onChange={(event, newvalue) => {
+                handleChange(newvalue, "substate", (value) => value);
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  required
+                  error={errors.substate}
+                  variant="standard"
+                  label={formaddresslables.apartment}
+                  InputProps={{
+                    ...params.InputProps,
+                    type: "search",
+                  }}
+                />
+              )}
+            />
           </Grid>
 
-          <Grid item xs={12} sm={3.5}>
-            <FormControl
-              sx={{ m: 1, minWidth: 120 }}
+          <Grid item xs={12} sm={4}>
+            <Autocomplete
+              freeSolo
+              id="city"
               size="small"
-              required
-              fullWidth
-            >
-              <InputLabel>Localidad</InputLabel>
-              <Select
-                disabled={substate === "" || provinceS === ""}
-                value={cityS}
-                input={<OutlinedInput label="Name" />}
-                onChange={(event) =>
-                  handleChange(event.target.value, "city", (value) => value)
-                }
-                error={errors.city}
-              >
-                {suggestions.city.map((suggestion, index) => (
-                  <MenuItem key={suggestion} value={suggestion}>
-                    {suggestion}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+              options={suggestions.city}
+              onChange={(event, newvalue) => {
+                handleChange(newvalue, "city", (value) => value);
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  error={errors.city}
+                  required
+                  variant="standard"
+                  label={formaddresslables.city}
+                  InputProps={{
+                    ...params.InputProps,
+                    type: "search",
+                  }}
+                />
+              )}
+            />
           </Grid>
 
-          <Grid item xs={12} sm={3}>
+          <Grid item xs={12} sm={4}>
+            <Autocomplete
+              freeSolo
+              id="address"
+              size="small"
+              options={suggestions.address}
+              onChange={(event, newvalue) => {
+                handleChange(newvalue, "address", (value) => value);
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  required
+                  error={errors.address}
+                  variant="standard"
+                  label={formaddresslables.street}
+                  InputProps={{
+                    ...params.InputProps,
+                    type: "search",
+                  }}
+                />
+              )}
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={2}>
             <TextField
-              id="postalCode"
-              label={formaddresslables.postal_code}
-              disabled={false}
-              error={errors.postalCode}
+              id="num"
+              label={formaddresslables.number}
               size="small"
+              required
+              error={errors.number}
+              disabled={false}
               onChange={(event) =>
-                handleChange(event, "postalCode", doPostalCode)
+                handleChange(event.target.value, "number", (value) => value)
               }
               variant="standard"
-              value={userData.postalCode}
+              value={userData.number}
               InputLabelProps={{
-                shrink: Boolean(userData.postalCode !== ""),
+                shrink: Boolean(userData.number !== ""),
               }}
             />
           </Grid>
-          <Grid item xs={12} sm={7}></Grid>
+
           <Grid item xs={12} sm={2}>
             <TextField
               id="floor"
               label={formaddresslables.floor}
               size="small"
               disabled={false}
-              onChange={(event) => handleChange(event, "floor", doFloor)}
-              variant="standard"
-              value={userData.floor}
-              InputLabelProps={{
-                shrink: Boolean(userData.floor !== ""),
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={2}>
-            <TextField
-              id="floor"
-              label={formaddresslables.floor}
-              size="small"
-              disabled={false}
-              onChange={(event) => handleChange(event, "floor", doFloor)}
+              onChange={(event) =>
+                handleChange(event.target.value, "floor", doFloor)
+              }
               variant="standard"
               value={userData.floor}
               InputLabelProps={{
@@ -301,12 +308,31 @@ const FormAddress = React.forwardRef(
               size="small"
               disabled={false}
               onChange={(event) =>
-                handleChange(event, "apartment", doApartment)
+                handleChange(event.target.value, "apartment", doApartment)
               }
               variant="standard"
               value={userData.apartment}
               InputLabelProps={{
                 shrink: Boolean(userData.apartment !== ""),
+              }}
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={4}>
+            <TextField
+              id="postalCode"
+              label={formaddresslables.postal_code}
+              disabled={false}
+              required
+              error={errors.postalCode}
+              size="small"
+              onChange={(event) =>
+                handleChange(event.target.value, "postalCode", doPostalCode)
+              }
+              variant="standard"
+              value={userData.postalCode}
+              InputLabelProps={{
+                shrink: Boolean(userData.postalCode !== ""),
               }}
             />
           </Grid>

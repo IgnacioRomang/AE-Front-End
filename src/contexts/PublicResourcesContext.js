@@ -19,7 +19,7 @@ export const PublicResourcesProvider = ({ children }) => {
       const response = await axios.get(`${URL_GEOREF}/provincias`, {
         params: {
           //nombre: province,
-          campos: "estandar",
+          campos: "basico",
           aplanar: true,
           orden: "nombre",
         },
@@ -37,7 +37,7 @@ export const PublicResourcesProvider = ({ children }) => {
       const response = await axios.get(`${URL_GEOREF}/departamentos`, {
         params: {
           provincia: province,
-          campos: "estandar",
+          campos: "basico",
           aplanar: true,
           max: 5000,
           orden: "nombre",
@@ -61,19 +61,24 @@ export const PublicResourcesProvider = ({ children }) => {
    */
   const get_citys_name = async (province, substate) => {
     try {
-      const response = await axios.get(`${URL_GEOREF}/localidades`, {
+      console.log();
+      const response = await axios.get(`${URL_GEOREF}/localidades-censales`, {
         params: {
           provincia: province,
           departamento: substate,
           //nombre: city,
-          campos: "estandar", // 'estandar' or 'basico'
+          campos: "basico", // 'estandar' or 'basico'
           aplanar: true,
           max: 5000,
           orden: "nombre",
         },
       });
-      const { cantidad, localidades } = response.data;
-      return cantidad > 0 ? localidades.map((elemento) => elemento.nombre) : [];
+
+      const { cantidad, localidades_censales } = response.data;
+      console.log(response);
+      return cantidad > 0
+        ? localidades_censales.map((elemento) => elemento.nombre)
+        : [];
     } catch (error) {
       console.error("Error al obtener las localidades:", error);
       return [];
@@ -88,38 +93,23 @@ export const PublicResourcesProvider = ({ children }) => {
    * @param {string} address - The address to be searched (can be misspelled).
    * @returns {Array<string>} - An array of formatted address names.
    */
-  const get_address_names = async (province, city, address) => {
+  const get_address_names = async (province, department, locality) => {
     try {
-      // Split the city into locality and department
-      const [locality, department] = city.split(",");
       // Make a GET request to retrieve address names
-      const response = await axios.get(`${URL_GEOREF}/direcciones`, {
+      const response = await axios.get(`${URL_GEOREF}/calles`, {
         params: {
-          direccion: address,
           provincia: province,
           departamento: department,
-          localidad: locality,
+          localidad_censal: locality,
           campos: "basico",
           aplanar: true,
+          max: 5000,
+          orden: "nombre",
         },
       });
-      const { cantidad, direcciones } = response.data;
+      const { cantidad, calles } = response.data;
       // Process the retrieved address names
-      return cantidad > 0
-        ? direcciones
-            .map((elemento) => {
-              // Format the street name and house number
-              const calleNombre = `${elemento.calle_nombre
-                .charAt(0)
-                .toUpperCase()}${elemento.calle_nombre.slice(1).toLowerCase()}`;
-              const alturaValor = elemento.altura_valor
-                ? elemento.altura_valor
-                : "NUMERO";
-              return `${calleNombre}, ${alturaValor}`;
-            })
-            .filter((elemento, index, self) => index === self.indexOf(elemento)) // Remove duplicate addresses
-            .sort() // Sort the addresses
-        : [];
+      return cantidad > 0 ? calles.map((elemento) => elemento.nombre) : [];
     } catch (error) {
       console.error("Error al obtener las direcciones:", error);
       return [];

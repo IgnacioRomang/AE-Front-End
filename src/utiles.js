@@ -203,6 +203,10 @@ export const doFloor = (value) => {
   return Math.min(Math.max(floorNumber, 0), 50).toString();
 };
 
+export const itsNumber = (value) => {
+  return /^\d+$/.test(value);
+};
+
 export const doApartment = (value) => {
   const sanitizedValue = value.replace(/[^A-Z0-9]/gi, "").toUpperCase();
   return sanitizedValue.length > 0 ? sanitizedValue.charAt(0) : "";

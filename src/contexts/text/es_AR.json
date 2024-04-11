@@ -107,6 +107,8 @@
             "address": {
               "street": "Domicilio",
               "floor": "Piso",
+              "number": "Número",
+              "door": "Puerta",
               "apartment": "Departamento",
               "state": "Provincia",
               "city": "Localidad",
