@@ -25,7 +25,7 @@ export const PublicResourcesProvider = ({ children }) => {
         },
       });
       const { cantidad, provincias } = response.data;
-      return cantidad > 0 ? provincias.map((elemento) => elemento.nombre) : [];
+      return cantidad > 0 ? provincias : [];
     } catch (error) {
       console.error("Error al obtener las provincias:", error);
       return [];
@@ -44,9 +44,7 @@ export const PublicResourcesProvider = ({ children }) => {
         },
       });
       const { cantidad, departamentos } = response.data;
-      return cantidad > 0
-        ? departamentos.map((elemento) => elemento.nombre)
-        : [];
+      return cantidad > 0 ? departamentos : [];
     } catch (error) {
       console.error("Error al obtener las provincias:", error);
       return [];
@@ -76,9 +74,7 @@ export const PublicResourcesProvider = ({ children }) => {
 
       const { cantidad, localidades_censales } = response.data;
       console.log(response);
-      return cantidad > 0
-        ? localidades_censales.map((elemento) => elemento.nombre)
-        : [];
+      return cantidad > 0 ? localidades_censales : [];
     } catch (error) {
       console.error("Error al obtener las localidades:", error);
       return [];
@@ -109,7 +105,7 @@ export const PublicResourcesProvider = ({ children }) => {
       });
       const { cantidad, calles } = response.data;
       // Process the retrieved address names
-      return cantidad > 0 ? calles.map((elemento) => elemento.nombre) : [];
+      return cantidad > 0 ? calles : [];
     } catch (error) {
       console.error("Error al obtener las direcciones:", error);
       return [];

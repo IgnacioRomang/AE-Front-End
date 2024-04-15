@@ -44,6 +44,7 @@ import {
   stepStyle,
 } from "../theme.jsx";
 import { formatDate } from "../utiles.js";
+
 /**
  * The RegisterCard component is a multi-step form that allows users to register by providing various information.
  * The component uses state hooks to manage the current step, errors, skipped steps, and step data. It also uses refs to access data and handle errors in child components.
@@ -82,12 +83,13 @@ const AuthRegister = () => {
       password: "",
     },
     {
-      address: "",
-      floor: "0",
-      number: "0",
-      apartment: "0",
-      province: "",
-      city: "",
+      province: "Ninguno",
+      substate: "Ninguno",
+      city: "Ninguno",
+      address: "Ninguno",
+      floor: "",
+      number: "",
+      apartment: "",
       postalCode: "",
     },
     { occupation: "NC", study: "NC", phone: "", email: "" },
@@ -110,13 +112,13 @@ const AuthRegister = () => {
         lastname: stepData[0].lastName,
         birthdate: formatDate(new Date(stepData[0].selectedBirthdate)),
         gender: stepData[0].selectedGender,
-        address: stepData[1].address,
         address_number: stepData[1].number,
         floor: stepData[1].floor,
         apartment: stepData[1].apartment,
         postalcode: stepData[1].postalCode,
-        city: stepData[1].city,
-        province: stepData[1].province,
+        province: stepData[1].province.nombre,
+        city: stepData[1].city.nombre,
+        address: stepData[1].address.nombre,
         phone: stepData[2].phone,
         startdate: formatDate(new Date()),
         occupation: stepData[2].occupation,
@@ -124,7 +126,6 @@ const AuthRegister = () => {
         dni1: stepData[3].files[0],
         dni2: stepData[3].files[1],
       };
-      console.log(register_user);
       let result = await registerRequest(register_user);
 
       if (!result) {
@@ -165,6 +166,7 @@ const AuthRegister = () => {
             floor={stepData[1].floor}
             apartment={stepData[1].apartment}
             province={stepData[1].province}
+            substate={stepData[1].substate}
             number={stepData[1].number}
             city={stepData[1].city}
             postalCode={stepData[1].postalCode}

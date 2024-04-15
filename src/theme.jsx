@@ -157,10 +157,10 @@ export const cardRegisterStyle = {
     width: "100vw", // Altura para tamaños medianos de pantalla (sm)
   },
   "@media (min-width: 961px) and (max-width: 1280px)": {
-    width: "50vw", // Altura para tamaños grandes de pantalla (md)
+    width: "60vw", // Altura para tamaños grandes de pantalla (md)
   },
   "@media (min-width: 1281px) and (max-width: 1920px)": {
-    width: "50vw", // Altura para tamaños extra grandes de pantalla (lg)
+    width: "60vw", // Altura para tamaños extra grandes de pantalla (lg)
   },
   "@media (min-width: 1921px)": {
     width: "45vw", // Altura para tamaños muy grandes de pantalla (xl)

@@ -20,8 +20,16 @@ import { doApartment, doFloor, doPostalCode, itsNumber } from "../../utiles.js";
  * @param {string} props.postalCode - The initial postal code.
  * @returns {JSX.Element} - Returns the `AddressDataCard` component.
  */
+
+const DEFAULT = { id: 0, nombre: "Ninguno" };
+
+const setDefaults = (value) => (value !== "Ninguno" ? value : DEFAULT);
+
 const FormAddress = React.forwardRef(
-  ({ address, floor, apartment, number, province, city, postalCode }, ref) => {
+  (
+    { address, floor, apartment, number, province, substate, city, postalCode },
+    ref
+  ) => {
     const formaddresslables = useFormAddressString();
     const {
       get_province_names,
@@ -30,17 +38,15 @@ const FormAddress = React.forwardRef(
       get_address_names,
     } = usePublicResources();
 
-    const [userData, setUserData] = useState({
-      floor,
-      apartment,
-      number,
-      postalCode,
-    });
+    const [floorS, setFloor] = useState(floor);
+    const [apartmentS, setApartment] = useState(apartment);
+    const [numberS, setNumber] = useState(number);
+    const [postalCodeS, setPostalCode] = useState(postalCode);
 
-    const [provinceS, setProvince] = useState(province);
-    const [cityS, setCity] = useState(city);
-    const [substate, setSubstate] = useState("");
-    const [addressS, setAddress] = useState(address);
+    const [provinceS, setProvince] = useState(setDefaults(province));
+    const [substateS, setSubstate] = useState(setDefaults(substate));
+    const [cityS, setCity] = useState(setDefaults(city));
+    const [addressS, setAddress] = useState(setDefaults(address));
 
     const [suggestions, setSuggestions] = useState({
       province: [],
@@ -49,6 +55,42 @@ const FormAddress = React.forwardRef(
       address: [],
       substate: [],
     });
+
+    const FieldActions = {
+      province: async (value) => {
+        setProvince(value);
+        await getSuggestions("substate", value.nombre);
+        setSubstate(DEFAULT);
+        setCity(DEFAULT);
+        setAddress(DEFAULT);
+      },
+      substate: async (value) => {
+        setSubstate(value);
+        await getSuggestions("city", value.nombre);
+        setCity(DEFAULT);
+        setAddress(DEFAULT);
+      },
+      city: async (value) => {
+        setCity(value);
+        await getSuggestions("address", value.nombre);
+        setAddress(DEFAULT);
+      },
+      address: (value) => {
+        setAddress(value);
+      },
+      floor: (value) => {
+        setFloor(doFloor(value));
+      },
+      apartment: (value) => {
+        setApartment(doApartment(value));
+      },
+      number: (value) => {
+        setNumber(value);
+      },
+      postalCode: (value) => {
+        setPostalCode(doPostalCode(value));
+      },
+    };
 
     const [errors, setErrors] = useState({
       address: false,
@@ -59,36 +101,11 @@ const FormAddress = React.forwardRef(
       number: false,
     });
 
-    const handleChange = async (value, field, formatter) => {
-      switch (field) {
-        case "province":
-          setProvince(value);
-          await getSuggestions("substate", value);
-          setSubstate("");
-          setCity("");
-          setAddress("");
-          break;
-        case "substate":
-          setSubstate(value);
-          await getSuggestions("city", value);
-          setCity("");
-          setAddress("");
-          break;
-        case "city":
-          setCity(value);
-          await getSuggestions("address", value);
-          setAddress("");
-          break;
-        case "address":
-          setAddress(value);
-          break;
-        default:
-          setUserData((prevUserData) => ({
-            ...prevUserData,
-            [field]: formatter(value),
-          }));
-      }
-    };
+    const handleChange = useCallback(async (value, field, formatter) => {
+      if (value === null) value = DEFAULT;
+      if (FieldActions.hasOwnProperty(field)) await FieldActions[field](value);
+      else console.error(`Unknown field: ${field}`);
+    });
 
     const getSuggestions = useCallback(
       async (field, value = "") => {
@@ -104,10 +121,14 @@ const FormAddress = React.forwardRef(
             fields = await get_substate_names(value);
             break;
           case "city":
-            fields = await get_citys_name(provinceS, value);
+            fields = await get_citys_name(provinceS.nombre, value);
             break;
           case "address":
-            fields = await get_address_names(provinceS, substate, value);
+            fields = await get_address_names(
+              provinceS.nombre,
+              substateS.nombre,
+              value
+            );
             break;
         }
 
@@ -119,7 +140,7 @@ const FormAddress = React.forwardRef(
       },
       [
         provinceS,
-        substate,
+        substateS,
         get_province_names,
         get_substate_names,
         get_citys_name,
@@ -128,30 +149,31 @@ const FormAddress = React.forwardRef(
     );
 
     const handleErrors = useCallback(() => {
-      const newDate = {
-        ...userData,
-        province: provinceS,
-        city: cityS,
-        address: addressS,
-      };
-      setUserData(newDate);
-      const errors = {
-        address: newDate.address.trim() === "",
-        province: !newDate.province.trim(),
-        city: !newDate.city.trim(),
-        postalCode:
-          !newDate.postalCode.trim() && newDate.postalCode.length !== 4,
-        substate: !substate.trim(),
-        number: !newDate.number.trim() || !itsNumber(newDate.number),
+      const newErrors = {
+        province: !provinceS.id,
+        substate: !substateS.id,
+        city: !cityS.id,
+        address: !addressS.id,
+        postalCode: postalCodeS === "" && postalCodeS.length !== 4,
+        number: numberS === "" || !itsNumber(numberS),
       };
 
-      setErrors(errors);
-
-      return Object.values(errors).some(Boolean);
-    }, [userData, provinceS, cityS, addressS, substate]);
+      setErrors(newErrors);
+      console.log(newErrors);
+      return Object.values(newErrors).some(Boolean);
+    }, [provinceS, cityS, addressS, substateS]);
 
     const getData = () => {
-      return userData;
+      return {
+        province: provinceS,
+        substate: substateS,
+        city: cityS,
+        address: addressS,
+        floor: floorS,
+        number: numberS,
+        apartment: apartmentS,
+        postalCode: postalCodeS,
+      };
     };
 
     useImperativeHandle(ref, () => ({
@@ -163,18 +185,28 @@ const FormAddress = React.forwardRef(
       getSuggestions("province");
     }, [getSuggestions]);
 
+    const handleEqualToValue = (option, value) => option.id === value.id;
+
+    const handleOptionLabel = (option) => option.nombre;
+
+    const handleOptionKey = (option) => option.id;
+
     return (
       <CardContent>
         <Grid container spacing={3} padding={3}>
           <Grid item xs={12} sm={4}>
             <Autocomplete
-              freeSolo
+              autoHighlight
               id="province"
               size="small"
               onChange={(event, newvalue) => {
                 handleChange(newvalue, "province", (value) => value);
               }}
               options={suggestions.province}
+              value={provinceS}
+              isOptionEqualToValue={handleEqualToValue}
+              getOptionLabel={handleOptionLabel}
+              getOptionKey={handleOptionKey}
               renderInput={(params) => (
                 <TextField
                   variant="standard"
@@ -193,13 +225,18 @@ const FormAddress = React.forwardRef(
 
           <Grid item xs={12} sm={4}>
             <Autocomplete
-              freeSolo
-              id="provincia"
+              autoHighlight
+              id="substate"
               size="small"
               options={suggestions.substate}
               onChange={(event, newvalue) => {
                 handleChange(newvalue, "substate", (value) => value);
               }}
+              value={substateS}
+              disabled={!provinceS.id}
+              isOptionEqualToValue={handleEqualToValue}
+              getOptionLabel={handleOptionLabel}
+              getOptionKey={handleOptionKey}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -218,13 +255,18 @@ const FormAddress = React.forwardRef(
 
           <Grid item xs={12} sm={4}>
             <Autocomplete
-              freeSolo
+              autoHighlight
               id="city"
               size="small"
               options={suggestions.city}
               onChange={(event, newvalue) => {
                 handleChange(newvalue, "city", (value) => value);
               }}
+              value={cityS}
+              disabled={!provinceS.id || !substateS.id}
+              isOptionEqualToValue={handleEqualToValue}
+              getOptionLabel={handleOptionLabel}
+              getOptionKey={handleOptionKey}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -243,13 +285,18 @@ const FormAddress = React.forwardRef(
 
           <Grid item xs={12} sm={4}>
             <Autocomplete
-              freeSolo
+              autoHighlight
               id="address"
               size="small"
               options={suggestions.address}
               onChange={(event, newvalue) => {
                 handleChange(newvalue, "address", (value) => value);
               }}
+              value={addressS}
+              disabled={!provinceS.id || !substateS.id || !cityS.id}
+              isOptionEqualToValue={handleEqualToValue}
+              getOptionLabel={handleOptionLabel}
+              getOptionKey={handleOptionKey}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -278,9 +325,9 @@ const FormAddress = React.forwardRef(
                 handleChange(event.target.value, "number", (value) => value)
               }
               variant="standard"
-              value={userData.number}
+              value={numberS}
               InputLabelProps={{
-                shrink: Boolean(userData.number !== ""),
+                shrink: Boolean(numberS !== ""),
               }}
             />
           </Grid>
@@ -295,12 +342,13 @@ const FormAddress = React.forwardRef(
                 handleChange(event.target.value, "floor", doFloor)
               }
               variant="standard"
-              value={userData.floor}
+              value={floorS}
               InputLabelProps={{
-                shrink: Boolean(userData.floor !== ""),
+                shrink: Boolean(floorS !== ""),
               }}
             />
           </Grid>
+
           <Grid item xs={12} sm={2}>
             <TextField
               id="apartment"
@@ -311,9 +359,9 @@ const FormAddress = React.forwardRef(
                 handleChange(event.target.value, "apartment", doApartment)
               }
               variant="standard"
-              value={userData.apartment}
+              value={apartmentS}
               InputLabelProps={{
-                shrink: Boolean(userData.apartment !== ""),
+                shrink: Boolean(apartmentS !== ""),
               }}
             />
           </Grid>
@@ -330,9 +378,9 @@ const FormAddress = React.forwardRef(
                 handleChange(event.target.value, "postalCode", doPostalCode)
               }
               variant="standard"
-              value={userData.postalCode}
+              value={postalCodeS}
               InputLabelProps={{
-                shrink: Boolean(userData.postalCode !== ""),
+                shrink: Boolean(postalCodeS !== ""),
               }}
             />
           </Grid>
@@ -341,5 +389,16 @@ const FormAddress = React.forwardRef(
     );
   }
 );
+
+FormAddress.defaultProps = {
+  address: "",
+  substate: "",
+  floor: "",
+  apartment: "",
+  number: "",
+  province: "",
+  city: "",
+  postalCode: "",
+};
 
 export default FormAddress;
