@@ -105,14 +105,15 @@
           ],
           "step": {
             "address": {
-              "street": "Domicilio",
+              "address": "Domicilio",
               "floor": "Piso",
               "number": "Número",
               "door": "Puerta",
-              "apartment": "Departamento",
+              "substate": "Departamento",
+              "apartment": "Apartamento",
               "state": "Provincia",
               "city": "Localidad",
-              "postal_code": "Código Postal"
+              "postalCode": "Código Postal"
             },
             "date_plane": {
               "title": "¡Atención!",

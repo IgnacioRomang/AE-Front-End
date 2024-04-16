@@ -1,5 +1,12 @@
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
-import { Box, CircularProgress, Fab, Paper } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  Fab,
+  Paper,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { blue } from "@mui/material/colors";
 import React, { Suspense } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
@@ -26,9 +33,15 @@ export default function Root() {
         <Suspense
           fallback={
             <Paper>
-              <div style={{ padding: 20 }}>
+              <Stack
+                padding={4}
+                direction="column"
+                sx={centeringStyles}
+                spacing={2}
+              >
                 <CircularProgress />
-              </div>
+                <Typography>Cargando...</Typography>
+              </Stack>
             </Paper>
           }
         >

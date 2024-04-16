@@ -5,8 +5,11 @@ import {
   Box,
   Button,
   Card,
+  CardActions,
+  CardContent,
   CardHeader,
   CircularProgress,
+  Divider,
   Step,
   StepLabel,
   Stepper,
@@ -44,6 +47,7 @@ import {
   stepStyle,
 } from "../theme.jsx";
 import { formatDate } from "../utiles.js";
+import { grey } from "@mui/material/colors";
 
 /**
  * The RegisterCard component is a multi-step form that allows users to register by providing various information.
@@ -65,7 +69,7 @@ const AuthRegister = () => {
     false,
     false,
   ]);
-  //const [sendError, setSendError] = useState(false);
+
   const [activeStep, setActiveStep] = useState(0);
   const [skipped, setSkipped] = useState(new Set());
   const stepperRef = useRef(null);
@@ -83,7 +87,7 @@ const AuthRegister = () => {
       password: "",
     },
     {
-      province: "Ninguno",
+      state: "Ninguno",
       substate: "Ninguno",
       city: "Ninguno",
       address: "Ninguno",
@@ -116,7 +120,7 @@ const AuthRegister = () => {
         floor: stepData[1].floor,
         apartment: stepData[1].apartment,
         postalcode: stepData[1].postalCode,
-        province: stepData[1].province.nombre,
+        province: stepData[1].state.nombre,
         city: stepData[1].city.nombre,
         address: stepData[1].address.nombre,
         phone: stepData[2].phone,
@@ -139,10 +143,6 @@ const AuthRegister = () => {
   /**
    * The getStepperStage function is a helper function that determines which component to render based
    * on the current step of the stepper.
-   *
-   * @param {number} viewid - the current step of the stepper
-   * @param {object} labels - an object containing the translated strings for the component
-   * @returns {JSX.Element} the component to render for the current step
    */
   const getStepperStage = (viewid) => {
     switch (viewid) {
@@ -165,7 +165,7 @@ const AuthRegister = () => {
             address={stepData[1].address}
             floor={stepData[1].floor}
             apartment={stepData[1].apartment}
-            province={stepData[1].province}
+            state={stepData[1].state}
             substate={stepData[1].substate}
             number={stepData[1].number}
             city={stepData[1].city}
@@ -200,28 +200,13 @@ const AuthRegister = () => {
     }
   };
 
-  /**
-   * The handleBack function is a click handler that decrements the activeStep state by 1.
-   * @function
-   */
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
-
-  /**
-   * The isStepSkipped function is a helper function that returns a boolean indicating whether the specified step is skipped.
-   * @param {number} step - the step to check
-   * @returns {boolean} true if the step is skipped, false otherwise
-   */
   const isStepSkipped = (step) => {
     return skipped.has(step);
   };
 
-  /**
-   * The updateErrorAtIndex function is a helper function that updates the errors state array at the specified index with the specified value.
-   * @param {number} index - the index of the error to update
-   * @param {boolean} value - the new value of the error
-   */
   const updateErrorAtIndex = (index, value) => {
     setErrors((prevErrors) => {
       const newErrors = [...prevErrors];
@@ -233,28 +218,11 @@ const AuthRegister = () => {
   /**
    * The function `handleNext` is used to handle the next step in a multi-step form, updating the step
    * data, checking for errors, and sending data to a server if it is the last step.
-   *
-   * @param {Set} skipped - the set of steps that have been skipped
-   * @param {number} activeStep - the current step of the stepper
-   * @param {function} setStepData - a function that updates the step data
-   * @param {function} setErrors - a function that updates the errors state array
-   * @param {function} setSendError - a function that updates the sendError state
-   * @param {object} stepData - the current step data
-   * @param {object} dataRef - a ref to the current step component
-   * @param {boolean} sendError - a boolean indicating if there was an error sending data to the server
-   * @returns {void}
    */
   const handleNext = () => {
     // Copia el conjunto de pasos omitidos para evitar mutaciones directas
     let newSkipped = new Set(skipped);
-
-    // Evaluar errores
     let error = false;
-    /**
-     * Checks if the current step has any errors and returns a boolean indicating if there are any errors.
-     *
-     * @returns {boolean} A boolean indicating if there are any errors in the current step.
-     */
     if (dataRef.current && typeof dataRef.current.handleErrors === "function") {
       error = dataRef.current.handleErrors();
     }
@@ -295,8 +263,10 @@ const AuthRegister = () => {
           titleTypographyProps={{ variant: "h6" }}
           title={authregisterlabels.title}
         />
+        <Divider />
         {getStepperStage(activeStep)}
-        <Box sx={{ width: "100%" }}>
+        <Divider />
+        <CardContent>
           <Stepper
             ref={stepperRef}
             activeStep={activeStep}
@@ -314,6 +284,8 @@ const AuthRegister = () => {
                 );
               })}
           </Stepper>
+        </CardContent>
+        <CardActions>
           {activeStep === authregisterlabels.step_title.length ? (
             <>
               <Box sx={finalboxStyle}>
@@ -372,7 +344,7 @@ const AuthRegister = () => {
               </Box>
             </>
           )}
-        </Box>
+        </CardActions>
       </Card>
     </>
   );

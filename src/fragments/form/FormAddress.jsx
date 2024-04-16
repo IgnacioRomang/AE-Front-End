@@ -25,185 +25,190 @@ const DEFAULT = { id: 0, nombre: "Ninguno" };
 
 const setDefaults = (value) => (value !== "Ninguno" ? value : DEFAULT);
 
-const FormAddress = React.forwardRef(
-  (
-    { address, floor, apartment, number, province, substate, city, postalCode },
-    ref
-  ) => {
-    const formaddresslables = useFormAddressString();
-    const {
+const handleEqualToValue = (option, value) => option.id === value.id;
+
+const handleOptionLabel = (option) => option.nombre;
+
+const handleOptionKey = (option) => option.id;
+
+const handleNothing = (value) => value;
+
+const FormAddress = React.forwardRef((props, ref) => {
+  const formaddresslables = useFormAddressString();
+  const {
+    get_province_names,
+    get_citys_name,
+    get_substate_names,
+    get_address_names,
+  } = usePublicResources();
+
+  const [suggestions, setSuggestions] = useState({
+    state: [],
+    city: [],
+    postalCode: [],
+    address: [],
+    substate: [],
+  });
+
+  const Fields = {
+    state: useState(setDefaults(props.state)),
+    substate: useState(setDefaults(props.substate)),
+    city: useState(setDefaults(props.city)),
+    address: useState(setDefaults(props.address)),
+    floor: useState(props.floor),
+    apartment: useState(props.apartment),
+    number: useState(props.number),
+    postalCode: useState(props.postalCode),
+  };
+
+  const FieldsActions = {
+    state: async (value) => {
+      Fields["state"][1](value);
+      await getSuggestions("substate", value.nombre);
+      Fields["substate"][1](DEFAULT);
+      Fields["city"][1](DEFAULT);
+      Fields["address"][1](DEFAULT);
+    },
+    substate: async (value) => {
+      Fields["substate"][1](value);
+      await getSuggestions("city", value.nombre);
+      Fields["city"][1](DEFAULT);
+      Fields["address"][1](DEFAULT);
+    },
+    city: async (value) => {
+      Fields["city"][1](value);
+      await getSuggestions("address", value.nombre);
+      Fields["address"][1](DEFAULT);
+    },
+    address: async (value) => {
+      Fields["address"][1](value);
+    },
+    other: (value, field) => {
+      let formatedvalue = Formatters[field](value);
+      Fields[field][1](formatedvalue);
+    },
+  };
+
+  const Formatters = {
+    state: (value) => handleNothing(value),
+    substate: (value) => handleNothing(value),
+    city: (value) => handleNothing(value),
+    address: (value) => handleNothing(value),
+    number: (value) => handleNothing(value),
+    floor: (value) => doFloor(value),
+    apartment: (value) => doApartment(value),
+    postalCode: (value) => doPostalCode(value),
+  };
+  const [errors, setErrors] = useState({
+    address: false,
+    state: false,
+    city: false,
+    postalCode: false,
+    substate: false,
+    number: false,
+  });
+
+  const handleChange = useCallback(async (value, field, formatter) => {
+    if (value === null) value = DEFAULT;
+    if (FieldsActions.hasOwnProperty(field)) {
+      await FieldsActions[field](value);
+    } else {
+      if (["number", "floor", "apartment", "postalCode"].includes(field)) {
+        console.log(value);
+        await FieldsActions["other"](value, field);
+      }
+    }
+  });
+
+  const getSuggestions = useCallback(
+    async (field, value = "") => {
+      let fields = [];
+      switch (field) {
+        case "state":
+          fields = await get_province_names();
+          break;
+        case "substate":
+          fields = await get_substate_names(value);
+          break;
+        case "city":
+          fields = await get_citys_name(Fields["state"][1].nombre, value);
+          break;
+        case "address":
+          fields = await get_address_names(
+            Fields["state"][1].nombre,
+            Fields["substate"][1].nombre,
+            value
+          );
+          break;
+      }
+
+      setSuggestions((prevSuggestions) => ({
+        ...prevSuggestions,
+        [field]: fields,
+      }));
+      return fields;
+    },
+    [
+      Fields,
       get_province_names,
-      get_citys_name,
       get_substate_names,
+      get_citys_name,
       get_address_names,
-    } = usePublicResources();
+    ]
+  );
 
-    const [floorS, setFloor] = useState(floor);
-    const [apartmentS, setApartment] = useState(apartment);
-    const [numberS, setNumber] = useState(number);
-    const [postalCodeS, setPostalCode] = useState(postalCode);
-
-    const [provinceS, setProvince] = useState(setDefaults(province));
-    const [substateS, setSubstate] = useState(setDefaults(substate));
-    const [cityS, setCity] = useState(setDefaults(city));
-    const [addressS, setAddress] = useState(setDefaults(address));
-
-    const [suggestions, setSuggestions] = useState({
-      province: [],
-      city: [],
-      postalCode: [],
-      address: [],
-      substate: [],
-    });
-
-    const FieldActions = {
-      province: async (value) => {
-        setProvince(value);
-        await getSuggestions("substate", value.nombre);
-        setSubstate(DEFAULT);
-        setCity(DEFAULT);
-        setAddress(DEFAULT);
-      },
-      substate: async (value) => {
-        setSubstate(value);
-        await getSuggestions("city", value.nombre);
-        setCity(DEFAULT);
-        setAddress(DEFAULT);
-      },
-      city: async (value) => {
-        setCity(value);
-        await getSuggestions("address", value.nombre);
-        setAddress(DEFAULT);
-      },
-      address: (value) => {
-        setAddress(value);
-      },
-      floor: (value) => {
-        setFloor(doFloor(value));
-      },
-      apartment: (value) => {
-        setApartment(doApartment(value));
-      },
-      number: (value) => {
-        setNumber(value);
-      },
-      postalCode: (value) => {
-        setPostalCode(doPostalCode(value));
-      },
+  const handleErrors = useCallback(() => {
+    const newErrors = {
+      state: !Fields["state"][0].id,
+      substate: !Fields["substate"][0].id,
+      city: !Fields["city"][0].id,
+      address: !Fields["address"][0].id,
+      postalCode:
+        Fields["postalCode"][0] === "" && Fields["postalCode"][0].length !== 4,
+      number: Fields["number"][0] === "" || !itsNumber(Fields["number"][0]),
     };
 
-    const [errors, setErrors] = useState({
-      address: false,
-      province: false,
-      city: false,
-      postalCode: false,
-      substate: false,
-      number: false,
-    });
+    setErrors(newErrors);
+    console.log(newErrors);
+    return Object.values(newErrors).some(Boolean);
+  }, [Fields]);
 
-    const handleChange = useCallback(async (value, field, formatter) => {
-      if (value === null) value = DEFAULT;
-      if (FieldActions.hasOwnProperty(field)) await FieldActions[field](value);
-      else console.error(`Unknown field: ${field}`);
-    });
-
-    const getSuggestions = useCallback(
-      async (field, value = "") => {
-        let fields = [];
-        switch (field) {
-          default:
-            fields = [];
-            break;
-          case "province":
-            fields = await get_province_names();
-            break;
-          case "substate":
-            fields = await get_substate_names(value);
-            break;
-          case "city":
-            fields = await get_citys_name(provinceS.nombre, value);
-            break;
-          case "address":
-            fields = await get_address_names(
-              provinceS.nombre,
-              substateS.nombre,
-              value
-            );
-            break;
-        }
-
-        setSuggestions((prevSuggestions) => ({
-          ...prevSuggestions,
-          [field]: fields,
-        }));
-        return fields;
-      },
-      [
-        provinceS,
-        substateS,
-        get_province_names,
-        get_substate_names,
-        get_citys_name,
-        get_address_names,
-      ]
-    );
-
-    const handleErrors = useCallback(() => {
-      const newErrors = {
-        province: !provinceS.id,
-        substate: !substateS.id,
-        city: !cityS.id,
-        address: !addressS.id,
-        postalCode: postalCodeS === "" && postalCodeS.length !== 4,
-        number: numberS === "" || !itsNumber(numberS),
-      };
-
-      setErrors(newErrors);
-      console.log(newErrors);
-      return Object.values(newErrors).some(Boolean);
-    }, [provinceS, cityS, addressS, substateS]);
-
-    const getData = () => {
-      return {
-        province: provinceS,
-        substate: substateS,
-        city: cityS,
-        address: addressS,
-        floor: floorS,
-        number: numberS,
-        apartment: apartmentS,
-        postalCode: postalCodeS,
-      };
+  const getData = () => {
+    return {
+      state: Fields["state"][0],
+      substate: Fields["substate"][0],
+      city: Fields["city"][0],
+      address: Fields["address"][0],
+      floor: Fields["floor"][0],
+      number: Fields["number"][0],
+      apartment: Fields["apartment"][0],
+      postalCode: Fields["postalCode"][0],
     };
+  };
 
-    useImperativeHandle(ref, () => ({
-      handleErrors,
-      getData,
-    }));
+  useImperativeHandle(ref, () => ({
+    handleErrors,
+    getData,
+  }));
 
-    useEffect(() => {
-      getSuggestions("province");
-    }, [getSuggestions]);
+  useEffect(() => {
+    getSuggestions("state");
+  }, [getSuggestions]);
 
-    const handleEqualToValue = (option, value) => option.id === value.id;
-
-    const handleOptionLabel = (option) => option.nombre;
-
-    const handleOptionKey = (option) => option.id;
-
-    return (
-      <CardContent>
-        <Grid container spacing={3} padding={3}>
+  return (
+    <CardContent>
+      <Grid container spacing={3} padding={3}>
+        {["state", "substate", "city", "address"].map((field) => (
           <Grid item xs={12} sm={4}>
             <Autocomplete
               autoHighlight
-              id="province"
+              id={field}
               size="small"
               onChange={(event, newvalue) => {
-                handleChange(newvalue, "province", (value) => value);
+                handleChange(newvalue, field, Formatters[field]);
               }}
-              options={suggestions.province}
-              value={provinceS}
+              options={suggestions[field]}
+              value={Fields[field][0]}
               isOptionEqualToValue={handleEqualToValue}
               getOptionLabel={handleOptionLabel}
               getOptionKey={handleOptionKey}
@@ -211,9 +216,9 @@ const FormAddress = React.forwardRef(
                 <TextField
                   variant="standard"
                   required
-                  error={errors.province}
+                  error={errors[field]}
                   {...params}
-                  label={formaddresslables.state}
+                  label={formaddresslables[field]}
                   InputProps={{
                     ...params.InputProps,
                     type: "search",
@@ -222,173 +227,35 @@ const FormAddress = React.forwardRef(
               )}
             />
           </Grid>
-
-          <Grid item xs={12} sm={4}>
-            <Autocomplete
-              autoHighlight
-              id="substate"
-              size="small"
-              options={suggestions.substate}
-              onChange={(event, newvalue) => {
-                handleChange(newvalue, "substate", (value) => value);
-              }}
-              value={substateS}
-              disabled={!provinceS.id}
-              isOptionEqualToValue={handleEqualToValue}
-              getOptionLabel={handleOptionLabel}
-              getOptionKey={handleOptionKey}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  required
-                  error={errors.substate}
-                  variant="standard"
-                  label={formaddresslables.apartment}
-                  InputProps={{
-                    ...params.InputProps,
-                    type: "search",
-                  }}
-                />
-              )}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={4}>
-            <Autocomplete
-              autoHighlight
-              id="city"
-              size="small"
-              options={suggestions.city}
-              onChange={(event, newvalue) => {
-                handleChange(newvalue, "city", (value) => value);
-              }}
-              value={cityS}
-              disabled={!provinceS.id || !substateS.id}
-              isOptionEqualToValue={handleEqualToValue}
-              getOptionLabel={handleOptionLabel}
-              getOptionKey={handleOptionKey}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  error={errors.city}
-                  required
-                  variant="standard"
-                  label={formaddresslables.city}
-                  InputProps={{
-                    ...params.InputProps,
-                    type: "search",
-                  }}
-                />
-              )}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={4}>
-            <Autocomplete
-              autoHighlight
-              id="address"
-              size="small"
-              options={suggestions.address}
-              onChange={(event, newvalue) => {
-                handleChange(newvalue, "address", (value) => value);
-              }}
-              value={addressS}
-              disabled={!provinceS.id || !substateS.id || !cityS.id}
-              isOptionEqualToValue={handleEqualToValue}
-              getOptionLabel={handleOptionLabel}
-              getOptionKey={handleOptionKey}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  required
-                  error={errors.address}
-                  variant="standard"
-                  label={formaddresslables.street}
-                  InputProps={{
-                    ...params.InputProps,
-                    type: "search",
-                  }}
-                />
-              )}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={2}>
+        ))}
+        {["number", , "floor", "apartment", "postalCode"].map((field) => (
+          <Grid item xs={12} sm={3}>
             <TextField
-              id="num"
-              label={formaddresslables.number}
+              id={field}
+              label={formaddresslables[field]}
               size="small"
               required
-              error={errors.number}
+              error={errors[field]}
               disabled={false}
               onChange={(event) =>
-                handleChange(event.target.value, "number", (value) => value)
+                handleChange(
+                  event.target.value,
+                  field,
+                  Formatters[field](event.target.value)
+                )
               }
               variant="standard"
-              value={numberS}
+              value={Fields[field][0]}
               InputLabelProps={{
-                shrink: Boolean(numberS !== ""),
+                shrink: Boolean(Fields[field][0] !== ""),
               }}
             />
           </Grid>
-
-          <Grid item xs={12} sm={2}>
-            <TextField
-              id="floor"
-              label={formaddresslables.floor}
-              size="small"
-              disabled={false}
-              onChange={(event) =>
-                handleChange(event.target.value, "floor", doFloor)
-              }
-              variant="standard"
-              value={floorS}
-              InputLabelProps={{
-                shrink: Boolean(floorS !== ""),
-              }}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={2}>
-            <TextField
-              id="apartment"
-              label={formaddresslables.apartment}
-              size="small"
-              disabled={false}
-              onChange={(event) =>
-                handleChange(event.target.value, "apartment", doApartment)
-              }
-              variant="standard"
-              value={apartmentS}
-              InputLabelProps={{
-                shrink: Boolean(apartmentS !== ""),
-              }}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={4}>
-            <TextField
-              id="postalCode"
-              label={formaddresslables.postal_code}
-              disabled={false}
-              required
-              error={errors.postalCode}
-              size="small"
-              onChange={(event) =>
-                handleChange(event.target.value, "postalCode", doPostalCode)
-              }
-              variant="standard"
-              value={postalCodeS}
-              InputLabelProps={{
-                shrink: Boolean(postalCodeS !== ""),
-              }}
-            />
-          </Grid>
-        </Grid>
-      </CardContent>
-    );
-  }
-);
+        ))}
+      </Grid>
+    </CardContent>
+  );
+});
 
 FormAddress.defaultProps = {
   address: "",

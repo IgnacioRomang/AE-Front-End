@@ -58,11 +58,7 @@ const NewsTable = () => {
     >
       {fetchNews.length > 0 && (
         <>
-          <Grid
-            container
-            spacing={2}
-            style={{ ...centeringStyles, width: "90vw" }}
-          >
+          <Grid container spacing={2} style={{ ...centeringStyles }}>
             {visibleNewss.map((element, index) => (
               <Grid item key={index}>
                 <NewsCard anews={element} />

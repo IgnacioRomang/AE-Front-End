@@ -151,10 +151,10 @@ export const linksStyle = {
 export const cardRegisterStyle = {
   width: "50vw", // Altura por defecto
   "@media (max-width: 600px)": {
-    width: "100vw", // Altura para tamaños pequeños de pantalla (xs)
+    width: "100%", // Altura para tamaños pequeños de pantalla (xs)
   },
   "@media (min-width: 601px) and (max-width: 960px)": {
-    width: "100vw", // Altura para tamaños medianos de pantalla (sm)
+    width: "100%", // Altura para tamaños medianos de pantalla (sm)
   },
   "@media (min-width: 961px) and (max-width: 1280px)": {
     width: "60vw", // Altura para tamaños grandes de pantalla (md)
@@ -344,7 +344,34 @@ export const gridProfileInfoStyle = {
 };
 // AddressDataCArd fragment
 // Exportar todas las constantes
+export const gridNewsCardStyle = {
+  width: "25vw",
+  maxHeight: "70vh",
+  margin: "auto",
 
+  // Ajusta la altura para tamaños de pantalla específicos
+  "@media (max-width: 600px)": {
+    width: "100%", // Altura para tamaños pequeños de pantalla (xs)
+  },
+
+  "@media (min-width: 601px) and (max-width: 960px)": {
+    width: "35vw", // Altura para tamaños medianos de pantalla (sm)
+  },
+
+  "@media (min-width: 961px) and (max-width: 1280px)": {
+    width: "35vw", // Altura para tamaños grandes de pantalla (md)
+  },
+
+  "@media (min-width: 1281px) and (max-width: 1920px)": {
+    // pantalla 1080
+    width: "25vw", // Altura para tamaños extra grandes de pantalla (lg)
+  },
+
+  "@media (min-width: 1921px)": {
+    width: "25vw", // Altura para tamaños muy grandes de pantalla (xl)
+  },
+  // Otros estilos personalizados si es necesario
+};
 const themeStyles = {
   Xl,
   Sm,

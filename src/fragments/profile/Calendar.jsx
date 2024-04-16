@@ -6,6 +6,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Stack,
   Typography,
 } from "@mui/material";
 import { blue, grey, red } from "@mui/material/colors";
@@ -108,8 +109,8 @@ const Calendar = ({ intStart, intEnd }) => {
   };
 
   return (
-    <div>
-      <Typography variant="body7" padding={2}>
+    <Stack spacing={2}>
+      <Typography variant="h7">
         {monthName.charAt(0).toUpperCase() +
           monthName.slice(1) +
           " " +
@@ -126,7 +127,7 @@ const Calendar = ({ intStart, intEnd }) => {
                       backgroundColor: "#d9d9d9",
                       textAlign: "center",
                       textJustify: "center",
-                      padding: "2px",
+                      padding: "5px",
                     }}
                     //key={day + hash + index}
                   >
@@ -146,7 +147,7 @@ const Calendar = ({ intStart, intEnd }) => {
           </TableBody>
         </Table>
       </TableContainer>
-    </div>
+    </Stack>
   );
 };
 

@@ -67,6 +67,7 @@ const RootFooter = () => {
 
         <Container sx={containerChipsFooterStyle}>
           <Chip
+            clickable
             icon={
               <PlaceIcon
                 style={{
@@ -88,6 +89,7 @@ const RootFooter = () => {
             }}
           />
           <Chip
+            clickable
             icon={
               <PhoneIcon
                 style={{
@@ -109,6 +111,7 @@ const RootFooter = () => {
             }}
           />
           <Chip
+            clickable
             icon={
               <EmailIcon
                 style={{
@@ -135,6 +138,7 @@ const RootFooter = () => {
       <Container>
         <Container sx={containerChipsFooterStyleSm}>
           <Chip
+            clickable
             icon={
               <PlaceIcon
                 style={{
@@ -156,6 +160,7 @@ const RootFooter = () => {
             }}
           />
           <Chip
+            clickable
             icon={
               <PhoneIcon
                 style={{
@@ -177,6 +182,7 @@ const RootFooter = () => {
             }}
           />
           <Chip
+            clickable
             icon={
               <EmailIcon
                 style={{

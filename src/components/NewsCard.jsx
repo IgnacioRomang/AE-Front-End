@@ -6,6 +6,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { gridNewsCardStyle } from "../theme";
 
 const NewsCard = ({ anews }) => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const NewsCard = ({ anews }) => {
   };
 
   return (
-    <Card sx={{ maxWidth: 365, maxHeight: 465, margin: "auto" }}>
+    <Card sx={gridNewsCardStyle}>
       <CardMedia
         className=".MuiCardMedia-img"
         component="img"
@@ -24,7 +25,7 @@ const NewsCard = ({ anews }) => {
         thubpmbnail={anews.thubpmbnail}
         title={anews.title}
         loading="lazy"
-        sx={{ height: "20vh" }}
+        sx={{ height: "20vh", objectFit: "fill" }}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">

@@ -149,14 +149,8 @@ const FormInfo = React.forwardRef((props, ref) => {
   return (
     <>
       <CardContent>
-        <Grid
-          container
-          padding={3}
-          style={centeringStyles}
-          direction={{ xs: "row", sm: "row" }}
-          spacing={{ xs: 1, sm: 2 }}
-        >
-          <Grid item xs={12} sm={4}>
+        <Grid container padding={3} spacing={{ xs: 1, sm: 2 }}>
+          <Grid item>
             <TextField
               id="name"
               label={forminfolabels.name}
@@ -175,7 +169,7 @@ const FormInfo = React.forwardRef((props, ref) => {
               variant="standard"
             />
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid item>
             <TextField
               id="lastname"
               label={forminfolabels.lastname}
@@ -194,8 +188,8 @@ const FormInfo = React.forwardRef((props, ref) => {
               variant="standard"
             />
           </Grid>
-          {props.registerState && (
-            <Grid item xs={12} sm={4}>
+          <Grid item>
+            {props.registerState && (
               <TextField
                 id="cuil"
                 label={useCommonfieldslables.cuil}
@@ -212,10 +206,74 @@ const FormInfo = React.forwardRef((props, ref) => {
                 onChange={handleCUIL}
                 variant="standard"
               />
-            </Grid>
-          )}
-          {true && (
-            <Grid item xs={12} sm={4}>
+            )}
+          </Grid>
+          <Grid item>
+            {props.registerState ? (
+              <>
+                <Grid container spacing={{ xs: 1, sm: 2 }}>
+                  <Grid item>
+                    <TextField
+                      id="password"
+                      size="small"
+                      label={useCommonfieldslables.password}
+                      required
+                      type="password"
+                      error={errors.password}
+                      value={userData.password}
+                      //TODO QUITAR AUTO COMPLETE ESTA COMENTADO PARA AGILIZAR EL REGISTRO EN PRUEBAS
+                      autoComplete="new-password"
+                      onChange={(event) =>
+                        handleInputChange("password", event.target.value)
+                      }
+                      InputLabelProps={{
+                        shrink: Boolean(userData.password !== ""),
+                      }}
+                      variant="standard"
+                    />
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      id="passwordrep"
+                      label={"Repita la " + useCommonfieldslables.password}
+                      required
+                      error={errors.password}
+                      size="small"
+                      value={passrep}
+                      autoComplete="new-password"
+                      type="password"
+                      onChange={(event) => {
+                        setPassRep(event.target.value);
+                      }}
+                      InputLabelProps={{
+                        shrink: Boolean(passrep !== ""),
+                      }}
+                      variant="standard"
+                    />
+                  </Grid>
+                  <Grid item>
+                    <Collapse in={errors.password}>
+                      <Alert
+                        severity="error"
+                        style={{ textAlign: "left", marginTop: "16px" }}
+                      >
+                        <AlertTitle>{passwordalertlabels.title}</AlertTitle>
+                        <ul>
+                          {passwordalertlabels.body.map((label) => (
+                            <li key={label}>{label}</li>
+                          ))}
+                        </ul>
+                      </Alert>
+                    </Collapse>
+                  </Grid>
+                </Grid>
+              </>
+            ) : (
+              <></>
+            )}
+          </Grid>
+          <Grid item>
+            {true && (
               <TextField
                 id="dates"
                 label={forminfolabels.birthdate}
@@ -233,10 +291,9 @@ const FormInfo = React.forwardRef((props, ref) => {
                 onChange={handleBirthdate}
                 variant="standard"
               />
-            </Grid>
-          )}
-
-          <Grid item xs={12} sm={4}>
+            )}
+          </Grid>
+          <Grid item>
             <FormControl>
               <InputLabel
                 sx={{ color: errors.selectedGender ? red[600] : "inherit" }}
@@ -264,74 +321,6 @@ const FormInfo = React.forwardRef((props, ref) => {
               <FormHelperText>{/* ERROR label */}</FormHelperText>
             </FormControl>
           </Grid>
-          {props.registerState ? (
-            <>
-              <Grid
-                container
-                padding={3}
-                style={centeringStyles}
-                direction={{ xs: "row", sm: "row" }}
-                spacing={{ xs: 1, sm: 2 }}
-              >
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    id="password"
-                    size="small"
-                    label={useCommonfieldslables.password}
-                    required
-                    type="password"
-                    error={errors.password}
-                    value={userData.password}
-                    //TODO QUITAR AUTO COMPLETE ESTA COMENTADO PARA AGILIZAR EL REGISTRO EN PRUEBAS
-                    autoComplete="new-password"
-                    onChange={(event) =>
-                      handleInputChange("password", event.target.value)
-                    }
-                    InputLabelProps={{
-                      shrink: Boolean(userData.password !== ""),
-                    }}
-                    variant="standard"
-                  />
-                </Grid>
-                <Grid item xs={12} sm={4}>
-                  <TextField
-                    id="passwordrep"
-                    label={"Repita la " + useCommonfieldslables.password}
-                    required
-                    error={errors.password}
-                    size="small"
-                    value={passrep}
-                    autoComplete="new-password"
-                    type="password"
-                    onChange={(event) => {
-                      setPassRep(event.target.value);
-                    }}
-                    InputLabelProps={{
-                      shrink: Boolean(passrep !== ""),
-                    }}
-                    variant="standard"
-                  />
-                </Grid>
-                <Grid item xs={12} s={4}>
-                  <Collapse in={errors.password}>
-                    <Alert
-                      severity="error"
-                      style={{ textAlign: "left", marginTop: "16px" }}
-                    >
-                      <AlertTitle>{passwordalertlabels.title}</AlertTitle>
-                      <ul>
-                        {passwordalertlabels.body.map((label) => (
-                          <li key={label}>{label}</li>
-                        ))}
-                      </ul>
-                    </Alert>
-                  </Collapse>
-                </Grid>
-              </Grid>
-            </>
-          ) : (
-            <></>
-          )}
         </Grid>
       </CardContent>
     </>

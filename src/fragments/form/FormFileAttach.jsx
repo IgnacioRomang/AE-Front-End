@@ -17,6 +17,7 @@ import {
 
 import { textJustifyStyle } from "../../theme.jsx";
 import { shortFileName } from "../../utiles.js";
+import AlertFragment from "../AlertFragmet.jsx";
 
 /**
  * The code defines a React functional component called `FileAttachCard`. It is a card component that
@@ -125,18 +126,11 @@ const FormFileAttach = React.forwardRef((props, ref) => {
       >
         <Grid item xs={12} md={6}>
           <Box>
-            <Alert severity="info">
-              <AlertTitle>{formfileattachlabels.title}</AlertTitle>
-              <Typography sx={textJustifyStyle}>
-                {formfileattachlabels.body[0]}
-              </Typography>
-              <Typography sx={textJustifyStyle}>
-                {formfileattachlabels.body[1]}
-              </Typography>
-              <Typography sx={textJustifyStyle}>
-                {formfileattachlabels.body[2]}
-              </Typography>
-            </Alert>
+            <AlertFragment
+              type="info"
+              title={formfileattachlabels.title}
+              body={formfileattachlabels.body}
+            />
           </Box>
         </Grid>
         <Grid item xs={12} md={6}>

@@ -43,7 +43,7 @@ const AEProfile = () => {
           padding={User.ae !== AE.NON_AE ? 0 : 8}
           sx={centeringStyles}
         >
-          <Grid item xs={12} md={3}>
+          <Grid item>
             <Stack spacing={2} sx={centeringStyles}>
               <EmailVerifyProvider>
                 <ProfileInfo />
@@ -71,17 +71,28 @@ const AEProfile = () => {
             </Stack>
           </Grid>
           {User.ae !== AE.NON_AE ? (
-            <Grid item xs={12} md={6}>
+            <Grid item>
               <Suspense
                 fallback={<Skeleton variant="text" sx={{ fontSize: "3rem" }} />}
               >
                 <Paper>
-                  <Grid container padding={1}>
-                    <Grid item xs={12}>
+                  <Stack
+                    padding={2}
+                    spacing={2}
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Grid
+                      container
+                      sx={{ justifyContent: "center", alignItems: "center" }}
+                    >
                       {loading ? (
                         <Skeleton variant="text" sx={{ fontSize: "3rem" }} />
                       ) : (
-                        <Typography padding={1} variant="h5">
+                        <Typography variant="h4">
                           {labels.calendar.title}
                         </Typography>
                       )}
@@ -89,7 +100,6 @@ const AEProfile = () => {
                     </Grid>
                     <Grid
                       container
-                      padding={2}
                       spacing={4}
                       sx={{
                         justifyContent: "center",
@@ -97,7 +107,7 @@ const AEProfile = () => {
                         overflow: "auto",
                       }}
                     >
-                      <Grid key={0} item xs={12} sm={7} md={6}>
+                      <Grid key={0} item>
                         {loading ? (
                           <Skeleton
                             variant="rounded"
@@ -114,7 +124,7 @@ const AEProfile = () => {
                       </Grid>
 
                       {serverDates.hasOwnProperty("fifthMonth") && (
-                        <Grid key={1} item xs={12} sm={7} md={6}>
+                        <Grid key={1} item>
                           {loading ? (
                             <Skeleton
                               variant="rounded"
@@ -134,7 +144,7 @@ const AEProfile = () => {
                       {serverDates.hasOwnProperty("fifthMonth") &&
                         serverDates.fifthMonth.getMonth() !==
                           serverDates.sixthMonth.getMonth() && (
-                          <Grid key={2} item xs={12} sm={7} md={6}>
+                          <Grid key={2} item>
                             {loading ? (
                               <Skeleton
                                 variant="rounded"
@@ -152,7 +162,7 @@ const AEProfile = () => {
                           </Grid>
                         )}
 
-                      <Grid key={3} item xs={12} sm={7} md={6}>
+                      <Grid key={3} item>
                         {loading ? (
                           <Skeleton
                             variant="rounded"
@@ -170,7 +180,7 @@ const AEProfile = () => {
                       </Grid>
                     </Grid>
 
-                    <Grid container paddingTop={2}>
+                    <Grid container>
                       <Grid item xs={12}>
                         <Divider />
                         <CustomChip
@@ -188,12 +198,12 @@ const AEProfile = () => {
                         </Grid>
                       )}
                     </Grid>
-                  </Grid>
+                  </Stack>
                 </Paper>
               </Suspense>
             </Grid>
           ) : (
-            <Grid item xs={12} md={6}>
+            <Grid item>
               <Suspense
                 fallback={
                   <Skeleton variant="rectangular" height={60} width={"100%"} />
