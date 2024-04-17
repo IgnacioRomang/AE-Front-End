@@ -6,8 +6,13 @@ import {
   FormControl,
   FormHelperText,
   Grid,
+  IconButton,
+  Input,
+  InputAdornment,
   InputLabel,
+  MenuItem,
   NativeSelect,
+  Select,
   TextField,
 } from "@mui/material";
 import { red } from "@mui/material/colors";
@@ -19,6 +24,7 @@ import {
 } from "../../contexts/TextProvider.jsx";
 import { centeringStyles } from "../../theme.jsx";
 import { datecontrol, doformatCUIL, testpassword } from "../../utiles.js";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const genders = [
   { label: "Femenino", id: "F" },
@@ -31,112 +37,93 @@ const FormInfo = React.forwardRef((props, ref) => {
   const forminfolabels = useFormInfoString();
   const passwordalertlabels =
     useComponentPasswordAlertString().info.requirements;
-  const useCommonfieldslables = useCommonsFieldString();
 
   const [userData, setUserData] = useState({
     name: props.name,
-    lastName: props.lastName,
-    formattedCUIL: props.cuil,
-    selectedBirthdate: props.birthdate,
-    selectedGender: props.gender,
+    lastname: props.lastName,
+    cuil: props.cuil,
+    birthdate: props.birthdate,
+    gender: props.gender,
     password: props.password,
+    passrep: props.password,
   });
-  const [passrep, setPassRep] = useState(props.password);
   const [errors, setErrors] = useState({
     name: false,
-    lastName: false,
-    formattedCUIL: false,
-    selectedBirthdate: false,
-    selectedGender: false,
+    lastname: false,
+    cuil: false,
+    birthdate: false,
+    gender: false,
     password: false,
+    passrep: false,
   });
 
-  /**
-   * Updates the state of the component with the new value of the input field.
-   * @param {string} field - the name of the field to update
-   * @param {string} value - the new value of the field
-   */
-  const handleInputChange = (field, value) => {
-    setUserData((prevData) => ({ ...prevData, [field]: value }));
-    setErrors((prevErrors) => ({ ...prevErrors, [field]: !value.trim() }));
+  const handleNothing = (value) => value;
+  const handleEmptyness = (value) => value === "";
+  const handleDateControl = (value) => !datecontrol(new Date(value));
+  const handleNonDefaultGender = (value) => value === -1;
+  const handleRepPassword = (value) =>
+    props.registerState ? !testpassword(value, userData.password) : false;
+  const handlePassword = (value) => value;
+
+  //Objeto que contine todos los metodos para formatear los campos
+  const FieldsFormatters = {
+    name: (value) => handleNothing(value),
+    lastname: (value) => handleNothing(value),
+    cuil: (value) => doformatCUIL(value),
+    birthdate: (value) => handleDateControl(value),
+    gender: (value) => handleNothing(value),
+    password: (value) => handleNothing(value),
+    passrep: (value) => handleNothing(value),
   };
 
-  /**
-   * The handleCUIL function takes an event object, extracts the input value, formats it using the
-   * doformatCUIL function, updates the formattedCUIL property in the userData state, and checks for
-   * errors by setting the formattedCUIL ersror to true if the input value is empty or consists only of
-   * whitespace.
-   *
-   * @param {Event} event - the event object
-   * @returns {void}
-   */
-  const handleCUIL = (event) => {
-    let formatted = doformatCUIL(event.target.value);
+  // Objeto que contiene todos los metodos para detectar errores segun el campo
+  const FieldsDetectedError = {
+    name: (value) => handleEmptyness(value),
+    lastname: (value) => handleEmptyness(value),
+    cuil: (value) =>
+      props.registerState
+        ? handleEmptyness(value) || value.length !== 13
+        : false,
+    birthdate: (value) =>
+      props.registerState
+        ? handleDateControl(value) || handleEmptyness(value)
+        : false,
+    gender: (value) => handleNonDefaultGender(value),
+    password: (value) => handlePassword(value),
+    passrep: (value) => handleRepPassword(value),
+  };
+
+  const handleChange = (field, value) => {
     setUserData((prevData) => ({
       ...prevData,
-      formattedCUIL: formatted,
+      [field]: FieldsFormatters[field](value),
     }));
     setErrors((prevErrors) => ({
       ...prevErrors,
-      formattedCUIL: !formatted.trim(),
+      [field]: FieldsDetectedError[field](value),
     }));
   };
 
-  /**
-   * Updates the selectedBirthdate value in the userData state and checks if the selected date is a valid date.
-   * @param {Event} event - the event object
-   */
-  const handleBirthdate = (event) => {
-    const selectedDate = event.target.value;
-    setUserData((prevData) => ({
-      ...prevData,
-      selectedBirthdate: selectedDate,
-    }));
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      selectedBirthdate: !datecontrol(new Date(selectedDate)),
-    }));
-  };
-  /**
-   * The function `handleGenderChange` updates the selected gender in the user data and checks if the
-   * selected gender is equal to 4, updating the errors accordingly.
-   */
-  const handleGenderChange = (event) => {
-    const newGender = event.target.value;
-    setUserData((prevData) => ({ ...prevData, selectedGender: newGender }));
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      selectedGender: newGender === "-1",
-    }));
-  };
-
-  const handleErrors = useCallback(() => {
-    const {
-      name,
-      lastName,
-      formattedCUIL,
-      selectedBirthdate,
-      selectedGender,
-      password,
-    } = userData;
-
-    const errors = {
-      name: !name.trim(),
-      lastName: !lastName.trim(),
-      formattedCUIL: props.registerState
-        ? !formattedCUIL.trim() || formattedCUIL.length !== 13
-        : false,
-      selectedBirthdate: props.registerState
-        ? !datecontrol(new Date(selectedBirthdate)) || !selectedBirthdate.trim()
-        : false,
-      selectedGender: selectedGender === "-1",
-      password: props.registerState ? !testpassword(passrep, password) : false,
-    };
-
-    setErrors(errors);
-
+  const handleErrors = useCallback(async () => {
+    let e = (
+      props.registerState
+        ? [
+            "name",
+            "lastname",
+            "cuil",
+            "password",
+            "passrep",
+            "birthdate",
+            "gender",
+          ]
+        : ["name", "lastname", "cuil"]
+    ).reduce((acc, field) => {
+      acc[field] = FieldsDetectedError[field](userData[field]);
+      return acc;
+    }, {});
+    setErrors(e);
     return Object.values(errors).some(Boolean);
-  }, [userData, passrep, props]);
+  }, [userData, props]);
 
   const getData = () => {
     return userData;
@@ -146,141 +133,44 @@ const FormInfo = React.forwardRef((props, ref) => {
     handleErrors,
     getData,
   }));
+
   return (
     <>
       <CardContent>
         <Grid container padding={3} spacing={{ xs: 1, sm: 2 }}>
-          <Grid item>
-            <TextField
-              id="name"
-              label={forminfolabels.name}
-              required
-              disabled={false}
-              value={userData.name}
-              size="small"
-              error={errors.name}
-              onChange={(event) =>
-                handleInputChange("name", event.target.value)
-              }
-              helperText={null}
-              InputLabelProps={{
-                shrink: Boolean(userData.name !== ""),
-              }}
-              variant="standard"
-            />
-          </Grid>
-          <Grid item>
-            <TextField
-              id="lastname"
-              label={forminfolabels.lastname}
-              required
-              size="small"
-              disabled={false}
-              value={userData.lastName}
-              error={errors.lastName}
-              onChange={(event) =>
-                handleInputChange("lastName", event.target.value)
-              }
-              helperText={null}
-              InputLabelProps={{
-                shrink: Boolean(userData.lastName !== ""),
-              }}
-              variant="standard"
-            />
-          </Grid>
+          {(props.registerState
+            ? ["name", "lastname", "cuil", "password", "passrep"]
+            : ["name", "lastname", "cuil"]
+          ).map((field) => (
+            <Grid item>
+              <TextField
+                required
+                size="small"
+                variant="standard"
+                id={field}
+                type={
+                  ["password", "passrep"].includes(field) ? "password" : "text"
+                }
+                label={forminfolabels[field]}
+                value={userData[field]}
+                error={errors[field]}
+                onChange={(event) => handleChange(field, event.target.value)}
+                InputLabelProps={{
+                  shrink: userData[field] !== "",
+                }}
+              />
+            </Grid>
+          ))}
+
           <Grid item>
             {props.registerState && (
               <TextField
-                id="cuil"
-                label={useCommonfieldslables.cuil}
-                required
-                size="small"
-                autoComplete="true"
-                disabled={false}
-                error={errors.formattedCUIL}
-                helperText={null}
-                InputLabelProps={{
-                  shrink: Boolean(userData.formattedCUIL !== ""),
-                }}
-                value={userData.formattedCUIL}
-                onChange={handleCUIL}
-                variant="standard"
-              />
-            )}
-          </Grid>
-          <Grid item>
-            {props.registerState ? (
-              <>
-                <Grid container spacing={{ xs: 1, sm: 2 }}>
-                  <Grid item>
-                    <TextField
-                      id="password"
-                      size="small"
-                      label={useCommonfieldslables.password}
-                      required
-                      type="password"
-                      error={errors.password}
-                      value={userData.password}
-                      //TODO QUITAR AUTO COMPLETE ESTA COMENTADO PARA AGILIZAR EL REGISTRO EN PRUEBAS
-                      autoComplete="new-password"
-                      onChange={(event) =>
-                        handleInputChange("password", event.target.value)
-                      }
-                      InputLabelProps={{
-                        shrink: Boolean(userData.password !== ""),
-                      }}
-                      variant="standard"
-                    />
-                  </Grid>
-                  <Grid item>
-                    <TextField
-                      id="passwordrep"
-                      label={"Repita la " + useCommonfieldslables.password}
-                      required
-                      error={errors.password}
-                      size="small"
-                      value={passrep}
-                      autoComplete="new-password"
-                      type="password"
-                      onChange={(event) => {
-                        setPassRep(event.target.value);
-                      }}
-                      InputLabelProps={{
-                        shrink: Boolean(passrep !== ""),
-                      }}
-                      variant="standard"
-                    />
-                  </Grid>
-                  <Grid item>
-                    <Collapse in={errors.password}>
-                      <Alert
-                        severity="error"
-                        style={{ textAlign: "left", marginTop: "16px" }}
-                      >
-                        <AlertTitle>{passwordalertlabels.title}</AlertTitle>
-                        <ul>
-                          {passwordalertlabels.body.map((label) => (
-                            <li key={label}>{label}</li>
-                          ))}
-                        </ul>
-                      </Alert>
-                    </Collapse>
-                  </Grid>
-                </Grid>
-              </>
-            ) : (
-              <></>
-            )}
-          </Grid>
-          <Grid item>
-            {true && (
-              <TextField
                 id="dates"
-                label={forminfolabels.birthdate}
+                label={forminfolabels["birthdate"]}
                 required
                 disabled={false}
-                value={userData.selectedBirthdate}
-                error={errors.selectedBirthdate}
+                value={userData["birthdate"]}
+                error={errors["birthdate"]}
                 helperText={null}
                 type="date"
                 size="small"
@@ -288,24 +178,27 @@ const FormInfo = React.forwardRef((props, ref) => {
                 InputLabelProps={{
                   shrink: true,
                 }}
-                onChange={handleBirthdate}
+                onChange={(event) =>
+                  handleChange("birthdate", event.target.value)
+                }
                 variant="standard"
               />
             )}
           </Grid>
+
           <Grid item>
             <FormControl>
               <InputLabel
-                sx={{ color: errors.selectedGender ? red[600] : "inherit" }}
+                sx={{ color: errors.gender ? red[600] : "inherit" }}
                 variant="standard"
                 htmlFor="gender"
               >
-                {useCommonfieldslables.gender}
+                {forminfolabels.gender}
               </InputLabel>
               <NativeSelect
-                value={userData.selectedGender}
-                onChange={handleGenderChange}
-                error={errors.selectedGender}
+                value={userData["gender"]}
+                onChange={(event) => handleChange("gender", event.target.value)}
+                error={errors["gender"]}
                 size="small"
                 inputProps={{
                   name: "gender",
@@ -318,8 +211,23 @@ const FormInfo = React.forwardRef((props, ref) => {
                   </option>
                 ))}
               </NativeSelect>
-              <FormHelperText>{/* ERROR label */}</FormHelperText>
             </FormControl>
+          </Grid>
+
+          <Grid item>
+            <Collapse in={errors.password} sx={centeringStyles}>
+              <Alert
+                severity="error"
+                style={{ textAlign: "left", marginTop: "16px" }}
+              >
+                <AlertTitle>{passwordalertlabels.title}</AlertTitle>
+                <ul>
+                  {passwordalertlabels.body.map((label) => (
+                    <li key={label}>{label}</li>
+                  ))}
+                </ul>
+              </Alert>
+            </Collapse>
           </Grid>
         </Grid>
       </CardContent>

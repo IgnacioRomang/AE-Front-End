@@ -147,7 +147,10 @@
             "info": {
               "name": "Nombre",
               "lastname": "Apellido",
+              "cuil": "CUIL",
               "birthdate": "Fecha de nacimiento",
+              "password": "Contraseña",
+              "passrep": "Contraseña",
               "gender": "Género",
               "helper_text": {
                 "insert": "Ingresa tu ",
