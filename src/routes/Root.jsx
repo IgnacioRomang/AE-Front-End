@@ -23,10 +23,11 @@ export default function Root() {
       <Box
         id="scrollable-content"
         sx={{
+          paddingTop: 5,
+          paddingBottom: 5,
           minHeight: "70vh",
-          maxHeight: "150vh",
-          padding: 5,
-          display: "flex",
+          maxHeight: "160vh",
+          overflow: "auto",
           ...centeringStyles,
         }}
       >

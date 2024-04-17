@@ -81,7 +81,11 @@ const RootTopBar = (props) => {
   };
 
   return (
-    <AppBar position="static" color={"inherit"} sx={{ height: "10vh" }}>
+    <AppBar
+      position="static"
+      color={"inherit"}
+      sx={{ height: "100%", width: "100%" }}
+    >
       <Container>
         <Toolbar disableGutters>
           <Box sx={boxXLmenu}>
