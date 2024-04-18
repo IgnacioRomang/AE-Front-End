@@ -11,7 +11,7 @@ const AlertFragment = ({ type, title, body, strong }) => {
       <Alert severity={type} sx={centeringStyles}>
         <AlertTitle>{title}</AlertTitle>
         {body.map((label, index) => (
-          <Typography key={index} sx={textJustifyStyle}>
+          <Typography key={index + "-alert-body"} sx={textJustifyStyle}>
             {label}
           </Typography>
         ))}

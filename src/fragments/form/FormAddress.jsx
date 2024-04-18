@@ -203,6 +203,7 @@ const FormAddress = React.forwardRef((props, ref) => {
             <Autocomplete
               autoHighlight
               id={field}
+              key={field}
               size="small"
               onChange={(event, newvalue) => {
                 handleChange(newvalue, field, Formatters[field]);

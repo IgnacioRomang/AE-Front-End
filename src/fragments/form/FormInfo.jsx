@@ -47,6 +47,19 @@ const FormInfo = React.forwardRef((props, ref) => {
     password: props.password,
     passrep: props.password,
   });
+
+  const getData = () => {
+    return userData;
+  };
+
+  useImperativeHandle(ref, () => ({
+    handleErrors,
+    getData,
+  }));
+
+  const handleNothing = (value) => value;
+  const handleEmptyness = (value) => value === "";
+
   const [errors, setErrors] = useState({
     name: false,
     lastname: false,
@@ -56,14 +69,6 @@ const FormInfo = React.forwardRef((props, ref) => {
     password: false,
     passrep: false,
   });
-
-  const handleNothing = (value) => value;
-  const handleEmptyness = (value) => value === "";
-  const handleDateControl = (value) => !datecontrol(new Date(value));
-  const handleNonDefaultGender = (value) => value === -1;
-  const handleRepPassword = (value) =>
-    props.registerState ? !testpassword(value, userData.password) : false;
-  const handlePassword = (value) => value;
 
   //Objeto que contine todos los metodos para formatear los campos
   const FieldsFormatters = {
@@ -75,6 +80,11 @@ const FormInfo = React.forwardRef((props, ref) => {
     password: (value) => handleNothing(value),
     passrep: (value) => handleNothing(value),
   };
+
+  const handleDateControl = (value) => !datecontrol(new Date(value));
+  const handleNonDefaultGender = (value) => value === -1;
+  const handleRepPassword = (value) =>
+    props.registerState ? !testpassword(value, userData.password) : false;
 
   // Objeto que contiene todos los metodos para detectar errores segun el campo
   const FieldsDetectedError = {
@@ -89,7 +99,7 @@ const FormInfo = React.forwardRef((props, ref) => {
         ? handleDateControl(value) || handleEmptyness(value)
         : false,
     gender: (value) => handleNonDefaultGender(value),
-    password: (value) => handlePassword(value),
+    password: (value) => handleEmptyness(value),
     passrep: (value) => handleRepPassword(value),
   };
 
@@ -125,15 +135,6 @@ const FormInfo = React.forwardRef((props, ref) => {
     return Object.values(errors).some(Boolean);
   }, [userData, props]);
 
-  const getData = () => {
-    return userData;
-  };
-
-  useImperativeHandle(ref, () => ({
-    handleErrors,
-    getData,
-  }));
-
   return (
     <>
       <CardContent>
@@ -148,6 +149,7 @@ const FormInfo = React.forwardRef((props, ref) => {
                 size="small"
                 variant="standard"
                 id={field}
+                key={field}
                 type={
                   ["password", "passrep"].includes(field) ? "password" : "text"
                 }
@@ -166,9 +168,9 @@ const FormInfo = React.forwardRef((props, ref) => {
             {props.registerState && (
               <TextField
                 id="dates"
+                key="dates"
                 label={forminfolabels["birthdate"]}
                 required
-                disabled={false}
                 value={userData["birthdate"]}
                 error={errors["birthdate"]}
                 helperText={null}
@@ -191,11 +193,13 @@ const FormInfo = React.forwardRef((props, ref) => {
               <InputLabel
                 sx={{ color: errors.gender ? red[600] : "inherit" }}
                 variant="standard"
+                key="gender-label"
                 htmlFor="gender"
               >
                 {forminfolabels.gender}
               </InputLabel>
               <NativeSelect
+                key="gender"
                 value={userData["gender"]}
                 onChange={(event) => handleChange("gender", event.target.value)}
                 error={errors["gender"]}

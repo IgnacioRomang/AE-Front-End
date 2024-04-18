@@ -229,6 +229,8 @@ const AuthRegister = () => {
   const itLastState = (n = 0) =>
     activeStep === authregisterlabels.step_title.length - n;
 
+  const itsFirstState = () => activeStep === 0;
+
   return (
     <>
       <Card sx={cardRegisterStyle}>
@@ -251,7 +253,7 @@ const AuthRegister = () => {
                 let labelProps = {};
                 labelProps.error = errors[index];
                 return (
-                  <Step key={label} sx={stepStyle}>
+                  <Step id={label} key={label} sx={stepStyle}>
                     <StepLabel {...labelProps}>{label}</StepLabel>
                   </Step>
                 );
@@ -260,15 +262,17 @@ const AuthRegister = () => {
         </CardContent>
         <CardActions sx={centerButtonsStyle}>
           <Button
+            key="back-button"
             size="small"
             color="inherit"
-            disabled={activeStep === 0}
+            disabled={itsFirstState()}
             onClick={handleBack}
             sx={{ mr: 1 }}
           >
             {commonButtons.back}
           </Button>
           <Button
+            key="next-button"
             size="small"
             onClick={
               itLastState()
@@ -277,7 +281,7 @@ const AuthRegister = () => {
                   : handleLogin
                 : handleNext
             }
-            disable={itLastState() ? activeStep === 0 : false}
+            disable={itLastState() ? itsFirstState() : false}
           >
             {itLastState()
               ? errors[5]
