@@ -1,7 +1,7 @@
 import { Paper, Typography } from "@mui/material";
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useService } from "../contexts/ServiceContext";
+import { usePublicResources } from "../contexts/PublicResourcesContext";
 
 /**
  * This function is a React component that displays a PDF document.
@@ -11,7 +11,7 @@ const NewsView = () => {
   const [pdf, setPdf] = useState([]);
 
   const { id } = useParams();
-  const { fetch_news_pdf } = useService();
+  const { fetch_news_pdf } = usePublicResources();
 
   const fetchData = useCallback(async () => {
     try {
@@ -20,7 +20,6 @@ const NewsView = () => {
         setPdf(news_pdf);
       }
     } catch (error) {
-      // // handle error
       console.log(error);
     }
   }, [id, fetch_news_pdf, setPdf]);

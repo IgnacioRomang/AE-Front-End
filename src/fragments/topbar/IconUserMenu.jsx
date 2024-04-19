@@ -77,6 +77,7 @@ const IconUserMenu = (props) => {
   const avatarname = isAuthenticated
     ? stringAvatar(User.name + " " + User.lastname)
     : stringAvatar("N N");
+
   return (
     <Box sx={{ flexGrow: 0 }}>
       <>
