@@ -271,12 +271,7 @@ export const ServiceProvider = ({ children }) => {
     }
   };
 
-  /**
-   * Refreshes the user's token and retrieves fresh user data
-   * @async
-   * @return {Promise<boolean>} true if the token refresh was successful, false otherwise
-   */
-  const refesh = useCallback(async () => {
+  const refesh_fn = async () => {
     try {
       const response = await axios.post(
         `${URL_BACKEND}/api/auth/refresh`,
@@ -306,7 +301,15 @@ export const ServiceProvider = ({ children }) => {
     } catch (error) {
       return false;
     }
-  }, [setIsAuthenticated, setUser]);
+  };
+  /**
+   * Refreshes the user's token and retrieves fresh user data
+   * @async
+   * @return {Promise<boolean>} true if the token refresh was successful, false otherwise
+   */
+  const refesh = useCallback(async () => {
+    return await refesh_fn();
+  }, []);
 
   useEffect(() => {
     const parsedAuthorization = JSON.parse(
@@ -325,6 +328,7 @@ export const ServiceProvider = ({ children }) => {
   return (
     <ServiceContext.Provider
       value={{
+        refesh_fn,
         fetch_end_pdf,
         isAuthenticated,
         setIsAuthenticated,

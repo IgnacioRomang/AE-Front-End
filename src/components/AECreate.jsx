@@ -91,7 +91,7 @@ export const AECreate = () => {
   ]);
 
   const refs = useRef(null);
-  const { User, fetch_user_data, start_ae_n, refresh } = useService();
+  const { User, fetch_user_data, start_ae_n, refesh_fn } = useService();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -196,7 +196,7 @@ export const AECreate = () => {
    * @brief This function is called when the user clicks the "Cancel" button.
    */
   const handleClose = () => {
-    //refresh();
+    refesh_fn();
     navigate("/ae/profile");
   };
 

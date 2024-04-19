@@ -49,7 +49,7 @@ const AEFinalize = () => {
     setPassword(event.target.value);
   };
 
-  const { User, finalize_ae, refresh } = useService();
+  const { User, finalize_ae, refesh_fn } = useService();
   useEffect(() => {
     if (User === null) {
       navigate("/");
@@ -62,7 +62,7 @@ const AEFinalize = () => {
     if (!result) {
       setOpen(true);
     } else {
-      //refresh();
+      refesh_fn();
       navigate("/ae/profile");
     }
   };
