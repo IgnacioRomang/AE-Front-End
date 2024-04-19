@@ -7,6 +7,7 @@ import {
   CardHeader,
   CircularProgress,
   Collapse,
+  Grid,
   TextField,
 } from "@mui/material";
 import React, { useState } from "react";
@@ -21,7 +22,12 @@ import {
 
 import { usePasswordService } from "../contexts/PasswordContext";
 import AlertFragment from "../fragments/AlertFragmet";
-import { boxLoginSyle, cardLoginStyle, centerButtonsStyle } from "../theme";
+import {
+  boxLoginSyle,
+  cardLoginStyle,
+  centerButtonsStyle,
+  centeringStyles,
+} from "../theme";
 import { doformatCUIL } from "../utiles";
 import ProcessAlert from "../fragments/ProcessAlert";
 import SixtysecFragment from "../fragments/SixtysecFragment";
@@ -95,30 +101,32 @@ const PasswordForgot = () => {
 
       <Card sx={cardLoginStyle}>
         <CardHeader title={passwordforgot.title} />
-        <CardContent container sx={boxLoginSyle}>
-          <CardContent item sx={12} sm={8}>
-            <TextField
-              id="cuil"
-              size="small"
-              label={commonfields.cuil}
-              required
-              disabled={send}
-              error={error}
-              value={formattedCUIL}
-              onChange={handleCUILChange}
-              variant="standard"
-            />
-          </CardContent>
-          <CardContent item sx={12} sm={8}>
-            {!send && (
-              <AlertFragment
-                type={"info"}
-                title={passwordalert.info.verify.title}
-                body={passwordalert.info.verify.body}
-                strong={passwordalert.info.verify.strong}
+        <CardContent sx={boxLoginSyle}>
+          <Grid container spacing={3} sx={centeringStyles}>
+            <Grid item>
+              <TextField
+                id="cuil"
+                size="small"
+                label={commonfields.cuil}
+                required
+                disabled={send ? "true" : undefined}
+                error={error}
+                value={formattedCUIL}
+                onChange={handleCUILChange}
+                variant="standard"
               />
-            )}
-          </CardContent>
+            </Grid>
+            <Grid item>
+              {!send && (
+                <AlertFragment
+                  type={"info"}
+                  title={passwordalert.info.verify.title}
+                  body={passwordalert.info.verify.body}
+                  strong={passwordalert.info.verify.strong}
+                />
+              )}
+            </Grid>
+          </Grid>
         </CardContent>
         <CardActions sx={centerButtonsStyle}>
           <Button size="small" onClick={handleBack} color="inherit">

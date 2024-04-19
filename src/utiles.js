@@ -247,7 +247,57 @@ export const testpassword = (password1, password2) => {
 
 export const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+export const isToday = (day, date) => {
+  return day === date.getDate();
+};
+
+export const isStartdate = (day, date, cellIndex) => {
+  return cellIndex === 0;
+};
+
+export const isEnddate = (day, date, cellIndex) => {
+  return cellIndex === 6;
+};
+
+export const isSameMonth = (date1, date2) => {
+  return date1.getMonth() === date2.getMonth();
+};
+
+export const dateBetween = (start, day, end) => {
+  return start.getDate() <= day && day <= end.getDate();
+};
+
+export const monthGreater = (date1, date2) => {
+  return date1.getMonth() < date2.getMonth();
+};
+
+export const realIndex = (cellIndex, rowIndex) => {
+  return cellIndex + 7 * rowIndex;
+};
+
+export const dayGreaterEqual = (day, date1, cellIndex, rowIndex) => {
+  let dayg = date1.getDate();
+  return day >= dayg || (day === null && realIndex(cellIndex, rowIndex) > dayg);
+};
+
+export const dayLessEqual = (day, date1, cellIndex, rowIndex) => {
+  let dayg = date1.getDate();
+  return (
+    (day <= dayg && day !== null) ||
+    (day === null && realIndex(cellIndex, rowIndex) < dayg)
+  );
+};
+
 const utiles = {
+  isStartdate,
+  isEnddate,
+  isSameMonth,
+  dayLessEqual,
+  monthGreater,
+  dayGreaterEqual,
+  realIndex,
+  dateBetween,
+  isToday,
   isNum,
   testpassword,
   shortFileName,

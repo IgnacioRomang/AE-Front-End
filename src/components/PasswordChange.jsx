@@ -88,7 +88,7 @@ const PasswordChange = () => {
       {!open && (
         <Card sx={cardLoginStyle}>
           <CardHeader title={passwordchange.title} />
-          <CardContent container sx={boxLoginSyle}>
+          <CardContent sx={boxLoginSyle}>
             <Stack spacing={2} sx={centeringStyles}>
               <PasswordFragment ref={ref} />
               <Collapse in={error}>

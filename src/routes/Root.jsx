@@ -46,7 +46,7 @@ export default function Root() {
             </Paper>
           }
         >
-          <Outlet />
+          <Outlet/>
         </Suspense>
       </Box>
       <RootFooter />

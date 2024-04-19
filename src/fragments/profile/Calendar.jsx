@@ -11,6 +11,16 @@ import {
 } from "@mui/material";
 import { blue, grey, red } from "@mui/material/colors";
 import React from "react";
+import {
+  isStartdate,
+  isEnddate,
+  isSameMonth,
+  dayLessEqual,
+  monthGreater,
+  dayGreaterEqual,
+  dateBetween,
+  isToday,
+} from "../../utiles";
 
 /**
  * The `Calendar` component is a React component that displays a calendar table. It takes three props
@@ -43,6 +53,7 @@ const Calendar = ({ intStart, intEnd }) => {
     // Set default styles for the table cell
     let range_start = null;
     let range_end = null;
+    let key = `${day}-${rowIndex}-${cellIndex}`;
     const radius = "7px";
     let color = grey[50];
     // If the user is using a single calendar, highlight the end date
@@ -75,6 +86,7 @@ const Calendar = ({ intStart, intEnd }) => {
 
       return (
         <TableCell
+          key={key}
           size="small"
           sx={{
             padding: "5px",
@@ -94,6 +106,7 @@ const Calendar = ({ intStart, intEnd }) => {
 
     return (
       <TableCell
+        key={key}
         size="small"
         sx={{
           padding: "5px",
@@ -129,7 +142,7 @@ const Calendar = ({ intStart, intEnd }) => {
                       textJustify: "center",
                       padding: "5px",
                     }}
-                    //key={day + hash + index}
+                    key={`${day}-${intStart}-${intEnd}`}
                   >
                     {day}
                   </TableCell>
@@ -139,8 +152,7 @@ const Calendar = ({ intStart, intEnd }) => {
           </TableHead>
           <TableBody>
             {chunkArray(daysInMonth, 7).map((row, rowIndex) => (
-              <TableRow //key={`${hash}-${rowIndex}`}
-              >
+              <TableRow key={`${intStart}-${intEnd}-row-${row}-${rowIndex}`}>
                 {row.map((day, index) => getTableCel(day, rowIndex, index))}
               </TableRow>
             ))}
@@ -199,44 +211,4 @@ const chunkArray = (arr, size) => {
   return chunkedArray;
 };
 
-const isToday = (day, date) => {
-  return day === date.getDate();
-};
-
-const isStartdate = (day, date, cellIndex) => {
-  return cellIndex === 0;
-};
-
-const isEnddate = (day, date, cellIndex) => {
-  return cellIndex === 6;
-};
-
-const isSameMonth = (date1, date2) => {
-  return date1.getMonth() === date2.getMonth();
-};
-
-const dateBetween = (start, day, end) => {
-  return start.getDate() <= day && day <= end.getDate();
-};
-
-const monthGreater = (date1, date2) => {
-  return date1.getMonth() < date2.getMonth();
-};
-
-const realIndex = (cellIndex, rowIndex) => {
-  return cellIndex + 7 * rowIndex;
-};
-
-const dayGreaterEqual = (day, date1, cellIndex, rowIndex) => {
-  let dayg = date1.getDate();
-  return day >= dayg || (day === null && realIndex(cellIndex, rowIndex) > dayg);
-};
-
-const dayLessEqual = (day, date1, cellIndex, rowIndex) => {
-  let dayg = date1.getDate();
-  return (
-    (day <= dayg && day !== null) ||
-    (day === null && realIndex(cellIndex, rowIndex) < dayg)
-  );
-};
 export default Calendar;

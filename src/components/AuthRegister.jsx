@@ -281,7 +281,7 @@ const AuthRegister = () => {
                   : handleLogin
                 : handleNext
             }
-            disable={itLastState() ? itsFirstState() : false}
+            disabled={itLastState() ? itsFirstState() : false}
           >
             {itLastState()
               ? errors[5]

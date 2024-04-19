@@ -103,8 +103,8 @@ const RootTopBar = (props) => {
                   !page.disabled && (
                     <Button
                       size="small"
-                      key={page.label}
-                      disabled={page.disabled}
+                      key={page.label + "-large-menu-appbar"}
+                      disabled={page.disabled ? "true" : undefined}
                       onClick={(e) => handleoOnClickMenu(e, index)}
                     >
                       {page.label}
@@ -131,8 +131,8 @@ const RootTopBar = (props) => {
                     (page, index) =>
                       !page.disabled && (
                         <MenuItem
-                          key={page.label}
-                          disabled={page.disabled}
+                          key={page.label + "-menu-appbar"}
+                          disabled={page.disabled ? "true" : undefined}
                           onClick={(e) => handleoOnClickMenu(e, index)}
                         >
                           <Typography

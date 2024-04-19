@@ -222,9 +222,9 @@ export const ServiceProvider = ({ children }) => {
         },
         { headers: { "X-API-Key": APP_KEY } }
       );
-      const { message } = response.data;
-
-      return message === "Finalizado";
+      const { status } = response.data;
+      console.log(response);
+      return status === "Finalizado";
     } catch (error) {
       console.error("Error during register:", error);
       return false;

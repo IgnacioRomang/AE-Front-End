@@ -42,7 +42,6 @@ const SixtysecFragment = (props) => {
         props.children,
         {
           onClick: handleClick,
-          disable: click,
           disabled: click,
           size: "small",
           style: click

@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useEffect, useRef, useState } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import {
   useCommonsButtonString,
   useComponentAECreateString,
@@ -91,7 +91,7 @@ export const AECreate = () => {
   ]);
 
   const refs = useRef(null);
-  const { User, fetch_user_data, start_ae_n } = useService();
+  const { User, fetch_user_data, start_ae_n, refresh } = useService();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -172,7 +172,7 @@ export const AECreate = () => {
       let result = await start_ae_n(register_user);
       await setSendError(!result);
       await setOpen(true);
-    } catch (e) {     
+    } catch (e) {
       console.log(e);
     }
   };
@@ -196,7 +196,8 @@ export const AECreate = () => {
    * @brief This function is called when the user clicks the "Cancel" button.
    */
   const handleClose = () => {
-    navigate("/ae/profile", { replace: true });
+    //refresh();
+    navigate("/ae/profile");
   };
 
   const handleBack = () => {

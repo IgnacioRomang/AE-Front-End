@@ -118,7 +118,7 @@ const IconUserMenu = (props) => {
           {(props.userAuth ? settings : settings_login).map((setting) => (
             <MenuItem
               size="small"
-              key={setting.id}
+              key={setting.label + "menu-icon"}
               onClick={(e) => onClickMenu(e, setting.id)}
             >
               {setting.icon}

@@ -155,8 +155,12 @@ export const PublicResourcesProvider = ({ children }) => {
 
   const fetch_faq = async () => {
     try {
-      let url = process.env.REACT_APP_BACK_URL;
-      const response = await axios.get(url + "/api/resources/getQuestions");
+      const response = await axios.get(
+        `${URL_BACKEND}/api/resources/getQuestions`,
+        {
+          headers: { "X-API-Key": APP_KEY },
+        }
+      );
       return response.data ? response.data : [];
     } catch (error) {
       console.error("Error fetching Answers&Questions:", error);

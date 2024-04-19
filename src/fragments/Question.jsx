@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import React from "react";
 
-const Question = ({ question, answer }) => {
+const Question = ({ id, question, answer }) => {
   const [expanded, setExpanded] = React.useState(false);
 
   const handleChange = (panel) => (event, isExpanded) => {
@@ -16,6 +16,7 @@ const Question = ({ question, answer }) => {
 
   return (
     <Accordion
+      key={id + "-body"}
       sx={{
         width: "100%",
         height: "100%",
@@ -49,9 +50,7 @@ const Question = ({ question, answer }) => {
         }}
       >
         {answer.map((line, index) => (
-          <>
-            <Typography>{line}</Typography>
-          </>
+          <Typography key={`${question}-line-${index}`}>{line}</Typography>
         ))}
       </AccordionDetails>
     </Accordion>
