@@ -67,7 +67,7 @@ const FormInfo = React.forwardRef((props, ref) => {
     name: (value) => handleNothing(value),
     lastname: (value) => handleNothing(value),
     cuil: (value) => doformatCUIL(value),
-    birthdate: (value) => handleDateControl(value),
+    birthdate: (value) => handleNothing(value),
     gender: (value) => handleNothing(value),
     password: (value) => handleNothing(value),
     passrep: (value) => handleNothing(value),
