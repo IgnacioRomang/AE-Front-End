@@ -32,7 +32,7 @@ const FormInfo = React.forwardRef((props, ref) => {
 
   const [userData, setUserData] = useState({
     name: props.name,
-    lastname: props.lastName,
+    lastname: props.lastname,
     cuil: props.cuil,
     birthdate: props.birthdate,
     gender: props.gender,
@@ -84,7 +84,7 @@ const FormInfo = React.forwardRef((props, ref) => {
     lastname: (value) => handleEmptyness(value),
     cuil: (value) =>
       props.registerState
-        ? handleEmptyness(value) || value.length !== 13
+        ? handleEmptyness(value) || value.length === 11
         : false,
     birthdate: (value) =>
       props.registerState
@@ -106,7 +106,7 @@ const FormInfo = React.forwardRef((props, ref) => {
     }));
   };
 
-  const handleErrors = useCallback(async () => {
+  const handleErrors = () => {
     let e = (
       props.registerState
         ? [
@@ -124,8 +124,10 @@ const FormInfo = React.forwardRef((props, ref) => {
       return acc;
     }, {});
     setErrors(e);
+    console.log(e)
+    console.log(userData)
     return Object.values(e).some(Boolean);
-  }, [userData, props]);
+  };
 
   return (
     <CardContent key={"Form-info"}>

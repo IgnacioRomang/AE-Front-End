@@ -75,10 +75,10 @@ const AuthRegister = () => {
   const [stepData, setStepData] = useState([
     {
       name: "",
-      lastName: "",
+      lastname: "",
       cuil: "",
-      selectedBirthdate: "",
-      selectedGender: -1,
+      birthdate: "",
+      gender: -1,
       password: "",
     },
     {
@@ -108,9 +108,9 @@ const AuthRegister = () => {
         email: stepData[2].email,
         password: stepData[0].password,
         firstname: stepData[0].name,
-        lastname: stepData[0].lastName,
-        birthdate: formatDate(new Date(stepData[0].selectedBirthdate)),
-        gender: stepData[0].selectedGender,
+        lastname: stepData[0].lastname,
+        birthdate: formatDate(new Date(stepData[0].birthdate)),
+        gender: stepData[0].gender,
         address_number: stepData[1].number,
         floor: stepData[1].floor,
         apartment: stepData[1].apartment,
@@ -145,10 +145,10 @@ const AuthRegister = () => {
       <FormInfo
         name={stepData[0].name}
         registerState={true}
-        lastName={stepData[0].lastName}
+        lastname={stepData[0].lastname}
         cuil={stepData[0].cuil}
-        birthdate={stepData[0].selectedBirthdate}
-        gender={stepData[0].selectedGender}
+        birthdate={stepData[0].birthdate}
+        gender={stepData[0].gender}
         password={stepData[0].password}
         ref={dataRef}
       />
@@ -177,7 +177,7 @@ const AuthRegister = () => {
     ),
     3: <FormFileAttach ref={dataRef} files={stepData[3].files} />,
     4: <FormDatePlan first={true} ref={dataRef} email={stepData[2].email} />,
-    5: errors[5] ? (
+    5: !errors[5] ? (
       <FormMessageSuccess first={true} />
     ) : (
       <FormMessageError padding={8} />
@@ -209,6 +209,7 @@ const AuthRegister = () => {
     if (dataRef.current && typeof dataRef.current.handleErrors === "function") {
       error = dataRef.current.handleErrors();
     }
+    console.log(error)
     updateErrorAtIndex(activeStep, error);
     if (!error) {
       /* This code block is handling the data received from the current step of the form. */
