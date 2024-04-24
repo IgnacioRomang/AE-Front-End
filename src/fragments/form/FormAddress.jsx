@@ -169,7 +169,6 @@ const FormAddress = React.forwardRef((props, ref) => {
     };
 
     setErrors(newErrors);
-    console.log(newErrors);
     return Object.values(newErrors).some(Boolean);
   }, [Fields]);
 

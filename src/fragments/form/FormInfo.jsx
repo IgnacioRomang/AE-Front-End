@@ -124,8 +124,6 @@ const FormInfo = React.forwardRef((props, ref) => {
       return acc;
     }, {});
     setErrors(e);
-    console.log(e)
-    console.log(userData)
     return Object.values(e).some(Boolean);
   };
 

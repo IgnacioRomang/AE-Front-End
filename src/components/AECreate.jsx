@@ -69,10 +69,10 @@ export const AECreate = () => {
   const [stepData, setStepData] = useState([
     {
       name: "",
-      lastName: "",
-      formattedCUIL: "",
-      selectedBirthdate: "",
-      selectedGender: -1,
+      lastname: "",
+      cuil: "",
+      birthdate: "",
+      gender: -1,
     },
     {
       address: "",
@@ -104,10 +104,10 @@ export const AECreate = () => {
         setStepData([
           {
             name: user_data.name,
-            lastName: user_data.lastname,
-            formattedCUIL: user_data.cuil,
-            selectedBirthdate: user_data.birthdate,
-            selectedGender: user_data.gender,
+            lastname: user_data.lastname,
+            cuil: user_data.cuil,
+            birthdate: user_data.birthdate,
+            gender: user_data.gender,
           },
           {
             address: `${
@@ -154,9 +154,9 @@ export const AECreate = () => {
     try {
       let register_user = {
         firstname: stepData[0].name,
-        lastname: stepData[0].lastName,
-        birthdate: formatDate(new Date(stepData[0].selectedBirthdate)),
-        gender: stepData[0].selectedGender,
+        lastname: stepData[0].lastname,
+        birthdate: formatDate(new Date(stepData[0].birthdate)),
+        gender: stepData[0].gender,
         address: stepData[1].address.split(", ")[0],
         address_number: stepData[1].address.split(", ")[1],
         floor: stepData[1].floor,
@@ -258,10 +258,10 @@ export const AECreate = () => {
                   {expanded === 0 && (
                     <FormInfo
                       name={stepData[0].name}
-                      lastName={stepData[0].lastName}
-                      cuil={stepData[0].formattedCUIL}
-                      birthdate={stepData[0].selectedBirthdate}
-                      gender={stepData[0].selectedGender}
+                      lastName={stepData[0].lastname}
+                      cuil={stepData[0].cuil}
+                      birthdate={stepData[0].birthdate}
+                      gender={stepData[0].gender}
                       ref={refs}
                       registerState={false}
                     />

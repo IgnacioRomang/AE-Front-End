@@ -43,7 +43,7 @@ const AuthLogin = () => {
   const [loginSuccess, setLoginSuccess] = useState(false);
   const [loginFail, setLoginFail] = useState(false);
 
-  const [formattedCUIL, setFormattedCUIL] = useState("");
+  const [cuil, setCuil] = useState("");
   const [password, setPassword] = useState("");
 
   const [open, setOpen] = useState(false);
@@ -54,7 +54,7 @@ const AuthLogin = () => {
   const handleInputChange = (event) => {
     const inputValue = event.target.value;
     let formatted = doformatCUIL(inputValue);
-    setFormattedCUIL(formatted);
+    setCuil(formatted);
   };
 
   const handleOnChangePassword = (event) => {
@@ -79,7 +79,7 @@ const AuthLogin = () => {
    */
   const handleLogin = async () => {
     setOpen(true);
-    let result = await authenticate(formattedCUIL, password);
+    let result = await authenticate(cuil, password);
     setLoginSuccess(result);
     setLoading(false);
     setLoginFail(!result);
@@ -120,7 +120,7 @@ const AuthLogin = () => {
               required
               disabled={loginSuccess}
               error={loginFail}
-              value={formattedCUIL}
+              value={cuil}
               onChange={handleInputChange}
               variant="standard"
             />

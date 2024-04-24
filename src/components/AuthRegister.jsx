@@ -131,7 +131,7 @@ const AuthRegister = () => {
         updateErrorAtIndex(5, true);
       }
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   };
 

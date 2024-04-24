@@ -98,7 +98,7 @@ const FormFileAttach = React.forwardRef((props, ref) => {
         break;
       }
     }
-    console.log(userData);
+    
     return Object.values(errors).some(Boolean);
   };
 
