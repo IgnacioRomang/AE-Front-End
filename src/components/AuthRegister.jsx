@@ -116,7 +116,7 @@ const AuthRegister = () => {
         apartment: stepData[1].apartment,
         postalcode: stepData[1].postalCode,
         province: stepData[1].state.nombre,
-        city: stepData[1].city.nombre,
+        city: `${stepData[1].substate.nombre} , ${stepData[1].city.nombre}`,
         address: stepData[1].address.nombre,
         phone: stepData[2].phone,
         startdate: formatDate(new Date()),
@@ -185,7 +185,9 @@ const AuthRegister = () => {
   };
 
   const handleBack = () => {
+    let active= activeStep;
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    updateErrorAtIndex(active, false);
   };
 
   const updateErrorAtIndex = (index, value) => {
@@ -233,7 +235,6 @@ const AuthRegister = () => {
   const itsFirstState = () => activeStep === 0;
 
   return (
-    <>
       <Card sx={cardRegisterStyle}>
         <CardHeader
           avatar={<HowToRegIcon />}
@@ -294,7 +295,6 @@ const AuthRegister = () => {
           </Button>
         </CardActions>
       </Card>
-    </>
   );
 };
 

@@ -1,4 +1,10 @@
-import React, { Suspense, useEffect, useRef, useState } from "react";
+import React, {
+  Suspense,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   useCommonsButtonString,
   useComponentAECreateString,
@@ -9,7 +15,7 @@ import { grey } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext.js";
 import { cardRegisterStyle, centerButtonsStyle } from "../theme.jsx";
-import { formatDate } from "../utiles.js";
+import { formatDate, sleep } from "../utiles.js";
 
 import AlertFragment from "../fragments/AlertFragmet.jsx";
 import FormAddress from "../fragments/form/FormAddress.jsx";
@@ -32,6 +38,7 @@ import {
 } from "@mui/material";
 
 import { ExpandMore, HowToReg } from "@mui/icons-material";
+import { usePublicResources } from "../contexts/PublicResourcesContext.js";
 
 //const  = lazy(() => import("@mui/icons-material"));
 
@@ -64,70 +71,83 @@ export const AECreate = () => {
   const onlytitles = useComponentAuthRegisterString().step_title;
 
   const [expanded, setExpanded] = useState("");
+  const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [errorSend, setSendError] = useState(false);
-  const [stepData, setStepData] = useState([
-    {
-      name: "",
-      lastname: "",
-      cuil: "",
-      birthdate: "",
-      gender: -1,
-    },
-    {
-      address: "",
-      floor: "",
-      apartment: "",
-      state: "",
-      city: "",
-      postalCode: "",
-    },
-    {
-      occupation: "NC",
-      study: "NC",
-      phone: "",
-      email: "",
-    },
-  ]);
+  const [stepData, setStepData] = useState(null);
 
   const refs = useRef(null);
   const { User, fetch_user_data, start_ae_n, refesh_fn } = useService();
+  const {
+    get_province_names,
+    get_citys_name,
+    get_substate_names,
+    get_address_names,
+  } = usePublicResources();
   const navigate = useNavigate();
+  const updateValues = useCallback(async () => {
+    try {
+      const response = await fetch_user_data();
+      let city_substate = response.city.split(" , ");
+      let aux_state = await get_province_names(response.state);
+      let aux_substate = await get_substate_names(
+        aux_state.nombre,
+        city_substate[0]
+      );
+      let aux_city = await get_citys_name(
+        aux_state.nombre,
+        aux_substate.nombre,
+        city_substate[1]
+      );
+      let aux_address = await get_address_names(
+        aux_state.nombre,
+        aux_substate.nombre,
+        aux_city.nombre,
+        response.address
+      );
+      let aux = [
+        {
+          name: response.name,
+          lastname: response.lastname,
+          cuil: response.cuil,
+          birthdate: response.birthdate,
+          gender: response.gender,
+        },
+        {
+          state: aux_state[0], //las funciones devuelven listas pero de 1 solo elemento
+          substate: aux_substate[0], // sollo al ser busquedas exactas
+          city: aux_city[0],
+          address: aux_address[0],
+          floor: response.floor,
+          number: response.nro_address,
+          apartment: response.apartment,
+          postalCode: response.postalCode,
+        },
+        {
+          occupation: response.occupation,
+          study: response.study,
+          phone: response.phone,
+          email: response.email,
+        },
+      ];
+      setStepData(aux);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [stepData]);
+
+  useEffect(() => {
+    //visualiza una vez cargado todo
+    if (stepData) {
+      setLoading(false);
+    }
+  }, [stepData]);
 
   useEffect(() => {
     if (User === null) {
       navigate("/");
     }
-    fetch_user_data().then((response) => {
-      if (response) {
-        let user_data = response;
-        setStepData([
-          {
-            name: user_data.name,
-            lastname: user_data.lastname,
-            cuil: user_data.cuil,
-            birthdate: user_data.birthdate,
-            gender: user_data.gender,
-          },
-          {
-            address: `${
-              user_data.address
-            }, ${user_data.nro_address.toString()}`,
-            floor: user_data.floor,
-            apartment: user_data.apartment,
-            state: user_data.state,
-            city: user_data.city,
-            postalCode: user_data.postalCode,
-          },
-          {
-            occupation: user_data.occupation,
-            study: user_data.study,
-            phone: user_data.phone,
-            email: user_data.email,
-          },
-        ]);
-      }
-    });
+    updateValues();
   }, [User, navigate, setStepData, fetch_user_data]);
 
   /**
@@ -157,8 +177,8 @@ export const AECreate = () => {
         lastname: stepData[0].lastname,
         birthdate: formatDate(new Date(stepData[0].birthdate)),
         gender: stepData[0].gender,
-        address: stepData[1].address.split(", ")[0],
-        address_number: stepData[1].address.split(", ")[1],
+        address: stepData[1].address,
+        address_number: stepData[1].number,
         floor: stepData[1].floor,
         apartment: stepData[1].apartment,
         postalcode: stepData[1].postalCode,
@@ -224,12 +244,14 @@ export const AECreate = () => {
         />
         <CardContent>
           {open ? (
+            !errorSend ? (
+              <FormMessageSuccess first={false} />
+            ) : (
+              <FormMessageError />
+            )
+          ) : loading ? (
             <>
-              {!errorSend ? (
-                <FormMessageSuccess first={false} />
-              ) : (
-                <FormMessageError />
-              )}
+              <CircularProgress />
             </>
           ) : (
             <>
@@ -258,7 +280,7 @@ export const AECreate = () => {
                   {expanded === 0 && (
                     <FormInfo
                       name={stepData[0].name}
-                      lastName={stepData[0].lastname}
+                      lastname={stepData[0].lastname}
                       cuil={stepData[0].cuil}
                       birthdate={stepData[0].birthdate}
                       gender={stepData[0].gender}
@@ -290,7 +312,9 @@ export const AECreate = () => {
                       address={stepData[1].address}
                       floor={stepData[1].floor}
                       apartment={stepData[1].apartment}
-                      province={stepData[1].state}
+                      state={stepData[1].state}
+                      substate={stepData[1].substate}
+                      number={stepData[1].number}
                       city={stepData[1].city}
                       postalCode={stepData[1].postalCode}
                       ref={refs}

@@ -14,15 +14,24 @@ export const PublicResourcesProvider = ({ children }) => {
    * @param {string} province - The name of the province(can be misspelled), it will be searched in the georef api
    * @returns {Promise<Array>}
    */
-  const get_province_names = async () => {
+  const get_province_names = async (province) => {
     try {
+      let params = {
+        campos: "basico",
+        aplanar: true,
+        orden: "nombre",
+        exacto: false,
+        max: 5000,
+      };
+      // por si busco una en concreto osea digamos osea, provincia != null
+      if (province) {
+        params.nombre = province;
+        params.max = 1;
+        params.exacto = true;
+      }
+
       const response = await axios.get(`${URL_GEOREF}/provincias`, {
-        params: {
-          //nombre: province,
-          campos: "basico",
-          aplanar: true,
-          orden: "nombre",
-        },
+        params,
       });
       const { cantidad, provincias } = response.data;
       return cantidad > 0 ? provincias : [];
@@ -32,16 +41,25 @@ export const PublicResourcesProvider = ({ children }) => {
     }
   };
 
-  const get_substate_names = async (province) => {
+  const get_substate_names = async (province, department) => {
     try {
+      let params = {
+        campos: "basico",
+        aplanar: true,
+        provincia: province,
+        orden: "nombre",
+        exacto: false,
+        max: 5000,
+      };
+
+      if (department) {
+        params.nombre = department;
+        params.max = 1;
+        params.exacto = true;
+      }
+
       const response = await axios.get(`${URL_GEOREF}/departamentos`, {
-        params: {
-          provincia: province,
-          campos: "basico",
-          aplanar: true,
-          max: 5000,
-          orden: "nombre",
-        },
+        params,
       });
       const { cantidad, departamentos } = response.data;
       return cantidad > 0 ? departamentos : [];
@@ -57,23 +75,29 @@ export const PublicResourcesProvider = ({ children }) => {
    * @param {string} city - the name of the city in the province (can be misspelled)
    * @return {Array<string>} an array of city names with department names, or an empty array
    */
-  const get_citys_name = async (province, substate) => {
+  const get_citys_name = async (province, department, city) => {
     try {
-      console.log();
+      let params = {
+        campos: "basico",
+        aplanar: true,
+        provincia: province,
+        departamento: department,
+        orden: "nombre",
+        exacto: false,
+        max: 5000,
+      };
+
+      if (city) {
+        params.nombre = city;
+        params.max = 1;
+        params.exacto = true;
+      }
+
       const response = await axios.get(`${URL_GEOREF}/localidades-censales`, {
-        params: {
-          provincia: province,
-          departamento: substate,
-          //nombre: city,
-          campos: "basico", // 'estandar' or 'basico'
-          aplanar: true,
-          max: 5000,
-          orden: "nombre",
-        },
+        params,
       });
 
       const { cantidad, localidades_censales } = response.data;
-      console.log(response);
       return cantidad > 0 ? localidades_censales : [];
     } catch (error) {
       console.error("Error al obtener las localidades:", error);
@@ -89,19 +113,26 @@ export const PublicResourcesProvider = ({ children }) => {
    * @param {string} address - The address to be searched (can be misspelled).
    * @returns {Array<string>} - An array of formatted address names.
    */
-  const get_address_names = async (province, department, locality) => {
+  const get_address_names = async (province, department, locality, calle) => {
     try {
-      // Make a GET request to retrieve address names
+      let params = {
+        campos: "basico",
+        aplanar: true,
+        provincia: province,
+        departamento: department,
+        localidad_censal: locality,
+        orden: "nombre",
+        exacto: false,
+        max: 5000,
+      };
+
+      if (calle) {
+        params.nombre = calle;
+        params.max = 1;
+        params.exacto = true;
+      }
       const response = await axios.get(`${URL_GEOREF}/calles`, {
-        params: {
-          provincia: province,
-          departamento: department,
-          localidad_censal: locality,
-          campos: "basico",
-          aplanar: true,
-          max: 5000,
-          orden: "nombre",
-        },
+        params,
       });
       const { cantidad, calles } = response.data;
       // Process the retrieved address names
