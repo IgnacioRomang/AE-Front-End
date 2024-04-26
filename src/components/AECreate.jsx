@@ -190,8 +190,8 @@ export const AECreate = () => {
         study: stepData[2].study,
       };
       let result = await start_ae_n(register_user);
-      await setSendError(!result);
-      await setOpen(true);
+      setSendError(!result);
+      setOpen(true);
     } catch (e) {
       console.log(e);
     }

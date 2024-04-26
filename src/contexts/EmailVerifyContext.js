@@ -16,11 +16,13 @@ export const EmailVerifyProvider = ({ children }) => {
    */
   const resend_verify_email = async () => {
     try {
-      await axios.post(
+      const response = await axios.post(
         `${URL_BACKEND}/api/email/notification`,
         {},
         { headers: { "X-API-Key": APP_KEY } }
       );
+      const { message } = response.data;
+      console.log(message);
       return true; // Return true if the request was successful
     } catch (error) {
       console.error("Error al reenviar el correo:", error); // Log the error

@@ -126,10 +126,7 @@ const AuthRegister = () => {
         dni2: stepData[3].files[1],
       };
       let result = await registerRequest(register_user);
-
-      if (!result) {
-        updateErrorAtIndex(5, true);
-      }
+      updateErrorAtIndex(5, !result);
     } catch (e) {
       console.error(e);
     }
@@ -185,7 +182,7 @@ const AuthRegister = () => {
   };
 
   const handleBack = () => {
-    let active= activeStep;
+    let active = activeStep;
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
     updateErrorAtIndex(active, false);
   };
@@ -211,7 +208,7 @@ const AuthRegister = () => {
     if (dataRef.current && typeof dataRef.current.handleErrors === "function") {
       error = dataRef.current.handleErrors();
     }
-    console.log(error)
+    console.log(error);
     updateErrorAtIndex(activeStep, error);
     if (!error) {
       /* This code block is handling the data received from the current step of the form. */
@@ -235,66 +232,66 @@ const AuthRegister = () => {
   const itsFirstState = () => activeStep === 0;
 
   return (
-      <Card sx={cardRegisterStyle}>
-        <CardHeader
-          avatar={<HowToRegIcon />}
-          titleTypographyProps={{ variant: "h6" }}
-          title={authregisterlabels.title}
-        />
-        <Divider />
-        {StepperStage[activeStep]}
-        <CardContent>
-          <Stepper
-            ref={stepperRef}
-            activeStep={activeStep}
-            alternativeLabel
-            sx={centeringStyles}
-          >
-            {!errors[5] &&
-              authregisterlabels.step_title.map((label, index) => {
-                let labelProps = {};
-                labelProps.error = errors[index];
-                return (
-                  <Step id={label} key={label} sx={stepStyle}>
-                    <StepLabel {...labelProps}>{label}</StepLabel>
-                  </Step>
-                );
-              })}
-          </Stepper>
-        </CardContent>
-        <CardActions sx={centerButtonsStyle}>
-          <Button
-            key="back-button"
-            size="small"
-            color="inherit"
-            disabled={itsFirstState()}
-            onClick={handleBack}
-            sx={{ mr: 1 }}
-          >
-            {commonButtons.back}
-          </Button>
-          <Button
-            key="next-button"
-            size="small"
-            onClick={
-              itLastState()
-                ? errors[5]
-                  ? handleRegister
-                  : handleLogin
-                : handleNext
-            }
-            disabled={itLastState() ? itsFirstState() : false}
-          >
-            {itLastState()
+    <Card sx={cardRegisterStyle}>
+      <CardHeader
+        avatar={<HowToRegIcon />}
+        titleTypographyProps={{ variant: "h6" }}
+        title={authregisterlabels.title}
+      />
+      <Divider />
+      {StepperStage[activeStep]}
+      <CardContent>
+        <Stepper
+          ref={stepperRef}
+          activeStep={activeStep}
+          alternativeLabel
+          sx={centeringStyles}
+        >
+          {!errors[5] &&
+            authregisterlabels.step_title.map((label, index) => {
+              let labelProps = {};
+              labelProps.error = errors[index];
+              return (
+                <Step id={label} key={label} sx={stepStyle}>
+                  <StepLabel {...labelProps}>{label}</StepLabel>
+                </Step>
+              );
+            })}
+        </Stepper>
+      </CardContent>
+      <CardActions sx={centerButtonsStyle}>
+        <Button
+          key="back-button"
+          size="small"
+          color="inherit"
+          disabled={itsFirstState()}
+          onClick={handleBack}
+          sx={{ mr: 1 }}
+        >
+          {commonButtons.back}
+        </Button>
+        <Button
+          key="next-button"
+          size="small"
+          onClick={
+            itLastState()
               ? errors[5]
-                ? commonButtons.restart
-                : commonButtons.login
-              : itLastState(1)
-              ? commonButtons.ok
-              : commonButtons.next}
-          </Button>
-        </CardActions>
-      </Card>
+                ? handleRegister
+                : handleLogin
+              : handleNext
+          }
+          disabled={itLastState() ? itsFirstState() : false}
+        >
+          {itLastState()
+            ? errors[5]
+              ? commonButtons.restart
+              : commonButtons.login
+            : itLastState(1)
+            ? commonButtons.ok
+            : commonButtons.next}
+        </Button>
+      </CardActions>
+    </Card>
   );
 };
 
