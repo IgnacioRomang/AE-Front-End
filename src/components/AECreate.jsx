@@ -15,7 +15,7 @@ import { grey } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext.js";
 import { cardRegisterStyle, centerButtonsStyle } from "../theme.jsx";
-import { formatDate, sleep } from "../utiles.js";
+import { formatDate } from "../utiles.js";
 
 import AlertFragment from "../fragments/AlertFragmet.jsx";
 import FormAddress from "../fragments/form/FormAddress.jsx";
@@ -85,9 +85,9 @@ export const AECreate = () => {
     get_address_names,
   } = usePublicResources();
   const navigate = useNavigate();
-  const updateValues = useCallback(async () => {
-    try {
-      const response = await fetch_user_data();
+
+  const getLocate = useCallback(
+    async (response) => {
       let city_substate = response.city.split(" , ");
       let aux_state = await get_province_names(response.state);
       let aux_substate = await get_substate_names(
@@ -105,6 +105,20 @@ export const AECreate = () => {
         aux_city.nombre,
         response.address
       );
+      return {
+        state: aux_state[0],
+        substate: aux_substate[0],
+        city: aux_city[0],
+        address: aux_address[0],
+      };
+    },
+    [get_province_names, get_citys_name, get_substate_names, get_address_names]
+  );
+
+  const updateValues = useCallback(async () => {
+    try {
+      const response = await fetch_user_data();
+      const locate = await getLocate(response);
       let aux = [
         {
           name: response.name,
@@ -114,10 +128,10 @@ export const AECreate = () => {
           gender: response.gender,
         },
         {
-          state: aux_state[0], //las funciones devuelven listas pero de 1 solo elemento
-          substate: aux_substate[0], // sollo al ser busquedas exactas
-          city: aux_city[0],
-          address: aux_address[0],
+          state: locate.state, //las funciones devuelven listas pero de 1 solo elemento
+          substate: locate.substate, // sollo al ser busquedas exactas
+          city: locate.city,
+          address: locate.address,
           floor: response.floor,
           number: response.nro_address,
           apartment: response.apartment,
@@ -134,7 +148,7 @@ export const AECreate = () => {
     } catch (error) {
       console.error(error);
     }
-  }, [stepData]);
+  }, [fetch_user_data, getLocate]);
 
   useEffect(() => {
     //visualiza una vez cargado todo
@@ -148,7 +162,7 @@ export const AECreate = () => {
       navigate("/");
     }
     updateValues();
-  }, [User, navigate, setStepData, fetch_user_data]);
+  }, [User, navigate, setStepData, fetch_user_data, updateValues]);
 
   /**
    * @brief This function is called when the user expands or collapses an accordion panel.

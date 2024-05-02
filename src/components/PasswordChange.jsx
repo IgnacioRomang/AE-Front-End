@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { usePasswordService } from "../contexts/PasswordContext";
 import { useService } from "../contexts/ServiceContext";
 import {
   useCommonsButtonString,
@@ -18,15 +19,13 @@ import {
   useComponentPasswordChangeString,
 } from "../contexts/TextProvider";
 import PasswordFragment from "../fragments/PasswordFragment";
+import ProcessAlert from "../fragments/ProcessAlert";
 import {
   boxLoginSyle,
   cardLoginStyle,
   centerButtonsStyle,
   centeringStyles,
 } from "../theme";
-import { usePasswordService } from "../contexts/PasswordContext";
-import ProcessAlert from "../fragments/ProcessAlert";
-import AlertFragment from "../fragments/AlertFragmet";
 
 /**
  * The `ResetPassword` function is a React component that handles the process of resetting a user's

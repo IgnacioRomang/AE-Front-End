@@ -1,7 +1,7 @@
 import { Backdrop, Paper, Stack } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEmailVerify } from "../contexts/EmailVerifyContext";
 import { useService } from "../contexts/ServiceContext";

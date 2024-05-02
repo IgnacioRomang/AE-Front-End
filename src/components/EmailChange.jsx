@@ -1,11 +1,4 @@
-import {
-  Button,
-  Card,
-  CardActions,
-  Grid,
-  Stack,
-  TextField,
-} from "@mui/material";
+import { Button, Card, CardActions, Stack, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useEmailVerify } from "../contexts/EmailVerifyContext";

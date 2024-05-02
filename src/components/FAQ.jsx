@@ -29,11 +29,11 @@ const FAQ = () => {
     } catch (error) {
       console.error("Error fetching Questions on FAQ: ", error);
     }
-  }, [fetch_faq, setQuestions]);
+  }, [fetch_faq]);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   const handleQuestionToggle = (index) => {
     setQuestions((prevQuestions) => {

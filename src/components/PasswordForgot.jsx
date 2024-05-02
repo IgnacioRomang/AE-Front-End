@@ -1,12 +1,9 @@
 import {
-  Backdrop,
   Button,
   Card,
   CardActions,
   CardContent,
   CardHeader,
-  CircularProgress,
-  Collapse,
   Grid,
   TextField,
 } from "@mui/material";
@@ -15,13 +12,14 @@ import { useNavigate } from "react-router-dom";
 import {
   useCommonsButtonString,
   useCommonsFieldString,
-  useComponentEmailSendString,
   useComponentPasswordAlertString,
   useComponentPasswordForgotString,
 } from "../contexts/TextProvider";
 
 import { usePasswordService } from "../contexts/PasswordContext";
 import AlertFragment from "../fragments/AlertFragmet";
+import ProcessAlert from "../fragments/ProcessAlert";
+import SixtysecFragment from "../fragments/SixtysecFragment";
 import {
   boxLoginSyle,
   cardLoginStyle,
@@ -29,8 +27,6 @@ import {
   centeringStyles,
 } from "../theme";
 import { doformatCUIL } from "../utiles";
-import ProcessAlert from "../fragments/ProcessAlert";
-import SixtysecFragment from "../fragments/SixtysecFragment";
 /**
  * The ForgotPassword function is a React component that renders a form for users to enter their CUIL
  * (Argentinian identification number) and handles the submission and validation of the form.
@@ -46,7 +42,6 @@ const PasswordForgot = () => {
   const passwordforgot = useComponentPasswordForgotString();
   const passwordalert = useComponentPasswordAlertString();
   const commonfields = useCommonsFieldString();
-  const emailsend = useComponentEmailSendString();
 
   const [error, setError] = useState(false);
   const [open, setOpen] = useState(false);
