@@ -42,7 +42,6 @@ export const isMobileDevice = () => {
 export const json_to_json_calendar = (dates) => {
   let result = null;
   if (dates.startDay !== null) {
-    //console.log(response.data.dates);
     result = {};
 
     if (dates.hasOwnProperty("startDay")) {
@@ -70,7 +69,6 @@ export const json_to_json_calendar = (dates) => {
 export const dates_to_json_calendar = (dates) => {
   let result = null;
   if (dates.startDay !== null) {
-    //console.log(response.data.dates);
     result = {};
 
     if (dates.hasOwnProperty("startDay")) {

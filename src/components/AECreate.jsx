@@ -205,7 +205,7 @@ export const AECreate = () => {
       setSendError(!result);
       setOpen(true);
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   };
 

@@ -20,7 +20,7 @@ const NewsView = () => {
         setPdf(news_pdf);
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }, [id, fetch_news_pdf, setPdf]);
 

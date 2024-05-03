@@ -52,9 +52,7 @@ const AuthLogin = () => {
   const navigate = useNavigate();
 
   const handleInputChange = (event) => {
-    const inputValue = event.target.value;
-    let formatted = doformatCUIL(inputValue);
-    setCuil(formatted);
+    setCuil(doformatCUIL(event.target.value));
   };
 
   const handleOnChangePassword = (event) => {

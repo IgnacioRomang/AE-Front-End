@@ -55,7 +55,6 @@ const PasswordChange = () => {
     setError(error);
     if (!error) {
       try {
-        console.log(data);
         const response = await change_user_password(data);
         setError(!response);
         setOpen(true);

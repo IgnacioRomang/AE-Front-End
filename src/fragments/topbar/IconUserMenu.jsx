@@ -41,7 +41,7 @@ const IconUserMenu = (props) => {
   const logout = async () => {
     await unauthenticate()
       .then(() => navigate("/", { replace: true }))
-      .catch((e) => console.log("Error during logout: ", e))
+      .catch((e) => console.error("Error during logout: ", e))
       .finally(() => setAnchorElUser(null));
   };
 

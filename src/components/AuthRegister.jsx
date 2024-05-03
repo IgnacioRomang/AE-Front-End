@@ -217,7 +217,7 @@ const AuthRegister = () => {
           handleRegister();
         }
       }
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      setActiveStep((prevstep) => prevstep + 1);
     }
   };
 

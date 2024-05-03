@@ -112,7 +112,6 @@ const FormAddress = React.forwardRef((props, ref) => {
       await FieldsActions[field](value);
     } else {
       if (["number", "floor", "apartment", "postalCode"].includes(field)) {
-        console.log(value);
         await FieldsActions["other"](value, field);
       }
     }
