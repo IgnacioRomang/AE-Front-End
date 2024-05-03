@@ -21,10 +21,6 @@ import { doApartment, doFloor, doPostalCode, itsNumber } from "../../utiles.js";
  * @returns {JSX.Element} - Returns the `AddressDataCard` component.
  */
 
-const DEFAULT = { id: 0, nombre: "Ninguno" };
-
-const setDefaults = (value) => (value !== "Ninguno" ? value : DEFAULT);
-
 const handleEqualToValue = (option, value) => option.id === value.id;
 
 const handleOptionLabel = (option) => option.nombre;
@@ -40,6 +36,7 @@ const FormAddress = React.forwardRef((props, ref) => {
     get_citys_name,
     get_substate_names,
     get_address_names,
+    DEFAULT,
   } = usePublicResources();
 
   const [suggestions, setSuggestions] = useState({
@@ -50,6 +47,7 @@ const FormAddress = React.forwardRef((props, ref) => {
     substate: [],
   });
 
+  const setDefaults = (value) => (value !== "Ninguno" ? value : DEFAULT);
   const Fields = {
     state: useState(setDefaults(props.state)),
     substate: useState(setDefaults(props.substate)),
@@ -192,13 +190,13 @@ const FormAddress = React.forwardRef((props, ref) => {
 
   useEffect(() => {
     getSuggestions("state");
-  }, [getSuggestions]);
+  }, []);
 
   return (
     <CardContent>
       <Grid container spacing={3} padding={3}>
         {["state", "substate", "city", "address"].map((field) => (
-          <Grid item xs={12} sm={4}>
+          <Grid key={`grid.${field}`} item xs={12} sm={4}>
             <Autocomplete
               autoHighlight
               id={field}
@@ -211,7 +209,7 @@ const FormAddress = React.forwardRef((props, ref) => {
               value={Fields[field][0]}
               isOptionEqualToValue={handleEqualToValue}
               getOptionLabel={handleOptionLabel}
-              getOptionKey={handleOptionKey}
+              //getOptionKey={handleOptionKey}
               renderInput={(params) => (
                 <TextField
                   variant="standard"
@@ -229,9 +227,10 @@ const FormAddress = React.forwardRef((props, ref) => {
           </Grid>
         ))}
         {["number", , "floor", "apartment", "postalCode"].map((field) => (
-          <Grid item xs={12} sm={3}>
+          <Grid key={`grid.${field}`} item xs={12} sm={3}>
             <TextField
               id={field}
+              key={field}
               label={formaddresslables[field]}
               size="small"
               required

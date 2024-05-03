@@ -6,6 +6,7 @@ const URL_GEOREF = process.env.REACT_APP_GEOREF_URL;
 const APP_KEY = process.env.REACT_APP_KEY;
 
 const PublicResourseContext = createContext();
+const DEFAULT = { id: 0, nombre: "Ninguno" };
 
 export const PublicResourcesProvider = ({ children }) => {
   /**
@@ -33,7 +34,8 @@ export const PublicResourcesProvider = ({ children }) => {
       const response = await axios.get(`${URL_GEOREF}/provincias`, {
         params,
       });
-      const { cantidad, provincias } = response.data;
+      let { cantidad, provincias } = response.data;
+      provincias.push(DEFAULT);
       return cantidad > 0 ? provincias : [];
     } catch (error) {
       console.error("Error al obtener las provincias:", error);
@@ -61,7 +63,8 @@ export const PublicResourcesProvider = ({ children }) => {
       const response = await axios.get(`${URL_GEOREF}/departamentos`, {
         params,
       });
-      const { cantidad, departamentos } = response.data;
+      let { cantidad, departamentos } = response.data;
+      departamentos.push(DEFAULT);
       return cantidad > 0 ? departamentos : [];
     } catch (error) {
       console.error("Error al obtener las provincias:", error);
@@ -97,7 +100,8 @@ export const PublicResourcesProvider = ({ children }) => {
         params,
       });
 
-      const { cantidad, localidades_censales } = response.data;
+      let { cantidad, localidades_censales } = response.data;
+      localidades_censales.push(DEFAULT);
       return cantidad > 0 ? localidades_censales : [];
     } catch (error) {
       console.error("Error al obtener las localidades:", error);
@@ -134,8 +138,9 @@ export const PublicResourcesProvider = ({ children }) => {
       const response = await axios.get(`${URL_GEOREF}/calles`, {
         params,
       });
-      const { cantidad, calles } = response.data;
+      let { cantidad, calles } = response.data;
       // Process the retrieved address names
+      calles.push(DEFAULT);
       return cantidad > 0 ? calles : [];
     } catch (error) {
       console.error("Error al obtener las direcciones:", error);
@@ -209,6 +214,7 @@ export const PublicResourcesProvider = ({ children }) => {
         get_address_names,
         get_substate_names,
         fetch_faq,
+        DEFAULT,
       }}
     >
       {children}

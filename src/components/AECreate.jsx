@@ -174,13 +174,11 @@ export const AECreate = () => {
       setExpanded(newExpanded ? panel : false);
     } else {
       let ref = refs.current;
-      if (!ref.handleErrors()) {
-        if (expanded !== panel) {
-          setExpanded(newExpanded ? panel : false);
-        } else {
-          setExpanded("");
-        }
-      }
+      let a = !ref.handleErrors()
+        ? expanded !== panel
+          ? setExpanded(newExpanded ? panel : false)
+          : setExpanded("")
+        : undefined;
     }
   };
 
@@ -216,12 +214,7 @@ export const AECreate = () => {
    */
   const handleSend = () => {
     setSendError(true);
-    let ref = refs.current;
-    let data_error = false;
-    if (ref !== null) {
-      data_error = ref.handleErrors();
-    }
-    if (!data_error) {
+    if (refs.current && refs.current.handleErrors()) {
       handleRegister();
     }
   };
