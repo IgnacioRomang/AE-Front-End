@@ -193,6 +193,7 @@ export const ServiceProvider = ({ children }) => {
         { headers: { "X-API-Key": APP_KEY } }
       );
       const message = response.data;
+      console.log(response);
       if (message === "Agregado") {
         // Reset server dates
         setServerDates(null);

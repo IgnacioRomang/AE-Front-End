@@ -40,7 +40,7 @@ const studys = [
  * @returns {JSX.Element} - Returns the ExtraDataCard component.
  */
 const FormExtra = React.forwardRef(
-  ({ occupation, study, phone, email }, ref) => {
+  ({ occupation, study, phone, email, registerState }, ref) => {
     const formextralabels = useFormExtraString();
 
     const [userData, setUserData] = useState({
@@ -175,19 +175,21 @@ const FormExtra = React.forwardRef(
               variant="standard"
             />
           </Grid>
-          <Grid item xs={12} sm={4}>
-            <TextField
-              id="email"
-              label={formextralabels.email}
-              required
-              disabled={null}
-              size="small"
-              value={userData.email}
-              error={errors.email}
-              onChange={(event) => handleChange(event, "email", doEmail)}
-              variant="standard"
-            />
-          </Grid>
+          {registerState && (
+            <Grid item xs={12} sm={4}>
+              <TextField
+                id="email"
+                label={formextralabels.email}
+                required
+                disabled={null}
+                size="small"
+                value={userData.email}
+                error={errors.email}
+                onChange={(event) => handleChange(event, "email", doEmail)}
+                variant="standard"
+              />
+            </Grid>
+          )}
         </Grid>
       </CardContent>
     );

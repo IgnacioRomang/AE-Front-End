@@ -169,6 +169,7 @@ const AuthRegister = () => {
         study={stepData[2].study}
         phone={stepData[2].phone}
         email={stepData[2].email}
+        registerState={true}
         ref={dataRef}
       />
     ),

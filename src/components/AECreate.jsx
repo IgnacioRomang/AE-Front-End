@@ -70,7 +70,7 @@ export const AECreate = () => {
   const aecreatelabels = useComponentAECreateString();
   const onlytitles = useComponentAuthRegisterString().step_title;
 
-  const [expanded, setExpanded] = useState("");
+  const [expanded, setExpanded] = useState(0);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [errorSend, setSendError] = useState(false);
@@ -189,19 +189,21 @@ export const AECreate = () => {
         lastname: stepData[0].lastname,
         birthdate: formatDate(new Date(stepData[0].birthdate)),
         gender: stepData[0].gender,
-        address: stepData[1].address,
+        address: stepData[1].address.nombre,
         address_number: stepData[1].number,
         floor: stepData[1].floor,
         apartment: stepData[1].apartment,
         postalcode: stepData[1].postalCode,
-        city: stepData[1].city,
-        state: stepData[1].state,
+        city: stepData[1].city.nombre,
+        state: stepData[1].state.nombre,
         phone: stepData[2].phone,
         startdate: formatDate(new Date()),
         occupation: stepData[2].occupation,
         study: stepData[2].study,
       };
+      console.log(register_user);
       let result = await start_ae_n(register_user);
+      console.log(result);
       setSendError(!result);
       setOpen(true);
     } catch (e) {
@@ -214,7 +216,10 @@ export const AECreate = () => {
    */
   const handleSend = () => {
     setSendError(true);
-    if (refs.current && refs.current.handleErrors()) {
+    console.log("wq");
+    console.log(refs.current);
+    console.log(!refs.current.handleErrors());
+    if (refs.current !== null && !refs.current.handleErrors()) {
       handleRegister();
     }
   };
@@ -352,6 +357,7 @@ export const AECreate = () => {
                       study={stepData[2].study}
                       phone={stepData[2].phone}
                       email={stepData[2].email}
+                      registerState={false}
                       ref={refs}
                     />
                   )}

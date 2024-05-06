@@ -132,7 +132,7 @@ const FormInfo = React.forwardRef((props, ref) => {
       <Grid container padding={3} spacing={{ xs: 1, sm: 2 }}>
         {(props.registerState
           ? ["name", "lastname", "cuil", "password", "passrep"]
-          : ["name", "lastname", "cuil"]
+          : ["name", "lastname"]
         ).map((field) => (
           <Grid item key={field + "grid-item"}>
             <TextField
