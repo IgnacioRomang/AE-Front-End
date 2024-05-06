@@ -1,6 +1,6 @@
 import React, { lazy } from "react";
 import { Typography } from "@mui/material";
-import { centeringStyles, textJustifyStyle } from "../theme";
+import { centeringStyles, textJustifyStyle } from "../theme.jsx";
 const Alert = lazy(() => import("@mui/material/Alert"));
 const AlertTitle = lazy(() => import("@mui/material/AlertTitle"));
 

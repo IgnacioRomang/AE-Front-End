@@ -17,15 +17,15 @@ import {
   useCommonsButtonString,
   useComponentPasswordAlertString,
   useComponentPasswordChangeString,
-} from "../contexts/TextProvider";
-import PasswordFragment from "../fragments/PasswordFragment";
-import ProcessAlert from "../fragments/ProcessAlert";
+} from "../contexts/TextProvider.jsx";
+import PasswordFragment from "../fragments/PasswordFragment.jsx";
+import ProcessAlert from "../fragments/ProcessAlert.jsx";
 import {
   boxLoginSyle,
   cardLoginStyle,
   centerButtonsStyle,
   centeringStyles,
-} from "../theme";
+} from "../theme.jsx";
 
 /**
  * The `ResetPassword` function is a React component that handles the process of resetting a user's

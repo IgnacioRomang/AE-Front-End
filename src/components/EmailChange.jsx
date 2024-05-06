@@ -7,10 +7,10 @@ import {
   useCommonsButtonString,
   useCommonsFieldString,
   useComponentEmailChangeString,
-} from "../contexts/TextProvider";
-import AlertFragment from "../fragments/AlertFragmet";
-import ProcessAlert from "../fragments/ProcessAlert";
-import { centerButtonsStyle } from "../theme";
+} from "../contexts/TextProvider.jsx";
+import AlertFragment from "../fragments/AlertFragmet.jsx";
+import ProcessAlert from "../fragments/ProcessAlert.jsx";
+import { centerButtonsStyle } from "../theme.jsx";
 
 /**
  * Function for handling email change form submission and user interaction.

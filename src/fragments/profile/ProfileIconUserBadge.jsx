@@ -2,8 +2,8 @@ import { Box } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Badge from "@mui/material/Badge";
 import React from "react";
-import { useComponentAEProfileString } from "../../contexts/TextProvider";
-import { badgeUserAnchorStyle, boxUserbadgeStyle } from "../../theme";
+import { useComponentAEProfileString } from "../../contexts/TextProvider.jsx";
+import { badgeUserAnchorStyle, boxUserbadgeStyle } from "../../theme.jsx";
 import { stringAvatar } from "../../utiles";
 
 function IconUserBadge({ username, isActive }) {

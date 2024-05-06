@@ -7,13 +7,13 @@ import {
   useCommonsButtonString,
   useCommonsFieldString,
   useComponentPasswordAlertString,
-} from "../contexts/TextProvider";
-import AlertFragment from "../fragments/AlertFragmet";
+} from "../contexts/TextProvider.jsx";
+import AlertFragment from "../fragments/AlertFragmet.jsx";
 
 import { usePasswordService } from "../contexts/PasswordContext";
-import ProcessAlert from "../fragments/ProcessAlert";
-import { buttonTopStyle, centerButtonsStyle } from "../theme";
-import { doformatCUIL } from "../utiles";
+import ProcessAlert from "../fragments/ProcessAlert.jsx";
+import { buttonTopStyle, centerButtonsStyle } from "../theme.jsx";
+import { doformatCUIL } from "../utiles.js";
 
 const PasswordReset = () => {
   const [loading, setLoading] = useState(true);

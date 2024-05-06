@@ -10,9 +10,9 @@ import {
 import { blue } from "@mui/material/colors";
 import React, { Suspense } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import RootFooter from "../components/RootFooter";
-import RootTopBar from "../components/RootTopBar";
-import { centeringStyles } from "../theme";
+import RootFooter from "../components/RootFooter.jsx";
+import RootTopBar from "../components/RootTopBar.jsx";
+import { centeringStyles } from "../theme.jsx";
 
 export default function Root() {
   const navigate = useNavigate();
@@ -46,7 +46,7 @@ export default function Root() {
             </Paper>
           }
         >
-          <Outlet/>
+          <Outlet />
         </Suspense>
       </Box>
       <RootFooter />

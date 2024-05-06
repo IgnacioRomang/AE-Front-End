@@ -13,10 +13,10 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import PersonIcon from "@mui/icons-material/Person";
-import { stringAvatar } from "../../utiles";
+import { stringAvatar } from "../../utiles.js";
 
 import { useNavigate } from "react-router-dom";
-import { useService } from "../../contexts/ServiceContext";
+import { useService } from "../../contexts/ServiceContext.js";
 
 const settings = [{ label: "Cerrar sesión", icon: <ExitToAppIcon />, id: 5 }];
 

@@ -5,8 +5,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEmailVerify } from "../contexts/EmailVerifyContext";
 import { useService } from "../contexts/ServiceContext";
-import { useComponentEmailVerifyString } from "../contexts/TextProvider";
-import AlertFragment from "../fragments/AlertFragmet";
+import { useComponentEmailVerifyString } from "../contexts/TextProvider.jsx";
+import AlertFragment from "../fragments/AlertFragmet.jsx";
 
 /**
  * The `VerificationCard` component is a React component that displays a card with a loading spinner

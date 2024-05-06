@@ -1,10 +1,10 @@
 import { List, ListItem, Paper, Typography } from "@mui/material";
 import React, { lazy, useCallback, useEffect, useState } from "react";
-import { useRootFAQString } from "../contexts/TextProvider";
+import { useRootFAQString } from "../contexts/TextProvider.jsx";
 //import Question from "../fragments/Question";
 import { usePublicResources } from "../contexts/PublicResourcesContext";
 
-const Question = lazy(() => import("../fragments/Question"));
+const Question = lazy(() => import("../fragments/Question.jsx"));
 
 /**
  * React functional component for the FAQ page.

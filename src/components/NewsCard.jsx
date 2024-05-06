@@ -6,7 +6,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { gridNewsCardStyle } from "../theme";
+import { gridNewsCardStyle } from "../theme.jsx";
 
 const NewsCard = ({ anews }) => {
   const navigate = useNavigate();

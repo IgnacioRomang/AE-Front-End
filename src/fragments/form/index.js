@@ -1,8 +1,8 @@
-export { default as FormInfo } from "./FormInfo";
-export { default as FormAddress } from "./FormAddress";
-export { default as FormExtra } from "./FormExtra";
-export { default as FormFileAttach } from "./FormFileAttach";
-export { default as FormDatePlan } from "./FormDatePlan";
-export { default as FormMessageSuccess } from "./FormMessageSuccess";
-export { default as FormMessageError } from "./FormMessageError";
-export { default as FormMessageFinalizeSuccess } from "./FormMessageFinalizeSuccess";
+export { default as FormInfo } from "./FormInfo.jsx";
+export { default as FormAddress } from "./FormAddress.jsx";
+export { default as FormExtra } from "./FormExtra.jsx";
+export { default as FormFileAttach } from "./FormFileAttach.jsx";
+export { default as FormDatePlan } from "./FormDatePlan.jsx";
+export { default as FormMessageSuccess } from "./FormMessageSuccess.jsx";
+export { default as FormMessageError } from "./FormMessageError.jsx";
+export { default as FormMessageFinalizeSuccess } from "./FormMessageFinalizeSuccess.jsx";

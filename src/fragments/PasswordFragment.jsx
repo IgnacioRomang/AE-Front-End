@@ -1,7 +1,7 @@
 import { Stack, TextField } from "@mui/material";
 import React, { forwardRef, useState, useImperativeHandle } from "react";
-import { useCommonsFieldString } from "../contexts/TextProvider";
-import { testpassword } from "../utiles";
+import { useCommonsFieldString } from "../contexts/TextProvider.jsx";
+import { testpassword } from "../utiles.js";
 
 const PasswordFragment = forwardRef((props, ref) => {
   const [passwordChange, setPasswordChange] = useState({

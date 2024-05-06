@@ -7,8 +7,8 @@ import {
   TextField,
 } from "@mui/material";
 import React, { useImperativeHandle, useState } from "react";
-import { useFormExtraString } from "../../contexts/TextProvider";
-import { doEmail, doPhone } from "../../utiles";
+import { useFormExtraString } from "../../contexts/TextProvider.jsx";
+import { doEmail, doPhone } from "../../utiles.js";
 
 const occupations = [
   { label: "Empleado", id: "E" },
