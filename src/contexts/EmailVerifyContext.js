@@ -22,7 +22,7 @@ export const EmailVerifyProvider = ({ children }) => {
         { headers: { "X-API-Key": APP_KEY } }
       );
       const { message } = response.data;
-      return true; // Return true if the request was successful
+      return message !== null; // Return true if the request was successful
     } catch (error) {
       console.error("Error al reenviar el correo:", error); // Log the error
       return false; // Return false if there was an error

@@ -25,8 +25,6 @@ const handleEqualToValue = (option, value) => option.id === value.id;
 
 const handleOptionLabel = (option) => option.nombre;
 
-const handleOptionKey = (option) => option.id;
-
 const handleNothing = (value) => value;
 
 const FormAddress = React.forwardRef((props, ref) => {
@@ -121,6 +119,8 @@ const FormAddress = React.forwardRef((props, ref) => {
     async (field, value = "") => {
       let fields = [];
       switch (field) {
+        default:
+          throw new Error("Wrong field");
         case "state":
           fields = await get_province_names();
           break;
@@ -189,7 +189,7 @@ const FormAddress = React.forwardRef((props, ref) => {
 
   useEffect(() => {
     getSuggestions("state");
-  }, []);
+  });
 
   return (
     <CardContent>
@@ -208,7 +208,6 @@ const FormAddress = React.forwardRef((props, ref) => {
               value={Fields[field][0]}
               isOptionEqualToValue={handleEqualToValue}
               getOptionLabel={handleOptionLabel}
-              //getOptionKey={handleOptionKey}
               renderInput={(params) => (
                 <TextField
                   variant="standard"
@@ -225,7 +224,7 @@ const FormAddress = React.forwardRef((props, ref) => {
             />
           </Grid>
         ))}
-        {["number", , "floor", "apartment", "postalCode"].map((field) => (
+        {["number", "floor", "apartment", "postalCode"].map((field) => (
           <Grid key={`grid.${field}`} item xs={12} sm={3}>
             <TextField
               id={field}

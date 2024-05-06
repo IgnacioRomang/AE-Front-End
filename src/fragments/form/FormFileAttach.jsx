@@ -4,18 +4,8 @@ import {
   useFormFileAttachString,
 } from "../../contexts/TextProvider.jsx";
 
-import {
-  Alert,
-  AlertTitle,
-  Box,
-  Button,
-  CardContent,
-  Grid,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, CardContent, Grid, TextField } from "@mui/material";
 
-import { textJustifyStyle } from "../../theme.jsx";
 import { shortFileName } from "../../utiles.js";
 import AlertFragment from "../AlertFragmet.jsx";
 
@@ -98,7 +88,7 @@ const FormFileAttach = React.forwardRef((props, ref) => {
         break;
       }
     }
-    
+
     return Object.values(errors).some(Boolean);
   };
 
