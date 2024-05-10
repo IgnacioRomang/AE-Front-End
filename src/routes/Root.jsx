@@ -23,10 +23,10 @@ export default function Root() {
       <Box
         id="scrollable-content"
         sx={{
-          paddingTop: 5,
-          paddingBottom: 5,
+          paddingTop: 10,
+          paddingBottom: 10,
           minHeight: "70vh",
-          maxHeight: "160vh",
+          maxHeight: "190vh",
           overflow: "auto",
           ...centeringStyles,
         }}
@@ -35,7 +35,7 @@ export default function Root() {
           fallback={
             <Paper>
               <Stack
-                padding={4}
+                padding={8}
                 direction="column"
                 sx={centeringStyles}
                 spacing={2}

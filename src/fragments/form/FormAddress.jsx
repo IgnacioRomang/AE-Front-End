@@ -38,11 +38,10 @@ const FormAddress = React.forwardRef((props, ref) => {
   } = usePublicResources();
 
   const [suggestions, setSuggestions] = useState({
-    state: [],
-    city: [],
-    postalCode: [],
-    address: [],
-    substate: [],
+    state: null,
+    substate: null,
+    city: null,
+    address: null,
   });
 
   const setDefaults = (value) => (value !== "Ninguno" ? value : DEFAULT);
@@ -162,7 +161,11 @@ const FormAddress = React.forwardRef((props, ref) => {
       address: !Fields["address"][0].id,
       postalCode:
         Fields["postalCode"][0] === "" && Fields["postalCode"][0].length !== 4,
-      number: Fields["number"][0] === "" || !itsNumber(Fields["number"][0]),
+      number:
+        Fields["number"][0] === "" ||
+        !itsNumber(Fields["number"][0]) ||
+        Fields["number"][0] >= 9999 ||
+        Fields["number"][0] <= 0,
     };
 
     setErrors(newErrors);
@@ -187,9 +190,31 @@ const FormAddress = React.forwardRef((props, ref) => {
     getData,
   }));
 
+  const startup = useCallback(async (props) => {
+    let states = await get_province_names();
+    let substates = await get_substate_names(props.state.nombre);
+    let citys = await get_citys_name(props.state.nombre, props.substate.nombre);
+    let address = await get_address_names(
+      props.state.nombre,
+      props.substate.nombre,
+      props.city.nombre
+    );
+    console.log("HOA");
+    setSuggestions({
+      state: states,
+      city: citys,
+      address: address,
+      substate: substates,
+    });
+  }, []);
+
   useEffect(() => {
-    getSuggestions("state");
-  });
+    if (props.substate !== "Ninguno") {
+      startup(props);
+    } else {
+      getSuggestions("state");
+    }
+  }, [props, startup]);
 
   return (
     <CardContent>
@@ -204,9 +229,11 @@ const FormAddress = React.forwardRef((props, ref) => {
               onChange={(event, newvalue) => {
                 handleChange(newvalue, field, Formatters[field]);
               }}
-              options={suggestions[field]}
+              disabled={!suggestions[field] || suggestions[field].length === 0}
+              options={suggestions[field] || []}
               value={Fields[field][0]}
               isOptionEqualToValue={handleEqualToValue}
+              getOptionKey={(value) => value.id}
               getOptionLabel={handleOptionLabel}
               renderInput={(params) => (
                 <TextField
@@ -231,9 +258,8 @@ const FormAddress = React.forwardRef((props, ref) => {
               key={field}
               label={formaddresslables[field]}
               size="small"
-              required
+              required={["postalCode", "number"].includes(field)}
               error={errors[field]}
-              disabled={false}
               onChange={(event) =>
                 handleChange(
                   event.target.value,

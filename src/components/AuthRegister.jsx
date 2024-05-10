@@ -66,7 +66,7 @@ const AuthRegister = () => {
     false,
   ]);
 
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(3);
   const stepperRef = useRef(null);
 
   const dataRef = useRef(null);

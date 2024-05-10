@@ -21,6 +21,8 @@ import NewsTable from "./components/NewsTable.jsx";
 import { PublicResourcesProvider } from "./contexts/PublicResourcesContext.js";
 import { EmailVerifyProvider } from "./contexts/EmailVerifyContext.js";
 import { PasswordServiceProvider } from "./contexts/PasswordContext.js";
+import PhoneField from "./fragments/PhoneField.jsx";
+import { Card } from "@mui/material";
 
 // Crea un nuevo tema con el color primario modificado
 const theme = createTheme({
@@ -56,6 +58,14 @@ function App() {
                 <Route index element={<NewsTable />} />
                 <Route path="faq" element={<FAQcard />} />
                 <Route path="document/:id" element={<NewsView />} />
+                <Route
+                  path="pruebas"
+                  element={
+                    <Card>
+                      <PhoneField />
+                    </Card>
+                  }
+                />
               </Route>
               <Route
                 path="/auth"

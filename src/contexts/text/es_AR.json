@@ -130,14 +130,14 @@
               "phone": "Teléfono",
               "email": "Email",
               "occupation": "Ocupación",
-              "capacity": "Estudios"
+              "study": "Estudios"
             },
             "file_attach": {
               "title": "Subir Imágenes del DNI",
               "body": [
-                "Por favor, sube imágenes claras del frente y el reverso de tu DNI.",
+                "Por favor, sube DOS (2) imágenes del DNI, del frente y el reverso.",
                 "Asegúrate de que ambos lados sean visibles y legibles.",
-                "Puedes subir hasta dos archivos en total."
+                "Puedes subir SOLO DOS (2) en total."
               ],
               "files_selected": {
                 "title": "Imágenes del DNI (*)",
@@ -153,9 +153,9 @@
               "passrep": "Contraseña",
               "gender": "Género",
               "helper_text": {
-                "insert": "Ingresa tu ",
-                "birthdate": ["Dato obligatirio", "Debe ser mayor de 18 años"],
-                "gender": "Seleccione un genero"
+                "name": "",
+                "lastname": "",
+                "cuil": "Sin '-', se agregan solos"
               }
             }
           }

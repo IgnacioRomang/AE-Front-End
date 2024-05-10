@@ -81,7 +81,7 @@ const IconUserMenu = (props) => {
   return (
     <Box sx={{ flexGrow: 0 }}>
       <>
-        <Tooltip title="Open settings">
+        <Tooltip title="Menu">
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
             {props.userAuth ? (
               <Avatar

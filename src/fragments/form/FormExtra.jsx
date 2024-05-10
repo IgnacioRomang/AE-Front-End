@@ -9,36 +9,9 @@ import {
 import React, { useImperativeHandle, useState } from "react";
 import { useFormExtraString } from "../../contexts/TextProvider.jsx";
 import { doEmail, doPhone } from "../../utiles.js";
+import { MuiTelInput } from "mui-tel-input";
+import { centerButtonsStyle } from "../../theme.jsx";
 
-const occupations = [
-  { label: "Empleado", id: "E" },
-  { label: "Profesional Independiente", id: "PI" },
-  { label: "Autonomo", id: "A" },
-  { label: "Estudiante", id: "ES" },
-  { label: "Jubilado", id: "J" },
-  { label: "Desocupado", id: "D" },
-  { label: "Otro", id: "O" },
-  { label: "No Contesta", id: "NC" },
-];
-const studys = [
-  { label: "Primaria", id: "P" },
-  { label: "Secundaria", id: "S" },
-  { label: "Tercearua", id: "T" },
-  { label: "Universitaria", id: "U" },
-  { label: "Otra", id: "O" },
-  { label: "No contesta", id: "NC" },
-];
-/**
- * The code defines a React functional component called `ExtraDataCard`. It is a card component that
- * displays and allows users to edit extra data such as occupation, study, phone, and email.
- *
- * @param {object} props - The props object passed to the component.
- * @param {string} props.occupation - The occupation of the user.
- * @param {string} props.study - The study capacity of the user.
- * @param {string} props.phone - The phone number of the user.
- * @param {string} props.email - The email of the user.
- * @returns {JSX.Element} - Returns the ExtraDataCard component.
- */
 const FormExtra = React.forwardRef(
   ({ occupation, study, phone, email, registerState }, ref) => {
     const formextralabels = useFormExtraString();
@@ -55,28 +28,34 @@ const FormExtra = React.forwardRef(
       email: false,
     });
 
-    /**
-     * The handleChange function updates the userData state by formatting the value of a specific field.
-     *
-     * @param {Event} event - The input event that triggered the change.
-     * @param {string} field - The name of the field to update.
-     * @param {function} formatter - The function used to format the field value.
-     */
-    const handleChange = (event, field, formatter) => {
-      const { value } = event.target;
+    const handleChange = (value, field, formatter) => {
       setUserData((prevUserData) => ({
         ...prevUserData,
         [field]: formatter(value),
       }));
     };
 
-    /**
-     * The `handleErrors` function is a callback function that is used to validate the phone and email
-     * fields in the `userData` state object.
-     *
-     * @param {object} userData - The user data object containing the phone and email fields to validate.
-     * @returns {boolean} - Returns true if any of the fields have errors, otherwise returns false.
-     */
+    const Fields = {
+      occupation: [
+        { label: "Empleado", id: "E" },
+        { label: "Profesional Independiente", id: "PI" },
+        { label: "Autonomo", id: "A" },
+        { label: "Estudiante", id: "ES" },
+        { label: "Jubilado", id: "J" },
+        { label: "Desocupado", id: "D" },
+        { label: "Otro", id: "O" },
+        { label: "No Contesta", id: "NC" },
+      ],
+      study: [
+        { label: "Primaria", id: "P" },
+        { label: "Secundaria", id: "S" },
+        { label: "Tercearia", id: "T" },
+        { label: "Universitaria", id: "U" },
+        { label: "Otra", id: "O" },
+        { label: "No contesta", id: "NC" },
+      ],
+    };
+
     const handleErrors = () => {
       const { phone, email } = userData;
       const errors = {
@@ -89,22 +68,11 @@ const FormExtra = React.forwardRef(
       return Object.values(errors).some(Boolean);
     };
 
-    /**
-     * The handleChangeNotFormatter function updates the value of a specific field in the userData state
-     * object using the setUserData function.
-     *
-     * @param {Event} event - The input event that triggered the change.
-     * @param {string} field - The name of the field to update.
-     */
     const handleChangeNotFormatter = (event, field) => {
       const value = event.target.value;
       setUserData((prevData) => ({ ...prevData, [field]: value }));
     };
-    /**
-     * The function exports a `getData` function that returns `userData` and is accessible through the
-     * `ref` object.
-     * @returns {object} - Returns an object containing the user data.
-     */
+
     const getData = () => {
       return userData;
     };
@@ -114,78 +82,71 @@ const FormExtra = React.forwardRef(
       getData,
     }));
 
+    const FieldFormatter = {
+      phone: (value) => value,
+      email: (value) => doEmail(value),
+    };
+
     return (
       <CardContent>
         <Grid container padding={3} spacing={3}>
-          <Grid item xs={12} sm={4}>
-            <FormControl fullWidth>
-              <InputLabel htmlFor="occupation">
-                {formextralabels.occupation}
-              </InputLabel>
-              <NativeSelect
-                value={userData.occupation}
-                size="small"
-                onChange={(event) =>
-                  handleChangeNotFormatter(event, "occupation")
-                }
-                inputProps={{
-                  name: "occupation",
-                  id: "occupation",
-                }}
-              >
-                {occupations.map((o) => (
-                  <option key={o.id} value={o.id}>
-                    {o.label}
-                  </option>
-                ))}
-              </NativeSelect>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <FormControl fullWidth>
-              <InputLabel htmlFor="Study">
-                {formextralabels.capacity}
-              </InputLabel>
-              <NativeSelect
-                value={userData.study}
-                size="small"
-                onChange={(event) => handleChangeNotFormatter(event, "study")}
-                inputProps={{
-                  name: "Study",
-                  id: "Study",
-                }}
-              >
-                {studys.map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.label}
-                  </option>
-                ))}
-              </NativeSelect>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={4}>
-            <TextField
-              id="phone"
-              label={formextralabels.phone}
-              disabled={false}
-              error={errors.phone}
+          {["occupation", "study"].map((field) => (
+            <Grid item xs={12} sm={5}>
+              <FormControl fullWidth>
+                <InputLabel htmlFor={field}>
+                  {formextralabels[field]}
+                </InputLabel>
+                <NativeSelect
+                  value={userData[field]}
+                  size="small"
+                  onChange={(event) => handleChangeNotFormatter(event, field)}
+                  inputProps={{
+                    name: field,
+                    id: field,
+                  }}
+                >
+                  {Fields[field].map((o) => (
+                    <option key={o.id} value={o.id}>
+                      {o.label}
+                    </option>
+                  ))}
+                </NativeSelect>
+              </FormControl>
+            </Grid>
+          ))}
+          <Grid item xs={12} sm={5}>
+            <MuiTelInput
+              id="area-code"
               size="small"
-              value={userData.phone}
-              onChange={(event) => handleChange(event, "phone", doPhone)}
               variant="standard"
+              defaultCountry={"AR"}
+              value={userData["phone"]}
+              onChange={(event) =>
+                handleChange(event, "phone", FieldFormatter["phone"])
+              }
+              label={formextralabels["phone"]}
+              error={errors["phone"]}
+              helperText={"Sin el 15"}
             />
           </Grid>
+
           {registerState && (
-            <Grid item xs={12} sm={4}>
+            <Grid item xs={12} sm={5}>
               <TextField
-                id="email"
-                label={formextralabels.email}
+                id={"email"}
+                label={formextralabels["email"]}
+                disabled={false}
                 required
-                disabled={null}
+                error={errors["email"]}
                 size="small"
-                value={userData.email}
-                error={errors.email}
-                onChange={(event) => handleChange(event, "email", doEmail)}
+                value={userData["email"]}
+                onChange={(event) =>
+                  handleChange(
+                    event.target.value,
+                    "email",
+                    FieldFormatter["email"]
+                  )
+                }
                 variant="standard"
               />
             </Grid>

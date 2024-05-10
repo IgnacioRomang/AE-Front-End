@@ -129,100 +129,135 @@ const FormInfo = React.forwardRef((props, ref) => {
 
   return (
     <CardContent key={"Form-info"}>
-      <Grid container padding={3} spacing={{ xs: 1, sm: 2 }}>
-        {(props.registerState
-          ? ["name", "lastname", "cuil", "password", "passrep"]
-          : ["name", "lastname"]
-        ).map((field) => (
-          <Grid item key={field + "grid-item"}>
-            <TextField
-              required
-              size="small"
-              variant="standard"
-              id={field}
-              key={field}
-              type={
-                ["password", "passrep"].includes(field) ? "password" : "text"
-              }
-              label={forminfolabels[field]}
-              value={userData[field]}
-              error={errors[field]}
-              onChange={(event) => handleChange(field, event.target.value)}
-              InputLabelProps={{
-                shrink: userData[field] !== "",
-              }}
-            />
+      <Grid
+        container
+        padding={3}
+        sx={centeringStyles}
+        spacing={{ xs: 1, sm: 2 }}
+        direction={"column"}
+      >
+        <Grid item>
+          <Grid
+            container
+            padding={3}
+            sx={centeringStyles}
+            spacing={{ xs: 1, sm: 2 }}
+          >
+            {(props.registerState
+              ? ["name", "lastname", "cuil"]
+              : ["name", "lastname"]
+            ).map((field) => (
+              <Grid item key={field + "grid-item"}>
+                <TextField
+                  required
+                  size="small"
+                  variant="standard"
+                  id={field}
+                  key={field}
+                  label={forminfolabels[field]}
+                  value={userData[field]}
+                  error={errors[field]}
+                  helperText={forminfolabels.helper_text[field]}
+                  onChange={(event) => handleChange(field, event.target.value)}
+                  InputLabelProps={{
+                    shrink: userData[field] !== "",
+                  }}
+                />
+              </Grid>
+            ))}
+            <Grid item>
+              {props.registerState && (
+                <TextField
+                  id="dates"
+                  key="dates"
+                  label={forminfolabels["birthdate"]}
+                  required
+                  value={userData["birthdate"]}
+                  error={errors["birthdate"]}
+                  type="date"
+                  size="small"
+                  fullWidth
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={(event) =>
+                    handleChange("birthdate", event.target.value)
+                  }
+                  variant="standard"
+                />
+              )}
+            </Grid>
+
+            <Grid item>
+              <FormControl>
+                <InputLabel
+                  sx={{ color: errors.gender ? red[600] : "inherit" }}
+                  variant="standard"
+                  key="gender-label"
+                  htmlFor="gender"
+                >
+                  {forminfolabels.gender}
+                </InputLabel>
+                <NativeSelect
+                  key="gender"
+                  value={userData["gender"]}
+                  onChange={(event) =>
+                    handleChange("gender", event.target.value)
+                  }
+                  error={errors["gender"]}
+                  size="small"
+                  inputProps={{
+                    name: "gender",
+                    id: "gender-select",
+                  }}
+                >
+                  {genders.map((g) => (
+                    <option key={g.id} value={g.id}>
+                      {g.label}
+                    </option>
+                  ))}
+                </NativeSelect>
+              </FormControl>
+            </Grid>
           </Grid>
-        ))}
-
-        <Grid item>
-          {props.registerState && (
-            <TextField
-              id="dates"
-              key="dates"
-              label={forminfolabels["birthdate"]}
-              required
-              value={userData["birthdate"]}
-              error={errors["birthdate"]}
-              helperText={null}
-              type="date"
-              size="small"
-              fullWidth
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange={(event) =>
-                handleChange("birthdate", event.target.value)
-              }
-              variant="standard"
-            />
-          )}
         </Grid>
 
-        <Grid item>
-          <FormControl>
-            <InputLabel
-              sx={{ color: errors.gender ? red[600] : "inherit" }}
-              variant="standard"
-              key="gender-label"
-              htmlFor="gender"
-            >
-              {forminfolabels.gender}
-            </InputLabel>
-            <NativeSelect
-              key="gender"
-              value={userData["gender"]}
-              onChange={(event) => handleChange("gender", event.target.value)}
-              error={errors["gender"]}
-              size="small"
-              inputProps={{
-                name: "gender",
-                id: "gender-select",
-              }}
-            >
-              {genders.map((g) => (
-                <option key={g.id} value={g.id}>
-                  {g.label}
-                </option>
+        <Grid item key={"grid-item-passwords"}>
+          <Grid container spacing={{ xs: 1, sm: 2 }}>
+            {props.registerState &&
+              ["password", "passrep"].map((field) => (
+                <Grid item key={field + "grid-item"}>
+                  <TextField
+                    required
+                    size="small"
+                    variant="standard"
+                    id={field}
+                    key={field}
+                    type={"password"}
+                    label={forminfolabels[field]}
+                    value={userData[field]}
+                    error={errors[field]}
+                    onChange={(event) =>
+                      handleChange(field, event.target.value)
+                    }
+                    InputLabelProps={{
+                      shrink: userData[field] !== "",
+                    }}
+                  />
+                </Grid>
               ))}
-            </NativeSelect>
-          </FormControl>
-        </Grid>
-
-        <Grid item>
-          <Collapse in={errors.password} sx={centeringStyles}>
-            <Alert
-              severity="error"
-              style={{ textAlign: "left", marginTop: "16px" }}
-            >
-              <AlertTitle>{passwordalertlabels.title}</AlertTitle>
-              <ul>
-                {passwordalertlabels.body.map((label) => (
-                  <li key={label}>{label}</li>
-                ))}
-              </ul>
-            </Alert>
-          </Collapse>
+          </Grid>
+          <Alert
+            severity="info"
+            style={{ textAlign: "left", marginTop: "16px" }}
+          >
+            <AlertTitle>{passwordalertlabels.title}</AlertTitle>
+            <ul>
+              {passwordalertlabels.body.map((label) => (
+                <li key={label}>{label}</li>
+              ))}
+            </ul>
+          </Alert>
         </Grid>
       </Grid>
     </CardContent>

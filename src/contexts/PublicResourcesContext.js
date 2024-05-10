@@ -158,7 +158,9 @@ export const PublicResourcesProvider = ({ children }) => {
       const response = await axios.post(
         `${URL_BACKEND}/api/resources/get-news-list`,
         {},
-        { headers: { "X-API-Key": APP_KEY } }
+        {
+          headers: { "X-API-Key": APP_KEY },
+        }
       );
       return response.data ? response.data : [];
     } catch (error) {
