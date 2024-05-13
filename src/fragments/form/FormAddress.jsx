@@ -8,6 +8,7 @@ import React, {
 import { usePublicResources } from "../../contexts/PublicResourcesContext.js";
 import { useFormAddressString } from "../../contexts/TextProvider.jsx";
 import { doApartment, doFloor, doPostalCode, itsNumber } from "../../utiles.js";
+import { centeringStyles } from "../../theme.jsx";
 
 /**
  * The `AddressDataCard` component is a form component that displays fields for entering address data such as street address, floor, apartment, province, city, and postal code.
@@ -218,7 +219,7 @@ const FormAddress = React.forwardRef((props, ref) => {
 
   return (
     <CardContent>
-      <Grid container spacing={3} padding={3}>
+      <Grid container sx={centeringStyles} spacing={3} padding={3}>
         {["state", "substate", "city", "address"].map((field) => (
           <Grid key={`grid.${field}`} item xs={12} sm={4}>
             <Autocomplete

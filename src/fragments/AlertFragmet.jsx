@@ -9,9 +9,15 @@ const AlertFragment = ({ type, title, body, strong }) => {
     <>
       {" "}
       <Alert severity={type} sx={centeringStyles}>
-        <AlertTitle>{title}</AlertTitle>
+        <AlertTitle>
+          <Typography variant={"h6"}>{title}</Typography>
+        </AlertTitle>
         {body.map((label, index) => (
-          <Typography key={index + "-alert-body"} sx={textJustifyStyle}>
+          <Typography
+            variant={"body1"}
+            key={index + "-alert-body"}
+            sx={textJustifyStyle}
+          >
             {label}
           </Typography>
         ))}

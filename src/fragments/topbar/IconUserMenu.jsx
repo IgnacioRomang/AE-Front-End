@@ -48,28 +48,23 @@ const IconUserMenu = (props) => {
   const loginPath = "/auth/login";
   const registerPath = "/auth/register";
 
+  const reloadOrRedirect = (path) => {
+    // SI estoy en la pagina y vuelvo apretar el mismo boton recarga
+    // Si no estoy , redirige a esta
+    if (window.location.pathname === path) {
+      window.location.reload();
+    } else {
+      navigate(path);
+      setAnchorElUser(null);
+    }
+  };
   const onClickMenu = async (e, id) => {
     const actions = {
-      [settings_login[0].id]: () => {
-        if (window.location.pathname === loginPath) {
-          window.location.reload();
-        } else {
-          navigate(loginPath);
-          setAnchorElUser(null);
-        }
-      },
-      [settings_login[1].id]: () => {
-        if (window.location.pathname === registerPath) {
-          window.location.reload();
-        } else {
-          navigate(registerPath);
-          setAnchorElUser(null);
-        }
-      },
+      [settings_login[0].id]: () => reloadOrRedirect(loginPath),
+      [settings_login[1].id]: () => reloadOrRedirect(registerPath),
       [settings[0].id]: logout,
       default: () => navigate("error"),
     };
-
     const action = actions[id] || actions.default;
     await action();
   };

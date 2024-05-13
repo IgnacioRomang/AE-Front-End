@@ -10,7 +10,7 @@ import React, { useImperativeHandle, useState } from "react";
 import { useFormExtraString } from "../../contexts/TextProvider.jsx";
 import { doEmail, doPhone } from "../../utiles.js";
 import { MuiTelInput } from "mui-tel-input";
-import { centerButtonsStyle } from "../../theme.jsx";
+import { centerButtonsStyle, centeringStyles } from "../../theme.jsx";
 
 const FormExtra = React.forwardRef(
   ({ occupation, study, phone, email, registerState }, ref) => {
@@ -89,7 +89,7 @@ const FormExtra = React.forwardRef(
 
     return (
       <CardContent>
-        <Grid container padding={3} spacing={3}>
+        <Grid container sx={centeringStyles} padding={3} spacing={3}>
           {["occupation", "study"].map((field) => (
             <Grid item xs={12} sm={5}>
               <FormControl fullWidth>
@@ -116,6 +116,7 @@ const FormExtra = React.forwardRef(
           ))}
           <Grid item xs={12} sm={5}>
             <MuiTelInput
+              sx={{ pt: 3 }}
               id="area-code"
               size="small"
               variant="standard"

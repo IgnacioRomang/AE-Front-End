@@ -102,8 +102,9 @@ const AuthLogin = () => {
           avatar={<LockOpenIcon />}
           title={authloginlabels.title}
         />
+        <Divider />
         <CardContent sx={boxLoginSyle}>
-          <Stack spacing={2}>
+          <Stack spacing={3}>
             <TextField
               sx={{
                 width: "100%", // Ancho completo en pantallas móviles
@@ -141,51 +142,20 @@ const AuthLogin = () => {
               disabled={loginSuccess}
               variant="standard"
             />
-          </Stack>
-          <Stack paddingTop={4} spacing={2}>
-            {/* links */}
-            <Stack
-              direction={{ xs: "column", sm: "row" }}
-              spacing={1}
+
+            <Link
+              size="small"
+              component="button"
+              disabled={loginSuccess}
               sx={centeringStyles}
+              underline="hover"
+              onClick={() => {
+                navigate("/password/forgot");
+              }}
+              style={loginSuccess ? linksStyle : buttonTopStyle}
             >
-              <Link
-                size="small"
-                component="button"
-                disabled={loginSuccess}
-                underline="hover"
-                onClick={() => {
-                  navigate("/password/forgot");
-                }}
-                style={loginSuccess ? linksStyle : buttonTopStyle}
-              >
-                {authloginlabels.link_label.password}
-              </Link>
-              <Link
-                size="small"
-                component="button"
-                disabled={loginSuccess}
-                underline="hover"
-                onClick={() => {
-                  navigate("/faq");
-                }}
-                style={loginSuccess ? linksStyle : buttonTopStyle}
-              >
-                {authloginlabels.link_label.faq}
-              </Link>
-              <Link
-                size="small"
-                component="button"
-                disabled={loginSuccess}
-                onClick={() => {
-                  navigate("/auth/register");
-                }}
-                underline="hover"
-                style={loginSuccess ? linksStyle : buttonTopStyle}
-              >
-                {authloginlabels.link_label.account}
-              </Link>
-            </Stack>
+              {authloginlabels.link_label.password}
+            </Link>
             <Divider />
             <CardActions sx={centerButtonsStyle}>
               <Button

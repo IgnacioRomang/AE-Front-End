@@ -13,10 +13,22 @@ import { Outlet, useNavigate } from "react-router-dom";
 import RootFooter from "../components/RootFooter.jsx";
 import RootTopBar from "../components/RootTopBar.jsx";
 import { centeringStyles } from "../theme.jsx";
+import { NavigateNextSharp } from "@mui/icons-material";
+import HomeIcon from "@mui/icons-material/Home";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 export default function Root() {
   const navigate = useNavigate();
 
+  const itsHelp = () => window.location.pathname === "/faq";
+
+  const handleHelp = () => {
+    if (itsHelp()) {
+      navigate(-1);
+    } else {
+      navigate("/faq");
+    }
+  };
   return (
     <React.Fragment>
       <RootTopBar />
@@ -41,7 +53,7 @@ export default function Root() {
                 spacing={2}
               >
                 <CircularProgress />
-                <Typography>Cargando...</Typography>
+                <Typography>{"Cargando..."}</Typography>
               </Stack>
             </Paper>
           }
@@ -55,7 +67,7 @@ export default function Root() {
           size="medium"
           aria-label="Ayuda"
           variant="extended"
-          onClick={() => navigate("/faq")}
+          onClick={handleHelp}
           style={{
             backgroundColor: blue[800],
             color: "white",
@@ -64,8 +76,17 @@ export default function Root() {
             right: 16,
           }}
         >
-          <HelpOutlineIcon sx={{ mr: 1 }} />
-          {"Ayuda"}
+          {itsHelp() ? (
+            <>
+              <ArrowBackIcon sx={{ mr: 1 }} />
+              {"Volver"}
+            </>
+          ) : (
+            <>
+              <HelpOutlineIcon sx={{ mr: 1 }} />
+              {"Ayuda"}
+            </>
+          )}
         </Fab>
       </div>
     </React.Fragment>
