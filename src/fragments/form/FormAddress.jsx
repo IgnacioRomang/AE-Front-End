@@ -90,7 +90,7 @@ const FormAddress = React.forwardRef((props, ref) => {
     substate: (value) => handleNothing(value),
     city: (value) => handleNothing(value),
     address: (value) => handleNothing(value),
-    number: (value) => handleNothing(value),
+    number: (value) => doPostalCode(value),
     floor: (value) => doFloor(value),
     apartment: (value) => doApartment(value),
     postalCode: (value) => doPostalCode(value),
