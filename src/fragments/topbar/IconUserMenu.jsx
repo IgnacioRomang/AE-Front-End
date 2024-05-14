@@ -22,7 +22,7 @@ const settings = [{ label: "Cerrar sesión", icon: <ExitToAppIcon />, id: 5 }];
 
 const settings_login = [
   { label: "Acceso", icon: <LockOpenIcon />, id: 1 },
-  { label: "Registrarse", icon: <HowToRegIcon />, id: 2 },
+  { label: "Excluirse", icon: <HowToRegIcon />, id: 2 },
 ];
 
 const IconUserMenu = (props) => {

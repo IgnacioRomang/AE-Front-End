@@ -1,4 +1,4 @@
-import { Paper, Typography } from "@mui/material";
+import { Divider, Grid, Paper, Stack, Typography } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { usePublicResources } from "../contexts/PublicResourcesContext";
@@ -29,17 +29,31 @@ const NewsView = () => {
   }, [fetchData]);
 
   return (
-    <Paper sx={{ width: "98vw", height: "98vh" }}>
-      <Typography paddingTop={2} variant="h5">
-        {pdf.title}
-      </Typography>
-      <iframe
-        title="PDF Viewer"
-        src={`${process.env.REACT_APP_BACK_URL}${pdf.pdf}`}
-        width="100%"
-        height="100%"
-        style={{ border: "none" }}
-      ></iframe>
+    <Paper
+      sx={{
+        width: "98vw",
+        height: "98vh",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <Grid container direction="column" style={{ flex: 1 }} spacing={2}>
+        <Grid item>
+          <Typography paddingTop={2} paddingBottom={2} variant="h5">
+            {pdf.title}
+          </Typography>
+          <Divider />
+        </Grid>
+        <Grid item style={{ flex: 1 }}>
+          <embed
+            title="PDF Viewer"
+            src={`${process.env.REACT_APP_BACK_URL}${pdf.pdf}`}
+            width="100%"
+            height="100%"
+            style={{ border: "none" }}
+          />
+        </Grid>
+      </Grid>
     </Paper>
   );
 };

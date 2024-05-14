@@ -96,6 +96,7 @@ const FormInfo = React.forwardRef((props, ref) => {
   };
 
   const handleChange = (field, value) => {
+    console.log(value);
     setUserData((prevData) => ({
       ...prevData,
       [field]: FieldsFormatters[field](value),
@@ -174,7 +175,7 @@ const FormInfo = React.forwardRef((props, ref) => {
                   required
                   value={userData["birthdate"]}
                   error={errors["birthdate"]}
-                  type="date"
+                  type="date" // el formato esta dado por el idioma del browser
                   size="small"
                   fullWidth
                   InputLabelProps={{

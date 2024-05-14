@@ -31,7 +31,7 @@ import { TextField } from "@mui/material";
 import { useService } from "../contexts/ServiceContext.js";
 import AlertFragment from "../fragments/AlertFragmet.jsx";
 import ProcessAlert from "../fragments/ProcessAlert.jsx";
-import { doformatCUIL } from "../utiles.js";
+import { doformatCUIL, sleep } from "../utiles.js";
 
 const AuthLogin = () => {
   const authloginlabels = useComponentAuthLoginString();
@@ -52,10 +52,14 @@ const AuthLogin = () => {
   const navigate = useNavigate();
 
   const handleInputChange = (event) => {
+    setOpen(false);
+    setLoginFail(false);
     setCuil(doformatCUIL(event.target.value));
   };
 
   const handleOnChangePassword = (event) => {
+    setOpen(false);
+    setLoginFail(false);
     setPassword(event.target.value);
   };
 
@@ -79,14 +83,19 @@ const AuthLogin = () => {
     setOpen(true);
     let result = await authenticate(cuil, password);
     setLoginSuccess(result);
-    setLoading(false);
     setLoginFail(!result);
-    setOpen(false);
+    await sleep(2000);
+    setLoading(false);
+
     if (result) {
       navigate("/ae/profile", {
         replace: true,
       });
     }
+
+    await sleep(2000);
+    setOpen(false);
+    setLoading(true);
   };
 
   const handleCancel = () => {
@@ -177,8 +186,9 @@ const AuthLogin = () => {
             </CardActions>
           </Stack>
         </CardContent>
-        {/* Notificvacion de exito */}
-        <Collapse in={loginSuccess}>
+        {/* Notificvacion de exito 
+        
+                <Collapse in={loginSuccess}>
           <AlertFragment
             type="success"
             title={authloginlabels.alert.success.title}
@@ -186,7 +196,7 @@ const AuthLogin = () => {
             strong={authloginlabels.alert.success.strong}
           />
         </Collapse>
-        {/* Notificacion de error */}
+        
         <Collapse in={loginFail}>
           <AlertFragment
             type="error"
@@ -195,6 +205,7 @@ const AuthLogin = () => {
             strong={authloginlabels.alert.error.strong}
           />
         </Collapse>
+        */}
       </Card>
     </>
   );
