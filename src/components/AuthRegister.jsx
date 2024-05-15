@@ -204,7 +204,7 @@ const AuthRegister = () => {
     });
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     let error = false;
     if (dataRef.current && typeof dataRef.current.handleErrors === "function") {
       error = dataRef.current.handleErrors();
@@ -215,7 +215,7 @@ const AuthRegister = () => {
       if (activeStep <= 4) {
         updateStepData(dataRef.current.getData());
         if (activeStep === 4) {
-          handleRegister();
+          await handleRegister();
         }
       }
       setActiveStep((prevstep) => prevstep + 1);

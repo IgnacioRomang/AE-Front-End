@@ -59,7 +59,7 @@ const FormExtra = React.forwardRef(
     const handleErrors = () => {
       const { phone, email } = userData;
       const errors = {
-        phone: !phone.trim() || !/^\+54 \(\d{2}\) \d{4}-\d{4}$/.test(phone),
+        phone: !phone.trim() || !/^\+54 (\d{4}|\d{5}) \d{2} \d{4}$/.test(phone),
         email: !email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email),
       };
 

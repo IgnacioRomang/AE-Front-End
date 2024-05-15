@@ -82,18 +82,18 @@ const AuthLogin = () => {
     let result = await authenticate(cuil, password);
     setLoginSuccess(result);
     setLoginFail(!result);
-    await sleep(2000);
     setLoading(false);
 
     if (result) {
       navigate("/ae/profile", {
         replace: true,
       });
+    } else {
+      // apra que se pueda leer el cartel
+      await sleep(700);
+      setOpen(false);
+      setLoading(true);
     }
-
-    await sleep(2000);
-    setOpen(false);
-    setLoading(true);
   };
 
   const handleCancel = () => {

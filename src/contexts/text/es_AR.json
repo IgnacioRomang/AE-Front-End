@@ -257,7 +257,7 @@
             "warning": {
               "title": "Requisitos",
               "body": [
-                "El email asociado a tu cuenta debe estar verificado. De lo contrario, no podemos asegurar que resivas el correo"
+                "El email asociado a tu cuenta debe estar <strong>verificado</strong>. De lo contrario, no podemos asegurar que resivas el correo"
               ],
               "strong": "¡De lo contrario comunicate con servicio de soporte!"
             },
@@ -286,7 +286,7 @@
             "verify": {
               "title": "Requisitos",
               "body": [
-                "El email asociado a tu cuenta debe estar verificado. De lo contrario, no podemos asegurar que resivas el correo"
+                "El email asociado a tu cuenta debe estar <strong>verificado</strong>. De lo contrario, no podemos asegurar que resivas el correo"
               ],
               "strong": "De lo contrario comunicate con servicio de soporte"
             }

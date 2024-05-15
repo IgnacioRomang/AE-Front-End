@@ -89,27 +89,22 @@ export const AECreate = () => {
   const getLocate = useCallback(
     async (response) => {
       let city_substate = response.city.split(" , ");
-      let aux_state = await get_province_names(response.state);
-      let aux_substate = await get_substate_names(
-        aux_state.nombre,
-        city_substate[0]
-      );
-      let aux_city = await get_citys_name(
-        aux_state.nombre,
-        aux_substate.nombre,
-        city_substate[1]
-      );
-      let aux_address = await get_address_names(
-        aux_state.nombre,
-        aux_substate.nombre,
-        aux_city.nombre,
-        response.address
-      );
+      const [state, substate, city, address] = await Promise.all([
+        get_province_names(response.state),
+        get_substate_names(response.state, city_substate[0]),
+        get_citys_name(response.state, city_substate[0], city_substate[1]),
+        get_address_names(
+          response.state,
+          city_substate[0],
+          city_substate[1],
+          response.address
+        ),
+      ]);
       return {
-        state: aux_state[0],
-        substate: aux_substate[0],
-        city: aux_city[0],
-        address: aux_address[0],
+        state: state[0],
+        substate: substate[0],
+        city: city[0],
+        address: address[0],
       };
     },
     [get_province_names, get_citys_name, get_substate_names, get_address_names]
@@ -215,10 +210,10 @@ export const AECreate = () => {
   /**
    * @brief This function is called when the user clicks the "Submit" button.
    */
-  const handleSend = () => {
+  const handleSend = async () => {
     setSendError(true);
     if (refs.current !== null && !refs.current.handleErrors()) {
-      handleRegister();
+      await handleRegister();
     }
   };
 
