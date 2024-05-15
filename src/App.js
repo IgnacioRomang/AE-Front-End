@@ -1,3 +1,4 @@
+import { Card } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import React from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
@@ -10,19 +11,18 @@ import AuthRegister from "./components/AuthRegister.jsx";
 import EmailChange from "./components/EmailChange.jsx";
 import EmailVerify from "./components/EmailVerify.jsx";
 import FAQcard from "./components/FAQ.jsx";
+import NewsTable from "./components/NewsTable.jsx";
 import NewsView from "./components/NewsView.jsx";
 import PasswordChange from "./components/PasswordChange.jsx";
 import ForgotPassword from "./components/PasswordForgot.jsx";
 import PasswordReset from "./components/PasswordReset.jsx";
-import { ServiceProvider } from "./contexts/ServiceContext.js";
-import ErrorPage from "./routes/ErrorPage.jsx";
-import Root from "./routes/Root.jsx";
-import NewsTable from "./components/NewsTable.jsx";
-import { PublicResourcesProvider } from "./contexts/PublicResourcesContext.js";
 import { EmailVerifyProvider } from "./contexts/EmailVerifyContext.js";
 import { PasswordServiceProvider } from "./contexts/PasswordContext.js";
+import { PublicResourcesProvider } from "./contexts/PublicResourcesContext.js";
+import { ServiceProvider } from "./contexts/ServiceContext.js";
 import PhoneField from "./fragments/PhoneField.jsx";
-import { Card } from "@mui/material";
+import ErrorPage from "./routes/ErrorPage.jsx";
+import Root from "./routes/Root.jsx";
 
 // Crea un nuevo tema con el color primario modificado
 const theme = createTheme({
@@ -58,14 +58,6 @@ function App() {
                 <Route index element={<NewsTable />} />
                 <Route path="faq" element={<FAQcard />} />
                 <Route path="document/:id" element={<NewsView />} />
-                <Route
-                  path="pruebas"
-                  element={
-                    <Card>
-                      <PhoneField />
-                    </Card>
-                  }
-                />
               </Route>
               <Route
                 path="/auth"

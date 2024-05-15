@@ -6,11 +6,11 @@ import {
   NativeSelect,
   TextField,
 } from "@mui/material";
+import { MuiTelInput } from "mui-tel-input";
 import React, { useImperativeHandle, useState } from "react";
 import { useFormExtraString } from "../../contexts/TextProvider.jsx";
-import { doEmail, doPhone } from "../../utiles.js";
-import { MuiTelInput } from "mui-tel-input";
-import { centerButtonsStyle, centeringStyles } from "../../theme.jsx";
+import { centeringStyles } from "../../theme.jsx";
+import { doEmail } from "../../utiles.js";
 
 const FormExtra = React.forwardRef(
   ({ occupation, study, phone, email, registerState }, ref) => {

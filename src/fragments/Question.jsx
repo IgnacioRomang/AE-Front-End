@@ -50,13 +50,13 @@ const Question = ({ id, question, answer }) => {
         }}
       >
         {answer.map((line, index) => (
-          <>
-            <div
-              key={`${question}-line-${index}`}
-              dangerouslySetInnerHTML={{ __html: line }}
-            />
-            <br />
-          </>
+          <Typography
+            key={`${question}-line-${index}`}
+            variant="body1"
+            component="div"
+          >
+            <div dangerouslySetInnerHTML={{ __html: line }} />
+          </Typography>
         ))}
       </AccordionDetails>
     </Accordion>

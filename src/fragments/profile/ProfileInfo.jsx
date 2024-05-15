@@ -9,10 +9,10 @@ import {
   useComponentAEProfileString,
 } from "../../contexts/TextProvider.jsx";
 import { centeringStyles, gridProfileInfoStyle } from "../../theme.jsx";
-import EmailBackdrop from "../EmailBackdrop.jsx";
-import IconUserBadge from "./ProfileIconUserBadge.jsx";
-import SixtysecFragment from "../SixtysecFragment.jsx";
 import { sleep } from "../../utiles.js";
+import EmailBackdrop from "../EmailBackdrop.jsx";
+import SixtysecFragment from "../SixtysecFragment.jsx";
+import IconUserBadge from "./ProfileIconUserBadge.jsx";
 
 const ProfileInfo = () => {
   const aeprofilestring = useComponentAEProfileString();

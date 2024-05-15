@@ -1,3 +1,5 @@
+import { RestaurantRounded } from "@mui/icons-material";
+
 export const isNum = (e) => {
   //credit for  https://stackoverflow.com/questions/43067719/how-to-allow-only-numbers-in-textbox-in-reactjs
   //Autor : Mayank Shukla
@@ -284,6 +286,25 @@ export const dayLessEqual = (day, date1, cellIndex, rowIndex) => {
     (day <= dayg && day !== null) ||
     (day === null && realIndex(cellIndex, rowIndex) < dayg)
   );
+};
+
+export const stringDiff = (string1, string2, max) => {
+  if (string1.length === string2.length) {
+    let diffs = 0;
+    for (let i = 0; i < string1.length; i++) {
+      diffs += string1[i] !== string2[i] ? 1 : 0;
+    }
+    return diffs <= max;
+  }
+  let stringaux = string1;
+  let maxstring = string2;
+  let tam = Math.abs(string1.length - string2.length);
+  if (string1.length > string2.length) {
+    stringaux = string2;
+    maxstring = string1;
+  }
+  stringaux = stringaux + " ".repeat(tam);
+  return stringDiff(stringaux, maxstring, max);
 };
 
 const utiles = {

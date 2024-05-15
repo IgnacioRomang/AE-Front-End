@@ -15,7 +15,7 @@ import { grey } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext.js";
 import { cardRegisterStyle, centerButtonsStyle } from "../theme.jsx";
-import { formatDate } from "../utiles.js";
+import { formatDate, stringDiff } from "../utiles.js";
 
 import AlertFragment from "../fragments/AlertFragmet.jsx";
 import FormAddress from "../fragments/form/FormAddress.jsx";
@@ -70,7 +70,7 @@ export const AECreate = () => {
   const aecreatelabels = useComponentAECreateString();
   const onlytitles = useComponentAuthRegisterString().step_title;
 
-  const [expanded, setExpanded] = useState(0);
+  const [expanded, setExpanded] = useState(1);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [errorSend, setSendError] = useState(false);
@@ -115,35 +115,38 @@ export const AECreate = () => {
     [get_province_names, get_citys_name, get_substate_names, get_address_names]
   );
 
+  const makeUser = (info, locinfo) => {
+    return [
+      {
+        name: info.name,
+        lastname: info.lastname,
+        cuil: info.cuil,
+        birthdate: info.birthdate,
+        gender: info.gender,
+      },
+      {
+        state: locinfo.state, //las funciones devuelven listas pero de 1 solo elemento
+        substate: locinfo.substate, // sollo al ser busquedas exactas
+        city: locinfo.city,
+        address: locinfo.address,
+        floor: info.floor,
+        number: info.nro_address,
+        apartment: info.apartment,
+        postalCode: info.postalCode,
+      },
+      {
+        occupation: info.occupation,
+        study: info.study,
+        phone: info.phone,
+        email: info.email,
+      },
+    ];
+  };
   const updateValues = useCallback(async () => {
     try {
       const response = await fetch_user_data();
       const locate = await getLocate(response);
-      let aux = [
-        {
-          name: response.name,
-          lastname: response.lastname,
-          cuil: response.cuil,
-          birthdate: response.birthdate,
-          gender: response.gender,
-        },
-        {
-          state: locate.state, //las funciones devuelven listas pero de 1 solo elemento
-          substate: locate.substate, // sollo al ser busquedas exactas
-          city: locate.city,
-          address: locate.address,
-          floor: response.floor,
-          number: response.nro_address,
-          apartment: response.apartment,
-          postalCode: response.postalCode,
-        },
-        {
-          occupation: response.occupation,
-          study: response.study,
-          phone: response.phone,
-          email: response.email,
-        },
-      ];
+      let aux = makeUser(response, locate);
       setStepData(aux);
     } catch (error) {
       console.error(error);
@@ -201,9 +204,7 @@ export const AECreate = () => {
         occupation: stepData[2].occupation,
         study: stepData[2].study,
       };
-      console.log(register_user);
       let result = await start_ae_n(register_user);
-      console.log(result);
       setSendError(!result);
       setOpen(true);
     } catch (e) {
@@ -216,9 +217,6 @@ export const AECreate = () => {
    */
   const handleSend = () => {
     setSendError(true);
-    console.log("wq");
-    console.log(refs.current);
-    console.log(!refs.current.handleErrors());
     if (refs.current !== null && !refs.current.handleErrors()) {
       handleRegister();
     }
@@ -272,37 +270,6 @@ export const AECreate = () => {
                 title={aecreatelabels.alert_info.title}
                 body={aecreatelabels.alert_info.body}
               />
-
-              <Accordion
-                sx={sx}
-                expanded={expanded === 0}
-                onChange={handleChange(0)}
-              >
-                <AccordionSummary
-                  sx={sx_summ}
-                  expandIcon={<ExpandMore />}
-                  aria-controls="panel1d-content"
-                  id="panel1d-header"
-                >
-                  <Typography variant="h7" color={grey[600]} component="div">
-                    {onlytitles[0]}
-                  </Typography>
-                </AccordionSummary>
-                <AccordionDetails sx={sx_de}>
-                  {expanded === 0 && (
-                    <FormInfo
-                      name={stepData[0].name}
-                      lastname={stepData[0].lastname}
-                      cuil={stepData[0].cuil}
-                      birthdate={stepData[0].birthdate}
-                      gender={stepData[0].gender}
-                      ref={refs}
-                      registerState={false}
-                    />
-                  )}
-                </AccordionDetails>
-              </Accordion>
-
               <Accordion
                 sx={sx}
                 expanded={expanded === 1}

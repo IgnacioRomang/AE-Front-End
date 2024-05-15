@@ -4,8 +4,8 @@ import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import React from "react";
-import AlertFragment from "./AlertFragmet.jsx";
 import { useLoadingAlertString } from "../contexts/TextProvider.jsx";
+import AlertFragment from "./AlertFragmet.jsx";
 
 const ProcessAlert = ({ open, loading, success }) => {
   const loadingalert = useLoadingAlertString();

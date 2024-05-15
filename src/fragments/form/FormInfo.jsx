@@ -2,7 +2,6 @@ import {
   Alert,
   AlertTitle,
   CardContent,
-  Collapse,
   FormControl,
   Grid,
   InputLabel,
@@ -75,28 +74,20 @@ const FormInfo = React.forwardRef((props, ref) => {
 
   const handleDateControl = (value) => !datecontrol(new Date(value));
   const handleNonDefaultGender = (value) => value === -1;
-  const handleRepPassword = (value) =>
-    props.registerState ? !testpassword(value, userData.password) : false;
+  const handleRepPassword = (value) => !testpassword(value, userData.password);
 
   // Objeto que contiene todos los metodos para detectar errores segun el campo
   const FieldsDetectedError = {
     name: (value) => handleEmptyness(value),
     lastname: (value) => handleEmptyness(value),
-    cuil: (value) =>
-      props.registerState
-        ? handleEmptyness(value) || value.length === 11
-        : false,
-    birthdate: (value) =>
-      props.registerState
-        ? handleDateControl(value) || handleEmptyness(value)
-        : false,
+    cuil: (value) => handleEmptyness(value) || value.length === 11,
+    birthdate: (value) => handleDateControl(value) || handleEmptyness(value),
     gender: (value) => handleNonDefaultGender(value),
     password: (value) => handleEmptyness(value),
     passrep: (value) => handleRepPassword(value),
   };
 
   const handleChange = (field, value) => {
-    console.log(value);
     setUserData((prevData) => ({
       ...prevData,
       [field]: FieldsFormatters[field](value),
@@ -108,19 +99,15 @@ const FormInfo = React.forwardRef((props, ref) => {
   };
 
   const handleErrors = () => {
-    let e = (
-      props.registerState
-        ? [
-            "name",
-            "lastname",
-            "cuil",
-            "password",
-            "passrep",
-            "birthdate",
-            "gender",
-          ]
-        : ["name", "lastname", "cuil"]
-    ).reduce((acc, field) => {
+    let e = [
+      "name",
+      "lastname",
+      "cuil",
+      "password",
+      "passrep",
+      "birthdate",
+      "gender",
+    ].reduce((acc, field) => {
       acc[field] = FieldsDetectedError[field](userData[field]);
       return acc;
     }, {});
@@ -144,10 +131,7 @@ const FormInfo = React.forwardRef((props, ref) => {
             sx={centeringStyles}
             spacing={{ xs: 1, sm: 2 }}
           >
-            {(props.registerState
-              ? ["name", "lastname", "cuil"]
-              : ["name", "lastname"]
-            ).map((field) => (
+            {["name", "lastname", "cuil"].map((field) => (
               <Grid item key={field + "grid-item"}>
                 <TextField
                   required
@@ -167,26 +151,24 @@ const FormInfo = React.forwardRef((props, ref) => {
               </Grid>
             ))}
             <Grid item>
-              {props.registerState && (
-                <TextField
-                  id="dates"
-                  key="dates"
-                  label={forminfolabels["birthdate"]}
-                  required
-                  value={userData["birthdate"]}
-                  error={errors["birthdate"]}
-                  type="date" // el formato esta dado por el idioma del browser
-                  size="small"
-                  fullWidth
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  onChange={(event) =>
-                    handleChange("birthdate", event.target.value)
-                  }
-                  variant="standard"
-                />
-              )}
+              <TextField
+                id="dates"
+                key="dates"
+                label={forminfolabels["birthdate"]}
+                required
+                value={userData["birthdate"]}
+                error={errors["birthdate"]}
+                type="date" // el formato esta dado por el idioma del browser
+                size="small"
+                fullWidth
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                onChange={(event) =>
+                  handleChange("birthdate", event.target.value)
+                }
+                variant="standard"
+              />
             </Grid>
 
             <Grid item>
@@ -225,28 +207,25 @@ const FormInfo = React.forwardRef((props, ref) => {
 
         <Grid item key={"grid-item-passwords"}>
           <Grid container spacing={{ xs: 1, sm: 2 }}>
-            {props.registerState &&
-              ["password", "passrep"].map((field) => (
-                <Grid item key={field + "grid-item"}>
-                  <TextField
-                    required
-                    size="small"
-                    variant="standard"
-                    id={field}
-                    key={field}
-                    type={"password"}
-                    label={forminfolabels[field]}
-                    value={userData[field]}
-                    error={errors[field]}
-                    onChange={(event) =>
-                      handleChange(field, event.target.value)
-                    }
-                    InputLabelProps={{
-                      shrink: userData[field] !== "",
-                    }}
-                  />
-                </Grid>
-              ))}
+            {["password", "passrep"].map((field) => (
+              <Grid item key={field + "grid-item"}>
+                <TextField
+                  required
+                  size="small"
+                  variant="standard"
+                  id={field}
+                  key={field}
+                  type={"password"}
+                  label={forminfolabels[field]}
+                  value={userData[field]}
+                  error={errors[field]}
+                  onChange={(event) => handleChange(field, event.target.value)}
+                  InputLabelProps={{
+                    shrink: userData[field] !== "",
+                  }}
+                />
+              </Grid>
+            ))}
           </Grid>
           <Alert
             severity="info"

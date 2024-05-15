@@ -1,3 +1,4 @@
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import {
   Box,
@@ -13,9 +14,6 @@ import { Outlet, useNavigate } from "react-router-dom";
 import RootFooter from "../components/RootFooter.jsx";
 import RootTopBar from "../components/RootTopBar.jsx";
 import { centeringStyles } from "../theme.jsx";
-import { NavigateNextSharp } from "@mui/icons-material";
-import HomeIcon from "@mui/icons-material/Home";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 export default function Root() {
   const navigate = useNavigate();

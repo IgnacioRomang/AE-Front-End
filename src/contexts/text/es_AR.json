@@ -135,7 +135,7 @@
             "file_attach": {
               "title": "Subir Imágenes del DNI",
               "body": [
-                "Por favor, sube DOS (2) imágenes del DNI, del frente y el reverso.",
+                "Por favor, sube <strong>DOS (2)</strong> imágenes del DNI, del frente y el reverso.",
                 "Asegúrate de que ambos lados sean visibles y legibles.",
                 "Puedes subir SOLO DOS (2) en total."
               ],
@@ -194,7 +194,7 @@
             "alert_warning_finish": {
               "title": "Autoexclusión Finalizada",
               "body": [
-                "Actualmente, puede acceder a los casinos libremente ya que no dispone de ninguna autoexclusión activa.",
+                "Actualmente, <strong>PUEDE ACCEDER A LOS CASINOS LIBREMENTE</strong> ya que no dispone de ninguna autoexclusión activa.",
                 "Para renovarla, le instamos a visitar la sección Nueva Exclusión en el menú, ubicado en la esquina superior izquierda de nuestra página web.",
                 "Solo entonces podrá visualizar los calendarios con el cronograma correspondiente a su autoexclusión.",
                 "Agradecemos su atención y colaboración."

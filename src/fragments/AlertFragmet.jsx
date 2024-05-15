@@ -1,5 +1,5 @@
-import React, { lazy } from "react";
 import { Typography } from "@mui/material";
+import React, { lazy } from "react";
 import { centeringStyles, textJustifyStyle } from "../theme.jsx";
 const Alert = lazy(() => import("@mui/material/Alert"));
 const AlertTitle = lazy(() => import("@mui/material/AlertTitle"));
@@ -14,11 +14,11 @@ const AlertFragment = ({ type, title, body, strong }) => {
         </AlertTitle>
         {body.map((label, index) => (
           <Typography
-            variant={"body1"}
             key={index + "-alert-body"}
-            sx={textJustifyStyle}
+            variant="body1"
+            component="div"
           >
-            {label}
+            <div dangerouslySetInnerHTML={{ __html: label }} />
           </Typography>
         ))}
         {strong ? <strong>{strong}</strong> : null}

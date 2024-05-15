@@ -7,8 +7,8 @@ import React, {
 } from "react";
 import { usePublicResources } from "../../contexts/PublicResourcesContext.js";
 import { useFormAddressString } from "../../contexts/TextProvider.jsx";
-import { doApartment, doFloor, doPostalCode, itsNumber } from "../../utiles.js";
 import { centeringStyles } from "../../theme.jsx";
+import { doApartment, doFloor, doPostalCode, itsNumber } from "../../utiles.js";
 
 /**
  * The `AddressDataCard` component is a form component that displays fields for entering address data such as street address, floor, apartment, province, city, and postal code.
@@ -200,7 +200,6 @@ const FormAddress = React.forwardRef((props, ref) => {
       props.substate.nombre,
       props.city.nombre
     );
-    console.log("HOA");
     setSuggestions({
       state: states,
       city: citys,

@@ -1,14 +1,6 @@
-import {
-  FormControl,
-  FormHelperText,
-  Input,
-  InputLabel,
-  Stack,
-  Typography,
-} from "@mui/material";
-import { useState } from "react";
-import { centeringStyles } from "../theme";
+import { FormControl, Stack } from "@mui/material";
 import { MuiTelInput } from "mui-tel-input";
+import { useState } from "react";
 
 export const PhoneField = ({ value, onChange }) => {
   const [areaCode, setareaCode] = useState("");

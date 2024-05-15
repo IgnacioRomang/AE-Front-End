@@ -1,4 +1,4 @@
-import React, { useState, cloneElement } from "react";
+import React, { cloneElement, useState } from "react";
 
 const SixtysecFragment = (props) => {
   const [click, setClick] = useState(false);

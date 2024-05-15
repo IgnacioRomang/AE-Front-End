@@ -1,4 +1,4 @@
-import { Divider, Grid, Paper, Stack, Typography } from "@mui/material";
+import { Divider, Grid, Paper, Typography } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { usePublicResources } from "../contexts/PublicResourcesContext";
