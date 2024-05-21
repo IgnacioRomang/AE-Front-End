@@ -1,7 +1,7 @@
-import { Box, Grid, Pagination, Stack } from "@mui/material";
+import { Box, Grid, Pagination, Stack, debounce } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { usePublicResources } from "../contexts/PublicResourcesContext";
 import { centeringStyles } from "../theme.jsx";
 import NewsCard from "./NewsCard.jsx";
@@ -20,29 +20,45 @@ const NewsTable = () => {
 
   const { fetch_news_list } = usePublicResources();
 
-  const fetchData = useCallback(async () => {
-    try {
-      const fetch_news = await fetch_news_list();
-      if (fetch_news) {
-        setFetchNews(fetch_news);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const [startIndex, setStartIndex] = useState(0);
+  const [endIndex, setEndIndex] = useState(itemsPerPage);
+
+  const visibleNewss = useMemo(
+    () => fetchNews.slice(startIndex, endIndex),
+    [fetchNews, startIndex, endIndex]
+  );
+  //const totalItems = fetchNews.length;
+  const [totalItems, setTotalItems] = useState(0);
+  //const totalPages = Math.ceil(totalItems / itemsPerPage);
+  //const startIndex = (currentPage - 1) * itemsPerPage;
+  //const endIndex = startIndex + itemsPerPage;
+  //const visibleNewss = fetchNews.slice(startIndex, endIndex);
+
+  const fetchData = useCallback(
+    debounce(async () => {
+      try {
+        const fetch_news = await fetch_news_list();
+        if (fetch_news) {
+          setFetchNews(fetch_news);
+          setTotalItems(fetch_news.length);
+          setTotalPages(Math.ceil(totalItems / itemsPerPage));
+          setStartIndex((currentPage - 1) * itemsPerPage);
+          setEndIndex(startIndex + itemsPerPage);
+        }
+      } catch (error) {
+        console.error(error);
+        setTotalItems(0);
+        setFetchNews([]);
       }
-    } catch (error) {
-      console.error(error);
-      setFetchNews([]);
-    }
-  }, [fetch_news_list, setFetchNews]);
+    }, 500),
+    [fetch_news_list, setFetchNews]
+  );
 
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const totalItems = fetchNews.length;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const visibleNewss = fetchNews.slice(startIndex, endIndex);
 
   const handlePageChange = (_event, page) => setCurrentPage(page);
 

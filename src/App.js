@@ -1,7 +1,6 @@
-import { Card } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import React from "react";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import AECreate from "./components/AECreate.jsx";
 import AEFinalize from "./components/AEFinalize.jsx";
@@ -20,9 +19,8 @@ import { EmailVerifyProvider } from "./contexts/EmailVerifyContext.js";
 import { PasswordServiceProvider } from "./contexts/PasswordContext.js";
 import { PublicResourcesProvider } from "./contexts/PublicResourcesContext.js";
 import { ServiceProvider } from "./contexts/ServiceContext.js";
-import PhoneField from "./fragments/PhoneField.jsx";
-import ErrorPage from "./routes/ErrorPage.jsx";
-import Root from "./routes/Root.jsx";
+import ErrorPage from "./frames/ErrorPage.jsx";
+import Root from "./frames/Root.jsx";
 
 // Crea un nuevo tema con el color primario modificado
 const theme = createTheme({
@@ -44,7 +42,7 @@ function App() {
     <div className="App app-container">
       <ThemeProvider theme={theme}>
         <ServiceProvider>
-          <Router>
+          <BrowserRouter>
             <Routes>
               <Route
                 path="/"
@@ -116,7 +114,7 @@ function App() {
               </Route>
               <Route path="*" element={<ErrorPage />} />
             </Routes>
-          </Router>
+          </BrowserRouter>
         </ServiceProvider>
       </ThemeProvider>
     </div>

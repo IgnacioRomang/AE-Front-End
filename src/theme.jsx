@@ -47,6 +47,7 @@ export const imgLogoProvStyle = {
   padding: "25px",
   maxWidtn: "50px",
   height: "50px",
+  //width: "100%",
   marginRight: "8px",
 };
 
@@ -354,14 +355,9 @@ export const gridNewsCardStyle = {
     width: "100%", // Altura para tamaños pequeños de pantalla (xs)
   },
 
-  "@media (min-width: 601px) and (max-width: 960px)": {
+  "@media (min-width: 601px) and (max-width: 1280px)": {
     width: "35vw", // Altura para tamaños medianos de pantalla (sm)
   },
-
-  "@media (min-width: 961px) and (max-width: 1280px)": {
-    width: "35vw", // Altura para tamaños grandes de pantalla (md)
-  },
-
   "@media (min-width: 1281px) and (max-width: 1920px)": {
     // pantalla 1080
     width: "25vw", // Altura para tamaños extra grandes de pantalla (lg)

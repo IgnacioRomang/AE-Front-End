@@ -1,6 +1,7 @@
 import { Typography } from "@mui/material";
 import React, { lazy } from "react";
 import { centeringStyles, textJustifyStyle } from "../theme.jsx";
+import DOMPurify from "dompurify";
 const Alert = lazy(() => import("@mui/material/Alert"));
 const AlertTitle = lazy(() => import("@mui/material/AlertTitle"));
 
@@ -18,7 +19,9 @@ const AlertFragment = ({ type, title, body, strong }) => {
             variant="body1"
             component="div"
           >
-            <div dangerouslySetInnerHTML={{ __html: label }} />
+            <div
+              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(label) }}
+            />
           </Typography>
         ))}
         {strong ? <strong>{strong}</strong> : null}

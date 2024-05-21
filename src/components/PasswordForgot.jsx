@@ -79,9 +79,8 @@ const PasswordForgot = () => {
   const handleReSend = async () => {
     setOpen(true);
     setSend(false);
-    const result = await send_email();
     setOpen(false);
-    return result;
+    return await send_email();
   };
 
   const handleCUILChange = (event) => {

@@ -7,32 +7,37 @@ import Typography from "@mui/material/Typography";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { gridNewsCardStyle } from "../theme.jsx";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
-const NewsCard = ({ anews }) => {
+const NewsCard = React.memo(({ anews }) => {
   const navigate = useNavigate();
 
+  const { id, image, thubpmbnail, title, abstract } = anews;
+
   const handleReadMoreClick = () => {
-    navigate(`/document/${anews.id}`);
+    navigate(`/document/${id}`);
   };
 
   return (
     <Card sx={gridNewsCardStyle}>
-      <CardMedia
-        className=".MuiCardMedia-img"
-        component="img"
-        src={`${process.env.REACT_APP_BACK_URL}${anews.image}`}
-        alt={anews.title}
-        thubpmbnail={anews.thubpmbnail}
-        title={anews.title}
-        loading="lazy"
-        sx={{ height: "20vh", objectFit: "fill" }}
+      <LazyLoadImage
+        className="MuiCardMedia-img"
+        src={`${process.env.REACT_APP_BACK_URL}${image}`}
+        alt={title}
+        title={title}
+        style={{
+          height: "75%",
+          width: "100%",
+          objectFit: "cover",
+        }}
+        placeholder={<div className="placeholder" />}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          {anews.title}
+          {title}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {anews.abstract}
+          {abstract}
         </Typography>
       </CardContent>
       <CardActions>
@@ -42,6 +47,6 @@ const NewsCard = ({ anews }) => {
       </CardActions>
     </Card>
   );
-};
+});
 
 export default NewsCard;

@@ -6,6 +6,7 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
+import DOMPurify from "dompurify";
 
 const Question = ({ id, question, answer }) => {
   const [expanded, setExpanded] = React.useState(false);
@@ -55,7 +56,9 @@ const Question = ({ id, question, answer }) => {
             variant="body1"
             component="div"
           >
-            <div dangerouslySetInnerHTML={{ __html: line }} />
+            <div
+              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(line) }}
+            />
           </Typography>
         ))}
       </AccordionDetails>

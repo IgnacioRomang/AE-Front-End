@@ -2,11 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
+import { PublicResourcesProvider } from "./contexts/PublicResourcesContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <PublicResourcesProvider>
+      <App />
+    </PublicResourcesProvider>
   </React.StrictMode>
 );
 

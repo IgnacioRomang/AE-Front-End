@@ -26,6 +26,7 @@ import {
   centerButtonsStyle,
   centeringStyles,
 } from "../theme.jsx";
+import { sleep } from "../utiles.js";
 
 /**
  * The `ResetPassword` function is a React component that handles the process of resetting a user's
@@ -59,7 +60,7 @@ const PasswordChange = () => {
         setError(!response);
         setOpen(true);
         setLoading(false);
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        await sleep(1000);
         if (response) {
           setUser(null);
           setIsAuthenticated(false);

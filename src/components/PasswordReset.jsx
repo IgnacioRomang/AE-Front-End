@@ -49,8 +49,9 @@ const PasswordReset = () => {
 
   const sendData = async () => {
     setSend(true);
+    let result = null;
     try {
-      const result = await send_reset_password(
+      result = send_reset_password(
         token,
         cuil,
         password,
@@ -63,7 +64,7 @@ const PasswordReset = () => {
       setLoading(false);
       setError(true);
     } finally {
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await Promise.all[result];
       setSend(false);
       navigate("/", { replace: true });
     }

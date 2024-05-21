@@ -39,20 +39,16 @@ const EmailVerify = () => {
    * @async
    */
   const verifyEmail = useCallback(async () => {
+    const result = null;
     try {
-      const result = await send_confirmation_verify(
-        id,
-        hash,
-        expires,
-        signature
-      );
+      const result = send_confirmation_verify(id, hash, expires, signature);
       setSuccess(result);
       setLoading(result);
     } catch (error) {
       setSuccess(false);
       setLoading(false);
     } finally {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await Promise.all([result]);
       navigate("/", { replace: true });
     }
   }, [

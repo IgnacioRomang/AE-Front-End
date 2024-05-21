@@ -71,7 +71,10 @@ export const ServiceProvider = ({ children }) => {
       let { authorization, user } = response.data;
       if (user && authorization) {
         // Save the authorization token for future requests
-        setAuthorization(authorization);
+        setAuthorization({
+          ...authorization,
+          timestamp: Date.now(),
+        });
 
         // Set additional headers for the axios instance
         axios.defaults.headers.common = {
@@ -270,26 +273,68 @@ export const ServiceProvider = ({ children }) => {
   };
 
   const refesh_fn = async () => {
-    try {
-      const response = await axios.post(
+    const responseRefresh = axios
+      .post(
+        `${URL_BACKEND}/api/auth/refresh`,
+        {}, // No request body needed
+        { headers: { "X-API-Key": APP_KEY } }
+      )
+      .catch((error) => {
+        console.error("Error al refrescar:", error);
+        return false;
+      });
+    const responseDates = axios
+      .get(`${URL_BACKEND}/api/ae/dates`, {
+        headers: { "X-API-Key": APP_KEY },
+      })
+      .catch((error) => {
+        console.error("Error al refrescar:", error);
+      });
+    return await Promise.all([responseRefresh, responseDates]).then(
+      (responses) => {
+        if (responses[0]) {
+          const { user } = responses[0].data;
+          if (user) {
+            if (responses[1]) {
+              const { type, dates } = responses[1].data;
+              user.ae = type;
+              if (dates.startDay) {
+                setServerDates(dates_to_json_calendar(dates));
+              }
+              return true;
+            }
+            setUser(user);
+            setIsAuthenticated(true);
+          }
+        }
+        return false;
+      }
+    );
+    /**
+     *     try {
+      const response = axios.post(
         `${URL_BACKEND}/api/auth/refresh`,
         {}, // No request body needed
         { headers: { "X-API-Key": APP_KEY } }
       );
       const { user } = response.data;
       if (user) {
+        const aeResponse = null;
         try {
           // Get additional user data from the backend API
-          const aeResponse = await axios.get(`${URL_BACKEND}/api/ae/dates`);
-          const { type, dates } = aeResponse.data;
-          user.ae = type;
-          if (dates.startDay) {
-            // Convert dates to calendar format and set it in the state
-            const dates_calendar = dates_to_json_calendar(dates);
-            setServerDates(dates_calendar);
-          }
+          aeResponse = axios.get(`${URL_BACKEND}/api/ae/dates`, {
+            headers: { "X-API-Key": APP_KEY },
+          });
         } catch (error) {
           console.error("Error getting AE dates:", error);
+        }
+
+        const { type, dates } = aeResponse.data;
+        user.ae = type;
+        if (dates.startDay) {
+          // Convert dates to calendar format and set it in the state
+          const dates_calendar = dates_to_json_calendar(dates);
+          setServerDates(dates_calendar);
         }
         setUser(user);
         setIsAuthenticated(true);
@@ -297,8 +342,7 @@ export const ServiceProvider = ({ children }) => {
       }
       return false;
     } catch (error) {
-      return false;
-    }
+      return false;s */
   };
   /**
    * Refreshes the user's token and retrieves fresh user data
@@ -313,15 +357,17 @@ export const ServiceProvider = ({ children }) => {
     const parsedAuthorization = JSON.parse(
       localStorage.getItem("authorization") || "null"
     );
-
-    if (parsedAuthorization) {
+    if (
+      parsedAuthorization &&
+      parsedAuthorization.timestamp >= Date.now() - 3600000
+    ) {
       const { X_CSRF_TOKEN, type, token } = parsedAuthorization;
       axios.defaults.headers.common["XSRF-TOKEN"] = X_CSRF_TOKEN;
       axios.defaults.headers.common["Authorization"] = type + token;
       axios.defaults.headers.common["X-API-Key"] = APP_KEY;
+      sleep(50);
+      refesh();
     }
-    sleep(50);
-    refesh();
   }, [refesh]);
   return (
     <ServiceContext.Provider

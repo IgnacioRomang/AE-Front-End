@@ -11,6 +11,7 @@ import {
 import AlertFragment from "../fragments/AlertFragmet.jsx";
 import ProcessAlert from "../fragments/ProcessAlert.jsx";
 import { centerButtonsStyle } from "../theme.jsx";
+import { sleep } from "../utiles.js";
 
 /**
  * Function for handling email change form submission and user interaction.
@@ -57,7 +58,7 @@ const EmailChange = () => {
       );
       setSend(response);
       setLoading(false);
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await sleep(1000);
       navigate("/ae/profile");
     } catch (error) {
       console.error("Error sending email:", error);
