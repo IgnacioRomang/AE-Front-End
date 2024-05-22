@@ -1,6 +1,6 @@
-import { Chip, Paper, useTheme } from "@mui/material";
+import { Chip, Paper, Skeleton, useTheme } from "@mui/material";
 import { Container } from "@mui/system";
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import { useRootFooterString } from "../contexts/TextProvider.jsx";
 import {
   Xl,
@@ -58,12 +58,14 @@ const RootFooter = () => {
   return (
     <Paper elevation={2} sx={footerPaperStyle}>
       <Container sx={Xl}>
-        <img
-          src={rootfooterlabels.logo.src}
-          loading="lazy"
-          alt=""
-          style={imgLogoProvStyle}
-        />
+        <Suspense fallback={<Skeleton variant="rectangular" />}>
+          <img
+            src={rootfooterlabels.logo.src}
+            loading="lazy"
+            alt=""
+            style={imgLogoProvStyle}
+          />
+        </Suspense>
 
         <Container sx={containerChipsFooterStyle}>
           <Chip

@@ -1,55 +1,84 @@
-import { Box, Grid, Pagination, Stack, debounce } from "@mui/material";
+import {
+  Box,
+  Grid,
+  Pagination,
+  Skeleton,
+  Stack,
+  debounce,
+} from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  Suspense,
+  lazy,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { usePublicResources } from "../contexts/PublicResourcesContext";
 import { centeringStyles } from "../theme.jsx";
-import NewsCard from "./NewsCard.jsx";
+import { isMobileDevice } from "../utiles.js";
+
+const NewsCard = lazy(() => import("./NewsCard.jsx"));
+
 /**
  * This function takes in an array of PDFs and returns a view of 3 PDFs in a row.
  * @param {PDF[]} news - An array of news objects, each representing a PDFs.
  * @returns {JSX.Element} A view of 3 PDFs in a row.
  */
 const NewsTable = () => {
-  const [fetchNews, setFetchNews] = useState([]);
   const theme = useTheme();
 
   const isMediumScreen = useMediaQuery(theme.breakpoints.down("lg"));
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const itemsPerPage = isMediumScreen ? (isSmallScreen ? 1 : 2) : 3;
+  const itemsPerPage = isMobileDevice()
+    ? 1
+    : isMediumScreen
+    ? isSmallScreen
+      ? 1
+      : 2
+    : 3;
 
   const { fetch_news_list } = usePublicResources();
-
+  const [fetchNews, setFetchNews] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
-  const [startIndex, setStartIndex] = useState(0);
-  const [endIndex, setEndIndex] = useState(itemsPerPage);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const startIndex = useMemo(
+    () => (currentPage - 1) * itemsPerPage,
+    [currentPage, itemsPerPage]
+  );
+
+  const endIndex = useMemo(
+    () => startIndex + itemsPerPage,
+    [startIndex, itemsPerPage]
+  );
 
   const visibleNewss = useMemo(
     () => fetchNews.slice(startIndex, endIndex),
     [fetchNews, startIndex, endIndex]
   );
-  //const totalItems = fetchNews.length;
-  const [totalItems, setTotalItems] = useState(0);
-  //const totalPages = Math.ceil(totalItems / itemsPerPage);
-  //const startIndex = (currentPage - 1) * itemsPerPage;
-  //const endIndex = startIndex + itemsPerPage;
-  //const visibleNewss = fetchNews.slice(startIndex, endIndex);
 
   const fetchData = useCallback(
     debounce(async () => {
       try {
         const fetch_news = await fetch_news_list();
+
         if (fetch_news) {
-          setFetchNews(fetch_news);
-          setTotalItems(fetch_news.length);
+          localStorage.setItem(
+            "fetch_news",
+            JSON.stringify({
+              news: fetch_news,
+              timestamp: Date.now(),
+            })
+          );
+          const totalItems = fetch_news.length;
           setTotalPages(Math.ceil(totalItems / itemsPerPage));
-          setStartIndex((currentPage - 1) * itemsPerPage);
-          setEndIndex(startIndex + itemsPerPage);
+          setFetchNews(fetch_news);
         }
       } catch (error) {
         console.error(error);
-        setTotalItems(0);
         setFetchNews([]);
       }
     }, 500),
@@ -57,7 +86,13 @@ const NewsTable = () => {
   );
 
   useEffect(() => {
-    fetchData();
+    let newsBack = JSON.parse(localStorage.getItem("fetch_news") || "null");
+    if (newsBack && newsBack.timestamp >= Date.now() - 3600000) {
+      setTotalPages(Math.ceil(newsBack.news.length / itemsPerPage));
+      setFetchNews(newsBack.news);
+    } else {
+      fetchData();
+    }
   }, [fetchData]);
 
   const handlePageChange = (_event, page) => setCurrentPage(page);
@@ -67,17 +102,21 @@ const NewsTable = () => {
       sx={{
         display: "flex",
         ...centeringStyles,
-        minHeight: "70vh",
-        maxHeight: "100vh",
         padding: 5,
       }}
     >
-      {fetchNews.length > 0 && (
+      {fetchNews.length > 0 ? (
         <>
-          <Grid container spacing={2} style={{ ...centeringStyles }}>
+          <Grid container spacing={2} sx={{ ...centeringStyles }}>
             {visibleNewss.map((element, index) => (
               <Grid item key={index}>
-                <NewsCard anews={element} />
+                <Suspense
+                  fallback={
+                    <Skeleton variant="rectangular" width={300} height={200} />
+                  }
+                >
+                  <NewsCard anews={element} />
+                </Suspense>
               </Grid>
             ))}
           </Grid>
@@ -100,6 +139,18 @@ const NewsTable = () => {
             />
           </Box>
         </>
+      ) : (
+        <Box
+          sx={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Skeleton variant="rectangular" width={"50vw"} height={"50vh"} />
+        </Box>
       )}
     </Stack>
   );

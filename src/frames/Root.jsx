@@ -14,6 +14,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import RootFooter from "../components/RootFooter.jsx";
 import RootTopBar from "../components/RootTopBar.jsx";
 import { centeringStyles } from "../theme.jsx";
+import { BoySharp } from "@mui/icons-material";
 
 export default function Root() {
   const navigate = useNavigate();
@@ -33,33 +34,43 @@ export default function Root() {
       <Box
         id="scrollable-content"
         sx={{
-          paddingTop: 5,
-          paddingBottom: 5,
-          minHeight: "70vh",
-          maxHeight: "100%",
-          overflow: "auto",
+          flexGrow: 1,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          minHeight: "100vh",
           ...centeringStyles,
         }}
       >
-        <Suspense
-          fallback={
-            <Paper>
-              <Stack
-                padding={8}
-                direction="column"
-                sx={centeringStyles}
-                spacing={2}
-              >
-                <CircularProgress />
-                <Typography>{"Cargando..."}</Typography>
-              </Stack>
-            </Paper>
-          }
+        <Box
+          sx={{
+            flexGrow: 1,
+            paddingTop: 10,
+            paddingBottom: 10,
+            ...centeringStyles,
+          }}
         >
-          <Outlet />
-        </Suspense>
+          <Suspense
+            fallback={
+              <Paper>
+                <Stack
+                  padding={8}
+                  direction="column"
+                  sx={centeringStyles}
+                  spacing={2}
+                >
+                  <CircularProgress />
+                  <Typography>{"Cargando..."}</Typography>
+                </Stack>
+              </Paper>
+            }
+          >
+            <Outlet />
+          </Suspense>
+        </Box>
+        <RootFooter />
       </Box>
-      <RootFooter />
+
       <div style={{ position: "fixed", bottom: 16, right: 16 }}>
         <Fab
           size="medium"

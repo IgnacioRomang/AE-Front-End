@@ -22,6 +22,9 @@ import { ServiceProvider } from "./contexts/ServiceContext.js";
 import ErrorPage from "./frames/ErrorPage.jsx";
 import Root from "./frames/Root.jsx";
 
+const MemoizedErrorPage = React.memo(ErrorPage);
+const MemorizedRoot = React.memo(Root);
+
 // Crea un nuevo tema con el color primario modificado
 const theme = createTheme({
   palette: {
@@ -32,12 +35,6 @@ const theme = createTheme({
 });
 
 function App() {
-  React.useEffect(() => {
-    const preconnect = document.createElement("link");
-    preconnect.rel = "preconnect";
-    preconnect.href = process.env.REACT_APP_BACK_URL;
-    document.head.appendChild(preconnect);
-  }, []);
   return (
     <div className="App app-container">
       <ThemeProvider theme={theme}>
@@ -48,10 +45,10 @@ function App() {
                 path="/"
                 element={
                   <PublicResourcesProvider>
-                    <Root />
+                    <MemorizedRoot />
                   </PublicResourcesProvider>
                 }
-                errorElement={<ErrorPage />}
+                errorElement={<MemoizedErrorPage />}
               >
                 <Route index element={<NewsTable />} />
                 <Route path="faq" element={<FAQcard />} />
@@ -59,8 +56,8 @@ function App() {
               </Route>
               <Route
                 path="/auth"
-                element={<Root />}
-                errorElement={<ErrorPage />}
+                element={<MemorizedRoot />}
+                errorElement={<MemoizedErrorPage />}
               >
                 <Route path="login" element={<AuthLogin />} />
                 <Route
@@ -73,7 +70,11 @@ function App() {
                 />
               </Route>
 
-              <Route path="/ae" element={<Root />} errorElement={<ErrorPage />}>
+              <Route
+                path="/ae"
+                element={<MemorizedRoot />}
+                errorElement={<MemoizedErrorPage />}
+              >
                 <Route path="finalize" element={<AEFinalize />} />
                 <Route
                   path="create"
@@ -90,10 +91,10 @@ function App() {
                 path="/password"
                 element={
                   <PasswordServiceProvider>
-                    <Root />
+                    <MemorizedRoot />
                   </PasswordServiceProvider>
                 }
-                errorElement={<ErrorPage />}
+                errorElement={<MemoizedErrorPage />}
               >
                 <Route path="change" element={<PasswordChange />} />
                 <Route path="forgot" element={<ForgotPassword />} />
@@ -104,15 +105,15 @@ function App() {
                 path="/email"
                 element={
                   <EmailVerifyProvider>
-                    <Root />
+                    <MemorizedRoot />
                   </EmailVerifyProvider>
                 }
-                errorElement={<ErrorPage />}
+                errorElement={<MemoizedErrorPage />}
               >
                 <Route path="change" element={<EmailChange />} />
                 <Route path="verify/:id/:hash" element={<EmailVerify />} />
               </Route>
-              <Route path="*" element={<ErrorPage />} />
+              <Route path="*" element={<MemoizedErrorPage />} />
             </Routes>
           </BrowserRouter>
         </ServiceProvider>

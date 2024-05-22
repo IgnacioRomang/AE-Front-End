@@ -27,15 +27,7 @@ import {
   centeringStyles,
 } from "../theme.jsx";
 import { doformatCUIL } from "../utiles.js";
-/**
- * The ForgotPassword function is a React component that renders a form for users to enter their CUIL
- * (Argentinian identification number) and handles the submission and validation of the form.
- * @returns {JSX.Element} The ForgotPassword component is returning a JSX structure that represents a card with a
- * form for resetting a password. The card contains a title, a text field for entering a CUIL (a unique
- * identification number used in Argentina), an alert with information about the CUIL format, and two
- * buttons for navigating back or submitting the form. Additionally, there are two Collapse components that display success or
- * error messages.
- */
+
 const PasswordForgot = () => {
   //const [isSubmitted, setIsSubmitted] = useState(false);
   const commonbutton = useCommonsButtonString();
