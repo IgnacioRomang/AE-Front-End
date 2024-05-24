@@ -59,30 +59,31 @@ const NewsTable = () => {
     () => fetchNews.slice(startIndex, endIndex),
     [fetchNews, startIndex, endIndex]
   );
+  const fetchDataCallback = useCallback(async () => {
+    try {
+      const fetch_news = await fetch_news_list();
 
-  const fetchData = useCallback(
-    debounce(async () => {
-      try {
-        const fetch_news = await fetch_news_list();
-
-        if (fetch_news) {
-          localStorage.setItem(
-            "fetch_news",
-            JSON.stringify({
-              news: fetch_news,
-              timestamp: Date.now(),
-            })
-          );
-          const totalItems = fetch_news.length;
-          setTotalPages(Math.ceil(totalItems / itemsPerPage));
-          setFetchNews(fetch_news);
-        }
-      } catch (error) {
-        console.error(error);
-        setFetchNews([]);
+      if (fetch_news) {
+        localStorage.setItem(
+          "fetch_news",
+          JSON.stringify({
+            news: fetch_news,
+            timestamp: Date.now(),
+          })
+        );
+        const totalItems = fetch_news.length;
+        setTotalPages(Math.ceil(totalItems / itemsPerPage));
+        setFetchNews(fetch_news);
       }
-    }, 500),
-    [fetch_news_list, setFetchNews]
+    } catch (error) {
+      console.error(error);
+      setFetchNews([]);
+    }
+  }, [fetch_news_list, itemsPerPage]);
+
+  const fetchData = useMemo(
+    () => debounce(fetchDataCallback, 500),
+    [fetchDataCallback]
   );
 
   useEffect(() => {
@@ -93,7 +94,7 @@ const NewsTable = () => {
     } else {
       fetchData();
     }
-  }, [fetchData]);
+  }, []);
 
   const handlePageChange = (_event, page) => setCurrentPage(page);
 

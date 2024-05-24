@@ -15,12 +15,11 @@ import { grey } from "@mui/material/colors";
 import { useNavigate } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext.js";
 import { cardRegisterStyle, centerButtonsStyle } from "../theme.jsx";
-import { formatDate, stringDiff } from "../utiles.js";
+import { formatDate } from "../utiles.js";
 
 import AlertFragment from "../fragments/AlertFragmet.jsx";
 import FormAddress from "../fragments/form/FormAddress.jsx";
 import FormExtra from "../fragments/form/FormExtra.jsx";
-import FormInfo from "../fragments/form/FormInfo.jsx";
 import FormMessageError from "../fragments/form/FormMessageError.jsx";
 import FormMessageSuccess from "../fragments/form/FormMessageSuccess.jsx";
 

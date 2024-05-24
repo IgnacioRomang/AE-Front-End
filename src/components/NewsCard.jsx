@@ -4,13 +4,14 @@ import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import React, { Suspense } from "react";
+import React, { useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useNavigate } from "react-router-dom";
 import { gridNewsCardStyle } from "../theme.jsx";
 
 const NewsCard = React.memo(({ anews }) => {
   const navigate = useNavigate();
+  const [load, setLoad] = useState(false);
 
   const { id, image, title, abstract } = anews;
 
@@ -18,25 +19,27 @@ const NewsCard = React.memo(({ anews }) => {
     navigate(`/document/${id}`);
   };
 
+  const endLoading = async () => {
+    setLoad(true);
+  };
+
   return (
     <Card sx={gridNewsCardStyle}>
-      <Suspense
-        fallback={<Skeleton variant="rectangular" width={300} height={200} />}
-      >
-        <LazyLoadImage
-          className="MuiCardMedia-img"
-          src={`${process.env.REACT_APP_BACK_URL}${image}`}
-          alt={title}
-          title={title}
-          loading="lazy"
-          style={{
-            scale: "1",
-            height: "100%",
-            width: "100%",
-            objectFit: "cover",
-          }}
-        />
-      </Suspense>
+      {!load && <Skeleton variant="rectangular" sx={gridNewsCardStyle} />}
+
+      <LazyLoadImage
+        src={`${process.env.REACT_APP_BACK_URL}${image}`}
+        alt={title}
+        title={title}
+        beforeLoad={endLoading}
+        style={{
+          scale: "1",
+          height: "100%",
+          width: "100%",
+          objectFit: "cover",
+        }}
+      />
+
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {title}

@@ -1,15 +1,9 @@
-import { RestaurantRounded } from "@mui/icons-material";
-
 export const isNum = (e) => {
-  //credit for  https://stackoverflow.com/questions/43067719/how-to-allow-only-numbers-in-textbox-in-reactjs
-  //Autor : Mayank Shukla
-  // https://stackoverflow.com/users/5185595/mayank-shukla
-
-  const re = /^[0-9\b]+$/;
-  if (e.target.value === "" || re.test(e.target.value)) {
-    return true;
+  const value = e.target.value;
+  if (value === "" || Number.isNaN(Number(value))) {
+    return false;
   }
-  return false;
+  return true;
 };
 
 export const shortFileName = (file_name) => {
@@ -19,22 +13,23 @@ export const shortFileName = (file_name) => {
   return file_name;
 };
 
+const addMonths = (date, months) => {
+  const year = date.getFullYear() + Math.floor(months / 12);
+  const month = (date.getMonth() + months) % 12;
+  const day = Math.min(date.getDate(), new Date(year, month + 1, 0).getDate());
+  return new Date(year, month, day).getTime();
+};
 export const getDates = () => {
-  let startDay = new Date();
-  let fthMonth = new Date(startDay);
-  let sixMonth = new Date(startDay);
-  let lastMonth = new Date(startDay);
-
-  fthMonth.setMonth(fthMonth.getMonth() + 5);
-  sixMonth.setMonth(sixMonth.getMonth() + 6);
-  lastMonth.setMonth(lastMonth.getMonth() + 12);
-
-  return {
-    startDay,
-    fthMonth,
-    sixMonth,
-    lastMonth,
+  const today = new Date();
+  const dates = {
+    startDay: today.getTime(),
   };
+
+  dates.fthMonth = addMonths(today, 5);
+  dates.sixMonth = addMonths(today, 6);
+  dates.lastMonth = addMonths(today, 12);
+
+  return dates;
 };
 export const isMobileDevice = () => {
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(

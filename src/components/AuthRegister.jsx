@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { Suspense, lazy, useRef, useState } from "react";
 
 // Material-UI Components
 import {
@@ -8,6 +8,7 @@ import {
   CardContent,
   CardHeader,
   Divider,
+  Skeleton,
   Step,
   StepLabel,
   Stepper,
@@ -26,13 +27,13 @@ import {
 
 // Fragments
 import {
+  FormInfo,
   FormAddress,
   FormDatePlan,
   FormExtra,
   FormFileAttach,
-  FormInfo,
-  FormMessageError,
   FormMessageSuccess,
+  FormMessageError,
 } from "../fragments/form/index.js";
 // Styles
 import { useNavigate } from "react-router-dom";
@@ -137,49 +138,63 @@ const AuthRegister = () => {
    * on the current step of the stepper.
    */
 
-  const StepperStage = {
-    0: (
-      <FormInfo
-        name={stepData[0].name}
-        registerState={true}
-        lastname={stepData[0].lastname}
-        cuil={stepData[0].cuil}
-        birthdate={stepData[0].birthdate}
-        gender={stepData[0].gender}
-        password={stepData[0].password}
-        ref={dataRef}
-      />
-    ),
-    1: (
-      <FormAddress
-        address={stepData[1].address}
-        floor={stepData[1].floor}
-        apartment={stepData[1].apartment}
-        state={stepData[1].state}
-        substate={stepData[1].substate}
-        number={stepData[1].number}
-        city={stepData[1].city}
-        postalCode={stepData[1].postalCode}
-        ref={dataRef}
-      />
-    ),
-    2: (
-      <FormExtra
-        occupation={stepData[2].occupation}
-        study={stepData[2].study}
-        phone={stepData[2].phone}
-        email={stepData[2].email}
-        registerState={true}
-        ref={dataRef}
-      />
-    ),
-    3: <FormFileAttach ref={dataRef} files={stepData[3].files} />,
-    4: <FormDatePlan first={true} ref={dataRef} email={stepData[2].email} />,
-    5: !errors[5] ? (
-      <FormMessageSuccess first={true} />
-    ) : (
-      <FormMessageError padding={8} />
-    ),
+  const StepperStage = (i) => {
+    switch (i) {
+      case 0:
+        return (
+          <FormInfo
+            name={stepData[0].name}
+            registerState={true}
+            lastname={stepData[0].lastname}
+            cuil={stepData[0].cuil}
+            birthdate={stepData[0].birthdate}
+            gender={stepData[0].gender}
+            password={stepData[0].password}
+            ref={dataRef}
+          />
+        );
+      case 1:
+        return (
+          <FormAddress
+            address={stepData[1].address}
+            floor={stepData[1].floor}
+            apartment={stepData[1].apartment}
+            state={stepData[1].state}
+            substate={stepData[1].substate}
+            number={stepData[1].number}
+            city={stepData[1].city}
+            postalCode={stepData[1].postalCode}
+            ref={dataRef}
+          />
+        );
+
+      case 3:
+        return (
+          <FormExtra
+            occupation={stepData[2].occupation}
+            study={stepData[2].study}
+            phone={stepData[2].phone}
+            email={stepData[2].email}
+            registerState={true}
+            ref={dataRef}
+          />
+        );
+
+      case 3:
+        return <FormFileAttach ref={dataRef} files={stepData[3].files} />;
+
+      case 4:
+        return (
+          <FormDatePlan first={true} ref={dataRef} email={stepData[2].email} />
+        );
+
+      case 5:
+        return !errors[5] ? (
+          <FormMessageSuccess first={true} />
+        ) : (
+          <FormMessageError padding={8} />
+        );
+    }
   };
 
   const handleBack = () => {
@@ -239,7 +254,10 @@ const AuthRegister = () => {
         title={authregisterlabels.title}
       />
       <Divider />
-      {StepperStage[activeStep]}
+      <Suspense fallback={<Skeleton width={300} height={200} />}>
+        {StepperStage(activeStep)}
+      </Suspense>
+
       <CardContent>
         <Stepper
           ref={stepperRef}

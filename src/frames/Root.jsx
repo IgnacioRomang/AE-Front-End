@@ -14,7 +14,6 @@ import { Outlet, useNavigate } from "react-router-dom";
 import RootFooter from "../components/RootFooter.jsx";
 import RootTopBar from "../components/RootTopBar.jsx";
 import { centeringStyles } from "../theme.jsx";
-import { BoySharp } from "@mui/icons-material";
 
 export default function Root() {
   const navigate = useNavigate();

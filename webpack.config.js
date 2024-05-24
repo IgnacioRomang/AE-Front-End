@@ -19,6 +19,7 @@ module.exports = {
     splitChunks: {
       chunks: "all",
     },
+    runtimeChunk: "single",
   },
   module: {
     rules: [

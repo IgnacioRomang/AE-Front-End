@@ -60,8 +60,9 @@ export const imgLogoLoteStyle = {
 
 export const imgLogoStyle = {
   padding: "25px",
-  maxWidtn: "50px",
-  height: "50px",
+  //maxWidtn: "50px",
+  //height: "50px",
+  scale: "0.5",
   marginRight: "8px",
 };
 
@@ -69,7 +70,7 @@ export const containerChipsFooterStyle = {
   ...centeringStyles,
   flexWrap: "wrap",
   "& > *": {
-    ...spacingStyles(6),
+    ...spacingStyles(3),
   },
   ...Xl,
 };
@@ -78,7 +79,7 @@ export const containerChipsFooterStyleSm = {
   ...centeringStyles,
   flexWrap: "wrap",
   "& > *": {
-    ...spacingStyles(6),
+    ...spacingStyles(3),
   },
   ...Sm,
 };
@@ -347,7 +348,7 @@ export const gridProfileInfoStyle = {
 // Exportar todas las constantes
 export const gridNewsCardStyle = {
   width: "25vw",
-  maxHeight: "70vh",
+  maxHeight: "100%",
   margin: "auto",
 
   // Ajusta la altura para tamaños de pantalla específicos

@@ -91,6 +91,7 @@ const RootTopBar = (props) => {
           <Box sx={boxXLmenu}>
             <img
               src={labels.logo.src}
+              alt="Logo imagen"
               onClick={handleLogoClick}
               style={logoTopStyle}
             />
@@ -148,7 +149,7 @@ const RootTopBar = (props) => {
             <img
               src={labels.logo.src}
               loading="lazy"
-              alt="" //todo alt
+              alt="Logo imagen"
               onClick={handleLogoClick}
               style={logoTopStyle}
             />

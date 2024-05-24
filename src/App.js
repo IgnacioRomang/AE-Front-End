@@ -24,6 +24,7 @@ import Root from "./frames/Root.jsx";
 
 const MemoizedErrorPage = React.memo(ErrorPage);
 const MemorizedRoot = React.memo(Root);
+const MemorizedPublicResourcesProvider = React.memo(PublicResourcesProvider);
 
 // Crea un nuevo tema con el color primario modificado
 const theme = createTheme({
@@ -44,9 +45,9 @@ function App() {
               <Route
                 path="/"
                 element={
-                  <PublicResourcesProvider>
+                  <MemorizedPublicResourcesProvider>
                     <MemorizedRoot />
-                  </PublicResourcesProvider>
+                  </MemorizedPublicResourcesProvider>
                 }
                 errorElement={<MemoizedErrorPage />}
               >
@@ -63,9 +64,9 @@ function App() {
                 <Route
                   path="register"
                   element={
-                    <PublicResourcesProvider>
+                    <MemorizedPublicResourcesProvider>
                       <AuthRegister />
-                    </PublicResourcesProvider>
+                    </MemorizedPublicResourcesProvider>
                   }
                 />
               </Route>
