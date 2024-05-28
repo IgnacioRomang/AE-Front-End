@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useRef, useState } from "react";
+import React, { Suspense, useRef, useState } from "react";
 
 // Material-UI Components
 import {
@@ -168,7 +168,7 @@ const AuthRegister = () => {
           />
         );
 
-      case 3:
+      case 2:
         return (
           <FormExtra
             occupation={stepData[2].occupation}

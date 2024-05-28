@@ -20,16 +20,21 @@ const addMonths = (date, months) => {
   return new Date(year, month, day).getTime();
 };
 export const getDates = () => {
-  const today = new Date();
-  const dates = {
-    startDay: today.getTime(),
+  let startDay = new Date();
+  let fthMonth = new Date(startDay);
+  let sixMonth = new Date(startDay);
+  let lastMonth = new Date(startDay);
+
+  fthMonth.setMonth(fthMonth.getMonth() + 5);
+  sixMonth.setMonth(sixMonth.getMonth() + 6);
+  lastMonth.setMonth(lastMonth.getMonth() + 12);
+
+  return {
+    startDay,
+    fthMonth,
+    sixMonth,
+    lastMonth,
   };
-
-  dates.fthMonth = addMonths(today, 5);
-  dates.sixMonth = addMonths(today, 6);
-  dates.lastMonth = addMonths(today, 12);
-
-  return dates;
 };
 export const isMobileDevice = () => {
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(

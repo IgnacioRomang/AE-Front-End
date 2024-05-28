@@ -301,7 +301,6 @@ export const ServiceProvider = ({ children }) => {
               if (dates.startDay) {
                 setServerDates(dates_to_json_calendar(dates));
               }
-              return true;
             }
             setUser(user);
             setIsAuthenticated(true);
@@ -310,39 +309,6 @@ export const ServiceProvider = ({ children }) => {
         return false;
       }
     );
-    /**
-     *     try {
-      const response = axios.post(
-        `${URL_BACKEND}/api/auth/refresh`,
-        {}, // No request body needed
-        { headers: { "X-API-Key": APP_KEY } }
-      );
-      const { user } = response.data;
-      if (user) {
-        const aeResponse = null;
-        try {
-          // Get additional user data from the backend API
-          aeResponse = axios.get(`${URL_BACKEND}/api/ae/dates`, {
-            headers: { "X-API-Key": APP_KEY },
-          });
-        } catch (error) {
-          console.error("Error getting AE dates:", error);
-        }
-
-        const { type, dates } = aeResponse.data;
-        user.ae = type;
-        if (dates.startDay) {
-          // Convert dates to calendar format and set it in the state
-          const dates_calendar = dates_to_json_calendar(dates);
-          setServerDates(dates_calendar);
-        }
-        setUser(user);
-        setIsAuthenticated(true);
-        return true;
-      }
-      return false;
-    } catch (error) {
-      return false;s */
   };
   /**
    * Refreshes the user's token and retrieves fresh user data
