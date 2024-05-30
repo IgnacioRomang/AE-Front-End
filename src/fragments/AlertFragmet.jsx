@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material";
-import React, { lazy } from "react";
-import { centeringStyles, textJustifyStyle } from "../theme.jsx";
 import DOMPurify from "dompurify";
+import React, { lazy } from "react";
+import { centeringStyles } from "../theme.jsx";
 const Alert = lazy(() => import("@mui/material/Alert"));
 const AlertTitle = lazy(() => import("@mui/material/AlertTitle"));
 

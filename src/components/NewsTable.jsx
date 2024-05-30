@@ -94,7 +94,7 @@ const NewsTable = () => {
     } else {
       fetchData();
     }
-  }, []);
+  }, [itemsPerPage, fetchData]);
 
   const handlePageChange = (_event, page) => setCurrentPage(page);
 

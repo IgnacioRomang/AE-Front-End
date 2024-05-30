@@ -45,6 +45,7 @@ import {
   stepStyle,
 } from "../theme.jsx";
 import { formatDate } from "../utiles.js";
+import ErrorPage from "../frames/ErrorPage.jsx";
 
 /**
  * The RegisterCard component is a multi-step form that allows users to register by providing various information.
@@ -140,6 +141,8 @@ const AuthRegister = () => {
 
   const StepperStage = (i) => {
     switch (i) {
+      default:
+        return <ErrorPage />;
       case 0:
         return (
           <FormInfo
@@ -179,7 +182,6 @@ const AuthRegister = () => {
             ref={dataRef}
           />
         );
-
       case 3:
         return <FormFileAttach ref={dataRef} files={stepData[3].files} />;
 

@@ -27,12 +27,6 @@ export const base64toBlob = (data) => {
 
   return new Blob([out], { type: "application/pdf" });
 };
-const addMonths = (date, months) => {
-  const year = date.getFullYear() + Math.floor(months / 12);
-  const month = (date.getMonth() + months) % 12;
-  const day = Math.min(date.getDate(), new Date(year, month + 1, 0).getDate());
-  return new Date(year, month, day).getTime();
-};
 export const getDates = () => {
   let startDay = new Date();
   let fthMonth = new Date(startDay);

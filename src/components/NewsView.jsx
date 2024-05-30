@@ -1,16 +1,15 @@
-import {
-  Button,
-  CircularProgress,
-  Divider,
-  Grid,
-  Paper,
-  Typography,
-} from "@mui/material";
+import { Divider, Grid, Paper, Typography } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { usePublicResources } from "../contexts/PublicResourcesContext";
 
-import { Worker, Viewer, ProgressBar } from "@react-pdf-viewer/core";
+import {
+  ProgressBar,
+  ScrollMode,
+  ViewMode,
+  Viewer,
+  Worker,
+} from "@react-pdf-viewer/core";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import { base64toBlob } from "../utiles";
 
@@ -22,7 +21,6 @@ const NewsView = () => {
   const [pdf, setPdf] = useState([]);
   const { id } = useParams();
   const { fetch_news_pdf } = usePublicResources();
-
   const fetchData = useCallback(async () => {
     try {
       const news_pdf = await fetch_news_pdf(id);
@@ -43,9 +41,10 @@ const NewsView = () => {
     <Paper
       sx={{
         width: "98vw",
-
+        //height: "100vh",
         display: "flex",
         flexDirection: "column",
+        background: "#D5DBDB",
       }}
     >
       <Grid container direction="column" style={{ flex: 1 }} spacing={2}>
@@ -66,6 +65,9 @@ const NewsView = () => {
               )}
             >
               <Viewer
+                scrollMode={ScrollMode.Vertical}
+                viewMode={ViewMode.SinglePage}
+                //plugins={[defaultLayoutPluginInstance]}
                 httpHeaders={{
                   "Access-Control-Allow-Origin": "*",
                 }}
