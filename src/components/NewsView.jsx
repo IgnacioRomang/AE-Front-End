@@ -1,7 +1,18 @@
-import { Divider, Grid, Paper, Typography } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  Divider,
+  Grid,
+  Paper,
+  Typography,
+} from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { usePublicResources } from "../contexts/PublicResourcesContext";
+
+import { Worker, Viewer, ProgressBar } from "@react-pdf-viewer/core";
+import "@react-pdf-viewer/core/lib/styles/index.css";
+import { base64toBlob } from "../utiles";
 
 /**
  * This function is a React component that displays a PDF document.
@@ -9,7 +20,6 @@ import { usePublicResources } from "../contexts/PublicResourcesContext";
  */
 const NewsView = () => {
   const [pdf, setPdf] = useState([]);
-
   const { id } = useParams();
   const { fetch_news_pdf } = usePublicResources();
 
@@ -18,6 +28,7 @@ const NewsView = () => {
       const news_pdf = await fetch_news_pdf(id);
       if (news_pdf) {
         setPdf(news_pdf);
+        //console.log(news_pdf);
       }
     } catch (error) {
       console.error(error);
@@ -32,7 +43,7 @@ const NewsView = () => {
     <Paper
       sx={{
         width: "98vw",
-        height: "98vh",
+
         display: "flex",
         flexDirection: "column",
       }}
@@ -45,13 +56,33 @@ const NewsView = () => {
           <Divider />
         </Grid>
         <Grid item style={{ flex: 1 }}>
-          <embed
+          {pdf.pdf ? (
+            <Worker
+              workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js"
+              renderLoader={(percentages) => (
+                <div style={{ width: "240px" }}>
+                  <ProgressBar progress={Math.round(percentages)} />
+                </div>
+              )}
+            >
+              <Viewer
+                httpHeaders={{
+                  "Access-Control-Allow-Origin": "*",
+                }}
+                fileUrl={URL.createObjectURL(base64toBlob(pdf.pdf))}
+              />
+            </Worker>
+          ) : (
+            <></>
+          )}
+
+          {/**          <embed
             title="PDF Viewer"
             src={`${process.env.REACT_APP_BACK_URL}${pdf.pdf}`}
             width="100%"
             height="100%"
             style={{ border: "none" }}
-          />
+          /> */}
         </Grid>
       </Grid>
     </Paper>

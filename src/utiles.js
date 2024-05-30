@@ -12,7 +12,21 @@ export const shortFileName = (file_name) => {
   }
   return file_name;
 };
+export const base64toBlob = (data) => {
+  const base64WithoutPrefix = data.substr(
+    "data:application/pdf;base64,".length
+  );
 
+  const bytes = atob(base64WithoutPrefix);
+  let length = bytes.length;
+  let out = new Uint8Array(length);
+
+  while (length--) {
+    out[length] = bytes.charCodeAt(length);
+  }
+
+  return new Blob([out], { type: "application/pdf" });
+};
 const addMonths = (date, months) => {
   const year = date.getFullYear() + Math.floor(months / 12);
   const month = (date.getMonth() + months) % 12;
@@ -327,6 +341,7 @@ const utiles = {
   doPostalCode,
   doFloor,
   doApartment,
+  base64toBlob,
   doPhone,
   doEmail,
   parseDate,

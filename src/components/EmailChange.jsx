@@ -36,7 +36,7 @@ const EmailChange = () => {
   const [errorEmail, setErrorEmail] = useState(false);
 
   const navigate = useNavigate();
-  const { User } = useService();
+  const { User, setEmailUndefined } = useService();
   const { send_confirmation_email } = useEmailVerify();
 
   useEffect(() => {
@@ -56,6 +56,9 @@ const EmailChange = () => {
         formData.password,
         formData.email
       );
+      if (response) {
+        setEmailUndefined();
+      }
       setSend(response);
       setLoading(false);
       await sleep(1000);

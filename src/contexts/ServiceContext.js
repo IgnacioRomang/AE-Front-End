@@ -33,6 +33,9 @@ export const ServiceProvider = ({ children }) => {
   const [serverDates, setServerDates] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(User !== null);
 
+  const setEmailUndefined = () => {
+    setUser({ ...User, email_verified_at: null });
+  };
   /**
    * Function to set the authorization state and update the session storage accordingly
    * @param  {Object} newval - The new authorization state
@@ -347,6 +350,7 @@ export const ServiceProvider = ({ children }) => {
         serverDates,
         setServerDates,
         setAuthorization,
+        setEmailUndefined,
         Authorization,
         authenticate,
         unauthenticate,
