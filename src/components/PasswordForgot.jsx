@@ -100,6 +100,7 @@ const PasswordForgot = () => {
                 value={formattedCUIL}
                 onChange={handleCUILChange}
                 variant="standard"
+                helperText={"Sin '-', se agregan solos"}
               />
             </Grid>
             <Grid item>
