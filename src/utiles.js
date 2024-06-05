@@ -315,6 +315,16 @@ export const stringDiff = (string1, string2, max) => {
   return stringDiff(stringaux, maxstring, max);
 };
 
+export const emailConocido = (email) => {
+  //@santafe.gov.ar esta para las pruebas
+  const dominiosPermitidos = ["@gmail.com", "@outlook.com", "@hotmail.com", "@live.com", "@msn.com", "@yahoo.com", "@santafe.gov.ar"];
+  for (let i = 0; i < dominiosPermitidos.length; i++) {
+      if (email.endsWith(dominiosPermitidos[i])) {
+          return true;
+      }
+  }
+  return false;
+}
 const utiles = {
   isStartdate,
   isEnddate,
@@ -339,6 +349,7 @@ const utiles = {
   doPhone,
   doEmail,
   parseDate,
+  emailConocido,
   formatDate,
   sleep,
 };

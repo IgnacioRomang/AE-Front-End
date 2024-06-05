@@ -160,6 +160,7 @@ const FormInfo = React.forwardRef((props, ref) => {
                 error={errors["birthdate"]}
                 type="date" // el formato esta dado por el idioma del browser
                 size="small"
+                helperText={"Debes ser mayor de 18 años"}
                 fullWidth
                 InputLabelProps={{
                   shrink: true,

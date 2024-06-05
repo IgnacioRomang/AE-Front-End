@@ -10,7 +10,7 @@ import { MuiTelInput } from "mui-tel-input";
 import React, { useImperativeHandle, useState } from "react";
 import { useFormExtraString } from "../../contexts/TextProvider.jsx";
 import { centeringStyles } from "../../theme.jsx";
-import { doEmail } from "../../utiles.js";
+import { doEmail, emailConocido } from "../../utiles.js";
 
 const FormExtra = React.forwardRef(
   ({ occupation, study, phone, email, registerState }, ref) => {
@@ -60,7 +60,7 @@ const FormExtra = React.forwardRef(
       const { phone, email } = userData;
       const errors = {
         phone: !phone.trim() || !/^\+54 (\d{4}|\d{5}) \d{2} \d{4}$/.test(phone),
-        email: !email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email),
+        email: !email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !emailConocido(email),
       };
 
       setErrors(errors);

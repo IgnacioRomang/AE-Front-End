@@ -56,6 +56,7 @@ const LoginFragment = React.forwardRef((props, ref) => {
           label={labels.textFieldLabels.user}
           required
           disabled={loginSuccess}
+          helperText={"Sin '-', se agregan solos"}
           error={loginFail}
           value={formattedCUIL}
           onChange={handleInputChange}

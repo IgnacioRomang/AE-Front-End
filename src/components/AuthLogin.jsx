@@ -111,7 +111,7 @@ const AuthLogin = () => {
         />
         <Divider />
         <CardContent sx={boxLoginSyle}>
-          <Stack spacing={3}>
+          <Stack spacing={2}>
             <TextField
               sx={{
                 width: "100%", // Ancho completo en pantallas móviles
@@ -125,6 +125,7 @@ const AuthLogin = () => {
               label={commonfields.cuil}
               required
               disabled={loginSuccess}
+              helperText={"Sin '-', se agregan solos"}
               error={loginFail}
               value={cuil}
               onChange={handleInputChange}
@@ -149,12 +150,11 @@ const AuthLogin = () => {
               disabled={loginSuccess}
               variant="standard"
             />
-
             <Link
               size="small"
               component="button"
               disabled={loginSuccess}
-              sx={centeringStyles}
+              sx={{...centeringStyles, padding: 1}}
               underline="hover"
               onClick={() => {
                 navigate("/password/forgot");
@@ -164,6 +164,7 @@ const AuthLogin = () => {
               {authloginlabels.link_label.password}
             </Link>
             <Divider />
+
             <CardActions sx={centerButtonsStyle}>
               <Button
                 size="small"
