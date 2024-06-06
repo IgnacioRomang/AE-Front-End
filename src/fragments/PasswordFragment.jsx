@@ -2,6 +2,7 @@ import { Stack, TextField } from "@mui/material";
 import React, { forwardRef, useImperativeHandle, useState } from "react";
 import { useCommonsFieldString } from "../contexts/TextProvider.jsx";
 import { testpassword } from "../utiles.js";
+import { Form } from "react-router-dom";
 
 const PasswordFragment = forwardRef((props, ref) => {
   const [passwordChange, setPasswordChange] = useState({
@@ -36,7 +37,7 @@ const PasswordFragment = forwardRef((props, ref) => {
   return (
     <Stack spacing={1}>
       <TextField
-        id="password"
+        id="current-password"
         label={commonfields.oldpassword}
         size="small"
         required
@@ -49,7 +50,7 @@ const PasswordFragment = forwardRef((props, ref) => {
         variant="standard"
       />
       <TextField
-        id="password"
+        id="new-password"
         label={commonfields.password}
         size="small"
         type="password"
@@ -63,7 +64,7 @@ const PasswordFragment = forwardRef((props, ref) => {
         variant="standard"
       />
       <TextField
-        id="passwordres"
+        id="new-password-rep"
         label={commonfields.password}
         size="small"
         type="password"

@@ -17,6 +17,7 @@ import { stringAvatar } from "../../utiles.js";
 
 import { useNavigate } from "react-router-dom";
 import { useService } from "../../contexts/ServiceContext.js";
+import { Button } from "bootstrap";
 
 const settings = [{ label: "Cerrar sesión", icon: <ExitToAppIcon />, id: 5 }];
 
@@ -72,7 +73,6 @@ const IconUserMenu = (props) => {
   const avatarname = isAuthenticated
     ? stringAvatar(User.name + " " + User.lastname)
     : stringAvatar("N N");
-
   return (
     <Box sx={{ flexGrow: 0 }}>
       <>

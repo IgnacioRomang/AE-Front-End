@@ -11,6 +11,7 @@ import { Box } from "@mui/system";
 import React, { useMemo, useState } from "react";
 import IconUserMenu from "../fragments/topbar/IconUserMenu.jsx";
 
+import { Collapse, Grow, Slide, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext.js";
 import { useRootTopbarString } from "../contexts/TextProvider.jsx";
@@ -95,21 +96,26 @@ const RootTopBar = (props) => {
               onClick={handleLogoClick}
               style={logoTopStyle}
             />
-
-            {isAuthenticated &&
-              pages.map(
-                (page, index) =>
-                  !page.disabled && (
-                    <Button
-                      size="small"
-                      key={page.label + "-large-menu-appbar"}
-                      disabled={page.disabled ? "true" : undefined}
-                      onClick={(e) => handleoOnClickMenu(e, index)}
-                    >
-                      {page.label}
-                    </Button>
-                  )
-              )}
+            <Slide direction={"down"} in={true} appear={true}>
+              <Stack direction="row" paddingLeft={2} spacing={2}>
+                {isAuthenticated &&
+                  pages.map(
+                    (page, index) =>
+                      !page.disabled && (
+                        <Button
+                          //variant="contained"
+                          variant="outlined"
+                          size="small"
+                          key={page.label + "-large-menu-appbar"}
+                          disabled={page.disabled ? "true" : undefined}
+                          onClick={(e) => handleoOnClickMenu(e, index)}
+                        >
+                          {page.label}
+                        </Button>
+                      )
+                  )}
+              </Stack>
+            </Slide>
           </Box>
 
           <Box sx={boxSMmenu}>
@@ -155,11 +161,15 @@ const RootTopBar = (props) => {
             />
           </Box>
           <Box sx={{ flexGrow: 1 }} />
-          <IconUserMenu userAuth={isAuthenticated} />
+          <Grow in={true} appear={true}>
+            <Collapse in={true}><IconUserMenu userAuth={isAuthenticated} /></Collapse>
+          </Grow>
         </Toolbar>
       </Container>
     </AppBar>
   );
 };
+
+//<ButtonMenu userAuth={isAuthenticated} />
 
 export default RootTopBar;

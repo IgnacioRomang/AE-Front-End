@@ -348,8 +348,9 @@ export const gridProfileInfoStyle = {
 // Exportar todas las constantes
 export const gridNewsCardStyle = {
   width: "25vw",
-  maxHeight: "100%",
+  height: "60vh",
   margin: "auto",
+  justifyContent: "space-between",
 
   // Ajusta la altura para tamaños de pantalla específicos
   "@media (max-width: 600px)": {

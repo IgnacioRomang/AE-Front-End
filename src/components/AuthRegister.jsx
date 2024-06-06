@@ -2,6 +2,7 @@ import React, { Suspense, useRef, useState } from "react";
 
 // Material-UI Components
 import {
+  Box,
   Button,
   Card,
   CardActions,
@@ -257,7 +258,9 @@ const AuthRegister = () => {
       />
       <Divider />
       <Suspense fallback={<Skeleton width={300} height={200} />}>
+        <Box sx={{padding:2}}>
         {StepperStage(activeStep)}
+        </Box>
       </Suspense>
 
       <CardContent>

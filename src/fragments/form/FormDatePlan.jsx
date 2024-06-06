@@ -36,7 +36,7 @@ const FormDatePlan = React.forwardRef((props, ref) => {
 
       <Typography variant="h6">
         {formdateplanlabels.body[0]}
-        {startDay.toLocaleDateString("en-GB")}.
+        {startDay.toLocaleDateString("en-GB")}
       </Typography>
 
       {props.first && (

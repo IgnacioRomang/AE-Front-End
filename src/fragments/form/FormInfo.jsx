@@ -229,7 +229,7 @@ const FormInfo = React.forwardRef((props, ref) => {
             ))}
           </Grid>
           <Alert
-            severity="info"
+            severity="warning"
             style={{ textAlign: "left", marginTop: "16px" }}
           >
             <AlertTitle>{passwordalertlabels.title}</AlertTitle>

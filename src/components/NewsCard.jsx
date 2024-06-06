@@ -25,7 +25,7 @@ const NewsCard = React.memo(({ anews }) => {
 
   return (
     <Card sx={gridNewsCardStyle}>
-      {!load && <Skeleton variant="rectangular" sx={gridNewsCardStyle} />}
+      {!load && <Skeleton variant="rectangular" width={400} height={50} />}
 
       <LazyLoadImage
         src={`${process.env.REACT_APP_BACK_URL}${image}`}
@@ -34,7 +34,7 @@ const NewsCard = React.memo(({ anews }) => {
         beforeLoad={endLoading}
         style={{
           scale: "1",
-          height: "100%",
+          height: "25vh",
           width: "100%",
           objectFit: "cover",
         }}

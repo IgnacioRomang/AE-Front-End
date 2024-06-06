@@ -1,6 +1,7 @@
 import {
   Box,
   Grid,
+  Grow,
   Pagination,
   Skeleton,
   Stack,
@@ -19,6 +20,7 @@ import React, {
 import { usePublicResources } from "../contexts/PublicResourcesContext";
 import { centeringStyles } from "../theme.jsx";
 import { isMobileDevice } from "../utiles.js";
+import AlertFragment from "../fragments/AlertFragmet.jsx";
 
 const NewsCard = lazy(() => import("./NewsCard.jsx"));
 
@@ -97,63 +99,61 @@ const NewsTable = () => {
   }, [itemsPerPage, fetchData]);
 
   const handlePageChange = (_event, page) => setCurrentPage(page);
-
+  //
   return (
-    <Stack
-      sx={{
-        display: "flex",
-        ...centeringStyles,
-        padding: 5,
-      }}
-    >
-      {fetchNews.length > 0 ? (
-        <>
-          <Grid container spacing={2} sx={{ ...centeringStyles }}>
-            {visibleNewss.map((element, index) => (
-              <Grid item key={index}>
-                <Suspense
-                  fallback={
-                    <Skeleton variant="rectangular" width={300} height={200} />
-                  }
-                >
-                  <NewsCard anews={element} />
-                </Suspense>
-              </Grid>
-            ))}
-          </Grid>
+    <>
+      <Stack
+        sx={{
+          display: "flex",
+          ...centeringStyles,
+          padding: 2,
+        }}
+      >
+        {fetchNews.length > 0 ? (
+          <>
+            <Grid container spacing={2} sx={{ ...centeringStyles }}>
+              {visibleNewss.map((element, index) => (
+                <Grow in={true} key={index}>
+                  <Grid item key={index}>
+                    <NewsCard anews={element} />
+                  </Grid>
+                </Grow>
+              ))}
+            </Grid>
+            <Box
+              mt={5}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                backgroundColor: "white",
+                borderRadius: "10px",
+                padding: "5px",
+              }}
+            >
+              <Pagination
+                count={totalPages}
+                page={currentPage}
+                onChange={handlePageChange}
+                color="primary"
+                shape="rounded"
+              />
+            </Box>
+          </>
+        ) : (
           <Box
-            mt={5}
             sx={{
+              width: "100%",
+              height: "100%",
               display: "flex",
               justifyContent: "center",
-              backgroundColor: "white",
-              borderRadius: "10px",
-              padding: "5px",
+              alignItems: "center",
             }}
           >
-            <Pagination
-              count={totalPages}
-              page={currentPage}
-              onChange={handlePageChange}
-              color="primary"
-              shape="rounded"
-            />
+            <Skeleton variant="rectangular" width={"50vw"} height={"50vh"} />
           </Box>
-        </>
-      ) : (
-        <Box
-          sx={{
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Skeleton variant="rectangular" width={"50vw"} height={"50vh"} />
-        </Box>
-      )}
-    </Stack>
+        )}
+      </Stack>
+    </>
   );
 };
 

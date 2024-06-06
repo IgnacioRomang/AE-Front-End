@@ -3,8 +3,10 @@ import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import {
   Box,
   CircularProgress,
+  Collapse,
   Fab,
   Paper,
+  Slide,
   Stack,
   Typography,
 } from "@mui/material";
@@ -30,6 +32,7 @@ export default function Root() {
   return (
     <React.Fragment>
       <RootTopBar />
+
       <Box
         id="scrollable-content"
         sx={{
@@ -69,7 +72,7 @@ export default function Root() {
         </Box>
         <RootFooter />
       </Box>
-
+      
       <div style={{ position: "fixed", bottom: 16, right: 16 }}>
         <Fab
           size="medium"
