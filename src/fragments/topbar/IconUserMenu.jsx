@@ -33,11 +33,9 @@ const IconUserMenu = (props) => {
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
-    setHover(true);
   };
 
   const handleCloseUserMenu = () => {
-    setHover(false);
     setAnchorElUser(null);
   };
 
@@ -113,7 +111,7 @@ const IconUserMenu = (props) => {
             }}
           >
             {!props.userAuth && (
-              <Typography variant="body8" paddingLeft={1}>
+              <Typography variant="body4" paddingLeft={1}>
                 {"Ingresar"}
               </Typography>
             )}
