@@ -188,7 +188,7 @@
               "title": "En Proceso de Finalizacion",
               "body": [
                 "Usted dio de baja la exclusion",
-                "Podrá ingresar libremente al casino a partir de la finalizacion del periodo de baja marcado en rojo en su Cronograma"
+                "<strong>Una vez terminado su periodo debaja</strong> (marcado en rojo en su calendario) podra ingresar libremente a los casinos"
               ]
             },
             "alert_warning_finish": {
