@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { blue, grey, red } from "@mui/material/colors";
+import { motion } from "framer-motion";
 import React from "react";
 import {
   dateBetween,
@@ -120,46 +121,52 @@ const Calendar = ({ intStart, intEnd }) => {
       </TableCell>
     );
   };
-
   return (
-    <Stack spacing={2}>
-      <Typography variant="h7">
-        {monthName.charAt(0).toUpperCase() +
-          monthName.slice(1) +
-          " " +
-          currentDate.getFullYear()}
-      </Typography>
-      <TableContainer component={Paper} elevation={3}>
-        <Table size="small">
-          <TableHead>
-            <TableRow>
-              {["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"].map(
-                (day, index) => (
-                  <TableCell
-                    sx={{
-                      backgroundColor: "#d9d9d9",
-                      textAlign: "center",
-                      textJustify: "center",
-                      padding: "5px",
-                    }}
-                    key={`${day}-${intStart}-${intEnd}`}
-                  >
-                    {day}
-                  </TableCell>
-                )
-              )}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {chunkArray(daysInMonth, 7).map((row, rowIndex) => (
-              <TableRow key={`${intStart}-${intEnd}-row-${row}-${rowIndex}`}>
-                {row.map((day, index) => getTableCel(day, rowIndex, index))}
+    <motion.div
+      className="box"
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.8 }}
+      transition={{ type: "spring", stiffness: 400, damping: 17 }}
+    >
+      <Stack spacing={2}>
+        <Typography variant="h7">
+          {monthName.charAt(0).toUpperCase() +
+            monthName.slice(1) +
+            " " +
+            currentDate.getFullYear()}
+        </Typography>
+        <TableContainer component={Paper} elevation={3}>
+          <Table size="small">
+            <TableHead>
+              <TableRow>
+                {["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"].map(
+                  (day, index) => (
+                    <TableCell
+                      sx={{
+                        backgroundColor: "#d9d9d9",
+                        textAlign: "center",
+                        textJustify: "center",
+                        padding: "5px",
+                      }}
+                      key={`${day}-${intStart}-${intEnd}`}
+                    >
+                      {day}
+                    </TableCell>
+                  )
+                )}
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Stack>
+            </TableHead>
+            <TableBody>
+              {chunkArray(daysInMonth, 7).map((row, rowIndex) => (
+                <TableRow key={`${intStart}-${intEnd}-row-${row}-${rowIndex}`}>
+                  {row.map((day, index) => getTableCel(day, rowIndex, index))}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Stack>
+    </motion.div>
   );
 };
 

@@ -1,4 +1,4 @@
-import { Skeleton } from "@mui/material";
+import { Box, Skeleton } from "@mui/material";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import React, { useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useNavigate } from "react-router-dom";
-import { gridNewsCardStyle } from "../theme.jsx";
+import { gridNewsCardBoxStyle, gridNewsCardStyle } from "../theme.jsx";
 
 const NewsCard = React.memo(({ anews }) => {
   const navigate = useNavigate();
@@ -39,15 +39,16 @@ const NewsCard = React.memo(({ anews }) => {
           objectFit: "cover",
         }}
       />
-
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          {title}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {abstract}
-        </Typography>
-      </CardContent>
+      <Box sx={gridNewsCardBoxStyle}>
+        <CardContent>
+          <Typography gutterBottom variant="h5">
+            {title}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {abstract}
+          </Typography>
+        </CardContent>
+      </Box>
       <CardActions>
         <Button size="small" onClick={handleReadMoreClick}>
           Leer más

@@ -28,17 +28,18 @@ import {
 
 // Fragments
 import {
-  FormInfo,
   FormAddress,
   FormDatePlan,
   FormExtra,
   FormFileAttach,
-  FormMessageSuccess,
+  FormInfo,
   FormMessageError,
+  FormMessageSuccess,
 } from "../fragments/form/index.js";
 // Styles
 import { useNavigate } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext.js";
+import ErrorPage from "../frames/ErrorPage.jsx";
 import {
   cardRegisterStyle,
   centerButtonsStyle,
@@ -46,7 +47,6 @@ import {
   stepStyle,
 } from "../theme.jsx";
 import { formatDate } from "../utiles.js";
-import ErrorPage from "../frames/ErrorPage.jsx";
 
 /**
  * The RegisterCard component is a multi-step form that allows users to register by providing various information.

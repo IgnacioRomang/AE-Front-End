@@ -1,6 +1,5 @@
 import MenuIcon from "@mui/icons-material/Menu";
 import AppBar from "@mui/material/AppBar";
-import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
@@ -11,13 +10,11 @@ import { Box } from "@mui/system";
 import React, { useMemo, useState } from "react";
 import IconUserMenu from "../fragments/topbar/IconUserMenu.jsx";
 
-import { Collapse, Grow, Slide, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext.js";
 import { useRootTopbarString } from "../contexts/TextProvider.jsx";
 import {
   boxSMmenu,
-  boxXLmenu,
   iconButtonTopStyle,
   logoTopStyle,
   menuStyles,
@@ -85,39 +82,13 @@ const RootTopBar = (props) => {
     <AppBar
       position="static"
       color={"inherit"}
-      sx={{ height: "100%", width: "100%" }}
+      sx={{
+        height: "100%",
+        width: "100%",
+      }}
     >
       <Container>
         <Toolbar disableGutters>
-          <Box sx={boxXLmenu}>
-            <img
-              src={labels.logo.src}
-              alt="Logo imagen"
-              onClick={handleLogoClick}
-              style={logoTopStyle}
-            />
-            <Slide direction={"down"} in={true} appear={true}>
-              <Stack direction="row" paddingLeft={2} spacing={2}>
-                {isAuthenticated &&
-                  pages.map(
-                    (page, index) =>
-                      !page.disabled && (
-                        <Button
-                          //variant="contained"
-                          variant="outlined"
-                          size="small"
-                          key={page.label + "-large-menu-appbar"}
-                          disabled={page.disabled ? "true" : undefined}
-                          onClick={(e) => handleoOnClickMenu(e, index)}
-                        >
-                          {page.label}
-                        </Button>
-                      )
-                  )}
-              </Stack>
-            </Slide>
-          </Box>
-
           <Box sx={boxSMmenu}>
             {isAuthenticated && (
               <>
@@ -160,10 +131,18 @@ const RootTopBar = (props) => {
               style={logoTopStyle}
             />
           </Box>
-          <Box sx={{ flexGrow: 1 }} />
-          <Grow in={true} appear={true}>
-            <Collapse in={true}><IconUserMenu userAuth={isAuthenticated} /></Collapse>
-          </Grow>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="h4">Autoexclusiónes</Typography>
+          </Box>
+          
+          <IconUserMenu userAuth={isAuthenticated} />
         </Toolbar>
       </Container>
     </AppBar>
@@ -172,4 +151,33 @@ const RootTopBar = (props) => {
 
 //<ButtonMenu userAuth={isAuthenticated} />
 
+/**
+                 *           <Box sx={boxXLmenu}>
+            <img
+              src={labels.logo.src}
+              alt="Logo imagen"
+              onClick={handleLogoClick}
+              style={logoTopStyle}
+            />
+
+            <Stack direction="row" paddingLeft={2} spacing={2}>
+              {isAuthenticated &&
+                pages.map(
+                  (page, index) =>
+                    !page.disabled && (
+                      <Button
+                        //variant="contained"
+                        variant="outlined"
+                        size="small"
+                        key={page.label + "-large-menu-appbar"}
+                        disabled={page.disabled ? "true" : undefined}
+                        onClick={(e) => handleoOnClickMenu(e, index)}
+                      >
+                        {page.label}
+                      </Button>
+                    )
+                )}
+            </Stack>
+          </Box>
+                 * sx={boxSMmenu} */
 export default RootTopBar;

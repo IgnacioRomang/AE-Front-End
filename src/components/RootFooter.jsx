@@ -1,4 +1,4 @@
-import { Chip, Paper, Skeleton, Slide, useTheme } from "@mui/material";
+import { Chip, Paper, Skeleton, useTheme } from "@mui/material";
 import { Container } from "@mui/system";
 import React, { Suspense, useState } from "react";
 import { useRootFooterString } from "../contexts/TextProvider.jsx";

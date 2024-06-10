@@ -34,7 +34,7 @@ const AEProfile = () => {
       {User ? (
         <Grid
           container
-          spacing={2}
+          spacing={1}
           padding={User.ae !== AE.NON_AE ? 0 : 8}
           sx={centeringStyles}
         >

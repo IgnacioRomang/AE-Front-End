@@ -10,17 +10,15 @@ import {
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import React, {
-  Suspense,
   lazy,
   useCallback,
   useEffect,
   useMemo,
-  useState,
+  useState
 } from "react";
 import { usePublicResources } from "../contexts/PublicResourcesContext";
 import { centeringStyles } from "../theme.jsx";
 import { isMobileDevice } from "../utiles.js";
-import AlertFragment from "../fragments/AlertFragmet.jsx";
 
 const NewsCard = lazy(() => import("./NewsCard.jsx"));
 

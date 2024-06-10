@@ -15,9 +15,9 @@ import LockOpenIcon from "@mui/icons-material/LockOpen";
 import PersonIcon from "@mui/icons-material/Person";
 import { stringAvatar } from "../../utiles.js";
 
+import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useService } from "../../contexts/ServiceContext.js";
-import { Button } from "bootstrap";
 
 const settings = [{ label: "Cerrar sesión", icon: <ExitToAppIcon />, id: 5 }];
 
@@ -33,9 +33,11 @@ const IconUserMenu = (props) => {
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
+    setHover(true);
   };
 
   const handleCloseUserMenu = () => {
+    setHover(false);
     setAnchorElUser(null);
   };
 
@@ -73,25 +75,68 @@ const IconUserMenu = (props) => {
   const avatarname = isAuthenticated
     ? stringAvatar(User.name + " " + User.lastname)
     : stringAvatar("N N");
+
+  const [hover, setHover] = useState(false);
   return (
     <Box sx={{ flexGrow: 0 }}>
       <>
-        <Tooltip title="Menu">
-          <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-            {props.userAuth ? (
-              <Avatar
-                sx={{ ...avatarname.sx, width: 40, height: 40 }}
-                variant="rounded"
-              >
-                {avatarname.children}
-              </Avatar>
-            ) : (
-              <Avatar sx={{ width: 40, height: 40 }} variant="rounded">
-                <PersonIcon />
-              </Avatar>
+        <motion.div
+          className="box"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.8 }}
+          onHoverStart={(e) => {
+            setHover(true);
+          }}
+          onHoverEnd={(e) => {
+            setHover(false);
+          }}
+          transition={{ type: "spring", stiffness: 400, damping: 17 }}
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            border: "1px solid transparent",
+            backgroundImage: hover
+              ? "linear-gradient(white,white), linear-gradient(120deg,rgba(255, 203, 2, 0.631) 0%, rgba(255, 116, 2, 0.631) 33%, rgba(228, 33, 83, 0.631) 66%, rgba(60, 58, 229, 0.631) 100%)"
+              : "",
+            borderRadius: "7px",
+            borderImageSlice: "1",
+            backgroundOrigin: "border-box",
+            backgroundClip: "content-box, border-box",
+          }}
+        >
+          <div
+            onClick={handleOpenUserMenu}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {!props.userAuth && (
+              <Typography variant="body8" paddingLeft={1}>
+                {"Ingresar"}
+              </Typography>
             )}
-          </IconButton>
-        </Tooltip>
+            <Tooltip title="Menu">
+              <IconButton sx={{ p: "5px" }}>
+                {props.userAuth ? (
+                  <Avatar
+                    sx={{ ...avatarname.sx, width: 40, height: 40 }}
+                    variant="rounded"
+                  >
+                    {avatarname.children}
+                  </Avatar>
+                ) : (
+                  <>
+                    <Avatar sx={{ width: 40, height: 40 }} variant="rounded">
+                      <PersonIcon />
+                    </Avatar>
+                  </>
+                )}
+              </IconButton>
+            </Tooltip>
+          </div>
+        </motion.div>
         <Menu
           edge="end"
           sx={{ mt: "45px" }}

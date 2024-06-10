@@ -40,7 +40,7 @@ const spacingStyles = (multiplier) => ({
 // Estilos generales
 export const Xl = { display: displayXl };
 export const Sm = { display: displaySm };
-export const Sm2 = { display: displaySm2 };
+export const Sm2 = { display: "flex" }; // display: displaySm2 };
 
 // Estilos del footer
 export const imgLogoProvStyle = {
@@ -355,6 +355,7 @@ export const gridNewsCardStyle = {
   // Ajusta la altura para tamaños de pantalla específicos
   "@media (max-width: 600px)": {
     width: "100%", // Altura para tamaños pequeños de pantalla (xs)
+    height: "100%",
   },
 
   "@media (min-width: 601px) and (max-width: 1280px)": {
@@ -367,6 +368,27 @@ export const gridNewsCardStyle = {
 
   "@media (min-width: 1921px)": {
     width: "25vw", // Altura para tamaños muy grandes de pantalla (xl)
+  },
+  // Otros estilos personalizados si es necesario
+};
+export const gridNewsCardBoxStyle = {
+  height: "27vh",
+
+  // Ajusta la altura para tamaños de pantalla específicos
+  "@media (max-width: 600px)": {
+    height: "100%", // Altura para tamaños pequeños de pantalla (xs)
+  },
+
+  "@media (min-width: 601px) and (max-width: 1280px)": {
+    height: "27vh", // Altura para tamaños medianos de pantalla (sm)
+  },
+  "@media (min-width: 1281px) and (max-width: 1920px)": {
+    // pantalla 1080
+    height: "27vh", // Altura para tamaños extra grandes de pantalla (lg)
+  },
+
+  "@media (min-width: 1921px)": {
+    height: "25vh", // Altura para tamaños muy grandes de pantalla (xl)
   },
   // Otros estilos personalizados si es necesario
 };
