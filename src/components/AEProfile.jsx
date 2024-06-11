@@ -58,97 +58,96 @@ const AEProfile = () => {
             {User.ae !== AE.NON_AE ? (
               <Paper>
                 <Stack
-                  padding={2}
-                  spacing={2}
+                  paddingTop={2}
+                  paddingBlock={2}
+                  spacing={3}
                   sx={{
+                    width: "77vw",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                   }}
                 >
                   <Grid
-                    container
+                    item
                     sx={{ justifyContent: "center", alignItems: "center" }}
                   >
                     <Typography variant="h4">
                       {labels.calendar.title}
                     </Typography>
-                    <Divider />
                   </Grid>
 
-                  <Grid
-                    container
-                    spacing={2}
-                    sx={{
-                      ...centeringStyles,
-                      maxHeight: "90vh",
-                      paddingBottom: 4,
-                      overflow: "auto",
-                    }}
-                  >
-                    <Grid key={"0"} item>
-                      <Calendar
-                        key={"0-calendar"}
-                        intStart={serverDates.startDay}
-                        intEnd={serverDates.startDay}
-                        msg={labels.calendar.tooltip[0]}
-                      />
-                    </Grid>
-
-                    {serverDates.hasOwnProperty("fifthMonth") && (
-                      <Grid key={"1"} item>
+                  <Grid item>
+                    <Grid
+                      container
+                      spacing={2}
+                      sx={{
+                        ...centeringStyles,
+                        minWidth: "77vw",
+                        paddingBottom: 4,
+                        overflow: "auto",
+                      }}
+                    >
+                      <Grid key={"0"} item>
                         <Calendar
-                          key={"1-calendar"}
-                          intStart={serverDates.fifthMonth}
-                          intEnd={serverDates.sixthMonth}
-                          msg={labels.calendar.tooltip[1]}
+                          key={"0-calendar"}
+                          intStart={serverDates.startDay}
+                          intEnd={serverDates.startDay}
+                          msg={labels.calendar.tooltip[0]}
                         />
                       </Grid>
-                    )}
 
-                    {serverDates.hasOwnProperty("fifthMonth") &&
-                      !isSameMonth(
-                        serverDates.fifthMonth,
-                        serverDates.sixthMonth
-                      ) && (
-                        <Grid key={"2"} item>
+                      {serverDates.hasOwnProperty("fifthMonth") && (
+                        <Grid key={"1"} item>
                           <Calendar
-                            key={"2-calendar"}
-                            intStart={serverDates.sixthMonth}
-                            intEnd={serverDates.fifthMonth}
+                            key={"1-calendar"}
+                            intStart={serverDates.fifthMonth}
+                            intEnd={serverDates.sixthMonth}
                             msg={labels.calendar.tooltip[1]}
                           />
                         </Grid>
                       )}
 
-                    <Grid key={"3"} item>
-                      <Calendar
-                        key={"3-calendar"}
-                        intStart={serverDates.lastMonth}
-                        intEnd={serverDates.lastMonth}
-                        msg={labels.calendar.tooltip[2]}
-                      />
+                      {serverDates.hasOwnProperty("fifthMonth") &&
+                        !isSameMonth(
+                          serverDates.fifthMonth,
+                          serverDates.sixthMonth
+                        ) && (
+                          <Grid key={"2"} item>
+                            <Calendar
+                              key={"2-calendar"}
+                              intStart={serverDates.sixthMonth}
+                              intEnd={serverDates.fifthMonth}
+                              msg={labels.calendar.tooltip[1]}
+                            />
+                          </Grid>
+                        )}
+
+                      <Grid key={"3"} item>
+                        <Calendar
+                          key={"3-calendar"}
+                          intStart={serverDates.lastMonth}
+                          intEnd={serverDates.lastMonth}
+                          msg={labels.calendar.tooltip[2]}
+                        />
+                      </Grid>
                     </Grid>
                   </Grid>
 
-                  <Divider />
-
-                  <Grid container sx={centeringStyles}>
-                    <Grid item>
+                  <Grid item sx={centeringStyles}>
+                    <Stack direction={"row"} spacing={2}>
                       <CustomChip
                         paddingTop={3}
                         text={labels.calendar.chip[0]}
                         color={blue[200]}
                       />
-                    </Grid>
-                    <Grid item>
                       {serverDates.hasOwnProperty("fifthMonth") && (
                         <CustomChip
                           text={labels.calendar.chip[1]}
                           color={red[200]}
                         />
                       )}
-                    </Grid>
+                    </Stack>
                   </Grid>
                 </Stack>
               </Paper>

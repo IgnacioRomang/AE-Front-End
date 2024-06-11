@@ -125,11 +125,11 @@ const Calendar = ({ intStart, intEnd }) => {
     <motion.div
       className="box"
       whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.8 }}
-      transition={{ type: "spring", stiffness: 400, damping: 17 }}
+      drag={false}
+      transition={{ type: "tween", duration: 0.3 }}
     >
-      <Stack spacing={2}>
-        <Typography variant="h7">
+      <Stack>
+        <Typography gutterBottom variant="h7">
           {monthName.charAt(0).toUpperCase() +
             monthName.slice(1) +
             " " +

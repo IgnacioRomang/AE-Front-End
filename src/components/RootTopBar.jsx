@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import { Box } from "@mui/system";
 import React, { useMemo, useState } from "react";
 import IconUserMenu from "../fragments/topbar/IconUserMenu.jsx";
-
+import { useMediaQuery } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import { useService } from "../contexts/ServiceContext.js";
 import { useRootTopbarString } from "../contexts/TextProvider.jsx";
@@ -19,6 +19,7 @@ import {
   logoTopStyle,
   menuStyles,
 } from "../theme.jsx";
+
 
 const RootTopBar = (props) => {
   const labels = useRootTopbarString();
@@ -134,14 +135,19 @@ const RootTopBar = (props) => {
           <Box
             sx={{
               flexGrow: 1,
-              display: "flex",
+              display: !useMediaQuery('(max-width:600px)')? "flex": "none",
               justifyContent: "center",
               alignItems: "center",
             }}
           >
             <Typography variant="h4">Autoexclusiónes</Typography>
           </Box>
-          
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: useMediaQuery('(max-width:600px)')? "flex": "none",
+            }}
+          />
           <IconUserMenu userAuth={isAuthenticated} />
         </Toolbar>
       </Container>
