@@ -140,7 +140,7 @@ const RootTopBar = (props) => {
               alignItems: "center",
             }}
           >
-            <Typography variant="h4">Autoexclusiónes</Typography>
+            <Typography variant="h4">Autoexclusiones</Typography>
           </Box>
           <Box
             sx={{

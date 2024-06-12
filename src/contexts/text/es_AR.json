@@ -174,15 +174,15 @@
             "email_verify": "Renviar Email de Verificación"
           },
           "calendar": {
-            "title": "Cronograma de Autoexclusión",
+            "title": "Cronograma de Autoexclusion",
             "chip": [
               "Fecha de Inicio y Fin",
-              "Periodo para Solicitar Fin de Autoexclusión"
+              "Periodo para Solicitar Fin de Autoexclusion"
             ],
             "tooltip": [
-              "Inicio de autoexclusión",
-              "Periodo para Solicitar Fin de Autoexclusión",
-              "Fin de autoexclusión"
+              "Inicio de autoexclusion",
+              "Periodo para Solicitar Fin de Autoexclusion",
+              "Fin de autoexclusion"
             ],
             "alert_warning_finalize_onprocess": {
               "title": "En Proceso de Finalizacion",
@@ -192,7 +192,7 @@
               ]
             },
             "alert_warning_finish": {
-              "title": "Autoexclusión Finalizada",
+              "title": "Autoexclusion Finalizada",
               "body": [
                 "Actualmente, <strong>PUEDE ACCEDER A LOS CASINOS LIBREMENTE</strong> ya que no dispone de ninguna autoexclusión activa.",
                 "Para renovarla, le instamos a visitar la sección Nueva Exclusión en el menú, ubicado en la esquina superior izquierda de nuestra página web.",
@@ -203,7 +203,7 @@
           }
         },
         "create": {
-          "title": "Nueva Autoexclusión",
+          "title": "Nueva Autoexclusion",
           "alert_info": {
             "title": "Informacion y Actualización de Datos",
             "body": [
@@ -214,12 +214,12 @@
           }
         },
         "finalize": {
-          "title": "Dar de baja auto exclusión",
+          "title": "Dar de baja autoexclusion",
           "alert_warning": {
             "title": "¡Advertencia!",
             "body": [
-              "El proceso de  baja de una autoexclusión solo puede completarse durante la primera autoexclusión.",
-              "A partir de las siguientes auto exclusiones esto ya no es posible y la exclusion tendra un periodo de 12 meses.",
+              "El proceso de  baja de una autoexclusion solo puede completarse durante la primera autoexclusion.",
+              "A partir de las siguientes autoexclusiones esto ya no es posible y la exclusion tendra un periodo de 12 meses.",
               "Después de finalizarlo, se restaurará tu acceso a los casinos. Si decides autoexcluirte nuevamente, por favor, dirígete a la sección de renovación, disponible después de concluir este procedimiento inicial."
             ]
           }
