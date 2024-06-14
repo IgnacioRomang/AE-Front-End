@@ -8,6 +8,7 @@ import React, { useState } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useNavigate } from "react-router-dom";
 import { gridNewsCardBoxStyle, gridNewsCardStyle } from "../theme.jsx";
+import { motion } from "framer-motion";
 
 const NewsCard = React.memo(({ anews }) => {
   const navigate = useNavigate();
@@ -24,37 +25,43 @@ const NewsCard = React.memo(({ anews }) => {
   };
 
   return (
-    <Card sx={gridNewsCardStyle}>
-      {!load && <Skeleton variant="rectangular" width={400} height={50} />}
+    <motion.div
+      className="box"
+      whileHover={{ scale: 1.1 }}
+      transition={{ type: "spring", stiffness: 400, damping: 17 }}
+    >
+      <Card sx={gridNewsCardStyle}>
+        {!load && <Skeleton variant="rectangular" width={400} height={50} />}
 
-      <LazyLoadImage
-        src={`${process.env.REACT_APP_BACK_URL}${image}`}
-        alt={title}
-        title={title}
-        beforeLoad={endLoading}
-        style={{
-          scale: "1",
-          height: "25vh",
-          width: "100%",
-          objectFit: "cover",
-        }}
-      />
-      <Box sx={gridNewsCardBoxStyle}>
-        <CardContent>
-          <Typography gutterBottom variant="h5">
-            {title}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {abstract}
-          </Typography>
-        </CardContent>
-      </Box>
-      <CardActions>
-        <Button size="small" onClick={handleReadMoreClick}>
-          Leer más
-        </Button>
-      </CardActions>
-    </Card>
+        <LazyLoadImage
+          src={`${process.env.REACT_APP_BACK_URL}${image}`}
+          alt={title}
+          title={title}
+          beforeLoad={endLoading}
+          style={{
+            scale: "1",
+            height: "25vh",
+            width: "100%",
+            objectFit: "cover",
+          }}
+        />
+        <Box sx={gridNewsCardBoxStyle}>
+          <CardContent>
+            <Typography gutterBottom variant="h5">
+              {title}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {abstract}
+            </Typography>
+          </CardContent>
+        </Box>
+        <CardActions>
+          <Button size="small" onClick={handleReadMoreClick}>
+            Leer más
+          </Button>
+        </CardActions>
+      </Card>
+    </motion.div>
   );
 });
 

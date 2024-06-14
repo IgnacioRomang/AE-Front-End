@@ -8,7 +8,6 @@ import {
 import React, { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { usePublicResources } from "../contexts/PublicResourcesContext";
-
 /**
  * This function is a React component that displays a PDF document.
  * @param {object} props - The properties of the component.

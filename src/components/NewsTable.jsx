@@ -1,5 +1,6 @@
 import {
   Box,
+  Divider,
   Grid,
   Grow,
   Pagination,
@@ -9,16 +10,12 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import React, {
-  lazy,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState
-} from "react";
+import React, { lazy, useCallback, useEffect, useMemo, useState } from "react";
 import { usePublicResources } from "../contexts/PublicResourcesContext";
 import { centeringStyles } from "../theme.jsx";
 import { isMobileDevice } from "../utiles.js";
+import AlertFragment from "../fragments/AlertFragmet.jsx";
+import { useNewsInfoAlert } from "../contexts/TextProvider.jsx";
 
 const NewsCard = lazy(() => import("./NewsCard.jsx"));
 
@@ -44,6 +41,7 @@ const NewsTable = () => {
   const [fetchNews, setFetchNews] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const labels_news = useNewsInfoAlert();
 
   const startIndex = useMemo(
     () => (currentPage - 1) * itemsPerPage,
@@ -100,16 +98,21 @@ const NewsTable = () => {
   //
   return (
     <>
+      <AlertFragment
+        type={"info"}
+        title={labels_news.alert.info.title}
+        body={labels_news.alert.info.body}
+      />
+
       <Stack
         sx={{
           display: "flex",
           ...centeringStyles,
-          padding: 2,
         }}
       >
         {fetchNews.length > 0 ? (
           <>
-            <Grid container spacing={2} sx={{ ...centeringStyles }}>
+            <Grid container paddingTop={3} spacing={3} sx={{ ...centeringStyles }}>
               {visibleNewss.map((element, index) => (
                 <Grow in={true} key={index}>
                   <Grid item key={index}>

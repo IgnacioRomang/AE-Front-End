@@ -88,12 +88,12 @@ const IconUserMenu = (props) => {
           onHoverEnd={(e) => {
             setHover(false);
           }}
-          transition={{ type: "spring", stiffness: 400, damping: 17 }}
+          transition={{ type: "spring", stiffness: 400, damping: 20 }}
           style={{
             alignItems: "center",
             justifyContent: "center",
             border: "1px solid transparent",
-            backgroundImage: hover
+            backgroundImage: hover || anchorElUser
               ? "linear-gradient(white,white), linear-gradient(120deg,rgba(255, 203, 2, 0.631) 0%, rgba(255, 116, 2, 0.631) 33%, rgba(228, 33, 83, 0.631) 66%, rgba(60, 58, 229, 0.631) 100%)"
               : "",
             borderRadius: "7px",

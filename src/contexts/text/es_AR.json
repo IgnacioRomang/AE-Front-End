@@ -73,6 +73,17 @@
       }
     },
     "component": {
+      "news": {
+        "alert": {
+          "info": {
+            "title": "Bienvenido a nuestro sitio web de autogestión para apostadores.",
+            "body": [
+              "Aquí encontrarás una herramienta diseñada para ayudarte a administrar y gestionar tus autoexclusiones de manera eficiente.",
+              "No te preocupes, aquí puedes encontrar los plazos claros y precisos para tu exclusion."
+            ]
+          }
+        }
+      },
       "auth": {
         "login": {
           "title": "Iniciar sesión",

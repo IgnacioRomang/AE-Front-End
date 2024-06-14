@@ -112,8 +112,13 @@ export function useLoadingAlertString() {
   return useContext(baseTextContext).public.commons.loading;
 }
 
+export function useNewsInfoAlert(){
+  return useContext(baseTextContext).public.component.news;
+}
+
 const Strings = {
   useRootFAQString,
+  useNewsInfoAlert,
   useRootFooterString,
   useRootTopbarString,
   useCommonsButtonString,
