@@ -47,6 +47,7 @@ export const EmailVerifyProvider = ({ children }) => {
         { headers: { "X-API-Key": APP_KEY } }
       );
       const { message } = response.data;
+      console.log(response);
       return (
         message === "Email verified" || message === "Email already verified"
       );

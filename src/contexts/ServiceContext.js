@@ -36,6 +36,7 @@ export const ServiceProvider = ({ children }) => {
   const setEmailUndefined = () => {
     setUser({ ...User, email_verified_at: null });
   };
+  
   /**
    * Function to set the authorization state and update the session storage accordingly
    * @param  {Object} newval - The new authorization state
@@ -50,6 +51,23 @@ export const ServiceProvider = ({ children }) => {
     }
   };
 
+
+  const saveAuth = (authorization) => {
+    setAuthorization({
+      ...authorization,
+      timestamp: Date.now(),
+    });
+
+    // Set additional headers for the axios instance
+    axios.defaults.headers.common = {
+      ...axios.defaults.headers.common,
+      "XSRF-TOKEN": authorization.X_CSRF_TOKEN,
+      "User-Agent": "FRONT-END-REACT",
+      "X-API-Key": APP_KEY,
+      Authorization: authorization.type + authorization.token,
+    };
+
+  }
   /**
    * Authenticates the user with the provided username and password
    * @async
@@ -74,20 +92,8 @@ export const ServiceProvider = ({ children }) => {
       let { authorization, user } = response.data;
       if (user && authorization) {
         // Save the authorization token for future requests
-        setAuthorization({
-          ...authorization,
-          timestamp: Date.now(),
-        });
-
-        // Set additional headers for the axios instance
-        axios.defaults.headers.common = {
-          ...axios.defaults.headers.common,
-          "XSRF-TOKEN": authorization.X_CSRF_TOKEN,
-          "User-Agent": "FRONT-END-REACT",
-          "X-API-Key": APP_KEY,
-          Authorization: authorization.type + authorization.token,
-        };
-
+        saveAuth(authorization);
+        
         try {
           // Get additional user data from the backend API
           const aeResponse = await axios.get(`${URL_BACKEND}/api/ae/dates`);
@@ -155,7 +161,8 @@ export const ServiceProvider = ({ children }) => {
           },
         }
       );
-      const { message } = response.data;
+      const { message, authorization } = response.data;
+      saveAuth(authorization);
       return message === "User created successfully";
     } catch (error) {
       // Log and handle any errors that occur during the registration process

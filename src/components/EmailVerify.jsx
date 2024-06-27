@@ -42,6 +42,7 @@ const EmailVerify = () => {
     const result = null;
     try {
       const result = send_confirmation_verify(id, hash, expires, signature);
+      console.log(result);
       setSuccess(result);
       setLoading(result);
     } catch (error) {
